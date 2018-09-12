@@ -3,8 +3,13 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    }
+    color: white;
+}
 
-    main {
+main {
     flex: 1 0 auto;
-    }
+    background-image: url('../../assets/landingPageBackground.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
