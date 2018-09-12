@@ -48,6 +48,7 @@ main {
     margin: 1em;
     background-color: white;
     color: black;
+    font-size:1.4em;
 }
 
 .signup-login-buttons:hover,
