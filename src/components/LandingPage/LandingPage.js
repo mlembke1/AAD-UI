@@ -27,8 +27,8 @@ class LandingPage extends Component {
             </div>
 
             <div id="signup-login-buttons-container">
-              <Button className="signup-login-buttons" waves='light'>Signup</Button>
-              <Button className="signup-login-buttons" waves='light'>Login</Button> 
+              <Button large="true" className="signup-login-buttons" waves='light'>Signup</Button>
+              <Button large="true" className="signup-login-buttons" waves='light'>Login</Button> 
             </div>
           </main> 
         <PageFooter />

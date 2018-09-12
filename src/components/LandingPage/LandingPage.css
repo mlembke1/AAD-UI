@@ -46,10 +46,12 @@ main {
 
 .signup-login-buttons {
     margin: 1em;
-    background-color: #033076;
+    background-color: white;
+    color: black;
 }
 
 .signup-login-buttons:hover,
 .signup-login-buttons:focus {
-    background-color: #01183d;
+    background-color: #033076;
+    color: white;
 }
