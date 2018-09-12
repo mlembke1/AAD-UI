@@ -13,3 +13,43 @@ main {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.aad-title {
+    font-size: 5em;
+    font-weight:700;
+    text-shadow: 3px 3px #000;;
+    color: white;
+    margin-left: 1em;
+    line-height: 70px;
+}
+
+#aad-title-container {
+    margin-top: 1em;
+}
+
+
+#aad-paragraph h5 {
+    font-weight:700;
+    text-shadow: 3px 3px #000;;
+    color: white;
+    margin-left: 6em;
+    margin-top: 3em;
+    line-height: 20px;
+    max-width: 70%;
+    text-align: center;
+}
+
+#signup-login-buttons-container {
+    text-align:center;
+    margin-top: 4em;
+}
+
+.signup-login-buttons {
+    margin: 1em;
+    background-color: #033076;
+}
+
+.signup-login-buttons:hover,
+.signup-login-buttons:focus {
+    background-color: #01183d;
+}
