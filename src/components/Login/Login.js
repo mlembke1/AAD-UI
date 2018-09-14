@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import './Login.css';
 import { connect } from 'react-redux'
-import Header from '../Header/Header'
-import PageFooter from '../PageFooter/PageFooter'
-import { Row, Input } from 'react-materialize'
+import { Row, Input, Button } from 'react-materialize'
 
 class Login extends Component {
 
   render() {
     return (
       <main>
-        {/* <Header /> */}
-            <Row>
-                <Input placeholder="Username" s={6} label="Username" />
-                <Input s={6} placeholder="Password" label="Password" />
+            <h4 className="signup-login-header">Login</h4>
+            <Row className="login-signup-form">
+                <Input s={12} label="Username" />
+                <Input s={12} label="Password" />
+                <Button large={true} className="login-signup-submit-button" waves='light'>Login</Button> 
             </Row>
-        {/* <PageFooter /> */}
        </main> 
     )
   }

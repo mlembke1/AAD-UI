@@ -1,0 +1,38 @@
+.login-signup-form {
+    max-width: 50%;
+    /* margin-top: 10%; */
+    text-align: center;
+}
+
+input:focus:not([readonly]) {
+border-bottom: 1px solid #dc4c18 !important;
+box-shadow: 0 1px 0 0 #dc4c18 !important;
+}
+
+label {
+    color: #033076 !important;
+}
+
+input[type='email']:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.login-signup-submit-button {
+    background-color: white;
+    color: #dc4c18;
+    margin-top: 20px;
+}
+.login-signup-submit-button:hover {
+    background-color: #033076;
+    color: white;
+}
+
+.login-signup-submit-button:focus {
+    background-color: white;
+    color: #dc4c18;
+}
+
+.signup-login-header {
+    text-align: center;
+    margin-top: 50px;
+}
