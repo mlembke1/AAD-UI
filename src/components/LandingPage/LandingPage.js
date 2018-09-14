@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import './LandingPage.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Button } from 'react-materialize'
+import { Link, Route } from 'react-router-dom'
 import Header from '../Header/Header'
 import PageFooter from '../PageFooter/PageFooter'
-import { Button } from 'react-materialize'
+import Signup from '../Signup/Signup'
+import Login from '../Login/Login'
 
 
 class LandingPage extends Component {
 
   render() {
     return (
-      <body>
-        <Header />
+      <div className="body">
+          <Header />
           <main>
             <div id="aad-title-container">
               <div className="aad-title">ADVANCED</div>
@@ -27,12 +30,18 @@ class LandingPage extends Component {
             </div>
 
             <div id="signup-login-buttons-container">
-              <Button large="true" className="signup-login-buttons" waves='light'>Signup</Button>
-              <Button large="true" className="signup-login-buttons" waves='light'>Login</Button> 
+              <Link to="/signup">
+                <Button large={true} className="signup-login-buttons" waves='light'>Signup</Button>
+              </Link>
+              <Link to="/login">
+                <Button large={true} className="signup-login-buttons" waves='light'>Login</Button> 
+              </Link>
+              <Route exact path="/login" component={Login}/>                  
+              <Route exact path="/signup" component={Signup}/>                  
             </div>
           </main> 
-        <PageFooter />
-       </body> 
+          <PageFooter />
+       </div>        
     )
   }
 }

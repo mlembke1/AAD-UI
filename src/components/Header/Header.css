@@ -1,10 +1,14 @@
 .navbar-logo {
-    padding-left: 10px;
+    padding-left: 80px !important;
     background-color: #033076;
     color: white;
 }
 
 #login {
     border-right: 1px solid white;
+}
+
+.link {
+    display: inline;
 }
 

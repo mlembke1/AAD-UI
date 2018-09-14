@@ -3,6 +3,10 @@ import './Header.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Navbar, NavItem } from 'react-materialize'
+import App from '../../App';
+import Signup from '../Signup/Signup'
+import Login from '../Login/Login'
+import { Link, Route } from 'react-router-dom'
 
 
 class Header extends Component {
@@ -11,14 +15,17 @@ class Header extends Component {
     if (this.props.username) {
         return (
             <Navbar className="navbar-logo" brand='aad' right>
-                <NavItem> Logout </NavItem>
+                <Link to="/"> Logout </Link>
+                <Route exact path="/" component={App}/>                  
             </Navbar>   
         )
       } else {
         return (
             <Navbar className="navbar-logo" brand='aad' right>
-                <NavItem id="login"> Login </NavItem>
-                <NavItem> Signup </NavItem>
+                <Link className="link" to="/login"> Login </Link>
+                <Link className="link" to="/signup"> Signup </Link>
+                <Route exact path="/login" component={Login}/>                  
+                <Route exact path="/signup" component={Signup}/>                  
             </Navbar>
         )
       }
