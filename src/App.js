@@ -7,7 +7,7 @@ import  Dashboard from './components/Dashboard/Dashboard'
 import  LandingPage from './components/LandingPage/LandingPage'
 import  Header from './components/Header/Header'
 import  PageFooter from './components/PageFooter/PageFooter'
-import { BrowserRouter, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
 
