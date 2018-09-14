@@ -30,3 +30,15 @@
 body {
   font-family: 'Alegreya Sans SC', sans-serif;
 }
+
+
+div.app-body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  /* color: white; */
+}
+
+main.app {
+  flex: 1 0 auto;
+}

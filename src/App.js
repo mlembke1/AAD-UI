@@ -5,35 +5,38 @@ import { bindActionCreators } from 'redux'
 import { checkCookie } from './actions/checkCookie'
 import  Dashboard from './components/Dashboard/Dashboard'
 import  LandingPage from './components/LandingPage/LandingPage'
-import  Signup from './components/Signup/Signup'
-import  Login from './components/Login/Login'
-import { Route } from 'react-router-dom'
+import  Header from './components/Header/Header'
+import  PageFooter from './components/PageFooter/PageFooter'
+import { BrowserRouter, Redirect, Route } from 'react-router-dom'
+import Signup from './components/Signup/Signup'
+import Login from './components/Login/Login'
 
 class App extends Component {
   componentDidMount(){
     this.props.checkCookie() 
   }
 
+
   render() {
-      if (this.props.username) {
         return (
-          <div> 
-            <Dashboard />
-          </div>
-        )
-      } else {
-        return (
-          <div> 
-              <Route exact path='/' component={LandingPage}/>
-              <Route path='/signup' component={Signup}/>
-              <Route path='/login' component={Login}/>
-              {/* <LandingPage /> */}
-          </div>
-        )
-    }
+          <BrowserRouter>
+            <div className="app-body">
+              <Header />
+                <main className="app">
+                  {
+                  this.props.username ? 
+                  <Route exact={true} path="/" component={Dashboard}  /> :
+                  <Route exact={true} path="/" component={LandingPage} />
+                  }
+                  <Route path="/signup" component={Signup} />
+                  <Route path="/login" component={Login} />
+                </main>
+              <PageFooter />
+            </div>
+          </BrowserRouter>
+        )      
   }
 }
-
 
 
 const mapStateToProps = state => {
