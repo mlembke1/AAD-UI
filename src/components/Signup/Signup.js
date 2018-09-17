@@ -65,6 +65,7 @@ class Signup extends Component {
               label="Username"
               s={12} /> 
             <Input 
+              onBlur={() => this.setPasswordsMatch()}
               value={this.state.passwordInputValue}
               onChange={evt => this.updateInputValue(evt, 'passwordInputValue')}
               className="signup-input"
@@ -72,6 +73,7 @@ class Signup extends Component {
               label="Password"
               s={12} /> 
             <Input 
+              onBlur={() => this.setPasswordsMatch()}
               value={this.state.confirmPasswordInputValue}
               onChange={evt => this.updateInputValue(evt, 'confirmPasswordInputValue')}
               className="signup-input"
