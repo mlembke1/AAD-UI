@@ -6,7 +6,7 @@ export const checkUsername = (username) => dispatch => {
           const usernames = json.map(x => x.username)
           const userNameIsTaken = usernames.includes(username) ? true : false
           if(userNameIsTaken) {
-              return dispatch({ type:'USERNAME_IS_TAKEN' })
+            return dispatch({ type:'USERNAME_IS_TAKEN' })
           } else {
             return dispatch({ type:'USERNAME_IS_FREE' })
           }

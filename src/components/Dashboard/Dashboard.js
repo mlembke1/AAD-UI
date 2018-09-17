@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './Dashboard.css';
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import Header from '../Header/Header'
+// import { bindActionCreators } from 'redux'
 
 
 class Dashboard extends Component {
@@ -10,7 +9,6 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Header />
         <div>Woo Hoo! {this.props.username}! You made it to your dashboard! </div>
       </div>
     )

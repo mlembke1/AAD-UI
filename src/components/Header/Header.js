@@ -3,8 +3,6 @@ import './Header.css';
 import { connect } from 'react-redux'
 import { Navbar } from 'react-materialize'
 import App from '../../App';
-import Signup from '../Signup/Signup'
-import Login from '../Login/Login'
 import { Link, Route } from 'react-router-dom'
 
 

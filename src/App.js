@@ -10,6 +10,7 @@ import  PageFooter from './components/PageFooter/PageFooter'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
+import { Redirect } from 'react-router-dom'
 
 class App extends Component {
   componentDidMount(){
@@ -23,13 +24,16 @@ class App extends Component {
             <div className="app-body">
               <Header />
                 <main className="app">
-                  {
-                  this.props.username ? 
-                  <Route exact={true} path="/" component={Dashboard}  /> :
-                  <Route exact={true} path="/" component={LandingPage} />
-                  }
-                  <Route exact path="/signup" component={Signup} />
-                  <Route exact path="/login" component={Login} />
+                <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/" render={() => {
+                    return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
+                  }} />
+                  <Route exact path="/signup" render={() => {
+                    return this.props.username ? <Redirect to="/dashboard" /> : <Signup />
+                  }} />
+                  <Route exact path="/login" render={() => {
+                    return this.props.username ? <Redirect to="/dashboard" /> : <Login />
+                  }} />
                 </main>
               <PageFooter />
             </div>
@@ -42,6 +46,7 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
+      toDash: state.auth.toDash,
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './PageFooter.css';
 import { connect } from 'react-redux'
-import { Footer, Navbar, NavItem, Icon } from 'react-materialize'
+import { Navbar } from 'react-materialize'
 
 
 class PageFooter extends Component {
