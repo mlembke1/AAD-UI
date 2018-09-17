@@ -23,8 +23,6 @@ class Header extends Component {
             <Navbar className="navbar-logo" brand='aad' right>
                 <Link className="link" to="/login"> Login </Link>
                 <Link className="link" to="/signup"> Signup </Link>
-                <Route path="/login" component={Login}/>                  
-                <Route path="/signup" component={Signup}/>
             </Navbar>
         )
       }
