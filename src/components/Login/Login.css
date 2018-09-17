@@ -36,3 +36,7 @@ input[type='email']:-webkit-autofill {
     text-align: center;
     margin-top: 50px;
 }
+
+.error-text{
+    color: tomato;
+}

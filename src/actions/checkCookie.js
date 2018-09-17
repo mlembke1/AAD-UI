@@ -1,7 +1,7 @@
 export const checkCookie = () => dispatch => {
     const options = {
         method: 'GET',
-        credentials: 'include',
+        // credentials: 'include',
         crossDomain: true,
         headers:{
             'Content-Type': 'application/json'

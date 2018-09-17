@@ -1,7 +1,7 @@
 export const submitNewUser = (object) => dispatch => {
     const options = {
         method: 'POST',
-        credentials: 'include',
+        // credentials: 'include',
         crossDomain: true,
         headers:{
             'Content-Type': 'application/json'

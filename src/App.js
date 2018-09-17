@@ -28,8 +28,8 @@ class App extends Component {
                   <Route exact={true} path="/" component={Dashboard}  /> :
                   <Route exact={true} path="/" component={LandingPage} />
                   }
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/login" component={Login} />
+                  <Route exact path="/signup" component={Signup} />
+                  <Route exact path="/login" component={Login} />
                 </main>
               <PageFooter />
             </div>

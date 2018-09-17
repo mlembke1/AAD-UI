@@ -10,7 +10,6 @@ class Signup extends Component {
     constructor(props){
       super(props)
       this.state ={
-        usernameIsTaken: false,
         usernameInputValue: '',
         passwordInputValue: '',
         confirmPasswordInputValue: '',
@@ -44,16 +43,12 @@ class Signup extends Component {
       } else { this.setPasswordsMatch() }
     }
 
-    handleUsernameCheck = () => {
-      this.props.checkUsername(this.state.usernameInputValue)
-    }
-
     updateInputValue(evt, inputType) {
       this.setState({
         [inputType]: evt.target.value
-      });
+      })
     }
-    
+
 
 
   render() {
@@ -62,13 +57,13 @@ class Signup extends Component {
         <h4 className="signup-login-header">Signup</h4>
         <Row className="login-signup-form">
             <Input 
-              onBlur={this.handleUsernameCheck()} 
+              onBlur={() => this.props.checkUsername(this.state.usernameInputValue)} 
               value={this.state.usernameInputValue}
               onChange={evt => this.updateInputValue(evt, 'usernameInputValue')}
               className="signup-input" 
               type="text" 
               label="Username"
-              s={12} /> {this.props.usernameIsTaken ? <span className="Error Text">Username already taken.</span> : null }
+              s={12} /> 
             <Input 
               value={this.state.passwordInputValue}
               onChange={evt => this.updateInputValue(evt, 'passwordInputValue')}
@@ -84,11 +79,16 @@ class Signup extends Component {
               type="password" 
               label="Confirm Password"
               s={12} /> 
-            {!this.state.passwordsMatch ? <div className="Error Text">Passwords must match.</div> : null }
+            {this.props.usernameIsTaken ? <div className="error-text">Username already taken.</div> : null }
+            {!this.state.passwordsMatch ? <div className="error-text">Passwords must match.</div> : null }
             <Button
              onClick={this.handleSubmit}
              large={true} 
-             className={`login-signup-submit-button ${this.state.usernameInputValue.length < 1 && this.state.passwordsMatch && !this.state.usernameIsTaken ? "disabled" : '' }` } 
+             className={`login-signup-submit-button 
+             ${this.state.usernameInputValue.length < 1 ||
+              this.state.passwordInputValue.length < 1 ||
+              this.state.confirmPasswordInputValue.length < 1 ||
+               !this.state.passwordsMatch || this.props.usernameIsTaken ? "disabled" : '' }` } 
              waves='light'
              >Submit</Button> 
         </Row>

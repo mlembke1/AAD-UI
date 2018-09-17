@@ -4,6 +4,8 @@ export const auth = ( state={ username: null, usernameIsTaken: false }, action) 
         return { ...state, username: action.payload }
       case 'USERNAME_IS_TAKEN':
         return { ...state, usernameIsTaken: true }
+      case 'USERNAME_IS_FREE':
+        return { ...state, usernameIsTaken: false }  
 
       default:
         return state
