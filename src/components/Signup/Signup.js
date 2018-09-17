@@ -44,7 +44,7 @@ class Signup extends Component {
     }
 
     updateInputValue(evt, inputType) {
-      this.setState({
+      return this.setState({
         [inputType]: evt.target.value
       })
     }
@@ -72,7 +72,6 @@ class Signup extends Component {
               label="Password"
               s={12} /> 
             <Input 
-              onBlur={() => this.setPasswordsMatch()}
               value={this.state.confirmPasswordInputValue}
               onChange={evt => this.updateInputValue(evt, 'confirmPasswordInputValue')}
               className="signup-input"
