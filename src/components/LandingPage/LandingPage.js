@@ -3,17 +3,11 @@ import './LandingPage.css';
 import { connect } from 'react-redux'
 import { Button } from 'react-materialize'
 import { Link } from 'react-router-dom'
-import { Redirect, Route } from 'react-router-dom'
 import Dashboard from '../Dashboard/Dashboard'
 
 class LandingPage extends Component {
 
   render() {
-    // if(this.props.username || this.props.toDash){
-    //   return (
-    //       <Redirect to="/dashboard" />
-    //   )
-    // } else {
       return (
               <main className="landing-page">
                 <div id="aad-title-container">
@@ -38,7 +32,6 @@ class LandingPage extends Component {
                 </div>
               </main>         
       )
-    // }
   }
 }
 

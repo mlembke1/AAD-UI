@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Row, Input, Button } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { submitNewUser } from '../../actions/submitNewUser'
-import { checkUsername } from '../../actions/checkUsername'
+import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { checkCookie } from '../../actions/checkCookie'
 import { Redirect } from 'react-router-dom'
 class Signup extends Component {
@@ -54,7 +54,7 @@ class Signup extends Component {
 
 
   render() {
-    if(this.props.toDash || this.props.username) {
+    if(this.props.toDash) {
       this.props.checkCookie()
       return (
         <Redirect to="/dashboard"/>
@@ -65,7 +65,7 @@ class Signup extends Component {
           <h4 className="signup-login-header">Signup</h4>
           <Row className="login-signup-form">
               <Input 
-                onBlur={() => this.props.checkUsername(this.state.usernameInputValue)} 
+                onBlur={() => this.props.isUsernameTaken(this.state.usernameInputValue)} 
                 value={this.state.usernameInputValue}
                 onChange={evt => this.updateInputValue(evt, 'usernameInputValue')}
                 className="signup-input" 
@@ -115,6 +115,6 @@ const mapStateToProps = state => {
       toDash: state.auth.toDash
   }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({submitNewUser, checkUsername, checkCookie}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({submitNewUser, isUsernameTaken, checkCookie}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)

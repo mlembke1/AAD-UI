@@ -16,22 +16,27 @@ class App extends Component {
   componentDidMount(){
     this.props.checkCookie() 
   }
-
-
+  
+  
   render() {
-        return (
+    console.log('USERNAME', this.props.username)
+    return (
           <BrowserRouter>
             <div className="app-body">
               <Header />
-                <main className="app">
-                <Route exact path="/dashboard" component={Dashboard} />
-                  <Route exact path="/" render={() => {
+                <main className="app">  
+                  {/* <Route exact path="/" render={() => {
                     return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
                   }} />
-                  <Route exact path="/signup" render={() => {
+                  <Route  path="/dashboard" render={() => {
+                    return (this.props.username || this.props.toDash) ? <Dashboard /> : <Redirect to="/" /> 
+                  }} /> */}
+                  <Route exact path="/" component={LandingPage} />
+                  <Route path="/dashboard" component={Dashboard} />
+                  <Route  path="/signup" render={() => {
                     return this.props.username ? <Redirect to="/dashboard" /> : <Signup />
                   }} />
-                  <Route exact path="/login" render={() => {
+                  <Route  path="/login" render={() => {
                     return this.props.username ? <Redirect to="/dashboard" /> : <Login />
                   }} />
                 </main>
