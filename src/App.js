@@ -13,31 +13,36 @@ import Login from './components/Login/Login'
 import { Redirect } from 'react-router-dom'
 
 class App extends Component {
-  componentDidMount(){
+  componentWillMount(){
     this.props.checkCookie() 
   }
-  
+
   
   render() {
-    console.log('USERNAME', this.props.username)
     return (
           <BrowserRouter>
             <div className="app-body">
               <Header />
                 <main className="app">  
-                  {/* <Route exact path="/" render={() => {
-                    return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
+                  <Route exact path="/" render={() => {
+                      this.props.checkCookie()
+                      debugger 
+                      return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
+                  }} /> 
+                  <Route exact path="/dashboard" render={() => {
+                      this.props.checkCookie()
+                      debugger 
+                      return (!this.props.username && !this.props.toDash) ? <Redirect to="/" /> : <Dashboard />
                   }} />
-                  <Route  path="/dashboard" render={() => {
-                    return (this.props.username || this.props.toDash) ? <Dashboard /> : <Redirect to="/" /> 
-                  }} /> */}
-                  <Route exact path="/" component={LandingPage} />
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Route  path="/signup" render={() => {
-                    return this.props.username ? <Redirect to="/dashboard" /> : <Signup />
+                  <Route exact path="/login" render={() => {
+                      this.props.checkCookie()
+                      debugger 
+                      return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Login />
                   }} />
-                  <Route  path="/login" render={() => {
-                    return this.props.username ? <Redirect to="/dashboard" /> : <Login />
+                  <Route exact path="/signup" render={() => {
+                      this.props.checkCookie()
+                      debugger 
+                      return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Signup />
                   }} />
                 </main>
               <PageFooter />

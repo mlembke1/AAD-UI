@@ -9,6 +9,10 @@ import { checkCookie } from '../../actions/checkCookie'
 import { Redirect } from 'react-router-dom'
 class Signup extends Component {
 
+  componentWillMount(){
+    this.props.checkCookie() 
+  }
+
     constructor(props){
       super(props)
       this.state ={
@@ -54,12 +58,6 @@ class Signup extends Component {
 
 
   render() {
-    if(this.props.toDash) {
-      this.props.checkCookie()
-      return (
-        <Redirect to="/dashboard"/>
-      )
-    } else {
       return (
         <main>
           <h4 className="signup-login-header">Signup</h4>
@@ -104,7 +102,6 @@ class Signup extends Component {
           </Row>
         </main> 
       )
-    }
   }
 }
 const mapStateToProps = state => {

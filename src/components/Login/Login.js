@@ -10,6 +10,11 @@ import { Redirect } from 'react-router-dom'
 
 class Login extends Component {
 
+  componentWillMount(){
+    this.props.checkCookie() 
+  }
+
+
   constructor(props){
     super(props)
     this.state ={
@@ -46,37 +51,30 @@ class Login extends Component {
   }
 
   render() {
-    if(this.props.toDash) {
-      this.props.checkCookie()
       return (
-        <Redirect to="/dashboard"/>
-      )
-    } else {
-    return (
-      <main>
-            <h4 className="signup-login-header">Login</h4>
-            <Row className="login-signup-form">
-                <Input 
-                  onChange={evt => this.updateInputValue(evt, 'usernameInputValue')} 
+        <main>
+              <h4 className="signup-login-header">Login</h4>
+              <Row className="login-signup-form">
+                  <Input 
+                    onChange={evt => this.updateInputValue(evt, 'usernameInputValue')} 
+                    s={12} 
+                    label="Username" 
+                    onBlur={() => this.props.doesUsernameExist(this.state.usernameInputValue)} />
+                  <Input 
+                  onChange={evt => this.updateInputValue(evt, 'passwordInputValue')} 
                   s={12} 
-                  label="Username" 
-                  onBlur={() => this.props.doesUsernameExist(this.state.usernameInputValue)} />
-                <Input 
-                onChange={evt => this.updateInputValue(evt, 'passwordInputValue')} 
-                s={12} 
-                type="password"
-                label="Password" />
-                {!this.props.usernameExists ? <div className="error-text">Username doesn't exist.</div> : null }
-                {this.props.loginFailed ? <div className="error-text">Username or password was incorrect.</div> : null }
-                <Button 
-                  onClick={this.handleSubmit}
-                  large={true} 
-                  className={`login-signup-submit-button ${ !this.validate() ? "disabled" : null }`} 
-                  waves='light'>Login</Button> 
-            </Row>
-       </main> 
-    )
-    }
+                  type="password"
+                  label="Password" />
+                  {!this.props.usernameExists ? <div className="error-text">Username doesn't exist.</div> : null }
+                  {this.props.loginFailed ? <div className="error-text">Username or password was incorrect.</div> : null }
+                  <Button 
+                    onClick={this.handleSubmit}
+                    large={true} 
+                    className={`login-signup-submit-button ${ !this.validate() ? "disabled" : null }`} 
+                    waves='light'>Login</Button> 
+              </Row>
+         </main> 
+      )
   }
 }
 
@@ -86,8 +84,7 @@ const mapStateToProps = state => {
       usernameExists: state.auth.usernameExists,
       loginFailed: state.auth.signupFailed,
       username: state.auth.username,
-      toDash: state.auth.toDash,
-      loginFailed: state.auth.loginFailed
+      toDash: state.auth.toDash
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({loginUser, doesUsernameExist, checkCookie}, dispatch)
