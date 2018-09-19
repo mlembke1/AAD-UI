@@ -32,7 +32,7 @@ class Dashboard extends Component {
             </Row>
             <Row>
               <Col s={12}>
-                <hr />
+                <hr className="thick-line-blue" />
               </Col>
             </Row>
           </Section>
@@ -46,12 +46,12 @@ class Dashboard extends Component {
               <Col className='center' s={3}>
                   <Icon className="orange-icon" large>assignment</Icon>
                   <div>Tool Assessments</div>
-                  <hr class="thick-line width30Per"/>
+                  <hr class="thick-line-orange width40Per"/>
               </Col>
               <Col className='center' s={3}>
                   <Icon className="orange-icon" large>touch_app</Icon>
                   <div>Launch Portal</div>
-                  <hr class="thick-line width30Per"/>
+                  <hr class="thick-line-orange width40Per"/>
               </Col>
               <Col s={3}></Col>
             </Row>

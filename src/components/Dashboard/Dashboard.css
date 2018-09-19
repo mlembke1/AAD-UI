@@ -5,13 +5,25 @@
 .block {
     display: block !important;
 }
-.width30Per{
-    width: 30%;
+.width40Per{
+    width: 40%;
 }
 i.orange-icon {
     color: #dc4c18 !important;
 }
 
-.thick-line {
+hr.thick-line-orange {
+    border: none;
+    height: 4px;
+    /* Set the hr color */
+    color: #dc4c18; /* old IE */
+    background-color: #dc4c18; /* Modern Browsers */
+}
 
+hr.thick-line-blue {
+    border: none;
+    height: 4px;
+    /* Set the hr color */
+    color: #033076; /* old IE */
+    background-color: #033076; /* Modern Browsers */
 }
