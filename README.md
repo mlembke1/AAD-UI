@@ -1,2 +1,2 @@
 # AAD-UI
-Front End Application granting access to real world application for testing.
+Front End Application granting testing access to real world tools.
