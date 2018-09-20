@@ -1,5 +1,5 @@
 export const isUsernameTaken = (username) => dispatch => {
-  fetch('http://localhost:3000/getAllUsers')
+  fetch((process.env.API_URL || 'http://localhost:3000') + '/getAllUsers')
   .then(r => r.json())
   .then(json => {
     console.log('USERNAME_IS_TAKEN JSON RESPONSE', json)
