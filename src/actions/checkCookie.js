@@ -7,7 +7,7 @@ export const checkCookie = () => dispatch => {
             'Content-Type': 'application/json'
           }
       }
-      fetch('http://localhost:3000/checkCookie', options)
+      fetch((process.env.API_URL || 'http://localhost:3000') + '/checkCookie', options)
       .then(r => r.json())
       .then(json => {
           console.log('CHECK COOKIE RESPONSE', json)
