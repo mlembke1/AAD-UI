@@ -12,6 +12,7 @@ before_script:
 - rm -f .dmport
 script:
 - curl -o docker-compose.yml https://raw.githubusercontent.com/sofwerx/swx-devops/master/local/ibm-minsky/aad-ui.yml
+- ln -s . AAD-UI
 - docker-compose build aad-ui
 - docker-compose up -d --force-recreate aad-ui
 after_success:
