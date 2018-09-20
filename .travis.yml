@@ -1,0 +1,27 @@
+sudo: required
+services:
+- docker
+language: bash
+before_script:
+- openssl aes-256-cbc -K $encrypted_fedef3c52003_key -iv $encrypted_fedef3c52003_iv -in .dmport.enc -out .dmport -d
+- sudo apt-get -qq update
+- curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+- sudo apt-get install -y nodejs
+- sudo npm install -g @mumbacloud/dmport
+- eval $(dmport --import "$(cat .dmport)")
+- rm -f .dmport
+script:
+- curl -o docker-compose.yml https://raw.githubusercontent.com/sofwerx/swx-devops/master/local/ibm-minsky/aad-ui.yml
+- docker-compose build aad-ui
+- docker-compose up -d --force-recreate aad-ui
+after_success:
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker push sofwerx/aad-ui:$ARCH
+branches:
+  only:
+  - master
+  - "/^v\\d.*$/"
+notifications:
+  slack:
+    room:
+      secure: aO/MuDa5mHzgdK5Ts0ps626nY0Jd/6oEdxJ96xWTIcBMeOM0pOmxYDFhqKR1EOP52vwL57+lkuIimD/T8n0H/2Pc/uSI+EMixXq8hgTOpkbG3Gq1IHSWJ4BS80M0ejedsLGok+lxPIa5WQSMBYbWtGilV0hec+3kQS/+J30NI1jSqi+Eo8t29M33kWTs+Ny1ozaBnNYxLzKTlATAEnVBF2XdmNmktNcZe2EeUJuKnoNJ5bePlhxDdNFmxapK6WiZUMax+3YJ/qubMf7CAS9K7bg9bJRktokB/auxPutJ10toOmAJVKpPLmjdgX1fdiF9Him+l06StNLqpGDQbWL5MYH7vvDAA7lKuBVpSonhIefsJc/oO/GmTya+4VP+zVhOxb2R2I6NMHwlHmXv44dBig1MezlHbM7y0Elv+2qBD9IvS/muQs67Ap1rjoGI9DtnnYHB4b8G8lJYtRU/0AOBh74N18t+zwqLus5/eqRNeO5e7unUezaDGhW/2xenvCo8Y7+taMT/A6mBaJ3Hwp347Lu7YZipuOZyp+bUh29LinKSc7EQhkT/THytGc8hqSSb7AHZzmTclc1hFlLWF17cF0TKVykyydyYBzpYiMGvsOthQCkNe2Px87w3WmRSPDWn17cXcKTDf5uFYoAXJsiSAqWv7WailtCfJ1L3jA9Akhc=
