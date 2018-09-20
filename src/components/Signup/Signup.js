@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { submitNewUser } from '../../actions/submitNewUser'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { checkCookie } from '../../actions/checkCookie'
+import { validateEmail } from '../../actions/validateEmail'
 import { Redirect } from 'react-router-dom'
 class Signup extends Component {
 
@@ -17,9 +18,11 @@ class Signup extends Component {
       super(props)
       this.state ={
         usernameInputValue: '',
+        emailInputValue: '',
         passwordInputValue: '',
         confirmPasswordInputValue: '',
         passwordsMatch: true
+        // emailIsValid: true
       }
     }
 
@@ -39,12 +42,28 @@ class Signup extends Component {
       }
     }
 
+    setEmailIsValid = (email) => {
+      this.props.validateEmail(email)      
+      // if(!this.props.emaiIsTaken && !this.props.invalidEmail){
+      //   this.setState({
+      //     ...this.state,
+      //     emailIsValid: true
+      //   })
+      // } else {
+      //   this.setState({
+      //     ...this.state,
+      //     emailIsValid: false
+      //   })
+      // }
+    }
+
     handleSubmit = () => {
       const user = {
         signupUsername: this.state.usernameInputValue,
+        signupEmail: this.state.emailInputValue,
         signupPassword: this.state.passwordInputValue
       }
-      if(this.passwordsMatch()){
+      if(this.passwordsMatch() && !this.props.invalidEmail && !this.props.emailIsTaken){
         this.props.submitNewUser(user)
       } else { this.setPasswordsMatch() }
     }
@@ -70,6 +89,14 @@ class Signup extends Component {
                 type="text" 
                 label="Username"
                 s={12} /> 
+                <Input 
+                onBlur={() => this.setEmailIsValid(this.state.emailInputValue)} 
+                value={this.state.emailInputValue}
+                onChange={evt => this.updateInputValue(evt, 'emailInputValue')}
+                className="signup-input" 
+                type="email" 
+                label="Email"
+                s={12} /> 
               <Input 
                 onBlur={() => this.setPasswordsMatch()}
                 value={this.state.passwordInputValue}
@@ -89,6 +116,8 @@ class Signup extends Component {
                {this.props.usernameIsTaken ? <div className="error-text">Username already taken.</div> : null }
                {!this.state.passwordsMatch ? <div className="error-text">Passwords must match.</div> : null }
                {this.props.signupFailed ? <div className="error-text">Signup Failed.</div> : null }
+               {this.props.invalidEmail ? <div className="error-text">Invalid Email.</div> : null }
+               {this.props.emailIsTaken ? <div className="error-text">Email already taken.</div> : null }
               <Button
                onClick={this.handleSubmit}
                large={true} 
@@ -96,7 +125,9 @@ class Signup extends Component {
                ${this.state.usernameInputValue.length < 1 ||
                 this.state.passwordInputValue.length < 1 ||
                 this.state.confirmPasswordInputValue.length < 1 ||
-                !this.state.passwordsMatch || this.props.usernameIsTaken ? "disabled" : '' }` } 
+                !this.state.passwordsMatch || 
+                this.props.usernameIsTaken ||
+                this.props.invalidEmail || this.props.emailIsTaken  ? "disabled" : '' }` } 
                 waves='light'
                 >Submit</Button> 
           </Row>
@@ -109,9 +140,16 @@ const mapStateToProps = state => {
       usernameIsTaken: state.auth.usernameIsTaken,
       signupFailed: state.auth.signupFailed,
       username: state.auth.username,
-      toDash: state.auth.toDash
+      toDash: state.auth.toDash,
+      invalidEmail: state.auth.invalidEmail,
+      emailIsTaken: state.auth.emailIsTaken
   }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({submitNewUser, isUsernameTaken, checkCookie}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  submitNewUser, 
+  isUsernameTaken, 
+  checkCookie,
+  validateEmail
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)

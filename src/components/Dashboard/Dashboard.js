@@ -46,12 +46,12 @@ class Dashboard extends Component {
               <Col className='center' s={3}>
                   <Icon className="orange-icon" large>assignment</Icon>
                   <div>Tool Assessments</div>
-                  <hr class="thick-line-orange width40Per"/>
+                  <hr class="thick-line-blue width40Per"/>
               </Col>
               <Col className='center' s={3}>
                   <Icon className="orange-icon" large>touch_app</Icon>
                   <div>Launch Portal</div>
-                  <hr class="thick-line-orange width40Per"/>
+                  <hr class="thick-line-blue width40Per"/>
               </Col>
               <Col s={3}></Col>
             </Row>
