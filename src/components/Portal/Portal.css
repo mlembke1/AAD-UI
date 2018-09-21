@@ -40,3 +40,9 @@
 .portal-buttons:focus {
     background-color: #dc4c18;
 }
+
+.tool-name {
+    border-bottom: 1px solid #033076;
+    padding-bottom: 5px;
+    min-width: 100px;
+}

@@ -45,7 +45,7 @@ class Portal extends Component {
                 <Section className="portal-body-wrapper valign-wrapper">
                   <Row className="tool-wrapper">
                     <Col s={2} className='valign-wrapper'>
-                      <h6>{tool.name}</h6>
+                      <h6 className="tool-name">{tool.name}</h6>
                     </Col>
                     <Col s={6}>
                         {tool.description}
