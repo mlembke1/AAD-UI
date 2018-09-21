@@ -43,18 +43,7 @@ class Signup extends Component {
     }
 
     setEmailIsValid = (email) => {
-      this.props.validateEmail(email)      
-      // if(!this.props.emaiIsTaken && !this.props.invalidEmail){
-      //   this.setState({
-      //     ...this.state,
-      //     emailIsValid: true
-      //   })
-      // } else {
-      //   this.setState({
-      //     ...this.state,
-      //     emailIsValid: false
-      //   })
-      // }
+      this.props.validateEmail(email)
     }
 
     handleSubmit = () => {

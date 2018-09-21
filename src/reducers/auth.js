@@ -40,6 +40,8 @@ export const auth = ( state={
       // USED FOR SIGNUP & LOGIN
       case 'EMAIL_IS_VALID_AND_FREE':
         return { ...state, emailIsTaken: false, emailExists: false, invalidEmail: false }  
+      case 'LOGOUT':
+        return { ...state, username: null, toDash: false }  
 
       default:
         return state

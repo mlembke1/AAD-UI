@@ -7,7 +7,7 @@ import { checkCookie } from '../../actions/checkCookie'
 import { Icon, Section, Row, Col, Input } from 'react-materialize'
 
 
-class Dashboard extends Component {
+class Portal extends Component {
   componentWillMount(){
     this.props.checkCookie() 
   }
@@ -37,10 +37,7 @@ class Dashboard extends Component {
             </Row>
           </Section>
 
-          <Section id="dash-body-wrapper valign-wrapper">
-            {/* <Row><Col s={12}></Col></Row>
-            <Row><Col s={12}></Col></Row>
-            <Row><Col s={12}></Col></Row> */}
+          <Section id="portal-body-wrapper valign-wrapper">
             <Row s={12} className='center valign-wrapper'>
               <Col s={3}></Col>
               <Col className='center' s={3}>
@@ -73,4 +70,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({checkCookie}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(Portal)
