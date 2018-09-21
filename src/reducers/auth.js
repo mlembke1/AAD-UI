@@ -7,7 +7,8 @@ export const auth = ( state={
   usernameExists: true, // Assume the username does exist for LOGIN and not display the error message right away
   emailIsTaken: false,// Assume the email is not taken for SIGNUP and not display the error message right away
   emailExists: true, // Assume the email does exist for LOGIN and not display the error message right away
-  invalidEmail: false // Assume the email they are typing is valid until proven otherwise
+  invalidEmail: false, // Assume the email they are typing is valid until proven otherwise
+  tools: null
  }, action) => {
     switch(action.type){
       case 'SET_LOGGED_IN_USER':
@@ -19,7 +20,7 @@ export const auth = ( state={
       case 'LOGIN_SUCCESS':
         return { ...state, toDash: true }
       case 'LOGIN_FAILED':
-          return { ...state, loginFailed: true }    
+          return { ...state, loginFailed: true, toDash: false }    
       // USED FOR SIGNUP 
       case 'USERNAME_IS_TAKEN':
         return { ...state, usernameIsTaken: true }
@@ -42,6 +43,8 @@ export const auth = ( state={
         return { ...state, emailIsTaken: false, emailExists: false, invalidEmail: false }  
       case 'LOGOUT':
         return { ...state, username: null, toDash: false }  
+      case 'TOOLS_AQUIRED':
+        return { ...state, tools: action.payload }  
 
       default:
         return state

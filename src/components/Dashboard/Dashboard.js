@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './Dashboard.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { checkCookie } from '../../actions/checkCookie'
 import { Icon, Section, Row, Col, Input } from 'react-materialize'
+import { Link } from 'react-router-dom'
 
 
 class Dashboard extends Component {
@@ -38,9 +39,6 @@ class Dashboard extends Component {
           </Section>
 
           <Section id="dash-body-wrapper valign-wrapper">
-            {/* <Row><Col s={12}></Col></Row>
-            <Row><Col s={12}></Col></Row>
-            <Row><Col s={12}></Col></Row> */}
             <Row s={12} className='center valign-wrapper'>
               <Col s={3}></Col>
               <Col className='center' s={3}>
@@ -49,9 +47,11 @@ class Dashboard extends Component {
                   <hr className="thick-line-blue width40Per"/>
               </Col>
               <Col className='center' s={3}>
+                <Link to="/portal">
                   <Icon className="orange-icon" large>touch_app</Icon>
                   <div>Launch Portal</div>
                   <hr className="thick-line-blue width40Per"/>
+                </Link>
               </Col>
               <Col s={3}></Col>
             </Row>
