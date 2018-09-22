@@ -4,7 +4,7 @@ export const validateEmail = (email) => dispatch => {
       .then(json => {
           const emailRegex = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
           const emails = json.map(x => x.email)
-          const emailIsTaken = emails.includes(email) ? true : false
+          const emailIsTaken = emails.includes(email.trim()) ? true : false
           if(!emailRegex.test(email)){
               return dispatch({type: 'INVALID_EMAIL'})
           } else {
