@@ -1,0 +1,12 @@
+.reviews-wrapper {
+    max-width: 70%;
+    margin:auto;
+}
+
+#text-area {
+    min-width: 190% !important;
+}
+
+.c-item {
+    min-width: 100%;
+}

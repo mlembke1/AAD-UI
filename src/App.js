@@ -8,6 +8,7 @@ import  LandingPage from './components/LandingPage/LandingPage'
 import  Header from './components/Header/Header'
 import  PageFooter from './components/PageFooter/PageFooter'
 import  Portal from './components/Portal/Portal'
+import  Reviews from './components/Reviews/Reviews'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
@@ -38,6 +39,9 @@ class App extends Component {
                   }} />
                   <Route exact path="/portal" render={() => {
                     return (!this.props.username || !this.props.toDash) ? <Redirect to="/" /> : <Portal />
+                  }} />
+                  <Route exact path="/reviews" render={() => {
+                    return (!this.props.username || !this.props.toDash) ? <Redirect to="/" /> : <Reviews />
                   }} />
                 </main>
               <PageFooter />

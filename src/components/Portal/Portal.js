@@ -39,8 +39,8 @@ class Portal extends Component {
           </Section>
           
           {
-            this.props.tools ?
-            this.props.tools.map(tool => {
+            this.props.allTools ?
+            this.props.allTools.map(tool => {
               return (
                 <Section className="portal-body-wrapper valign-wrapper">
                   <Row className="tool-wrapper">
@@ -76,7 +76,7 @@ class Portal extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      tools: state.auth.tools
+      allTools: state.tools.allTools
   }
 }
 

@@ -42,9 +42,11 @@ class Dashboard extends Component {
             <Row s={12} className='center valign-wrapper'>
               <Col s={3}></Col>
               <Col className='center' s={3}>
+                <Link to="/reviews">
                   <Icon className="orange-icon" large>assignment</Icon>
                   <div>Tool Assessments</div>
                   <hr className="thick-line-blue width40Per"/>
+                </Link> 
               </Col>
               <Col className='center' s={3}>
                 <Link to="/portal">
