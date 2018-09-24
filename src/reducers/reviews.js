@@ -7,7 +7,7 @@ export const reviews = ( state={
           return { ...state, allReviews: action.payload }  
         case 'POST_REVIEW_SUCCESS':
           return { ...state, postReviewFailed: false }  
-          case 'POST_REVIEW_FAILED':
+        case 'POST_REVIEW_FAILED':
           return { ...state, postReviewFailed: true }
     
         default:

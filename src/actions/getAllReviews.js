@@ -1,5 +1,13 @@
 export const getAllReviews = () => dispatch => {
-    fetch('http://localhost:3000/getAllReviews')
+    const options = {
+        method: 'GET',
+        credentials: 'include',
+        crossDomain: true,
+        headers:{
+            'Content-Type': 'application/json'
+          }
+    }
+    fetch('http://localhost:3000/getAllReviews', options)
     .then(r => r.json())
     .then(payload => {
       console.log('REVIEWS JSON RESPONSE', payload)

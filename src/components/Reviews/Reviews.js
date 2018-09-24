@@ -4,6 +4,7 @@ import './Reviews.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getAllReviews } from '../../actions/getAllReviews'
+import { editSaveToggle } from '../../actions/editSaveToggle'
 import { postReview } from '../../actions/postReview'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
 
@@ -13,7 +14,7 @@ class Reviews extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            toolNameInputValue: '',
+            toolNameInputValue: 'SORTOE',
             textInputValue: ''
         }
     }
@@ -29,9 +30,11 @@ class Reviews extends Component {
     this.props.checkCookie() 
     this.props.getAllReviews()
   }
+   
 
-  toggleEditSaveHandler = (editable, toolName) => {
-      this.props.toggleEditSave(editable, toolName)
+  toggleEditSaveHandler = (editable, toolName, reviewId) => {
+      this.props.editSaveToggle(editable, toolName, reviewId)
+      setTimeout(() => {this.props.getAllReviews()}, 500)
   }
 
   postReviewHandler = () => {
@@ -40,6 +43,7 @@ class Reviews extends Component {
         text: this.state.textInputValue
     }  
     this.props.postReview(reviewObject)
+    this.props.getAllReviews()
   }
 
 
@@ -70,15 +74,15 @@ class Reviews extends Component {
           
             {
             this.props.allReviews ?            
-            this.props.allReviews.map(review => {
+            this.props.allReviews.map((review) => {
               return (
-                <Section className="reviews-wrapper center valign-wrapper">
+                <Section key={review.id} className="reviews-wrapper center valign-wrapper">
                   <Row className="valign-wrapper">
                     <Col s={2} className='valign-wrapper'>
                       {
                         review.editable ?
                         <Row>
-                            <Input s={12} type='select' label="Choose A Tool" defaultValue='2'>
+                            <Input s={12} type='select' label="Choose A Tool" value={review.tool_name}>
                                 <option value='SORTOE'>SORTOE</option>
                                 <option value='ATN'>AtN</option>
                                 <option value='OTHER'>Other</option>
@@ -95,11 +99,11 @@ class Reviews extends Component {
                         {
                             review.editable ?
                             <Row>
-                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name)}className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                             </Row>
                             :
                             <Row>
-                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name)}className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                             </Row>
                         }
                     </Col>
@@ -153,7 +157,7 @@ class Reviews extends Component {
                             <Section className="valign-wrapper">
                                 <Row className="valign-wrapper">
                                     <Col s={2} className='valign-wrapper'>
-                                        <Input s={12} type='select' label="Choose A Tool" defaultValue='2'>
+                                        <Input s={12} type='select' label="Choose A Tool" value='SORTOE'>
                                             <option value='SORTOE'>SORTOE</option>
                                             <option value='ATN'>AtN</option>
                                             <option value='OTHER'>Other</option>
@@ -186,10 +190,10 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      reviews: state.auth.allReviews
+      allReviews: state.reviews.allReviews
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllReviews, postReview}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllReviews, postReview, editSaveToggle}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

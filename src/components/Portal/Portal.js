@@ -40,9 +40,9 @@ class Portal extends Component {
           
           {
             this.props.allTools ?
-            this.props.allTools.map(tool => {
+            this.props.allTools.map((tool, i) => {
               return (
-                <Section className="portal-body-wrapper valign-wrapper">
+                <Section key={i} className="portal-body-wrapper valign-wrapper">
                   <Row className="tool-wrapper">
                     <Col s={2} className='valign-wrapper'>
                       <h6 className="tool-name">{tool.name}</h6>
