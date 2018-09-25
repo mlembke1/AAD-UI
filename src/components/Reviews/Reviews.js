@@ -7,6 +7,7 @@ import { getAllReviews } from '../../actions/getAllReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
+import { deleteReview } from '../../actions/deleteReview'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
 
 
@@ -32,6 +33,11 @@ class Reviews extends Component {
   componentWillMount(){
     this.props.checkCookie() 
     this.props.getAllReviews()
+  }
+
+  deleteHandler = (id) => {
+    this.props.deleteReview(id)
+    setTimeout(() => {this.props.getAllReviews()}, 500)
   }
    
 
@@ -128,9 +134,14 @@ class Reviews extends Component {
                     <Col s={4} className="center">
                         {
                             review.editable ?
-                            <Row>
-                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
-                            </Row>
+                            <div>
+                                <Row>
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                </Row>
+                                <Row>
+                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons" id="delete-button" waves='light'> Delete <Icon right tiny className="data">delete_outline</Icon></Button>
+                                </Row>
+                            </div>
                             :
                             <Row>
                                 <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
@@ -238,6 +249,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     getAllReviews,
     postReview, 
     editSaveToggle,
-    updateReview}, dispatch)
+    updateReview,
+    deleteReview}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

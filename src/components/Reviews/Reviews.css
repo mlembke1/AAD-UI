@@ -10,3 +10,18 @@
 .c-item {
     min-width: 100%;
 }
+
+#delete-button {
+    background-color: #b71c1c;
+    color: white;
+    transition: .5s !important;
+    min-width: 50%;
+}
+
+#delete-button:hover {
+    border: 1px solid #033076;
+}
+
+#delete-button:focus {
+    background-color: #033076;
+}
