@@ -1,5 +1,5 @@
 export const validateEmail = (email) => dispatch => {
-    fetch('http://localhost:3000/getAllUsers')
+    fetch((process.env.API_URL || 'http://localhost:3000') + '/getAllUsers')
       .then(r => r.json())
       .then(json => {
           const emailRegex = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)

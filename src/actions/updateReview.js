@@ -9,7 +9,7 @@ export const updateReview = (toolName, text, reviewId) => dispatch => {
         method: 'PATCH',                                                              
         body: JSON.stringify( { toolName, text, reviewId } ) 
     }
-    fetch('http://localhost:3000/updateReview', options)
+    fetch((process.env.API_URL || 'http://localhost:3000') + '/updateReview', options)
     .then(payload => {
       console.log('UPDATE REVIEW JSON RESPONSE', payload)
       return dispatch({ type:'UPDATE_REVIEW_SUCCESS', payload })
