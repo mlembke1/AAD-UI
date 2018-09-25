@@ -34,7 +34,9 @@ class Reviews extends Component {
 
   toggleEditSaveHandler = (editable, toolName, reviewId) => {
       this.props.editSaveToggle(editable, toolName, reviewId)
-      setTimeout(() => {this.props.getAllReviews()}, 500)
+      setTimeout(() => {
+          this.props.getAllReviews()
+        }, 500)
   }
 
   postReviewHandler = () => {
@@ -151,9 +153,9 @@ class Reviews extends Component {
 
             {
               this.props.allReviews && this.props.allReviews.length > 0 ?
-                <Section className="reviews-wrapper center">            
+                <Section className="center">            
                     <Collapsible popout defaultActiveKey={1}>
-                    <CollapsibleItem className="c-item" header='Write A Review' icon='add'>
+                    <CollapsibleItem header='Write A Review' icon='add'>
                         <Section>
                             <Row className="valign-wrapper">
                                 <Col s={2} className='valign-wrapper'>
