@@ -3,8 +3,8 @@
     margin:auto;
 }
 
-#text-area {
-    min-width: 190% !important;
+.materialize-textarea {
+    min-width: 225% !important;
 }
 
 .c-item {

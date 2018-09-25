@@ -66,7 +66,13 @@ class Reviews extends Component {
         text: this.state.textInputValue
     }  
     this.props.postReview(reviewObject)
-    setTimeout(() => {this.props.getAllReviews()}, 500)
+    setTimeout(() => {
+        this.props.getAllReviews()
+        this.setState({
+            toolNameInputValue: 'SORTOE',
+            textInputValue: ""
+        })
+    }, 500)
   }
 
 
@@ -170,7 +176,7 @@ class Reviews extends Component {
                                 </Col>
                                 <Col s={6}>
                                     <Input 
-                                        id="text-area"
+                                        className="text-area"
                                         type='textarea'
                                         data-length="3000"
                                         value={this.state.textInputValue}
@@ -192,7 +198,7 @@ class Reviews extends Component {
 
             {
               this.props.allReviews && this.props.allReviews.length > 0 ?
-                <Section className="center">            
+                <Section className="reviews-wrapper center">            
                     <Collapsible popout defaultActiveKey={1}>
                     <CollapsibleItem header='Write A Review' icon='add'>
                         <Section>
@@ -209,7 +215,7 @@ class Reviews extends Component {
                                 </Col>
                                 <Col s={6}>
                                     <Input 
-                                        id="text-area"
+                                        className="text-area"
                                         type='textarea'
                                         data-length="3000"
                                         value={this.state.textInputValue}
