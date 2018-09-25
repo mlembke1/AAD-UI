@@ -7,6 +7,8 @@ import  Dashboard from './components/Dashboard/Dashboard'
 import  LandingPage from './components/LandingPage/LandingPage'
 import  Header from './components/Header/Header'
 import  PageFooter from './components/PageFooter/PageFooter'
+import  Portal from './components/Portal/Portal'
+import  Reviews from './components/Reviews/Reviews'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
@@ -16,7 +18,6 @@ class App extends Component {
   componentWillMount(){
     this.props.checkCookie() 
   }
-
   
   render() {
     return (
@@ -25,24 +26,22 @@ class App extends Component {
               <Header />
                 <main className="app">  
                   <Route exact path="/" render={() => {
-                      this.props.checkCookie()
-                      debugger 
-                      return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
+                    return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
                   }} /> 
                   <Route exact path="/dashboard" render={() => {
-                      this.props.checkCookie()
-                      debugger 
-                      return (!this.props.username && !this.props.toDash) ? <Redirect to="/" /> : <Dashboard />
+                    return (!this.props.username && !this.props.toDash) ? <Redirect to="/" /> : <Dashboard />
                   }} />
                   <Route exact path="/login" render={() => {
-                      this.props.checkCookie()
-                      debugger 
-                      return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Login />
+                    return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Login />
                   }} />
                   <Route exact path="/signup" render={() => {
-                      this.props.checkCookie()
-                      debugger 
-                      return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Signup />
+                    return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Signup />
+                  }} />
+                  <Route exact path="/portal" render={() => {
+                    return (!this.props.username || !this.props.toDash) ? <Redirect to="/" /> : <Portal />
+                  }} />
+                  <Route exact path="/reviews" render={() => {
+                    return (!this.props.username || !this.props.toDash) ? <Redirect to="/" /> : <Reviews />
                   }} />
                 </main>
               <PageFooter />

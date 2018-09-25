@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './Dashboard.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import { checkCookie } from '../../actions/checkCookie'
-import { Icon, Section, Row, Col } from 'react-materialize'
+import { Icon, Section, Row, Col, Input } from 'react-materialize'
+import { Link } from 'react-router-dom'
 
 
 class Dashboard extends Component {
@@ -16,7 +17,7 @@ class Dashboard extends Component {
       return (
         <div>
           {/* HEADER */}
-          <Section id="dash-heading-wrapper">
+          <Section className="dash-heading-wrapper">
             <Row> 
               <Col s={12}>
               </Col>
@@ -26,32 +27,33 @@ class Dashboard extends Component {
                 <Icon className="orange-icon" right={true} medium>account_circle</Icon>
               </Col>
               <Col s={1}>
-                <h5 id="dash-username">{this.props.username}</h5>
+                <h5 className="dash-username">{this.props.username}</h5>
               </Col>
               <Col s={10}></Col>
             </Row>
             <Row>
               <Col s={12}>
-                <hr />
+                <hr className="thick-line-blue" />
               </Col>
             </Row>
           </Section>
 
           <Section id="dash-body-wrapper valign-wrapper">
-            <Row><Col s={12}></Col></Row>
-            <Row><Col s={12}></Col></Row>
-            <Row><Col s={12}></Col></Row>
             <Row s={12} className='center valign-wrapper'>
               <Col s={3}></Col>
               <Col className='center' s={3}>
+                <Link to="/reviews">
                   <Icon className="orange-icon" large>assignment</Icon>
                   <div>Tool Assessments</div>
-                  <hr class="thick-line width30Per"/>
+                  <hr className="thick-line-blue width40Per"/>
+                </Link> 
               </Col>
               <Col className='center' s={3}>
+                <Link to="/portal">
                   <Icon className="orange-icon" large>touch_app</Icon>
                   <div>Launch Portal</div>
-                  <hr class="thick-line width30Per"/>
+                  <hr className="thick-line-blue width40Per"/>
+                </Link>
               </Col>
               <Col s={3}></Col>
             </Row>

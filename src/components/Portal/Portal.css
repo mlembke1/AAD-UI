@@ -1,0 +1,48 @@
+.portal-body-wrapper {
+    margin-left: 40px !important;
+}
+
+.tool-wrapper {
+    max-width: 70%;
+    padding: 10px;
+    display: inline-block;
+    /* color: #000; */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tool-wrapper::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: #dc4c18;
+    transition: width .6s;
+}
+
+.tool-wrapper:hover::after {
+    width: 100%;
+    /* //transition: width .3s; */
+}
+
+.portal-buttons {
+    background-color: #033076;
+    color: white;
+    transition: .5s !important;
+    min-width: 50%;
+}
+
+.portal-buttons:hover {
+    background-color: #033076;
+    border: 1px solid #dc4c18;
+}
+
+.portal-buttons:focus {
+    background-color: #033076;
+}
+
+.tool-name {
+    border-bottom: 1px solid #033076;
+    padding-bottom: 5px;
+    min-width: 100px;
+}
