@@ -43,7 +43,7 @@ class Reviews extends Component {
         text: this.state.textInputValue
     }  
     this.props.postReview(reviewObject)
-    this.props.getAllReviews()
+    setTimeout(() => {this.props.getAllReviews()}, 500)
   }
 
 
@@ -73,11 +73,11 @@ class Reviews extends Component {
           </Section>
           
             {
-            this.props.allReviews ?            
+            this.props.allReviews && this.props.allReviews.length > 0 ?            
             this.props.allReviews.map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center valign-wrapper">
-                  <Row className="valign-wrapper">
+                  <Row className="c-item valign-wrapper">
                     <Col s={2} className='valign-wrapper'>
                       {
                         review.editable ?
@@ -150,30 +150,39 @@ class Reviews extends Component {
 
 
             {
-              this.props.allReviews ?
+              this.props.allReviews && this.props.allReviews.length > 0 ?
                 <Section className="reviews-wrapper center">            
                     <Collapsible popout defaultActiveKey={1}>
-                        <CollapsibleItem header='Add A Review' icon='add'>
-                            <Section className="valign-wrapper">
-                                <Row className="valign-wrapper">
-                                    <Col s={2} className='valign-wrapper'>
-                                        <Input s={12} type='select' label="Choose A Tool" value='SORTOE'>
-                                            <option value='SORTOE'>SORTOE</option>
-                                            <option value='ATN'>AtN</option>
-                                            <option value='OTHER'>Other</option>
-                                        </Input>
-                                    </Col>
-                                    <Col s={6}>
-                                        <Input type='textarea' data-length="3000" value="" placeholder="Your review here..." />
-                                    </Col>
-                                    <Col s={4} className="center">
-                                        <Row>
-                                        <Button className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            </Section>
-                        </CollapsibleItem>
+                    <CollapsibleItem className="c-item" header='Write A Review' icon='add'>
+                        <Section>
+                            <Row className="valign-wrapper">
+                                <Col s={2} className='valign-wrapper'>
+                                    <Input
+                                    onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
+                                    value={this.state.toolNameInputValue}
+                                    type='select' label="Choose A Tool" >
+                                        <option value='SORTOE'>SORTOE</option>
+                                        <option value='ATN'>AtN</option>
+                                        <option value='OTHER'>Other</option>
+                                    </Input>
+                                </Col>
+                                <Col s={6}>
+                                    <Input 
+                                        id="text-area"
+                                        type='textarea'
+                                        data-length="3000"
+                                        value={this.state.textInputValue}
+                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
+                                        placeholder="Your review here..." />
+                                </Col>
+                                <Col s={4} className="center">
+                                    <Button 
+                                    disabled={ this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1 }
+                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
+                                </Col>
+                            </Row>
+                        </Section>
+                    </CollapsibleItem>
                     </Collapsible>      
                 </Section>  
                 :
