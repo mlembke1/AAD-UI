@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getAllReviews } from '../../actions/getAllReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
+import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
 
@@ -15,7 +16,9 @@ class Reviews extends Component {
         super(props)
         this.state = {
             toolNameInputValue: 'SORTOE',
-            textInputValue: ''
+            textInputValue: '',
+            editToolNameInputValue: 'SORTOE',
+            editTextInputValue: ''
         }
     }
 
@@ -32,11 +35,23 @@ class Reviews extends Component {
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId) => {
-      this.props.editSaveToggle(editable, toolName, reviewId)
-      setTimeout(() => {
-          this.props.getAllReviews()
-        }, 500)
+  toggleEditSaveHandler = (editable, toolName, reviewId, text) => {
+    // Edit has already been open, now time to save the updates.
+    if(editable) {
+        this.props.editSaveToggle(editable, toolName, reviewId)
+        this.props.updateReview(this.state.editToolNameInputValue, this.state.editTextInputValue, reviewId)
+    } 
+    // Edit has NOT already been open, now time to update the fields.
+    else {
+        this.props.editSaveToggle(editable, toolName, reviewId)
+        this.setState({
+            editToolNameInputValue: toolName,
+            editTextInputValue: text
+        })
+    }
+    setTimeout(() => {
+        this.props.getAllReviews()
+    }, 500)
   }
 
   postReviewHandler = () => {
@@ -84,7 +99,13 @@ class Reviews extends Component {
                       {
                         review.editable ?
                         <Row>
-                            <Input s={12} type='select' label="Choose A Tool" value={review.tool_name}>
+                            <Input 
+                            s={12} 
+                            type='select' 
+                            label="Choose A Tool" 
+                            value={this.state.editToolNameInputValue}
+                            onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}
+                            >
                                 <option value='SORTOE'>SORTOE</option>
                                 <option value='ATN'>AtN</option>
                                 <option value='OTHER'>Other</option>
@@ -95,7 +116,14 @@ class Reviews extends Component {
                       }
                     </Col>
                     <Col s={6}>
-                        <Input disabled={!review.editable} type='textarea' value={review.text} />
+                        {
+                            review.editable ?
+                            <Input 
+                            onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
+                            disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                            :
+                            <Input disabled={true} type='textarea' value={review.text} />
+                        }   
                     </Col>
                     <Col s={4} className="center">
                         {
@@ -205,6 +233,11 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllReviews, postReview, editSaveToggle}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+    checkCookie,
+    getAllReviews,
+    postReview, 
+    editSaveToggle,
+    updateReview}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
