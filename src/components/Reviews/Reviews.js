@@ -31,7 +31,7 @@ class Reviews extends Component {
   
 
   componentWillMount(){
-    this.props.checkCookie() 
+    setTimeout(() => {this.props.checkCookie()},500)
     this.props.getAllReviews()
   }
 
