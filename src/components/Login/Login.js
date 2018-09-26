@@ -11,7 +11,7 @@ import { resetState } from '../../actions/resetState'
 class Login extends Component {
 
   componentWillMount(){
-    this.props.checkCookie() 
+    // this.props.checkCookie() 
     this.props.resetState()
   }
 
