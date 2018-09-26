@@ -16,7 +16,7 @@ import { Redirect } from 'react-router-dom'
 
 class App extends Component {
   componentWillMount(){
-    this.props.checkCookie() 
+    setTimeout(() => {this.props.checkCookie()},500)
   }
   
   render() {

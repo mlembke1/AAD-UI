@@ -13,7 +13,7 @@ class Signup extends Component {
 
   componentWillMount(){
     this.props.resetState()
-    this.props.checkCookie() 
+    // this.props.checkCookie() 
   }
 
     constructor(props){
