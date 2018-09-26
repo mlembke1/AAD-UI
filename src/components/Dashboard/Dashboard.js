@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import './Dashboard.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-// import { Redirect } from 'react-router-dom'
 import { checkCookie } from '../../actions/checkCookie'
-import { Icon, Section, Row, Col, Input } from 'react-materialize'
+import { Icon, Section, Row, Col } from 'react-materialize'
 import { Link } from 'react-router-dom'
 
 
