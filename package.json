@@ -15,8 +15,8 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "build": "react-scripts build --env.REACT_APP_API_URL=https://saad-api.minsky.devwerx.org:9443 --env.REACT_APP_NODE_ENV=production --env.REACT_APP_PUBLIC_URL=https://saad.minsky.devwerx.org:9443 --env.REACT_APP_SLACK_TOKEN=xoxp-440709708450-442062989574-443886127879-eef3b5a167f549a4f1fdc697f86ccc8b",
-    "start": "react-scripts start --env.REACT_APP_API_URL=http://localhost:3000 --env.REACT_APP_NODE_ENV=development --env.REACT_APP_PUBLIC_URL=http://localhost:3001 --env.REACT_APP_SLACK_TOKEN=xoxp-440709708450-442062989574-443886127879-eef3b5a167f549a4f1fdc697f86ccc8b",
+    "build": "react-scripts build",
+    "start": "react-scripts start" ,
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
