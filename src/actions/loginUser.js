@@ -8,7 +8,7 @@ export const loginUser = (object) => dispatch => {
         credentials: 'include',
         crossDomain: true
     }
-    fetch((process.env.API_URL || 'http://localhost:3000') + '/login', options)
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/login', options)
     .then(json => {
         console.log('LOGIN RESPONSE ', json)
         if(json.status === 200) {

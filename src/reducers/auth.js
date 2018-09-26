@@ -11,6 +11,17 @@ export const auth = ( state={
   tools: null
  }, action) => {
     switch(action.type){
+      case 'RESET_STATE':
+        return { toDash: false, 
+          username: null,
+          signupFailed: false,
+          loginFailed: false,
+          usernameIsTaken: false,
+          usernameExists: true, 
+          emailIsTaken: false,
+          emailExists: true, 
+          invalidEmail: false, 
+          tools: null }
       case 'SET_LOGGED_IN_USER':
         return { ...state, username: action.payload }
       case 'SIGNUP_SUCCESS':

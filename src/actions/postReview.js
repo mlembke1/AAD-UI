@@ -8,7 +8,7 @@ export const postReview = (object) => dispatch => {
         credentials: 'include',
         crossDomain: true
     }
-    fetch((process.env.API_URL || 'http://localhost:3000') + '/postReview', options)
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', options)
         .then(json => {
         console.log('POST_REVIEW RESPONSE ', json)
         if(json.status === 200) {

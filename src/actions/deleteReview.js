@@ -9,7 +9,7 @@ export const deleteReview = reviewId => dispatch => {
         method: 'DELETE',                                                              
         body: JSON.stringify( { reviewId } ) 
     }
-    fetch((process.env.API_URL || 'http://localhost:3000') + '/deleteReview', options)
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/deleteReview', options)
     .then(payload => {
       console.log('DELETE REVIEW JSON RESPONSE', payload)
       return dispatch({ type:'DELETE_REVIEW_SUCCESS', payload })

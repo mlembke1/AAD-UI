@@ -9,7 +9,7 @@ export const editSaveToggle = (editable, toolName, reviewId) => dispatch => {
         method: 'PATCH',                                                              
         body: JSON.stringify( { editable, toolName, reviewId } ) 
     }
-    fetch((process.env.API_URL || 'http://localhost:3000') + '/editSaveToggle', options)
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/editSaveToggle', options)
     .then(payload => {
       console.log('EDIT TOGGLE JSON RESPONSE', payload)
       return dispatch({ type:'TOGGLE_EDIT_SAVE', payload })
