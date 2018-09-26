@@ -8,7 +8,7 @@ export const submitNewUser = (object) => dispatch => {
         credentials: 'include',
         crossDomain: true
     }
-    fetch((process.env.API_URL || 'http://localhost:3000') + '/signup', options)
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/signup', options)
     .then(json => {
         console.log('SIGNUP RESPONSE ', json)
         if(json.status === 200) {

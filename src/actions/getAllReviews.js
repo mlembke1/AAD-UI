@@ -7,7 +7,7 @@ export const getAllReviews = () => dispatch => {
             'Content-Type': 'application/json'
           }
     }
-    fetch((process.env.API_URL || 'http://localhost:3000') + '/getAllReviews', options)
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/getAllReviews', options)
     .then(r => r.json())
     .then(payload => {
       console.log('REVIEWS JSON RESPONSE', payload)
