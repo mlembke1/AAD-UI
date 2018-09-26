@@ -3,7 +3,6 @@ import './LandingPage.css';
 import { connect } from 'react-redux'
 import { Button } from 'react-materialize'
 import { Link } from 'react-router-dom'
-import { Redirect } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 

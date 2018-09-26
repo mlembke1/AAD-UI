@@ -1,19 +1,24 @@
 export const inviteToSlack = (email) => dispatch => {
-    const slackTeam = "aadspace";
-    const token = process.env.REACT_APP_SLACK_TOKEN; 
-    // A test token will suffice.
-    // You can generate one at https://api.slack.com/docs/oauth-test-tokens
-    // Just make sure that the user issuing the test token is an admin.
-    
-    const url = 'https://'+ slackTeam + '.slack.com/api/users.admin.invite';
-    fetch(url, { 
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: "token="+ token + "&email=" + email
-    })
-    .then(res => {
-      console.log(res)
-      return res
-    })
-    .catch(err => console.log('Invite to Slack Failed', err));
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({email}),
+    headers: {
+    "Content-Type": "application/json"
+    },
+    credentials: 'include',
+    crossDomain: true
+}
+fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/inviteToSlack', options)
+    .then(json => {
+    console.log('INVITE_TO_SLACK RESPONSE ', json)
+    if(json.status === 200) {
+        return dispatch({ type:'INVITE_TO_SLACK_SUCCESS' })
+    } else {
+        return dispatch({ type:'INVITE_TO_SLACK_FAILED' })
+    }
+})
+.catch(err => {
+    console.log('ERROR WITH INVITE_TO_SLACK REQUEST', err)
+    return dispatch({ type:'INVITE_TO_SLACK_FAILED' })
+})    
 }
