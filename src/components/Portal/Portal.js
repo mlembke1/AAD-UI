@@ -9,7 +9,7 @@ import { Icon, Section, Row, Col, Button } from 'react-materialize'
 
 class Portal extends Component {
   componentWillMount(){
-    // setTimeout(() => {this.props.checkCookie()},500)
+    setTimeout(() => {this.props.checkCookie()},500)
     this.props.getAllTools()
   }
 

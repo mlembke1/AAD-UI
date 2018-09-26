@@ -9,7 +9,7 @@ import { checkCookie } from '../../actions/checkCookie'
 class LandingPage extends Component {
 
   componentWillMount(){
-    // setTimeout(() => {this.props.checkCookie()},500)
+    setTimeout(() => {this.props.checkCookie()},500)
   }
 
 
