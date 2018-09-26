@@ -82,4 +82,12 @@ COPY yarn.lock ./
 RUN yarn install
 COPY . ./
 
-CMD npm start
+#RUN npm build
+RUN npm run-script build
+
+ENV PORT=3000
+
+RUN npm install -g serve
+
+ADD run.sh /run.sh
+CMD /run.sh
