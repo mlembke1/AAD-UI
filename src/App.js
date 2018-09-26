@@ -38,10 +38,10 @@ class App extends Component {
                     return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Signup />
                   }} />
                   <Route exact path="/portal" render={() => {
-                    return (!this.props.username || !this.props.toDash) ? <Redirect to="/" /> : <Portal />
+                    return (!this.props.username) ? <Redirect to="/" /> : <Portal />
                   }} />
                   <Route exact path="/reviews" render={() => {
-                    return (!this.props.username || !this.props.toDash) ? <Redirect to="/" /> : <Reviews />
+                    return (!this.props.username) ? <Redirect to="/" /> : <Reviews />
                   }} />
                 </main>
               <PageFooter />

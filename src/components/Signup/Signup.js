@@ -12,8 +12,8 @@ import { resetState } from '../../actions/resetState'
 class Signup extends Component {
 
   componentWillMount(){
-    this.props.checkCookie() 
     this.props.resetState()
+    this.props.checkCookie() 
   }
 
     constructor(props){
