@@ -161,6 +161,7 @@ class Signup extends Component {
                 label="Email"
                 s={12} /> 
                 {this.props.invalidEmail ? <div className="error-text">Invalid Email.</div> : null }
+                {this.props.emailIsTaken ? <div className="error-text">Email already taken.</div> : null }
                 
                 <Input 
                 onBlur={() => this.passwordHandler()}
@@ -171,7 +172,6 @@ class Signup extends Component {
                 label="Password"
                 s={12} /> 
                 {!this.state.passwordLengthPasses ? <div className="error-text">Password must be between 8 and 30 characters.</div> : null }
-                {this.props.emailIsTaken ? <div className="error-text">Email already taken.</div> : null }
               
                <Input 
                 onBlur={() => this.confirmPasswordHandler()}

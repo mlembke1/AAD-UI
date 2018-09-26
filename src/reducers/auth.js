@@ -53,7 +53,16 @@ export const auth = ( state={
       case 'EMAIL_IS_VALID_AND_FREE':
         return { ...state, emailIsTaken: false, emailExists: false, invalidEmail: false }  
       case 'LOGOUT':
-        return { ...state, username: null, toDash: false }  
+        return { toDash: false, 
+          username: null,
+          signupFailed: false,
+          loginFailed: false,
+          usernameIsTaken: false,
+          usernameExists: true, 
+          emailIsTaken: false,
+          emailExists: true, 
+          invalidEmail: false, 
+          tools: null }  
       case 'TOOLS_AQUIRED':
         return { ...state, tools: action.payload }  
 
