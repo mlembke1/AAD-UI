@@ -11,7 +11,7 @@ import { resetState } from '../../actions/resetState'
 class Login extends Component {
 
   componentWillMount(){
-    setTimeout(() => {this.props.checkCookie()},500)
+    this.props.checkCookie()
     this.props.resetState()
   }
 

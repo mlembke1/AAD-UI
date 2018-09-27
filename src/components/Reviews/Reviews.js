@@ -31,13 +31,13 @@ class Reviews extends Component {
   
 
   componentWillMount(){
-    setTimeout(() => {this.props.checkCookie()},500)
+    this.props.checkCookie()
     this.props.getAllReviews()
   }
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    setTimeout(() => {this.props.getAllReviews()}, 500)
+    this.props.checkCookie()
   }
    
 
