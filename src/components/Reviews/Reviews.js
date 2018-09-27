@@ -21,16 +21,10 @@ class Reviews extends Component {
             editToolNameInputValue: 'SORTOE',
             editTextInputValue: '',
             fileInputValue: [],
-            imageURLs: []
+            binaryArr: []
         }
     }
 
-    // image/png
-    // image/jpeg
-    // application/pdf
-    // text/html
-    // application/zip
-    // application/msword
 
     updateInputValue(evt, inputType) {
         if(inputType != "fileInputValue"){
@@ -39,19 +33,18 @@ class Reviews extends Component {
             })
         } else {
             let fileArray = Array.from(evt.target.files)
-            fileArray.map(x => console.log(x.type))
-            let urls = fileArray.map(blob => {
-                    if(blob.type.substring(0,5) == "image"){
-                       return window.URL.createObjectURL(blob)
-                    }
-                })
-                return this.setState({
-                    ...this.state,
-                    [inputType]: fileArray,
-                    imageURLs: urls
-                })
-            }
+            let binaryArr = fileArray.map(blob => {
+                const reader = new FileReader()
+                return reader.readAsBinaryString(blob)
+            })
+            console.log(binaryArr)
+            return this.setState({
+                ...this.state,
+                [inputType]: fileArray,
+                binaryArr
+            })
         }
+    }
       
 
   componentWillMount(){
@@ -248,6 +241,7 @@ class Reviews extends Component {
                                     </Row>
                                     <Row>
                                         <Input 
+                                        id="file-input"
                                         type="file"
                                         label="File"
                                         s={12} 
