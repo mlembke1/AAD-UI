@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 class Dashboard extends Component {
   componentWillMount(){
-    setTimeout(() => {this.props.checkCookie()},500)
+    this.props.checkCookie()
   }
 
   render() {
