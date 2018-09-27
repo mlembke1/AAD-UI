@@ -5,5 +5,5 @@ export const logout = () => dispatch => {
         var expires = "expires=" + d.toGMTString(); //Compose the expirartion date
         window.document.cookie = "aad_token"+"="+"; "+expires;//Set the cookie with name and the expiration date
         localStorage.clear()
-        return dispatch({type: 'LOGOUT'})
+        return setTimeout(() => dispatch({type: 'LOGOUT'}), 600)
 }
