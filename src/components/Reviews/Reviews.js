@@ -19,16 +19,40 @@ class Reviews extends Component {
             toolNameInputValue: 'SORTOE',
             textInputValue: '',
             editToolNameInputValue: 'SORTOE',
-            editTextInputValue: ''
+            editTextInputValue: '',
+            fileInputValue: [],
+            imageURLs: []
         }
     }
 
+    // image/png
+    // image/jpeg
+    // application/pdf
+    // text/html
+    // application/zip
+    // application/msword
+
     updateInputValue(evt, inputType) {
-        return this.setState({
-          [inputType]: evt.target.value
-        })
-      }
-  
+        if(inputType != "fileInputValue"){
+            return this.setState({
+              [inputType]: evt.target.value
+            })
+        } else {
+            let fileArray = Array.from(evt.target.files)
+            fileArray.map(x => console.log(x.type))
+            let urls = fileArray.map(blob => {
+                    if(blob.type.substring(0,5) == "image"){
+                       return window.URL.createObjectURL(blob)
+                    }
+                })
+                return this.setState({
+                    ...this.state,
+                    [inputType]: fileArray,
+                    imageURLs: urls
+                })
+            }
+        }
+      
 
   componentWillMount(){
     this.props.checkCookie()
@@ -202,7 +226,7 @@ class Reviews extends Component {
                     <Collapsible popout defaultActiveKey={1}>
                     <CollapsibleItem header='Write A Review' icon='add'>
                         <Section>
-                            <Row className="valign-wrapper">
+                            <Row>
                                 <Col s={2} className='valign-wrapper'>
                                     <Input
                                     onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
@@ -214,17 +238,43 @@ class Reviews extends Component {
                                     </Input>
                                 </Col>
                                 <Col s={6}>
-                                    <Input 
+                                    <Row>
+                                        <Input 
                                         className="text-area"
                                         type='textarea'
-                                        data-length="3000"
                                         value={this.state.textInputValue}
                                         onChange={evt => this.updateInputValue(evt, 'textInputValue')}
                                         placeholder="Your review here..." />
+                                    </Row>
+                                    <Row>
+                                        <Input 
+                                        type="file"
+                                        label="File"
+                                        s={12} 
+                                        multiple 
+                                        placeholder="Upload one or more files"
+                                        onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                        <div className="file-preview container">
+                                            {
+                                                this.state.fileInputValue.length > 0 ?
+                                                this.state.fileInputValue.map((blob, i) => {
+                                                    return blob.type.substring(0, 5) !== 'image' ?
+                                                    <div className="non-image-file file" key={i}  >
+                                                        {blob.name}
+                                                        {blob.type}
+                                                    </div>
+                                                :
+                                                <img className="file" key={i} src={window.URL.createObjectURL(blob)} />
+                                                })
+                                                :
+                                                null
+                                            }
+                                        </div>
+                                    </Row>
                                 </Col>
                                 <Col s={4} className="center">
                                     <Button 
-                                    disabled={ this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1 }
+                                    disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == "" }
                                     onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
                                 </Col>
                             </Row>
