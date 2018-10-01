@@ -8,6 +8,9 @@ import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
+import { postBlob } from '../../actions/postBlob'
+import { getAllBlobs } from '../../actions/getAllBlobs'
+import { getAllReviewsLength } from '../../actions/getAllReviewsLength'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
 
 
@@ -21,10 +24,56 @@ class Reviews extends Component {
             editToolNameInputValue: 'SORTOE',
             editTextInputValue: '',
             fileInputValue: [],
-            binaryArr: []
+            editFileInputValue: [],
+            reviewsWithBlobs: []
         }
     }
+    
+    componentWillMount = () => {
+        this.props.checkCookie()
+        this.setAllReviewsAndBlobs()
+        this.props.getAllReviewsLength()
 
+        setTimeout(() => {console.log(this.state.reviewsWithBlobs)}, 1000)
+    }
+    
+    setAllReviewsAndBlobs = async () => {
+        await this.getArrays()
+        await this.mergeArrays()
+    }
+    
+    getArrays = async () => {
+        await this.props.getAllReviews()
+        await this.props.getAllBlobs()
+    }
+
+    
+    mergeArrays = async () => {
+        
+      const reviews = Array.from(this.props.allReviews)
+      const blobs = this.props.allBlobs ? Array.from(this.props.allBlobs) : null
+      
+      if(blobs){
+          for(let i = 0; i < reviews.length; i ++){
+              for(let j = 0; j < blobs.length; j ++){
+                  if(reviews[i].id == blobs[j].review_id){
+                      if(reviews[i]['blobs']){
+                          reviews[i]['blobs'].push(blobs[j].blob)
+                      } else {
+                          reviews[i]['blobs'] = []
+                      }
+                  }
+              }   
+          }
+      } 
+
+  
+  
+        this.setState({
+            ...this.state,
+            reviewsWithBlobs: reviews
+        })
+    }
 
     updateInputValue(evt, inputType) {
         if(inputType != "fileInputValue"){
@@ -33,28 +82,15 @@ class Reviews extends Component {
             })
         } else {
             let fileArray = Array.from(evt.target.files)
-            let binaryArr = fileArray.map(blob => {
-                const reader = new FileReader()
-                return reader.readAsBinaryString(blob)
-            })
-            console.log(binaryArr)
             return this.setState({
                 ...this.state,
-                [inputType]: fileArray,
-                binaryArr
+                [inputType]: fileArray
             })
         }
     }
-      
-
-  componentWillMount(){
-    this.props.checkCookie()
-    this.props.getAllReviews()
-  }
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    this.props.checkCookie()
   }
    
 
@@ -73,18 +109,37 @@ class Reviews extends Component {
         })
     }
     setTimeout(() => {
-        this.props.getAllReviews()
+        this.setAllReviewsAndBlobs()
     }, 500)
   }
 
-  postReviewHandler = () => {
-    const reviewObject = {
-        toolName: this.state.toolNameInputValue,
-        text: this.state.textInputValue
-    }  
-    this.props.postReview(reviewObject)
+  postReview = async () => {
+      const reviewObject = {
+          toolName: this.state.toolNameInputValue,
+          text: this.state.textInputValue
+      }  
+      return this.props.postReview(reviewObject)
+  }
+
+  postBlob = async (reviewId) => {
+    return this.state.fileInputValue.map(blob => {
+        const blobObject = {
+            review_id: reviewId,
+            blob
+        }  
+        console.log('HERE IS THE POST BLOB BODY.', blobObject   )
+        this.props.postBlob(blob)
+    })
+  }
+
+  postReviewHandler = async (reviewId) => {
+    if(this.state.fileInputValue.length > 0) {
+        await this.postBlob(reviewId)    
+    }
+    await this.postReview()
+
     setTimeout(() => {
-        this.props.getAllReviews()
+        this.setAllReviewsAndBlobs()
         this.setState({
             toolNameInputValue: 'SORTOE',
             textInputValue: ""
@@ -96,7 +151,9 @@ class Reviews extends Component {
   render() {
       return (
         <div>
-          {/* HEADER */}
+          {/* ////////////////////  ///////   ///////////////////////// */}
+          {/* ////////////////////  HEADER    ///////////////////////// */}
+          {/* ////////////////////  ///////   ///////////////////////// */}
           <Section className="dash-heading-wrapper">
             <Row> 
               <Col s={12}>
@@ -117,14 +174,17 @@ class Reviews extends Component {
               </Col>
             </Row>
           </Section>
-          
+
+          {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
+          {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}
+          {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
-            this.props.allReviews && this.props.allReviews.length > 0 ?            
-            this.props.allReviews.map((review) => {
+            this.state.reviewsWithBlobs && this.state.reviewsWithBlobs.length > 0 ?            
+            this.state.reviewsWithBlobs.map((review) => {
               return (
-                <Section key={review.id} className="reviews-wrapper center valign-wrapper">
-                  <Row className="c-item valign-wrapper">
-                    <Col s={2} className='valign-wrapper'>
+                <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
+                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                    <Col s={2}>
                       {
                         review.editable ?
                         <Row>
@@ -145,14 +205,56 @@ class Reviews extends Component {
                       }
                     </Col>
                     <Col s={6}>
-                        {
+                        <Row>
+                            {
                             review.editable ?
-                            <Input 
-                            onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
-                            disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                                <Input 
+                                onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
+                                disabled={false} type='textarea' value={this.state.editTextInputValue} />
                             :
-                            <Input disabled={true} type='textarea' value={review.text} />
-                        }   
+                                <Input disabled={true} type='textarea' value={review.text} />
+                            }
+                        </Row>   
+                        <Row>
+                            {
+                                review.editable ?
+                                <div>
+                                    <Input 
+                                    id="file-input"
+                                    type="file"
+                                    label="File"
+                                    s={12} 
+                                    multiple 
+                                    placeholder="Upload one or more files"
+                                    onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                    <div className="file-preview container">
+                                        {   
+                                            review.blobs > 0 ?
+                                            review.blobs.map((blob, i) => {
+                                                <div className="non-image-file file" key={i}  >
+                                                    {blob}
+                                                </div>
+                                            })
+                                            :
+                                            null
+                                        }
+                                    </div>
+                                </div>
+                                :    
+                                    review.blobs ?
+                                        review.blobs.map((blob, i) => {
+                                            return blob.type.substring(0, 5) !== 'image' ?
+                                            <div className="non-image-file file" key={i}  >
+                                                {blob.name}
+                                                {blob.type}
+                                            </div>
+                                            :
+                                            <img className="file" key={i} src={window.URL.createObjectURL(blob)} />
+                                        })
+                                    :
+                                    null
+                            }
+                        </Row>
                     </Col>
                     <Col s={4} className="center">
                         {
@@ -176,110 +278,74 @@ class Reviews extends Component {
               )
             })
             : 
-            <Section className="reviews-wrapper center">
-                <Collapsible popout defaultActiveKey={1}>
-                    <CollapsibleItem className="c-item" header='Write A Review' icon='add'>
-                        <Section>
-                            <Row className="valign-wrapper">
-                                <Col s={2} className='valign-wrapper'>
-                                    <Input
-                                    onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
-                                    value={this.state.toolNameInputValue}
-                                    type='select' label="Choose A Tool" >
-                                        <option value='SORTOE'>SORTOE</option>
-                                        <option value='ATN'>AtN</option>
-                                        <option value='OTHER'>Other</option>
-                                    </Input>
-                                </Col>
-                                <Col s={6}>
-                                    <Input 
-                                        className="text-area"
-                                        type='textarea'
-                                        data-length="3000"
-                                        value={this.state.textInputValue}
-                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                        placeholder="Your review here..." />
-                                </Col>
-                                <Col s={4} className="center">
-                                    <Button 
-                                    disabled={ this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1 }
-                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
-                                </Col>
-                            </Row>
-                        </Section>
-                    </CollapsibleItem>
-                </Collapsible>
-            </Section>
-            }
-
-
-            {
-              this.props.allReviews && this.props.allReviews.length > 0 ?
-                <Section className="reviews-wrapper center">            
-                    <Collapsible popout defaultActiveKey={1}>
-                    <CollapsibleItem header='Write A Review' icon='add'>
-                        <Section>
-                            <Row>
-                                <Col s={2} className='valign-wrapper'>
-                                    <Input
-                                    onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
-                                    value={this.state.toolNameInputValue}
-                                    type='select' label="Choose A Tool" >
-                                        <option value='SORTOE'>SORTOE</option>
-                                        <option value='ATN'>AtN</option>
-                                        <option value='OTHER'>Other</option>
-                                    </Input>
-                                </Col>
-                                <Col s={6}>
-                                    <Row>
-                                        <Input 
-                                        className="text-area"
-                                        type='textarea'
-                                        value={this.state.textInputValue}
-                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                        placeholder="Your review here..." />
-                                    </Row>
-                                    <Row>
-                                        <Input 
-                                        id="file-input"
-                                        type="file"
-                                        label="File"
-                                        s={12} 
-                                        multiple 
-                                        placeholder="Upload one or more files"
-                                        onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
-                                        <div className="file-preview container">
-                                            {
-                                                this.state.fileInputValue.length > 0 ?
-                                                this.state.fileInputValue.map((blob, i) => {
-                                                    return blob.type.substring(0, 5) !== 'image' ?
-                                                    <div className="non-image-file file" key={i}  >
-                                                        {blob.name}
-                                                        {blob.type}
-                                                    </div>
-                                                :
-                                                <img className="file" key={i} src={window.URL.createObjectURL(blob)} />
-                                                })
-                                                :
-                                                null
-                                            }
-                                        </div>
-                                    </Row>
-                                </Col>
-                                <Col s={4} className="center">
-                                    <Button 
-                                    disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == "" }
-                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
-                                </Col>
-                            </Row>
-                        </Section>
-                    </CollapsibleItem>
-                    </Collapsible>      
-                </Section>  
-                :
                 null
             }
 
+
+            {/* ////////////////////  ////////////////////  ///////////////////////// */}
+            {/* ////////////////////  ADD A REVIEW SECTION  ///////////////////////// */}
+            {/* ////////////////////  ////////////////////  ///////////////////////// */}
+            <Section className="reviews-wrapper center">            
+                <Collapsible popout defaultActiveKey={1}>
+                <CollapsibleItem header='Write A Review' icon='add'>
+                    <Section>
+                        <Row>
+                            <Col s={2} className='valign-wrapper'>
+                                <Input
+                                onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
+                                value={this.state.toolNameInputValue}
+                                type='select' label="Choose A Tool" >
+                                    <option value='SORTOE'>SORTOE</option>
+                                    <option value='ATN'>AtN</option>
+                                    <option value='OTHER'>Other</option>
+                                </Input>
+                            </Col>
+                            <Col s={6}>
+                                <Row>
+                                    <Input 
+                                    className="text-area"
+                                    type='textarea'
+                                    value={this.state.textInputValue}
+                                    onChange={evt => this.updateInputValue(evt, 'textInputValue')}
+                                    placeholder="Your review here..." />
+                                </Row>
+                                <Row>
+                                    <Input 
+                                    id="file-input"
+                                    type="file"
+                                    label="File"
+                                    s={12} 
+                                    multiple 
+                                    placeholder="Upload one or more files"
+                                    onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                    <div className="file-preview container">
+                                        {
+                                            this.state.fileInputValue.length > 0 ?
+                                            this.state.fileInputValue.map((blob, i) => {
+                                                return blob.type.substring(0, 5) !== 'image' ?
+                                                <div className="non-image-file file" key={i}  >
+                                                    {blob.name}
+                                                    {blob.type}
+                                                </div>
+                                            :
+                                            <img className="file" key={i} src={window.URL.createObjectURL(blob)} />
+                                            })
+                                            :
+                                            null
+                                        }
+                                    </div>
+                                </Row>
+                            </Col>
+                            <Col s={4} className="center">
+                                <Button 
+                                disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == "" }
+                                onClick={() => this.postReviewHandler(this.props.allReviewsLength + 1)} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
+                            </Col>
+                        </Row>
+                    </Section>
+                </CollapsibleItem>
+                </Collapsible>      
+            </Section>  
         </div>
       )
   }
@@ -290,7 +356,9 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allReviews: state.reviews.allReviews
+      allReviews: state.reviews.allReviews,
+      allBlobs: state.reviews.allBlobs,
+      allReviewsLength: state.reviews.allReviewsLength
   }
 }
 
@@ -300,6 +368,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     postReview, 
     editSaveToggle,
     updateReview,
-    deleteReview}, dispatch)
+    deleteReview,
+    postBlob,
+    getAllBlobs,
+    getAllReviewsLength}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
