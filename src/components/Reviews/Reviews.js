@@ -8,9 +8,6 @@ import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
-import { postBlob } from '../../actions/postBlob'
-import { getAllBlobs } from '../../actions/getAllBlobs'
-import { getAllReviewsLength } from '../../actions/getAllReviewsLength'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
 
 
@@ -23,57 +20,16 @@ class Reviews extends Component {
             textInputValue: '',
             editToolNameInputValue: 'SORTOE',
             editTextInputValue: '',
-            fileInputValue: [],
-            editFileInputValue: [],
-            reviewsWithBlobs: []
+            fileInputValue: null,
+            editFileInputValue: null,
         }
     }
     
     componentWillMount = () => {
         this.props.checkCookie()
-        this.setAllReviewsAndBlobs()
-        this.props.getAllReviewsLength()
-
-        setTimeout(() => {console.log(this.state.reviewsWithBlobs)}, 1000)
+        this.props.getAllReviews()
     }
     
-    setAllReviewsAndBlobs = async () => {
-        await this.getArrays()
-        await this.mergeArrays()
-    }
-    
-    getArrays = async () => {
-        await this.props.getAllReviews()
-        await this.props.getAllBlobs()
-    }
-
-    
-    mergeArrays = async () => {
-        
-      const reviews = Array.from(this.props.allReviews)
-      const blobs = this.props.allBlobs ? Array.from(this.props.allBlobs) : null
-      
-      if(blobs){
-          for(let i = 0; i < reviews.length; i ++){
-              for(let j = 0; j < blobs.length; j ++){
-                  if(reviews[i].id == blobs[j].review_id){
-                      if(reviews[i]['blobs']){
-                          reviews[i]['blobs'].push(blobs[j].blob)
-                      } else {
-                          reviews[i]['blobs'] = []
-                      }
-                  }
-              }   
-          }
-      } 
-
-  
-  
-        this.setState({
-            ...this.state,
-            reviewsWithBlobs: reviews
-        })
-    }
 
     updateInputValue(evt, inputType) {
         if(inputType != "fileInputValue"){
@@ -84,7 +40,7 @@ class Reviews extends Component {
             let fileArray = Array.from(evt.target.files)
             return this.setState({
                 ...this.state,
-                [inputType]: fileArray
+                [inputType]: fileArray[0]
             })
         }
     }
@@ -109,40 +65,32 @@ class Reviews extends Component {
         })
     }
     setTimeout(() => {
-        this.setAllReviewsAndBlobs()
+        this.props.getAllReviews()
     }, 500)
   }
 
-  postReview = async () => {
-      const reviewObject = {
-          toolName: this.state.toolNameInputValue,
-          text: this.state.textInputValue
-      }  
-      return this.props.postReview(reviewObject)
-  }
-
-  postBlob = async (reviewId) => {
-    return this.state.fileInputValue.map(blob => {
-        const blobObject = {
-            review_id: reviewId,
-            blob
+  postReviewHandler = () => {
+    let reviewObject
+      if(this.state.fileInputValue){
+        reviewObject = {
+            toolName: this.state.toolNameInputValue,
+            textInput: this.state.textInputValue,
+            blob: this.state.fileInputValue
+        }      
+      } else {
+        reviewObject = {
+              toolName: this.state.toolNameInputValue,
+              textInput: this.state.textInputValue
         }  
-        console.log('HERE IS THE POST BLOB BODY.', blobObject   )
-        this.props.postBlob(blob)
-    })
-  }
-
-  postReviewHandler = async (reviewId) => {
-    if(this.state.fileInputValue.length > 0) {
-        await this.postBlob(reviewId)    
-    }
-    await this.postReview()
+      } 
+    this.props.postReview(reviewObject)
 
     setTimeout(() => {
-        this.setAllReviewsAndBlobs()
+        this.props.getAllReviews()
         this.setState({
             toolNameInputValue: 'SORTOE',
-            textInputValue: ""
+            textInputValue: "",
+            fileInputValue: null
         })
     }, 500)
   }
@@ -179,8 +127,8 @@ class Reviews extends Component {
           {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
-            this.state.reviewsWithBlobs && this.state.reviewsWithBlobs.length > 0 ?            
-            this.state.reviewsWithBlobs.map((review) => {
+            this.props.allReviews && this.props.allReviews.length > 0 ?            
+            this.props.allReviews.map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
                   <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
@@ -212,7 +160,7 @@ class Reviews extends Component {
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
                                 disabled={false} type='textarea' value={this.state.editTextInputValue} />
                             :
-                                <Input disabled={true} type='textarea' value={review.text} />
+                                <Input  disabled={true} type='textarea' value={review.text} />
                             }
                         </Row>   
                         <Row>
@@ -223,9 +171,9 @@ class Reviews extends Component {
                                     id="file-input"
                                     type="file"
                                     label="File"
+                                    name="fileUpload"
                                     s={12} 
-                                    multiple 
-                                    placeholder="Upload one or more files"
+                                    placeholder="Upload A File"
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
                                     <div className="file-preview container">
                                         {   
@@ -314,22 +262,20 @@ class Reviews extends Component {
                                     id="file-input"
                                     type="file"
                                     label="File"
+                                    name="fileUpload"
                                     s={12} 
-                                    multiple 
-                                    placeholder="Upload one or more files"
+                                    placeholder="Upload A File"
                                     onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
                                     <div className="file-preview container">
                                         {
-                                            this.state.fileInputValue.length > 0 ?
-                                            this.state.fileInputValue.map((blob, i) => {
-                                                return blob.type.substring(0, 5) !== 'image' ?
-                                                <div className="non-image-file file" key={i}  >
-                                                    {blob.name}
-                                                    {blob.type}
-                                                </div>
-                                            :
-                                            <img className="file" key={i} src={window.URL.createObjectURL(blob)} />
-                                            })
+                                            this.state.fileInputValue ?
+                                                this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
+                                                    <div className="non-image-file file" >
+                                                        {this.state.fileInputValue.name}
+                                                        {this.state.fileInputValue.type}
+                                                    </div>
+                                                :
+                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
                                             :
                                             null
                                         }
@@ -338,8 +284,8 @@ class Reviews extends Component {
                             </Col>
                             <Col s={4} className="center">
                                 <Button 
-                                disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == "" }
-                                onClick={() => this.postReviewHandler(this.props.allReviewsLength + 1)} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
+                                disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null }
+                                onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
                             </Col>
                         </Row>
                     </Section>
@@ -356,9 +302,7 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allReviews: state.reviews.allReviews,
-      allBlobs: state.reviews.allBlobs,
-      allReviewsLength: state.reviews.allReviewsLength
+      allReviews: state.reviews.allReviews
   }
 }
 
@@ -368,9 +312,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     postReview, 
     editSaveToggle,
     updateReview,
-    deleteReview,
-    postBlob,
-    getAllBlobs,
-    getAllReviewsLength}, dispatch)
+    deleteReview}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
