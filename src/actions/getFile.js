@@ -1,5 +1,8 @@
 export const getFile = (path, reviewId) => dispatch => {
-    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + `/getFile/${path}/${reviewId}`)
+    const options = {
+      responseType: 'blob'
+    }
+    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + `/getFile/${path}/${reviewId}`, options)
     .then(response => {
       return response.json()
     }).then (r => {

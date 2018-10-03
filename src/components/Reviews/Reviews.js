@@ -119,6 +119,13 @@ class Reviews extends Component {
     }, 500)
   }
 
+  openAttachment = (bufferArr) => {
+      const file = new Blob(
+        bufferArr, 
+        {type: 'application/pdf'});
+    const fileURL = URL.createObjectURL(file).substring(27)
+    window.open(`http://${fileURL}`)  
+  }
 
   render() {
       return (
@@ -189,7 +196,9 @@ class Reviews extends Component {
                         </Row>
                             {
                                 this.props.files.filter(file => file.review_id == review.id).length  > 0 ?
-                                <Document file={this.props.files.filter(file => file.review_id == review.id)[0].file} />
+                                <div onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file.data)}>
+                                    View attachment
+                                </div>
                                 :
                                 null
                             }
