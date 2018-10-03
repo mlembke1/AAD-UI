@@ -8,7 +8,12 @@ import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
+import { getFile } from '../../actions/getFile'
+import { clearFiles } from '../../actions/clearFiles'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
+// import { Document } from 'react-pdf'
+import { Document } from 'react-pdf/dist/entry.noworker';
+
 
 
 class Reviews extends Component {
@@ -19,25 +24,46 @@ class Reviews extends Component {
             toolNameInputValue: 'SORTOE',
             textInputValue: '',
             editToolNameInputValue: 'SORTOE',
-            editTextInputValue: ''
+            editTextInputValue: '',
+            fileInputValue: null,
+            editFileInputValue: null,
+            reviewsWithFiles: []
+        }
+    }
+    
+    componentWillMount = () => {
+        this.props.checkCookie()
+        this.props.getAllReviews()
+        setTimeout(() => {
+            if(this.props.allReviews.length < 1){
+                this.props.clearFiles()
+            } else {
+                this.props.allReviews.map(review => {
+                    if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                        this.props.getFile(review.path.substring(15), review.id)
+                    }
+                })
+            }
+        }, 500)
+    }
+    
+
+    updateInputValue(evt, inputType) {
+        if(inputType != "fileInputValue"){
+            return this.setState({
+              [inputType]: evt.target.value
+            })
+        } else {
+            let fileArray = Array.from(evt.target.files)
+            return this.setState({
+                ...this.state,
+                [inputType]: fileArray[0]
+            })
         }
     }
 
-    updateInputValue(evt, inputType) {
-        return this.setState({
-          [inputType]: evt.target.value
-        })
-      }
-  
-
-  componentWillMount(){
-    this.props.checkCookie()
-    this.props.getAllReviews()
-  }
-
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    this.props.checkCookie()
   }
    
 
@@ -61,25 +87,52 @@ class Reviews extends Component {
   }
 
   postReviewHandler = () => {
-    const reviewObject = {
-        toolName: this.state.toolNameInputValue,
-        text: this.state.textInputValue
-    }  
+    let reviewObject
+      if(this.state.fileInputValue){
+        reviewObject = {
+            toolName: this.state.toolNameInputValue,
+            textInput: this.state.textInputValue,
+            blob: this.state.fileInputValue
+        }      
+      } else {
+        reviewObject = {
+              toolName: this.state.toolNameInputValue,
+              textInput: this.state.textInputValue
+        }  
+      } 
     this.props.postReview(reviewObject)
+
     setTimeout(() => {
         this.props.getAllReviews()
+        setTimeout(() => {
+            this.props.allReviews.map(review => {
+                if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                    this.props.getFile(review.path.substring(15), review.id)
+                }
+            })
+        }, 500)
         this.setState({
             toolNameInputValue: 'SORTOE',
-            textInputValue: ""
+            textInputValue: "",
+            fileInputValue: null
         })
     }, 500)
   }
 
+  openAttachment = (bufferArr) => {
+      const file = new Blob(
+        bufferArr, 
+        {type: 'application/pdf'});
+    const fileURL = URL.createObjectURL(file).substring(27)
+    window.open(`http://${fileURL}`)  
+  }
 
   render() {
       return (
         <div>
-          {/* HEADER */}
+          {/* ////////////////////  ///////   ///////////////////////// */}
+          {/* ////////////////////  HEADER    ///////////////////////// */}
+          {/* ////////////////////  ///////   ///////////////////////// */}
           <Section className="dash-heading-wrapper">
             <Row> 
               <Col s={12}>
@@ -100,14 +153,17 @@ class Reviews extends Component {
               </Col>
             </Row>
           </Section>
-          
+
+          {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
+          {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}
+          {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
             this.props.allReviews && this.props.allReviews.length > 0 ?            
             this.props.allReviews.map((review) => {
               return (
-                <Section key={review.id} className="reviews-wrapper center valign-wrapper">
-                  <Row className="c-item valign-wrapper">
-                    <Col s={2} className='valign-wrapper'>
+                <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
+                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                    <Col s={2}>
                       {
                         review.editable ?
                         <Row>
@@ -128,14 +184,39 @@ class Reviews extends Component {
                       }
                     </Col>
                     <Col s={6}>
+                        <Row>
+                            {
+                            review.editable ?
+                                <Input 
+                                onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
+                                disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                            :
+                                <Input  disabled={true} type='textarea' value={review.text} />
+                            }
+                        </Row>
+                            {
+                                this.props.files.filter(file => file.review_id == review.id).length  > 0 ?
+                                <div onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file.data)}>
+                                    View attachment
+                                </div>
+                                :
+                                null
+                            }
                         {
                             review.editable ?
-                            <Input 
-                            onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
-                            disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                                <Row>
+                                    <Input 
+                                    id="file-input"
+                                    type="file"
+                                    label="File"
+                                    name="fileUpload"
+                                    s={12} 
+                                    placeholder="Upload A File"
+                                    onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                </Row>
                             :
-                            <Input disabled={true} type='textarea' value={review.text} />
-                        }   
+                                null
+                        }
                     </Col>
                     <Col s={4} className="center">
                         {
@@ -159,83 +240,72 @@ class Reviews extends Component {
               )
             })
             : 
-            <Section className="reviews-wrapper center">
-                <Collapsible popout defaultActiveKey={1}>
-                    <CollapsibleItem className="c-item" header='Write A Review' icon='add'>
-                        <Section>
-                            <Row className="valign-wrapper">
-                                <Col s={2} className='valign-wrapper'>
-                                    <Input
-                                    onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
-                                    value={this.state.toolNameInputValue}
-                                    type='select' label="Choose A Tool" >
-                                        <option value='SORTOE'>SORTOE</option>
-                                        <option value='ATN'>AtN</option>
-                                        <option value='OTHER'>Other</option>
-                                    </Input>
-                                </Col>
-                                <Col s={6}>
-                                    <Input 
-                                        className="text-area"
-                                        type='textarea'
-                                        data-length="3000"
-                                        value={this.state.textInputValue}
-                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                        placeholder="Your review here..." />
-                                </Col>
-                                <Col s={4} className="center">
-                                    <Button 
-                                    disabled={ this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1 }
-                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
-                                </Col>
-                            </Row>
-                        </Section>
-                    </CollapsibleItem>
-                </Collapsible>
-            </Section>
-            }
-
-
-            {
-              this.props.allReviews && this.props.allReviews.length > 0 ?
-                <Section className="reviews-wrapper center">            
-                    <Collapsible popout defaultActiveKey={1}>
-                    <CollapsibleItem header='Write A Review' icon='add'>
-                        <Section>
-                            <Row className="valign-wrapper">
-                                <Col s={2} className='valign-wrapper'>
-                                    <Input
-                                    onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
-                                    value={this.state.toolNameInputValue}
-                                    type='select' label="Choose A Tool" >
-                                        <option value='SORTOE'>SORTOE</option>
-                                        <option value='ATN'>AtN</option>
-                                        <option value='OTHER'>Other</option>
-                                    </Input>
-                                </Col>
-                                <Col s={6}>
-                                    <Input 
-                                        className="text-area"
-                                        type='textarea'
-                                        data-length="3000"
-                                        value={this.state.textInputValue}
-                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                        placeholder="Your review here..." />
-                                </Col>
-                                <Col s={4} className="center">
-                                    <Button 
-                                    disabled={ this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1 }
-                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
-                                </Col>
-                            </Row>
-                        </Section>
-                    </CollapsibleItem>
-                    </Collapsible>      
-                </Section>  
-                :
                 null
             }
 
+
+            {/* ////////////////////  ////////////////////  ///////////////////////// */}
+            {/* ////////////////////  ADD A REVIEW SECTION  ///////////////////////// */}
+            {/* ////////////////////  ////////////////////  ///////////////////////// */}
+            <Section className="reviews-wrapper center">            
+                <Collapsible popout defaultActiveKey={1}>
+                <CollapsibleItem header='Write A Review' icon='add'>
+                    <Section>
+                        <Row>
+                            <Col s={2} className='valign-wrapper'>
+                                <Input
+                                onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
+                                value={this.state.toolNameInputValue}
+                                type='select' label="Choose A Tool" >
+                                    <option value='SORTOE'>SORTOE</option>
+                                    <option value='ATN'>AtN</option>
+                                    <option value='OTHER'>Other</option>
+                                </Input>
+                            </Col>
+                            <Col s={6}>
+                                <Row>
+                                    <Input 
+                                    className="text-area"
+                                    type='textarea'
+                                    value={this.state.textInputValue}
+                                    onChange={evt => this.updateInputValue(evt, 'textInputValue')}
+                                    placeholder="Your review here..." />
+                                </Row>
+                                <Row>
+                                    <Input 
+                                    id="file-input"
+                                    type="file"
+                                    label="File"
+                                    name="fileUpload"
+                                    s={12} 
+                                    placeholder="Upload A File"
+                                    onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                    <div className="file-preview container">
+                                        {
+                                            this.state.fileInputValue ?
+                                                this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
+                                                    <div className="non-image-file file" >
+                                                        {this.state.fileInputValue.name}
+                                                        {this.state.fileInputValue.type}
+                                                    </div>
+                                                :
+                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                            :
+                                            null
+                                        }
+                                    </div>
+                                </Row>
+                            </Col>
+                            <Col s={4} className="center">
+                                <Button 
+                                disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null }
+                                onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
+                            </Col>
+                        </Row>
+                    </Section>
+                </CollapsibleItem>
+                </Collapsible>      
+            </Section>  
         </div>
       )
   }
@@ -246,7 +316,8 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allReviews: state.reviews.allReviews
+      allReviews: state.reviews.allReviews,
+      files: state.reviews.files
   }
 }
 
@@ -256,6 +327,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     postReview, 
     editSaveToggle,
     updateReview,
-    deleteReview}, dispatch)
+    deleteReview,
+    getFile, 
+    clearFiles}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

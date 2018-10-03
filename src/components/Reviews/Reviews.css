@@ -4,7 +4,7 @@
 }
 
 .materialize-textarea {
-    min-width: 225% !important;
+    min-width: 195% !important;
 }
 
 .c-item {
@@ -25,3 +25,67 @@
 #delete-button:focus {
     background-color: #033076;
 }
+
+.file-preview-conatiner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200%;
+}
+
+.file {
+    margin: 10px;
+    height: 75px;
+    width: 75px;
+    border-bottom: 1px solid black;
+}
+
+.non-image-file {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    min-width: 100%;
+}
+
+div.btn {
+    background-color: #dc4c18 !important;
+    color: white;
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #dc4c18;
+    box-shadow: 0 1px 0 0 #dc4c18;
+}
+
+.review-underline-wrapper {
+    max-width: 70%;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.review-underline-wrapper::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: #dc4c18;
+    transition: width .6s;
+}
+
+.review-underline-wrapper:hover::after {
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+

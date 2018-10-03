@@ -1,24 +1,29 @@
-export const postReview = (object) => dispatch => {
-    const options = {
-        method: 'POST',
-        body: JSON.stringify(object),
-        headers: {
-        "Content-Type": "application/json"
-        },
-        credentials: 'include',
-        crossDomain: true
+import axios from 'axios';
+
+export const postReview = object => dispatch => {
+    console.log('HERE IS THE OBJECT TO POST', object)
+    let formData = new FormData();
+
+    if(object.blob){
+        formData.append('uploadedFile', object.blob);      
     }
-    fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', options)
-        .then(json => {
-        console.log('POST_REVIEW RESPONSE ', json)
-        if(json.status === 200) {
-            return dispatch({ type:'POST_REVIEW_SUCCESS' })
-        } else {
-            return dispatch({ type:'POST_REVIEW_FAILED' })
-        }
+    formData.append('text', object.textInput);
+    formData.append('toolName', object.toolName);
+    axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', {
+        method: "post",
+        data: formData,
+        withCredentials: true
     })
-    .catch(err => {
-        console.log('ERROR WITH POST_REVIEW REQUEST', err)
-        return dispatch({ type:'POST_REVIEW_FAILED' })
-    })    
+    .then(json => {
+            console.log('POST_REVIEW RESPONSE ', json)
+            if(json.status === 200) {
+                return dispatch({ type:'POST_REVIEW_SUCCESS' })
+            } else {
+                return dispatch({ type:'POST_REVIEW_FAILED' })
+            }
+        })
+        .catch(err => {
+            console.log('ERROR WITH POST_REVIEW REQUEST', err)
+            return dispatch({ type:'POST_REVIEW_FAILED' })
+        }) 
   }

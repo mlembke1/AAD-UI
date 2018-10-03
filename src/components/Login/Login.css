@@ -5,8 +5,8 @@
 }
 
 input:focus:not([readonly]) {
-border-bottom: 1px solid #dc4c18 !important;
-box-shadow: 0 1px 0 0 #dc4c18 !important;
+    border-bottom: 1px solid #dc4c18 !important;    
+    box-shadow: 0 1px 0 0 #dc4c18 !important;
 }
 
 label {

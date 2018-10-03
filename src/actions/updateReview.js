@@ -12,7 +12,7 @@ export const updateReview = (toolName, text, reviewId) => dispatch => {
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateReview', options)
     .then(payload => {
       console.log('UPDATE REVIEW JSON RESPONSE', payload)
-      return dispatch({ type:'UPDATE_REVIEW_SUCCESS', payload })
+      return dispatch({ type:'UPDATE_REVIEW_SUCCESS' })
     })
     .catch(err => {
         return dispatch({ type: 'UPDATE_REVIEW_FAILED'})

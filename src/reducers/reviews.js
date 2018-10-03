@@ -1,6 +1,7 @@
 export const reviews = ( state={ 
     allReviews: null,
-    postReviewFailed: false
+    postReviewFailed: false,
+    files: null
    }, action) => {
       switch(action.type){
         case 'REVIEWS_AQUIRED':
@@ -9,6 +10,10 @@ export const reviews = ( state={
           return { ...state, postReviewFailed: false }  
         case 'POST_REVIEW_FAILED':
           return { ...state, postReviewFailed: true }
+        case 'FILES_AQUIRED':
+          return { ...state, files: [...state.files, action.payload] }
+        case 'CLEAR_FILES': 
+          return { ...state, files: [] }
     
         default:
           return state
