@@ -39,22 +39,26 @@ class Dashboard extends Component {
 
           <Section id="dash-body-wrapper valign-wrapper">
             <Row s={12} className='center valign-wrapper'>
-              <Col s={3}></Col>
-              <Col className='center' s={3}>
-                <Link to="/reviews">
-                  <Icon className="orange-icon" large>assignment</Icon>
-                  <div>Tool Assessments</div>
-                  <hr className="thick-line-blue width40Per"/>
-                </Link> 
+              <Col s={2}></Col>
+              <Col className='center' s={4}>
+                  <Link  to="/reviews">
+                    <div className="draw-wrapper draw ">
+                      <Icon className="orange-icon" large>assignment</Icon>
+                      <div>Tool Assessments</div>
+                      <hr className="thick-line-blue width40Per"/>
+                    </div>
+                  </Link>
               </Col>
-              <Col className='center' s={3}>
-                <Link to="/portal">
-                  <Icon className="orange-icon" large>touch_app</Icon>
-                  <div>Launch Portal</div>
-                  <hr className="thick-line-blue width40Per"/>
-                </Link>
+              <Col className='center' s={4}>
+                  <Link  to="/portal">
+                    <div className="draw-wrapper draw ">
+                      <Icon className="orange-icon" large>touch_app</Icon>
+                      <div>Launch Portal</div>
+                      <hr className="thick-line-blue width40Per"/>
+                    </div>
+                  </Link>
               </Col>
-              <Col s={3}></Col>
+              <Col s={2}></Col>
             </Row>
             <Row><Col s={12}></Col></Row>
           </Section>

@@ -53,7 +53,7 @@ class Portal extends Component {
                     {/* <Col s={2}></Col> */}
                     <Col s={4} className="center">
                         <Row>
-                          <Button className="portal-buttons" waves='light' node='a' target="_blank" href='http://www.google.com'> Open <Icon right tiny className="data">touch_app</Icon></Button>
+                          <Button className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
                         </Row>
                         <Row>
                           <Button className="portal-buttons" waves='light' node='a' target="_blank" href='http://www.google.com'>Data <Icon right tiny className="data">cloud</Icon> </Button>

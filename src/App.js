@@ -14,6 +14,7 @@ import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
 import { Redirect } from 'react-router-dom'
 
+
 class App extends Component {
   componentWillMount(){
     this.props.checkCookie()
@@ -55,7 +56,7 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      toDash: state.auth.toDash,
+      toDash: state.auth.toDash
   }
 }
 

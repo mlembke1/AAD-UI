@@ -8,7 +8,12 @@ import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
+import { getFile } from '../../actions/getFile'
+import { clearFiles } from '../../actions/clearFiles'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
+// import { Document } from 'react-pdf'
+import { Document } from 'react-pdf/dist/entry.noworker';
+
 
 
 class Reviews extends Component {
@@ -22,12 +27,24 @@ class Reviews extends Component {
             editTextInputValue: '',
             fileInputValue: null,
             editFileInputValue: null,
+            reviewsWithFiles: []
         }
     }
     
     componentWillMount = () => {
         this.props.checkCookie()
         this.props.getAllReviews()
+        setTimeout(() => {
+            if(this.props.allReviews.length < 1){
+                this.props.clearFiles()
+            } else {
+                this.props.allReviews.map(review => {
+                    if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                        this.props.getFile(review.path.substring(15), review.id)
+                    }
+                })
+            }
+        }, 500)
     }
     
 
@@ -87,6 +104,13 @@ class Reviews extends Component {
 
     setTimeout(() => {
         this.props.getAllReviews()
+        setTimeout(() => {
+            this.props.allReviews.map(review => {
+                if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                    this.props.getFile(review.path.substring(15), review.id)
+                }
+            })
+        }, 500)
         this.setState({
             toolNameInputValue: 'SORTOE',
             textInputValue: "",
@@ -162,11 +186,16 @@ class Reviews extends Component {
                             :
                                 <Input  disabled={true} type='textarea' value={review.text} />
                             }
-                        </Row>   
-                        <Row>
+                        </Row>
                             {
-                                review.editable ?
-                                <div>
+                                this.props.files.filter(file => file.review_id == review.id).length  > 0 ?
+                                <Document file={this.props.files.filter(file => file.review_id == review.id)[0].file} />
+                                :
+                                null
+                            }
+                        {
+                            review.editable ?
+                                <Row>
                                     <Input 
                                     id="file-input"
                                     type="file"
@@ -175,34 +204,10 @@ class Reviews extends Component {
                                     s={12} 
                                     placeholder="Upload A File"
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
-                                    <div className="file-preview container">
-                                        {   
-                                            review.blobs > 0 ?
-                                            review.blobs.map((blob, i) => {
-                                                <div className="non-image-file file" key={i}  >
-                                                    {blob}
-                                                </div>
-                                            })
-                                            :
-                                            null
-                                        }
-                                    </div>
-                                </div>
-                                :    
-                                    review.blobs ?
-                                        review.blobs.map((blob, i) => {
-                                            return blob.type.substring(0, 5) !== 'image' ?
-                                            <div className="non-image-file file" key={i}  >
-                                                {blob.name}
-                                                {blob.type}
-                                            </div>
-                                            :
-                                            <img className="file" key={i} src={window.URL.createObjectURL(blob)} />
-                                        })
-                                    :
-                                    null
-                            }
-                        </Row>
+                                </Row>
+                            :
+                                null
+                        }
                     </Col>
                     <Col s={4} className="center">
                         {
@@ -302,7 +307,8 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allReviews: state.reviews.allReviews
+      allReviews: state.reviews.allReviews,
+      files: state.reviews.files
   }
 }
 
@@ -312,6 +318,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     postReview, 
     editSaveToggle,
     updateReview,
-    deleteReview}, dispatch)
+    deleteReview,
+    getFile, 
+    clearFiles}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
