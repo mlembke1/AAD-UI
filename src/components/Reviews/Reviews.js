@@ -10,9 +10,8 @@ import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
 import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
-import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
-// import { Document } from 'react-pdf'
-import { Document } from 'react-pdf/dist/entry.noworker';
+import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
+
 
 
 
@@ -46,7 +45,6 @@ class Reviews extends Component {
             }
         }, 500)
     }
-    
 
     updateInputValue(evt, inputType) {
         if(inputType != "fileInputValue"){
@@ -119,12 +117,49 @@ class Reviews extends Component {
     }, 500)
   }
 
-  openAttachment = (bufferArr) => {
-      const file = new Blob(
-        bufferArr, 
-        {type: 'application/pdf'});
-    const fileURL = URL.createObjectURL(file).substring(27)
-    window.open(`http://${fileURL}`)  
+  openAttachment = (base64) => {
+          const pdfData = atob(base64);
+            
+            // Loaded via <script> tag, create shortcut to access PDF.js exports.
+            const pdfjsLib = window['pdfjs-dist/build/pdf'];
+            
+            // The workerSrc property shall be specified.
+          //   pdfjsLib.GlobalWorkerOptions.workerSrc
+            
+            // Using DocumentInitParameters object to load binary data.
+            const loadingTask = pdfjsLib.getDocument({data: pdfData});
+            loadingTask.promise.then(function(pdf) {
+              console.log('PDF loaded');
+              
+              // Fetch the first page
+              const pageNumber = 1;
+              pdf.getPage(pageNumber).then(function(page) {
+                console.log('Page loaded');
+                
+                const scale = 1.5;
+                const viewport = page.getViewport(scale);
+            
+                // Prepare canvas using PDF page dimensions
+                const canvas = document.getElementById('the-canvas');
+                canvas.removeAttribute('hidden')
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+            
+                // Render PDF page into canvas context
+                const renderContext = {
+                  canvasContext: context,
+                  viewport: viewport
+                };
+                const renderTask = page.render(renderContext);
+                renderTask.then(function () {
+                  console.log('Page rendered');
+                });
+              });
+            }, function (reason) {
+              // PDF loading error
+              console.error(reason);
+            });
   }
 
   render() {
@@ -194,14 +229,23 @@ class Reviews extends Component {
                                 <Input  disabled={true} type='textarea' value={review.text} />
                             }
                         </Row>
+                        <Row>
                             {
-                                this.props.files.filter(file => file.review_id == review.id).length  > 0 ?
-                                <div onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file.data)}>
-                                    View attachment
-                                </div>
+                                this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable ?
+                                    <div onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file)}>
+                                        View attachment
+                                        <canvas hidden id="the-canvas"></canvas>
+                                    </div>
+                                    // <Modal
+                                    //     id="modal"
+                                    //     header='Attachment'
+                                    //     trigger={<Button>View Attachment</Button>}>
+                                    //     <canvas id="the-canvas"></canvas>
+                                    // </Modal>
                                 :
-                                null
+                                    null
                             }
+                        </Row>
                         {
                             review.editable ?
                                 <Row>

@@ -1,3 +1,4 @@
+
 .reviews-wrapper {
     max-width: 70%;
     margin:auto;
@@ -79,13 +80,12 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 
+#the-canvas {
+    max-height: 100%;
+    max-width: 100%;
+}
 
-
-
-
-
-
-
-
-
-
+#modal {
+    min-height: 80% !important;
+    min-width: 100% !important;
+}
