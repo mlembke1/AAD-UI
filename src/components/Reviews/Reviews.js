@@ -34,7 +34,7 @@ class Reviews extends Component {
         this.props.checkCookie()
         this.props.getAllReviews()
         setTimeout(() => {
-            if(this.props.allReviews.length < 1){
+            if(this.props.allReviews.length < 1 || !this.props.allReviews){
                 this.props.clearFiles()
             } else {
                 this.props.allReviews.map(review => {
@@ -62,6 +62,7 @@ class Reviews extends Component {
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
+    setTimeout(() => this.props.getAllReviews(), 200)
   }
    
 
@@ -117,7 +118,7 @@ class Reviews extends Component {
     }, 500)
   }
 
-  openAttachment = (base64) => {
+  openAttachment = (base64, canvasId) => {
           const pdfData = atob(base64);
             
             // Loaded via <script> tag, create shortcut to access PDF.js exports.
@@ -140,7 +141,7 @@ class Reviews extends Component {
                 const viewport = page.getViewport(scale);
             
                 // Prepare canvas using PDF page dimensions
-                const canvas = document.getElementById('the-canvas');
+                const canvas = document.getElementById(`${canvasId}`);
                 canvas.removeAttribute('hidden')
                 const context = canvas.getContext('2d');
                 canvas.height = viewport.height;
@@ -232,16 +233,14 @@ class Reviews extends Component {
                         <Row>
                             {
                                 this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable ?
-                                    <div onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file)}>
-                                        View attachment
-                                        <canvas hidden id="the-canvas"></canvas>
-                                    </div>
-                                    // <Modal
-                                    //     id="modal"
-                                    //     header='Attachment'
-                                    //     trigger={<Button>View Attachment</Button>}>
-                                    //     <canvas id="the-canvas"></canvas>
-                                    // </Modal>
+                                    <Modal
+                                    trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View Attachment</span></Button>}>
+                                    {
+                                        review.path.substr(review.path.length - 3) == 'pdf' ?
+                                        <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                        <div>This is a picture or a word doc. Figure it out, Mitch.</div>
+                                    }
+                                    </Modal>
                                 :
                                     null
                             }

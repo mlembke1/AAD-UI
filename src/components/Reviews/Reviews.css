@@ -80,12 +80,20 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 
-#the-canvas {
-    max-height: 100%;
-    max-width: 100%;
+.canvas {
+    margin-left: 5%;
+    max-width: 90%;
 }
 
-#modal {
-    min-height: 80% !important;
-    min-width: 100% !important;
+.btn .view-attachment-button,
+.btn-large .view-attachment-button,
+.btn:hover .view-attachment-button,
+.btn-large .view-attachment-button:hover {
+    background-color: #033076;
+}
+
+.open-attachment-span {
+    display: inline-block;
+    min-width: 160%;
+    margin-left: -32%;
 }
