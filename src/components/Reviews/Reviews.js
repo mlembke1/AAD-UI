@@ -282,6 +282,23 @@ class Reviews extends Component {
                                     s={12} 
                                     placeholder={`${review.path ? "Replacement File Here" : "Upload File Here"}`}
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                    <div className="file-preview container">
+                                        {
+                                            this.state.editFileInputValue ?
+                                                this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
+                                                    <div className="non-image-file file" >
+                                                        {this.state.editFileInputValue.name}
+                                                        {this.state.editFileInputValue.type}
+                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                    </div>
+                                                :
+                                                <div>
+                                                    <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                                </div>
+                                            :
+                                            null
+                                        }
+                                    </div>
                                 </Row>
                             :
                                 null
