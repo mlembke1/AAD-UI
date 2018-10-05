@@ -26,7 +26,8 @@ class Reviews extends Component {
             editTextInputValue: '',
             fileInputValue: null,
             editFileInputValue: null,
-            reviewsWithFiles: []
+            reviewsWithFiles: [],
+            attachmentType: ''
         }
     }
     
@@ -117,6 +118,7 @@ class Reviews extends Component {
         })
     }, 500)
   }
+
 
   openAttachment = (base64, canvasId) => {
           const pdfData = atob(base64);
@@ -227,7 +229,7 @@ class Reviews extends Component {
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
                                 disabled={false} type='textarea' value={this.state.editTextInputValue} />
                             :
-                                <Input  disabled={true} type='textarea' value={review.text} />
+                                <Input  disabled={true} type='textarea' defaultValue={review.text} />
                             }
                         </Row>
                         {
@@ -236,10 +238,10 @@ class Reviews extends Component {
                                     <Input 
                                     id="file-input"
                                     type="file"
-                                    label="File"
+                                    label={`${review.path ? "Replace" : "Upload"} ${<Icon right tiny className="data">attachment</Icon>}`}  
                                     name="fileUpload"
                                     s={12} 
-                                    placeholder="Upload A File"
+                                    placeholder={`${review.path ? "Replace The File Associated With This Review." : "Upload File Here"}`}
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
                                 </Row>
                             :
@@ -254,6 +256,23 @@ class Reviews extends Component {
                                     <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
+                                    {
+                                        this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable ?
+                                            <Modal
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            {   
+                                                review.path.substr(review.path.length - 3) == 'pdf' ?
+                                                <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                                review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
+                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                null
+                                            }
+                                            </Modal>
+                                    :
+                                        null
+                                    }
+                                </Row>
+                                <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons" id="delete-button" waves='light'> Delete <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
                             </div>
@@ -266,11 +285,13 @@ class Reviews extends Component {
                                     {
                                         this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable ?
                                             <Modal
-                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View Attachment</span></Button>}>
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
-                                                <div>This is a picture or a word doc. Figure it out, Mitch.</div>
+                                                review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
+                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                null
                                             }
                                             </Modal>
                                     :

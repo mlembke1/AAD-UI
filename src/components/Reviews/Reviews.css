@@ -96,4 +96,21 @@ textarea.materialize-textarea:focus:not([readonly]) {
     display: inline-block;
     min-width: 160%;
     margin-left: -32%;
+
+}
+
+.view-attachment-button {
+    background-color: #033076;
+    color: white;
+    transition: .5s !important;
+    max-width: 50%;
+}
+
+.view-attachment-button:hover {
+    background-color: #033076;
+    border: 1px solid #dc4c18;
+}
+
+.view-attachment-button:focus {
+    background-color: #033076;
 }
