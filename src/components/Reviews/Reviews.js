@@ -166,16 +166,8 @@ class Reviews extends Component {
   }
 
 
-  openAttachment = (base64, canvasId) => {
-    //   console.log('FILE INPUT', this.state.fileInputValue)
-    //   console.log('EDIT FILE INPUT', this.state.editFileInputValue)
-    // const f = this.state.fileInputValue ? this.state.fileInputValue.type : null
-    // const ef = this.state.editFileInputValue ? this.state.editFileInputValue.type : null
-    // const lastThreeF = f ? f.substr(f.length - 3) : null
-    // const lastThreeEf = ef ? ef.substr(ef.length - 3) : null
-    // console.log('LAST THREE EF', lastThreeEf)
-    // console.log('LAST THREE F', lastThreeF)
-    // if(lastThreeEf == "pdf" || lastThreeF == "pdf"){
+  openAttachment = (base64, canvasId, isPDF) => {
+    if(isPDF){
         const pdfData = atob(base64);
           
           // Loaded via <script> tag, create shortcut to access PDF.js exports.
@@ -217,7 +209,7 @@ class Reviews extends Component {
             // PDF loading error
             console.error(reason);
           });
-    // }
+    }
       
   }
 
@@ -338,7 +330,7 @@ class Reviews extends Component {
                                     {
                                         this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
-                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {   
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
