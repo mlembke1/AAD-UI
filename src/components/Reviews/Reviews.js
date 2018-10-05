@@ -27,7 +27,8 @@ class Reviews extends Component {
             fileInputValue: null,
             editFileInputValue: null,
             reviewsWithFiles: [],
-            fileTypePasses: true
+            fileTypePasses: true,
+            editFileTypePasses: true
         }
     }
     
@@ -48,28 +49,53 @@ class Reviews extends Component {
     }
 
     updateInputValue(evt, inputType) {
-        if(inputType != "fileInputValue"){
+        // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
+        if(inputType != "fileInputValue" && inputType != "editFileInputValue"){
             return this.setState({
               [inputType]: evt.target.value
             })
-        } else {
-            const f = evt.target.files[0].type
-            const lastSlashIndex = (f).lastIndexOf('/') + 1
-            const type = f.substring(lastSlashIndex).trim()
-            if(type != 'jpg' &&
-               type != 'jpeg' &&
-               type != 'png' && 
-               type != 'pdf'){
-                this.setState({
-                    ...this.state,
-                    fileTypePasses: false
-                })
-            } else {
-                this.setState({
-                    ...this.state,
-                    fileTypePasses: true,
-                    [inputType]: evt.target.files[0]
-                })
+        } 
+        // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
+        else {
+            if(Array.from(evt.target.files).length > 0){
+                const f = evt.target.files[0].type
+                const lastSlashIndex = (f).lastIndexOf('/') + 1
+                const type = f.substring(lastSlashIndex).trim()
+                // IF THE FILE INPUT CONTAINS A FILE THAT ISN'T A PICTURE OR A PDF...
+                if(type != 'jpg' &&
+                   type != 'jpeg' &&
+                   type != 'png' && 
+                   type != 'pdf'){
+                    // NEW FILE OR EDITING A FILE?
+                    if(inputType == "fileInputValue"){
+                        this.setState({
+                            ...this.state,
+                            fileTypePasses: false
+                        })
+                    } else {
+                        this.setState({
+                            ...this.state,
+                            editFileTypePasses: false
+                        })
+                    }
+                } 
+                // THE INPUT HAS THE TYPE OF FILE AND ALSO HAS THE CORRECT TYPE OF FILE
+                else {
+                    // NEW FILE OR EDITING A FILE?
+                    if(inputType == "fileInputValue"){
+                        this.setState({
+                            ...this.state,
+                            fileTypePasses: true,
+                            [inputType]: evt.target.files[0]
+                        })
+                    } else {
+                        this.setState({
+                            ...this.state,
+                            editFileTypePasses: true,
+                            [inputType]: evt.target.files[0]
+                        })
+                    }
+                }
             }
         }
     }
@@ -261,8 +287,8 @@ class Reviews extends Component {
                                 null
                         }
                         {
-                            !this.state.fileTypePasses ?
-                            <div className="error">File must be a picture(.jpg/.png) or a PDF.</div>
+                            !this.state.editFileTypePasses ?
+                            <div className="error-text">File must be a picture(.jpg/.png) or a PDF.</div>
                             :
                             null
                         }
@@ -272,7 +298,7 @@ class Reviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
-                                    <Button disabled={!this.state.fileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
                                     {
@@ -372,9 +398,12 @@ class Reviews extends Component {
                                                     <div className="non-image-file file" >
                                                         {this.state.fileInputValue.name}
                                                         {this.state.fileInputValue.type}
+                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
                                                     </div>
                                                 :
-                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                <div>
+                                                    <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                </div>
                                             :
                                             null
                                         }
@@ -382,7 +411,7 @@ class Reviews extends Component {
                                 </Row>
                                 {
                                     !this.state.fileTypePasses ?
-                                    <div className="error">File must be a picture(.jpg/.png) or a PDF.</div>
+                                    <div className="error-text">File must be a picture(.jpg/.png) or a PDF.</div>
                                     :
                                     null
                                 }

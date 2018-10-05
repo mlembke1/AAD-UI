@@ -114,3 +114,12 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .view-attachment-button:focus {
     background-color: #033076;
 }
+
+.error-text{
+    color: tomato;
+    font-weight: 700;
+}
+
+i.icon-green {
+    color: #629632;
+}
