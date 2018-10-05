@@ -27,7 +27,7 @@ class Reviews extends Component {
             fileInputValue: null,
             editFileInputValue: null,
             reviewsWithFiles: [],
-            attachmentType: ''
+            fileTypePasses: true
         }
     }
     
@@ -53,11 +53,24 @@ class Reviews extends Component {
               [inputType]: evt.target.value
             })
         } else {
-            let fileArray = Array.from(evt.target.files)
-            return this.setState({
-                ...this.state,
-                [inputType]: fileArray[0]
-            })
+            const f = evt.target.files[0].type
+            const lastSlashIndex = (f).lastIndexOf('/') + 1
+            const type = f.substring(lastSlashIndex).trim()
+            if(type != 'jpg' &&
+               type != 'jpeg' &&
+               type != 'png' && 
+               type != 'pdf'){
+                this.setState({
+                    ...this.state,
+                    fileTypePasses: false
+                })
+            } else {
+                this.setState({
+                    ...this.state,
+                    fileTypePasses: true,
+                    [inputType]: evt.target.files[0]
+                })
+            }
         }
     }
 
@@ -238,14 +251,20 @@ class Reviews extends Component {
                                     <Input 
                                     id="file-input"
                                     type="file"
-                                    label={`${review.path ? "Replace" : "Upload"} ${<Icon right tiny className="data">attachment</Icon>}`}  
+                                    label={`${review.path ? `Replace` : "Upload"} `}  
                                     name="fileUpload"
                                     s={12} 
-                                    placeholder={`${review.path ? "Replace The File Associated With This Review." : "Upload File Here"}`}
+                                    placeholder={`${review.path ? "Replacement File Here" : "Upload File Here"}`}
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
                                 </Row>
                             :
                                 null
+                        }
+                        {
+                            !this.state.fileTypePasses ?
+                            <div className="error">File must be a picture(.jpg/.png) or a PDF.</div>
+                            :
+                            null
                         }
                     </Col>
                     <Col s={4} className="center">
@@ -253,7 +272,7 @@ class Reviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.fileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
                                     {
@@ -263,7 +282,7 @@ class Reviews extends Component {
                                             {   
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
-                                                review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
+                                                review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' || review.path.substr(review.path.length - 3) == 'jpeg' ?
                                                 <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
                                             }
@@ -361,10 +380,16 @@ class Reviews extends Component {
                                         }
                                     </div>
                                 </Row>
+                                {
+                                    !this.state.fileTypePasses ?
+                                    <div className="error">File must be a picture(.jpg/.png) or a PDF.</div>
+                                    :
+                                    null
+                                }
                             </Col>
                             <Col s={4} className="center">
                                 <Button 
-                                disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null }
+                                disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
                                 onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
                             </Col>
                         </Row>
