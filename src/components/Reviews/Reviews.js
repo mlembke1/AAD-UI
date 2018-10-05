@@ -230,21 +230,6 @@ class Reviews extends Component {
                                 <Input  disabled={true} type='textarea' value={review.text} />
                             }
                         </Row>
-                        <Row>
-                            {
-                                this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable ?
-                                    <Modal
-                                    trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View Attachment</span></Button>}>
-                                    {
-                                        review.path.substr(review.path.length - 3) == 'pdf' ?
-                                        <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
-                                        <div>This is a picture or a word doc. Figure it out, Mitch.</div>
-                                    }
-                                    </Modal>
-                                :
-                                    null
-                            }
-                        </Row>
                         {
                             review.editable ?
                                 <Row>
@@ -273,9 +258,26 @@ class Reviews extends Component {
                                 </Row>
                             </div>
                             :
-                            <Row>
-                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
-                            </Row>
+                            <div>
+                                <Row>
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                </Row>
+                                <Row>
+                                    {
+                                        this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable ?
+                                            <Modal
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View Attachment</span></Button>}>
+                                            {
+                                                review.path.substr(review.path.length - 3) == 'pdf' ?
+                                                <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                                <div>This is a picture or a word doc. Figure it out, Mitch.</div>
+                                            }
+                                            </Modal>
+                                    :
+                                        null
+                                    }
+                                </Row>
+                            </div>
                         }
                     </Col>
                   </Row>
