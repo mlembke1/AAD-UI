@@ -106,18 +106,25 @@ class Reviews extends Component {
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId, text) => {
+  toggleEditSaveHandler = (editable, toolName, reviewId, text, file) => {
     // Edit has already been open, now time to save the updates.
     if(editable) {
         this.props.editSaveToggle(editable, toolName, reviewId)
-        this.props.updateReview(this.state.editToolNameInputValue, this.state.editTextInputValue, reviewId)
+        const updateObject = {
+            toolName: this.state.editToolNameInputValue,
+            text: this.state.editTextInputValue,
+            reviewId,
+            blob: this.state.editFileInputValue
+        }
+        this.props.updateReview(updateObject)
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
         this.props.editSaveToggle(editable, toolName, reviewId)
         this.setState({
             editToolNameInputValue: toolName,
-            editTextInputValue: text
+            editTextInputValue: text,
+            editFileInputValue: file
         })
     }
     setTimeout(() => {
@@ -160,48 +167,58 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId) => {
-          const pdfData = atob(base64);
+    //   console.log('FILE INPUT', this.state.fileInputValue)
+    //   console.log('EDIT FILE INPUT', this.state.editFileInputValue)
+    // const f = this.state.fileInputValue ? this.state.fileInputValue.type : null
+    // const ef = this.state.editFileInputValue ? this.state.editFileInputValue.type : null
+    // const lastThreeF = f ? f.substr(f.length - 3) : null
+    // const lastThreeEf = ef ? ef.substr(ef.length - 3) : null
+    // console.log('LAST THREE EF', lastThreeEf)
+    // console.log('LAST THREE F', lastThreeF)
+    // if(lastThreeEf == "pdf" || lastThreeF == "pdf"){
+        const pdfData = atob(base64);
+          
+          // Loaded via <script> tag, create shortcut to access PDF.js exports.
+          const pdfjsLib = window['pdfjs-dist/build/pdf'];
+          
+          // The workerSrc property shall be specified.
+        //   pdfjsLib.GlobalWorkerOptions.workerSrc
+          
+          // Using DocumentInitParameters object to load binary data.
+          const loadingTask = pdfjsLib.getDocument({data: pdfData});
+          loadingTask.promise.then(function(pdf) {
+            console.log('PDF loaded');
             
-            // Loaded via <script> tag, create shortcut to access PDF.js exports.
-            const pdfjsLib = window['pdfjs-dist/build/pdf'];
-            
-            // The workerSrc property shall be specified.
-          //   pdfjsLib.GlobalWorkerOptions.workerSrc
-            
-            // Using DocumentInitParameters object to load binary data.
-            const loadingTask = pdfjsLib.getDocument({data: pdfData});
-            loadingTask.promise.then(function(pdf) {
-              console.log('PDF loaded');
+            // Fetch the first page
+            const pageNumber = 1;
+            pdf.getPage(pageNumber).then(function(page) {
+              console.log('Page loaded');
               
-              // Fetch the first page
-              const pageNumber = 1;
-              pdf.getPage(pageNumber).then(function(page) {
-                console.log('Page loaded');
-                
-                const scale = 1.5;
-                const viewport = page.getViewport(scale);
-            
-                // Prepare canvas using PDF page dimensions
-                const canvas = document.getElementById(`${canvasId}`);
-                canvas.removeAttribute('hidden')
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-            
-                // Render PDF page into canvas context
-                const renderContext = {
-                  canvasContext: context,
-                  viewport: viewport
-                };
-                const renderTask = page.render(renderContext);
-                renderTask.then(function () {
-                  console.log('Page rendered');
-                });
+              const scale = 1.5;
+              const viewport = page.getViewport(scale);
+          
+              // Prepare canvas using PDF page dimensions
+              const canvas = document.getElementById(`${canvasId}`)
+              const context = canvas.getContext('2d');
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;
+          
+              // Render PDF page into canvas context
+              const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+              };
+              const renderTask = page.render(renderContext);
+              renderTask.then(function () {
+                console.log('Page rendered');
               });
-            }, function (reason) {
-              // PDF loading error
-              console.error(reason);
             });
+          }, function (reason) {
+            // PDF loading error
+            console.error(reason);
+          });
+    // }
+      
   }
 
   render() {
@@ -284,7 +301,7 @@ class Reviews extends Component {
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
                                     <div className="file-preview container">
                                         {
-                                            this.state.editFileInputValue ?
+                                            this.state.editFileInputValue && this.state.editFileTypePasses ?
                                                 this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
                                                     <div className="non-image-file file" >
                                                         {this.state.editFileInputValue.name}
@@ -304,7 +321,7 @@ class Reviews extends Component {
                                 null
                         }
                         {
-                            !this.state.editFileTypePasses ?
+                            !this.state.editFileTypePasses && review.editable ?
                             <div className="error-text">File must be a picture(.jpg/.png) or a PDF.</div>
                             :
                             null
@@ -319,7 +336,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable ?
+                                        this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
                                             trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {   
@@ -345,7 +362,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable ?
+                                        this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
                                             trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {
@@ -410,7 +427,7 @@ class Reviews extends Component {
                                     onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
                                     <div className="file-preview container">
                                         {
-                                            this.state.fileInputValue ?
+                                            this.state.fileInputValue && this.state.fileTypePasses ?
                                                 this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
                                                     <div className="non-image-file file" >
                                                         {this.state.fileInputValue.name}
