@@ -141,3 +141,7 @@ ul.dropdown-content.select-dropdown li span {
     transition: .5s !important;
     min-width: 90%;
 }
+
+.reviews-wrapper .row {
+    margin-bottom: 5px !important;
+}
