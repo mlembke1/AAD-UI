@@ -102,6 +102,11 @@ class Reviews extends Component {
   deleteHandler = (id) => {
     this.props.deleteReview(id)
     setTimeout(() => this.props.getAllReviews(), 200)
+    setTimeout(() => {
+    if(this.props.allReviews.length < 1){
+        this.props.clearFiles()
+    }   
+    }, 400)
   }
    
 
