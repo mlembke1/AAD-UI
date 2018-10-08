@@ -50,7 +50,7 @@ class Portal extends Component {
             this.props.allTools.map((tool, i) => {
               return (
                 <Section key={i} className="portal-body-wrapper valign-wrapper">
-                  <Row className="tool-wrapper">
+                  <Row className={`${tool.url[0] != 'h' ? "image" : null} tool-wrapper`}>
                     <Col s={2} className='valign-wrapper'>
                       <h6 className="tool-name">{tool.name}</h6>
                     </Col>
@@ -59,14 +59,13 @@ class Portal extends Component {
                     </Col>
                     <Col s={4} className="center">
                         <Row>
-                          <Button className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
+                          <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
                         </Row>
                         <Row>
-                          {/* <Button className="portal-buttons" waves='light' node='a' target="_blank" href='http://www.google.com'>Data <Icon right tiny className="data">cloud</Icon> </Button> */}
                           <Modal
                             header={`${tool.name} Data Sources`}
                             bottomSheet
-                            trigger={<Button className="portal-buttons" waves='light'>Data <Icon right tiny className="data">cloud</Icon> </Button>}>
+                            trigger={<Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light'>Data <Icon right tiny className="data">cloud</Icon> </Button>}>
                             <Collection>
                                 <CollectionItem>The World Bank</CollectionItem>
                                 <CollectionItem>USAID</CollectionItem>
@@ -87,6 +86,14 @@ class Portal extends Component {
                           </Modal>
                         </Row>
                     </Col>
+                    {
+                      tool.url[0] != 'h' ?
+                      <div className="middle">
+                        <div className="text">COMING SOON</div>
+                      </div>
+                      :
+                      null
+                    }
                   </Row>
                 </Section>
               )

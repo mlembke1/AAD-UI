@@ -128,3 +128,7 @@ i.icon-green {
     background-color: #dc4c18;
     color: white;
 }
+
+ul.dropdown-content.select-dropdown li span {
+    color: #dc4c18;
+}
