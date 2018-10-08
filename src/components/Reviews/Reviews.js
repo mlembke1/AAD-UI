@@ -65,7 +65,12 @@ class Reviews extends Component {
                 if(type != 'jpg' &&
                    type != 'jpeg' &&
                    type != 'png' && 
-                   type != 'pdf'){
+                   type != 'pdf' &&
+                   type != 'JPG' &&
+                   type != 'JPEG' &&
+                   type != 'PNG' && 
+                   type != 'PDF'
+                   ){
                     // NEW FILE OR EDITING A FILE?
                     if(inputType == "fileInputValue"){
                         this.setState({
@@ -131,6 +136,10 @@ class Reviews extends Component {
             }
         }
         this.props.updateReview(updateObject)
+        this.setState({
+            ...this.state,
+            editFileInputValue: null
+        })
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {

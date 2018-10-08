@@ -24,7 +24,7 @@ class LandingPage extends Component {
   
             <div id="aad-paragraph">
               <h5>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.
+                Test tools. Give Feedback. Move Forward.
               </h5>
             </div>
   

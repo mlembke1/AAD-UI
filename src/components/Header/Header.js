@@ -12,7 +12,7 @@ class Header extends Component {
   render() {
     if (this.props.username || this.props.toDash) {
         return (
-            <Navbar className="navbar-logo" brand='aad' right>
+            <Navbar className="navbar-logo" brand='a.a.d.' right>
                 <div onClick={() => this.props.logout()}>
                     <Link to="/"> Logout </Link>
                 </div>
@@ -20,7 +20,7 @@ class Header extends Component {
         )
       } else {
         return (
-            <Navbar className="navbar-logo" brand='aad' right>
+            <Navbar className="navbar-logo" brand='a.a.d.' right>
                 <Link className="link" to="/login"> Login </Link>
                 <Link className="link" to="/signup"> Signup </Link>
             </Navbar>

@@ -11,8 +11,9 @@ main.landing-page {
 
 .aad-title {
     font-size: 5em;
-    font-weight:700;
-    text-shadow: 3px 3px #000;;
+
+    font-weight:400;
+    text-shadow: 2px 1px #a5360e;
     color: white;
     margin-left: 1em;
     line-height: 70px;
@@ -21,8 +22,8 @@ main.landing-page {
 
 #aad-paragraph h5 {
     font-weight:700;
-    text-shadow: 3px 3px #000;;
     color: white;
+    text-shadow: 3px 1px black;;
     margin-left: 6em;
     margin-top: 3em;
     line-height: 20px;
@@ -39,7 +40,7 @@ main.landing-page {
     margin: 1em;
     background-color: white;
     color: black;
-    font-size:1.4em;
+    font-size: 1.1em;
 }
 
 .signup-login-buttons:hover,
