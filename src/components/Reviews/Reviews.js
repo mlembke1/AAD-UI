@@ -107,9 +107,9 @@ class Reviews extends Component {
 
   toggleEditSaveHandler = (editable, toolName, reviewId, text, path) => {
     // Edit has already been open, now time to save the updates.
+    let updateObject = {}
     if(editable) {
         this.props.editSaveToggle(editable, toolName, reviewId)
-        let updateObject
         if(this.state.editFileInputValue){
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
@@ -136,7 +136,14 @@ class Reviews extends Component {
     }
     setTimeout(() => {
         this.props.getAllReviews()
-    }, 500)
+    }, 200)
+    setTimeout(() => {
+        this.props.allReviews.map(review => {
+            if(updateObject.hasOwnProperty('blob')){
+                this.props.getFile(review.path.substring(15), review.id)
+            }
+        })
+    }, 400)
   }
 
   postReviewHandler = () => {
@@ -159,8 +166,6 @@ class Reviews extends Component {
         this.props.getAllReviews()
         setTimeout(() => {
             this.props.allReviews.map(review => {
-                console.log('HERE ARE ALL THE REVIEWS', this.props.allReviews)
-                console.log('HERE ARE ALL THE FILES', this.props.files)
                 if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                     this.props.getFile(review.path.substring(15), review.id)
                 }
@@ -176,6 +181,7 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId, isPDF) => {
+    
     if(isPDF){
         const pdfData = atob(base64);
           
@@ -365,7 +371,7 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
-                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :

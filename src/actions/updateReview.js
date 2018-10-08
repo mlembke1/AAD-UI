@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const updateReview = object => dispatch => {
+export const updateReview = (object) => dispatch => {
     let formData = new FormData();
 
     if(object.blob){
@@ -20,15 +20,4 @@ export const updateReview = object => dispatch => {
     .catch(err => {
         return dispatch({ type: 'UPDATE_REVIEW_FAILED'})
     })
-    // const options = {
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //         },
-    //     credentials: 'include',
-    //     crossDomain: true,
-    //     method: 'PATCH',                                                              
-    //     body: JSON.stringify( { toolName, text, reviewId } ) 
-    // }
-    // fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateReview', options)
   }

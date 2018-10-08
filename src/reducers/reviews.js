@@ -11,7 +11,18 @@ export const reviews = ( state={
         case 'POST_REVIEW_FAILED':
           return { ...state, postReviewFailed: true }
         case 'FILES_AQUIRED':
-          return { ...state, files: [...state.files, action.payload] }
+          const reviewIdAlreadyExists = state.files.filter(file => file.review_id == action.payload.review_id).length > 0
+          if(reviewIdAlreadyExists){
+            const updatedFiles = state.files.map(file => {
+              if(file.review_id == action.payload.review_id){
+                file = action.payload
+              }
+              return file
+            })
+            return { ...state, files: [...updatedFiles] }
+          } else {
+            return { ...state, files: [...state.files, action.payload] }
+          }
         case 'CLEAR_FILES': 
           return { ...state, files: [] }
     
