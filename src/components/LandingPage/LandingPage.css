@@ -13,7 +13,7 @@ main.landing-page {
     font-size: 5em;
 
     font-weight:400;
-    text-shadow: 1px 2px #dc4c18;
+    text-shadow: 2px 1px #dc4c18;
     color: white;
     margin-left: 1em;
     line-height: 70px;
@@ -23,7 +23,7 @@ main.landing-page {
 #aad-paragraph h5 {
     font-weight:700;
     color: white;
-    text-shadow: 1px 2px black;;
+    text-shadow: 3px 1px black;;
     margin-left: 6em;
     margin-top: 3em;
     line-height: 20px;
