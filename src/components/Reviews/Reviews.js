@@ -328,7 +328,7 @@ class Reviews extends Component {
                                     label={`${review.path ? `Replace` : "Upload"} `}  
                                     name="fileUpload"
                                     s={12} 
-                                    placeholder={`${review.path ? "Replacement File Here" : "Upload File Here"}`}
+                                    placeholder={`(.jpg/.png/.jpeg) or a .pdf.`}
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
                                     <div className="file-preview container">
                                         {
@@ -462,7 +462,7 @@ class Reviews extends Component {
                                     label="File"
                                     name="fileUpload"
                                     s={12} 
-                                    placeholder="Upload A File"
+                                    placeholder="(.jpg/.png/.jpeg) or a .pdf"
                                     onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
                                     <div className="file-preview container">
                                         {
@@ -484,7 +484,7 @@ class Reviews extends Component {
                                 </Row>
                                 {
                                     !this.state.fileTypePasses ?
-                                    <div className="error-text">File must be a picture(.jpg/.png) or a PDF.</div>
+                                    <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
                                     :
                                     null
                                 }
