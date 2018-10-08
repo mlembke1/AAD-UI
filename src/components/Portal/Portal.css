@@ -3,7 +3,7 @@
 }
 
 .tool-wrapper {
-    max-width: 70%;
+    max-width: 90%;
     padding: 10px;
     display: inline-block;
     /* color: #000; */
@@ -28,8 +28,8 @@
 .portal-buttons {
     background-color: #033076;
     color: white;
-    transition: .5s !important;
-    min-width: 50%;
+    transition: .15s !important;
+    min-width: 90%;
 }
 
 .portal-buttons:hover {
@@ -92,8 +92,12 @@
   font-size: 16px;
   padding: 16px 32px;
   margin-bottom: 40px;
-  -ms-transform: rotate(3deg); /* IE 9 */
-    -webkit-transform: rotate(3deg); /* Safari 3-8 */
-    transform: rotate(3deg);
+  -ms-transform: rotate(-3deg); /* IE 9 */
+    -webkit-transform: rotate(-3deg); /* Safari 3-8 */
+    transform: rotate(-3deg);
     border-radius: 5px;
+}
+
+div.row.null.tool-wrapper {
+    min-width: 90%;
 }

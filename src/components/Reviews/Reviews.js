@@ -10,6 +10,7 @@ import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
 import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
+import { removeFile } from '../../actions/removeFile'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 
 
@@ -233,6 +234,25 @@ class Reviews extends Component {
       
   }
 
+  removeFileHandler = reviewId => {
+    this.props.removeFile(reviewId)
+    setTimeout(() => this.props.getAllReviews(), 100)
+    setTimeout(() => {
+        if(this.props.allReviews.length > 0){
+            this.props.allReviews.map(review => {
+                if(review.path){
+                    this.props.getFile(review.path.substring(15), review.id)
+                }    
+            })
+        }
+    }, 200)
+
+    this.setState({
+        ...this.state,
+        editFileInputValue: null
+    })
+  }
+
   render() {
       return (
         <div>
@@ -334,7 +354,7 @@ class Reviews extends Component {
                         }
                         {
                             !this.state.editFileTypePasses && review.editable ?
-                            <div className="error-text">File must be a picture(.jpg/.png) or a PDF.</div>
+                            <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
                             :
                             null
                         }
@@ -363,8 +383,16 @@ class Reviews extends Component {
                                         null
                                     }
                                 </Row>
+                                {
+                                    review.editable && review.path ?
+                                    <Row>
+                                        <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
+                                    </Row>
+                                    :
+                                    null
+                                }
                                 <Row>
-                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons" id="delete-button" waves='light'> Delete <Icon right tiny className="data">delete_outline</Icon></Button>
+                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
                             </div>
                             :
@@ -495,6 +523,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     updateReview,
     deleteReview,
     getFile, 
-    clearFiles}, dispatch)
+    clearFiles, 
+    removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

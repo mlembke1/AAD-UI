@@ -25,6 +25,8 @@ export const reviews = ( state={
           }
         case 'CLEAR_FILES': 
           return { ...state, files: [] }
+        case 'REMOVE_FILE': 
+          return { ...state, files: state.files.filter(file => file.review_id != action.payload.reviewId) }
     
         default:
           return state
