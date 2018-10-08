@@ -81,6 +81,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .open-attachment-span {
     display: inline-block;
+    min-width: 100%;
 
 }
 

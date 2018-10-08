@@ -187,7 +187,9 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId, isPDF) => {
-    
+    console.log('HERE IS THE BASE64', base64)
+    console.log('HERE CAVNAS ID', canvasId)
+    console.log('IS THIS REALLY A PDF?', isPDF)
     if(isPDF){
         const pdfData = atob(base64);
           
