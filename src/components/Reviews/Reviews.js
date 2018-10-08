@@ -26,7 +26,6 @@ class Reviews extends Component {
             editTextInputValue: '',
             fileInputValue: null,
             editFileInputValue: null,
-            reviewsWithFiles: [],
             fileTypePasses: true,
             editFileTypePasses: true
         }
@@ -40,12 +39,12 @@ class Reviews extends Component {
                 this.props.clearFiles()
             } else {
                 this.props.allReviews.map(review => {
-                    if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                         this.props.getFile(review.path.substring(15), review.id)
                     }
                 })
             }
-        }, 500)
+        }, 100)
     }
 
     updateInputValue(evt, inputType) {
@@ -106,15 +105,24 @@ class Reviews extends Component {
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId, text, file) => {
+  toggleEditSaveHandler = (editable, toolName, reviewId, text, path) => {
     // Edit has already been open, now time to save the updates.
     if(editable) {
         this.props.editSaveToggle(editable, toolName, reviewId)
-        const updateObject = {
-            toolName: this.state.editToolNameInputValue,
-            text: this.state.editTextInputValue,
-            reviewId,
-            blob: this.state.editFileInputValue
+        let updateObject
+        if(this.state.editFileInputValue){
+            updateObject = {
+                toolName: this.state.editToolNameInputValue,
+                text: this.state.editTextInputValue,
+                reviewId,
+                blob: this.state.editFileInputValue
+            }
+        } else {
+            updateObject = {
+                toolName: this.state.editToolNameInputValue,
+                text: this.state.editTextInputValue,
+                reviewId
+            }
         }
         this.props.updateReview(updateObject)
     } 
@@ -123,8 +131,7 @@ class Reviews extends Component {
         this.props.editSaveToggle(editable, toolName, reviewId)
         this.setState({
             editToolNameInputValue: toolName,
-            editTextInputValue: text,
-            editFileInputValue: file
+            editTextInputValue: text
         })
     }
     setTimeout(() => {
@@ -152,7 +159,9 @@ class Reviews extends Component {
         this.props.getAllReviews()
         setTimeout(() => {
             this.props.allReviews.map(review => {
-                if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                console.log('HERE ARE ALL THE REVIEWS', this.props.allReviews)
+                console.log('HERE ARE ALL THE FILES', this.props.files)
+                if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                     this.props.getFile(review.path.substring(15), review.id)
                 }
             })
@@ -324,11 +333,11 @@ class Reviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
-                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
                                             trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {   
@@ -350,11 +359,11 @@ class Reviews extends Component {
                             :
                             <div>
                                 <Row>
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
                                             trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`)}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
                                             {

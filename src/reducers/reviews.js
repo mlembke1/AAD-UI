@@ -1,7 +1,7 @@
 export const reviews = ( state={ 
     allReviews: null,
     postReviewFailed: false,
-    files: null
+    files: []
    }, action) => {
       switch(action.type){
         case 'REVIEWS_AQUIRED':
