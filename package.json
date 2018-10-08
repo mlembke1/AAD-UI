@@ -4,7 +4,11 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "jquery": "^3.3.1",
+    "materialize-css": "^0.100.2",
+    "pdfjs-dist": "^2.0.489",
     "react": "^16.5.0",
+    "react-async-script": "^1.0.0",
     "react-dom": "^16.5.1",
     "react-materialize": "^2.4.5",
     "react-pdf": "^3.0.5",
@@ -14,7 +18,8 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "remote-redux-devtools": "^0.5.13"
   },
   "scripts": {
     "build": "react-scripts build",

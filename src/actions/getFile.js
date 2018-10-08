@@ -7,6 +7,7 @@ export const getFile = (path, reviewId) => dispatch => {
       return response.json()
     }).then (r => {
       if(r.file != 'none'){
+        console.log('HERE ARE THE FILES BEING BROUGHT BACK.', r)
         return dispatch({ type: 'FILES_AQUIRED', payload: r})
       } else {
         return dispatch({ type: 'FILE_DOES_NOT_EXIST' })

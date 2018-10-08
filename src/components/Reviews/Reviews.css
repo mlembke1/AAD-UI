@@ -1,30 +1,18 @@
+
 .reviews-wrapper {
-    max-width: 70%;
+    max-width: 90%;
     margin:auto;
 }
 
 .materialize-textarea {
-    min-width: 195% !important;
+    min-width: 300% !important;
 }
 
 .c-item {
     min-width: 100%;
 }
 
-#delete-button {
-    background-color: #b71c1c;
-    color: white;
-    transition: .5s !important;
-    min-width: 50%;
-}
 
-#delete-button:hover {
-    border: 1px solid #033076;
-}
-
-#delete-button:focus {
-    background-color: #033076;
-}
 
 .file-preview-conatiner {
     display: flex;
@@ -58,7 +46,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .review-underline-wrapper {
-    max-width: 70%;
+    max-width: 90%;
     padding: 10px;
     display: block;
     text-decoration: none;
@@ -79,13 +67,81 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 
+.canvas {
+    margin-left: 5%;
+    max-width: 90%;
+}
 
+.btn .view-attachment-button,
+.btn-large .view-attachment-button,
+.btn:hover .view-attachment-button,
+.btn-large .view-attachment-button:hover {
+    background-color: #033076; 
+}
 
+.open-attachment-span {
+    display: inline-block;
+    min-width: 100%;
 
+}
 
+.view-attachment-button {
+    background-color: #033076;
+    color: white;
+    transition: .5s !important;
+    min-width: 90%;
+}
 
+.view-attachment-button:hover {
+    background-color: #033076;
+    border: 1px solid #dc4c18;
+}
 
+.view-attachment-button:focus {
+    background-color: #033076;
+}
 
+.error-text{
+    color: tomato;
+    font-weight: 700;
+}
 
+i.icon-green {
+    color: #629632;
+}
 
+.btn:hover, .btn-large:hover {
+    background-color: #dc4c18;
+    color: white;
+}
 
+ul.dropdown-content.select-dropdown li span {
+    color: #dc4c18;
+}
+
+.delete-button {
+    background-color: white;
+    color: #b71c1c;
+    transition: .5s !important;
+    min-width: 90%;
+
+}
+
+.delete-button:hover {
+    background-color: #b71c1c;
+}
+
+.delete-button:focus {
+    background-color: #033076;
+}
+
+.remove-file-button {
+    background-color: #033076;
+    color: white;
+    transition: .5s !important;
+    min-width: 90%;
+}
+
+.reviews-wrapper .row {
+    margin-bottom: 5px !important;
+}

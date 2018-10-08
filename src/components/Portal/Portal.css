@@ -3,7 +3,7 @@
 }
 
 .tool-wrapper {
-    max-width: 70%;
+    max-width: 90%;
     padding: 10px;
     display: inline-block;
     /* color: #000; */
@@ -28,8 +28,8 @@
 .portal-buttons {
     background-color: #033076;
     color: white;
-    transition: .5s !important;
-    min-width: 50%;
+    transition: .15s !important;
+    min-width: 90%;
 }
 
 .portal-buttons:hover {
@@ -45,4 +45,59 @@
     border-bottom: 1px solid #033076;
     padding-bottom: 5px;
     min-width: 100px;
+}
+
+.portal-body-wrapper {
+    position: relative;
+    /* width: 50%; */
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.portal-body-wrapper .image {
+  opacity: 0.3;
+}
+
+.portal-body-wrapper .middle {
+  opacity: 1;
+  min-width: 50%;
+  z-index: 100;
+}
+
+.text {
+  background-color: #dc4c18;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 1.3em !important;
+  text-shadow: #033076;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+  margin-bottom: 40px;
+  -ms-transform: rotate(-3deg); /* IE 9 */
+    -webkit-transform: rotate(-3deg); /* Safari 3-8 */
+    transform: rotate(-3deg);
+    border-radius: 5px;
+}
+
+div.row.null.tool-wrapper {
+    min-width: 90%;
 }

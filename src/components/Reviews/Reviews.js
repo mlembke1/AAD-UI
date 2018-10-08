@@ -10,9 +10,9 @@ import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
 import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
-import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
-// import { Document } from 'react-pdf'
-import { Document } from 'react-pdf/dist/entry.noworker';
+import { removeFile } from '../../actions/removeFile'
+import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
+
 
 
 
@@ -27,7 +27,8 @@ class Reviews extends Component {
             editTextInputValue: '',
             fileInputValue: null,
             editFileInputValue: null,
-            reviewsWithFiles: []
+            fileTypePasses: true,
+            editFileTypePasses: true
         }
     }
     
@@ -35,43 +36,101 @@ class Reviews extends Component {
         this.props.checkCookie()
         this.props.getAllReviews()
         setTimeout(() => {
-            if(this.props.allReviews.length < 1){
+            if(this.props.allReviews.length < 1 || !this.props.allReviews){
                 this.props.clearFiles()
             } else {
                 this.props.allReviews.map(review => {
-                    if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                         this.props.getFile(review.path.substring(15), review.id)
                     }
                 })
             }
-        }, 500)
+        }, 100)
     }
-    
 
     updateInputValue(evt, inputType) {
-        if(inputType != "fileInputValue"){
+        // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
+        if(inputType != "fileInputValue" && inputType != "editFileInputValue"){
             return this.setState({
               [inputType]: evt.target.value
             })
-        } else {
-            let fileArray = Array.from(evt.target.files)
-            return this.setState({
-                ...this.state,
-                [inputType]: fileArray[0]
-            })
+        } 
+        // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
+        else {
+            if(Array.from(evt.target.files).length > 0){
+                const f = evt.target.files[0].type
+                const lastSlashIndex = (f).lastIndexOf('/') + 1
+                const type = f.substring(lastSlashIndex).trim()
+                // IF THE FILE INPUT CONTAINS A FILE THAT ISN'T A PICTURE OR A PDF...
+                if(type != 'jpg' &&
+                   type != 'jpeg' &&
+                   type != 'png' && 
+                   type != 'pdf'){
+                    // NEW FILE OR EDITING A FILE?
+                    if(inputType == "fileInputValue"){
+                        this.setState({
+                            ...this.state,
+                            fileTypePasses: false
+                        })
+                    } else {
+                        this.setState({
+                            ...this.state,
+                            editFileTypePasses: false
+                        })
+                    }
+                } 
+                // THE INPUT HAS THE TYPE OF FILE AND ALSO HAS THE CORRECT TYPE OF FILE
+                else {
+                    // NEW FILE OR EDITING A FILE?
+                    if(inputType == "fileInputValue"){
+                        this.setState({
+                            ...this.state,
+                            fileTypePasses: true,
+                            [inputType]: evt.target.files[0]
+                        })
+                    } else {
+                        this.setState({
+                            ...this.state,
+                            editFileTypePasses: true,
+                            [inputType]: evt.target.files[0]
+                        })
+                    }
+                }
+            }
         }
     }
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
+    setTimeout(() => this.props.getAllReviews(), 200)
+    setTimeout(() => {
+    if(this.props.allReviews.length < 1){
+        this.props.clearFiles()
+    }
+    }, 400)
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId, text) => {
+  toggleEditSaveHandler = (editable, toolName, reviewId, text, path) => {
     // Edit has already been open, now time to save the updates.
+    let updateObject = {}
     if(editable) {
         this.props.editSaveToggle(editable, toolName, reviewId)
-        this.props.updateReview(this.state.editToolNameInputValue, this.state.editTextInputValue, reviewId)
+        if(this.state.editFileInputValue){
+            updateObject = {
+                toolName: this.state.editToolNameInputValue,
+                text: this.state.editTextInputValue,
+                reviewId,
+                blob: this.state.editFileInputValue
+            }
+        } else {
+            updateObject = {
+                toolName: this.state.editToolNameInputValue,
+                text: this.state.editTextInputValue,
+                reviewId
+            }
+        }
+        this.props.updateReview(updateObject)
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
@@ -83,7 +142,14 @@ class Reviews extends Component {
     }
     setTimeout(() => {
         this.props.getAllReviews()
-    }, 500)
+    }, 200)
+    setTimeout(() => {
+        this.props.allReviews.map(review => {
+            if(review.path && updateObject.hasOwnProperty('blob')){
+                this.props.getFile(review.path.substring(15), review.id)
+            }
+        })
+    }, 400)
   }
 
   postReviewHandler = () => {
@@ -106,7 +172,7 @@ class Reviews extends Component {
         this.props.getAllReviews()
         setTimeout(() => {
             this.props.allReviews.map(review => {
-                if((this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                     this.props.getFile(review.path.substring(15), review.id)
                 }
             })
@@ -119,12 +185,71 @@ class Reviews extends Component {
     }, 500)
   }
 
-  openAttachment = (bufferArr) => {
-      const file = new Blob(
-        bufferArr, 
-        {type: 'application/pdf'});
-    const fileURL = URL.createObjectURL(file).substring(27)
-    window.open(`http://${fileURL}`)  
+
+  openAttachment = (base64, canvasId, isPDF) => {
+    if(isPDF){
+        const pdfData = atob(base64);
+          
+          // Loaded via <script> tag, create shortcut to access PDF.js exports.
+          const pdfjsLib = window['pdfjs-dist/build/pdf'];
+          
+          // The workerSrc property shall be specified.
+        //   pdfjsLib.GlobalWorkerOptions.workerSrc
+          
+          // Using DocumentInitParameters object to load binary data.
+          const loadingTask = pdfjsLib.getDocument({data: pdfData});
+          loadingTask.promise.then(function(pdf) {
+            console.log('PDF loaded');
+            
+            // Fetch the first page
+            const pageNumber = 1;
+            pdf.getPage(pageNumber).then(function(page) {
+              console.log('Page loaded');
+              
+              const scale = 1.5;
+              const viewport = page.getViewport(scale);
+          
+              // Prepare canvas using PDF page dimensions
+              const canvas = document.getElementById(`${canvasId}`)
+              const context = canvas.getContext('2d');
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;
+          
+              // Render PDF page into canvas context
+              const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+              };
+              const renderTask = page.render(renderContext);
+              renderTask.then(function () {
+                console.log('Page rendered');
+              });
+            });
+          }, function (reason) {
+            // PDF loading error
+            console.error(reason);
+          });
+    }
+      
+  }
+
+  removeFileHandler = reviewId => {
+    this.props.removeFile(reviewId)
+    setTimeout(() => this.props.getAllReviews(), 100)
+    setTimeout(() => {
+        if(this.props.allReviews.length > 0){
+            this.props.allReviews.map(review => {
+                if(review.path){
+                    this.props.getFile(review.path.substring(15), review.id)
+                }    
+            })
+        }
+    }, 200)
+
+    this.setState({
+        ...this.state,
+        editFileInputValue: null
+    })
   }
 
   render() {
@@ -191,31 +316,46 @@ class Reviews extends Component {
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
                                 disabled={false} type='textarea' value={this.state.editTextInputValue} />
                             :
-                                <Input  disabled={true} type='textarea' value={review.text} />
+                                <Input  disabled={true} type='textarea' defaultValue={review.text} />
                             }
                         </Row>
-                            {
-                                this.props.files.filter(file => file.review_id == review.id).length  > 0 ?
-                                <div onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file.data)}>
-                                    View attachment
-                                </div>
-                                :
-                                null
-                            }
                         {
                             review.editable ?
                                 <Row>
                                     <Input 
                                     id="file-input"
                                     type="file"
-                                    label="File"
+                                    label={`${review.path ? `Replace` : "Upload"} `}  
                                     name="fileUpload"
                                     s={12} 
-                                    placeholder="Upload A File"
+                                    placeholder={`(.jpg/.png/.jpeg) or a .pdf.`}
                                     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                    <div className="file-preview container">
+                                        {
+                                            this.state.editFileInputValue && this.state.editFileTypePasses ?
+                                                this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
+                                                    <div className="non-image-file file" >
+                                                        {this.state.editFileInputValue.name}
+                                                        {this.state.editFileInputValue.type}
+                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                    </div>
+                                                :
+                                                <div>
+                                                    <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                                </div>
+                                            :
+                                            null
+                                        }
+                                    </div>
                                 </Row>
                             :
                                 null
+                        }
+                        {
+                            !this.state.editFileTypePasses && review.editable ?
+                            <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                            :
+                            null
                         }
                     </Col>
                     <Col s={4} className="center">
@@ -223,16 +363,60 @@ class Reviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
-                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons" id="delete-button" waves='light'> Delete <Icon right tiny className="data">delete_outline</Icon></Button>
+                                    {
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
+                                            <Modal
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            {   
+                                                review.path.substr(review.path.length - 3) == 'pdf' ?
+                                                <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                                review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' || review.path.substr(review.path.length - 3) == 'jpeg' ?
+                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                null
+                                            }
+                                            </Modal>
+                                    :
+                                        null
+                                    }
+                                </Row>
+                                {
+                                    review.editable && review.path ?
+                                    <Row>
+                                        <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
+                                    </Row>
+                                    :
+                                    null
+                                }
+                                <Row>
+                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
                             </div>
                             :
-                            <Row>
-                                <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
-                            </Row>
+                            <div>
+                                <Row>
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                </Row>
+                                <Row>
+                                    {
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
+                                            <Modal
+                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            {
+                                                review.path.substr(review.path.length - 3) == 'pdf' ?
+                                                <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                                review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
+                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                null
+                                            }
+                                            </Modal>
+                                    :
+                                        null
+                                    }
+                                </Row>
+                            </div>
                         }
                     </Col>
                   </Row>
@@ -278,27 +462,36 @@ class Reviews extends Component {
                                     label="File"
                                     name="fileUpload"
                                     s={12} 
-                                    placeholder="Upload A File"
+                                    placeholder="(.jpg/.png/.jpeg) or a .pdf"
                                     onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
                                     <div className="file-preview container">
                                         {
-                                            this.state.fileInputValue ?
+                                            this.state.fileInputValue && this.state.fileTypePasses ?
                                                 this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
                                                     <div className="non-image-file file" >
                                                         {this.state.fileInputValue.name}
                                                         {this.state.fileInputValue.type}
+                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
                                                     </div>
                                                 :
-                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                <div>
+                                                    <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                </div>
                                             :
                                             null
                                         }
                                     </div>
                                 </Row>
+                                {
+                                    !this.state.fileTypePasses ?
+                                    <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
+                                    :
+                                    null
+                                }
                             </Col>
                             <Col s={4} className="center">
                                 <Button 
-                                disabled={ (this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null }
+                                disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
                                 onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
                             </Col>
                         </Row>
@@ -329,6 +522,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     updateReview,
     deleteReview,
     getFile, 
-    clearFiles}, dispatch)
+    clearFiles, 
+    removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
