@@ -105,7 +105,7 @@ class Reviews extends Component {
     setTimeout(() => {
     if(this.props.allReviews.length < 1){
         this.props.clearFiles()
-    }   
+    }
     }, 400)
   }
    
@@ -144,7 +144,7 @@ class Reviews extends Component {
     }, 200)
     setTimeout(() => {
         this.props.allReviews.map(review => {
-            if(updateObject.hasOwnProperty('blob')){
+            if(review.path && updateObject.hasOwnProperty('blob')){
                 this.props.getFile(review.path.substring(15), review.id)
             }
         })

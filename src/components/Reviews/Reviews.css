@@ -123,3 +123,8 @@ textarea.materialize-textarea:focus:not([readonly]) {
 i.icon-green {
     color: #629632;
 }
+
+.btn:hover, .btn-large:hover {
+    background-color: #dc4c18;
+    color: white;
+}
