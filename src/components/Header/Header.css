@@ -1,5 +1,4 @@
 .navbar-logo {
-    padding-left: 80px !important;
     background-color: #033076;
     color: white;
 }
@@ -12,3 +11,6 @@
     display: inline;
 }
 
+nav .nav-wrapper {
+    padding: 0 80px !important;
+}
