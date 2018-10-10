@@ -17,7 +17,7 @@ import { Redirect } from 'react-router-dom'
 
 class App extends Component {
   componentWillMount(){
-    this.props.checkCookie()
+    // this.props.checkCookie()
   }
   
   render() {
