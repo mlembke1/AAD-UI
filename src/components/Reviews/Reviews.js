@@ -49,11 +49,6 @@ class Reviews extends Component {
     }
 
     updateInputValue(evt, inputType) {
-        if(evt.target.files[0] == undefined){
-            this.setState({
-                [inputType]: null
-            })
-        }
         // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
         if(inputType != "fileInputValue" && inputType != "editFileInputValue"){
             return this.setState({
@@ -62,6 +57,12 @@ class Reviews extends Component {
         } 
         // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
         else {
+            if(evt.target.files[0] == undefined){
+                this.setState({
+                    [inputType]: null
+                })
+            }
+
             if(Array.from(evt.target.files).length > 0){
                 const f = evt.target.files[0].type
                 const lastSlashIndex = (f).lastIndexOf('/') + 1
