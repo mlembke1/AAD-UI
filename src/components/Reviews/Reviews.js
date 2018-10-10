@@ -206,7 +206,7 @@ class Reviews extends Component {
             textInputValue: "",
             fileInputValue: null
         })
-    }, 100)
+    }, 600)
   }
 
 
