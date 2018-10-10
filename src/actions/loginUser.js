@@ -12,6 +12,7 @@ export const loginUser = (object) => dispatch => {
     .then(json => {
         console.log('LOGIN RESPONSE ', json)
         if(json.status === 200) {
+            localStorage.setItem('username', object.loginUsername)
             return dispatch({ type:'LOGIN_SUCCESS' })
         } else {
             return dispatch({ type:'LOGIN_FAILED' })

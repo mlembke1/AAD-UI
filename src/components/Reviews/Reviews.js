@@ -36,7 +36,7 @@ class Reviews extends Component {
         this.props.checkCookie()
         this.props.getAllReviews()
         setTimeout(() => {
-            if(this.props.allReviews.length < 1 || !this.props.allReviews){
+            if(!this.props.allReviews || this.props.allReviews.length < 1 ){
                 this.props.clearFiles()
             } else {
                 this.props.allReviews.map(review => {
@@ -181,12 +181,14 @@ class Reviews extends Component {
         reviewObject = {
             toolName: this.state.toolNameInputValue,
             textInput: this.state.textInputValue,
-            blob: this.state.fileInputValue
+            blob: this.state.fileInputValue,
+            username: localStorage.getItem('username')
         }      
       } else {
         reviewObject = {
               toolName: this.state.toolNameInputValue,
-              textInput: this.state.textInputValue
+              textInput: this.state.textInputValue,
+              username: localStorage.getItem('username')
         }  
       } 
       
@@ -211,6 +213,9 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId, isPDF) => {
+      console.log('HERE IS THE BASE64', base64)
+      console.log('HERE IS THE CAVNASID', canvasId)
+      console.log('HERE IS THE isPDF', isPDF)
     if(isPDF){
         const pdfData = atob(base64);
           

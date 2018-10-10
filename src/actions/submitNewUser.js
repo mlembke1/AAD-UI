@@ -12,6 +12,7 @@ export const submitNewUser = (object) => dispatch => {
     .then(json => {
         console.log('SIGNUP RESPONSE ', json)
         if(json.status === 200) {
+            localStorage.setItem('username', object.signupUsername)
             return dispatch({ type:'SIGNUP_SUCCESS' })
         } else {
             return dispatch({ type:'SIGNUP_FAILED' })
