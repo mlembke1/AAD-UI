@@ -61,15 +61,23 @@ class Reviews extends Component {
                 const f = evt.target.files[0].type
                 const lastSlashIndex = (f).lastIndexOf('/') + 1
                 const type = f.substring(lastSlashIndex).trim()
-                // IF THE FILE INPUT CONTAINS A FILE THAT ISN'T A PICTURE OR A PDF...
-                if(type != 'jpg' &&
+                // IF THE FILE INPUT CONTAINS A FILE THAT ISN'T A PICTURE OR A PDF or IF THE PICTURE OR PDF HAS UPPERCASE EXTENSION...
+                if((type != 'jpg' &&
                    type != 'jpeg' &&
                    type != 'png' && 
                    type != 'pdf' &&
                    type != 'JPG' &&
                    type != 'JPEG' &&
                    type != 'PNG' && 
-                   type != 'PDF'
+                   type != 'PDF' )
+                   ||
+                   (
+                    evt.target.files[0].name.slice(-3) == 'JPG' ||
+                    evt.target.files[0].name.slice(-3) == 'JPEG' ||
+                    evt.target.files[0].name.slice(-3) == 'PNG' ||
+                    evt.target.files[0].name.slice(-3) == 'PDF'
+                   )
+                   
                    ){
                     // NEW FILE OR EDITING A FILE?
                     if(inputType == "fileInputValue"){
@@ -362,7 +370,10 @@ class Reviews extends Component {
                         }
                         {
                             !this.state.editFileTypePasses && review.editable ?
-                            <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                            <div>
+                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                                <div className="error-text">Please ensure file extensions are all lowercase.</div>
+                            </div>
                             :
                             null
                         }
@@ -493,7 +504,10 @@ class Reviews extends Component {
                                 </Row>
                                 {
                                     !this.state.fileTypePasses ?
-                                    <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
+                                    <div>
+                                        <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                                        <div className="error-text">Please ensure file extensions are all lowercase.</div>
+                                    </div>
                                     :
                                     null
                                 }
