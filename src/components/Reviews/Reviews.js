@@ -57,6 +57,12 @@ class Reviews extends Component {
         } 
         // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
         else {
+            if(evt.target.files[0] == undefined){
+                this.setState({
+                    [inputType]: null
+                })
+            }
+
             if(Array.from(evt.target.files).length > 0){
                 const f = evt.target.files[0].type
                 const lastSlashIndex = (f).lastIndexOf('/') + 1
@@ -169,7 +175,7 @@ class Reviews extends Component {
     }, 400)
   }
 
-  postReviewHandler = () => {
+  postReviewHandler = async () => {
     let reviewObject
       if(this.state.fileInputValue){
         reviewObject = {
@@ -183,6 +189,7 @@ class Reviews extends Component {
               textInput: this.state.textInputValue
         }  
       } 
+      
     this.props.postReview(reviewObject)
 
     setTimeout(() => {
@@ -193,13 +200,13 @@ class Reviews extends Component {
                     this.props.getFile(review.path.substring(15), review.id)
                 }
             })
-        }, 500)
+        }, 100)
         this.setState({
             toolNameInputValue: 'SORTOE',
             textInputValue: "",
             fileInputValue: null
         })
-    }, 500)
+    }, 100)
   }
 
 
