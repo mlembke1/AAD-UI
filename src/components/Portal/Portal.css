@@ -101,3 +101,11 @@
 div.row.null.tool-wrapper {
     min-width: 90%;
 }
+
+.credentials {
+    font-weight: 700;
+}
+
+.margin-top {
+    margin-top: 60px;
+}

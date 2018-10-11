@@ -44,20 +44,7 @@ class App extends Component {
                   <Route exact path="/reviews" render={() => {
                     return !this.props.username ? <Redirect to="/" /> : <Reviews />
                   }} />
-                  <Route exact path="/sortoe" render={() => {
-                    localStorage.setItem('sortoeUser', JSON.stringify({
-                      active: true,
-                      admin: true,
-                      authToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MzkyNzEzMjcsIm5iZiI6MTUzOTI3MTMyNywianRpIjoiYTM0YzlkMmEtN2U1Ni00ZDI3LWFhMWMtZTA3MGM0MGMwMGRmIiwiZXhwIjoxNTM5MzU3NzI3LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.KdFxim0Al_FT3s0pAi6hgJ0sFzo2NrPOj6bWPXE5YdE",
-                      email: "test1@acme.com",
-                      firstName: "Admin",
-                      id: 1,
-                      lastName: "admin",
-                      organization: "testorg",
-                      username: "admin"
-                    }))
-                    window.location = 'https://sortoe.supermicro5.opswerx.org/'
-                  }} />
+                  
                 </main>
               <PageFooter />
             </div>
