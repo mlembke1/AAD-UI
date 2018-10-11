@@ -30,19 +30,19 @@ class App extends Component {
                     return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
                   }} /> 
                   <Route exact path="/dashboard" render={() => {
-                    return (!this.props.username && !this.props.toDash) ? <Redirect to="/" /> : <Dashboard />
+                    return !this.props.username ? <Redirect to="/" /> : <Dashboard />
                   }} />
                   <Route exact path="/login" render={() => {
-                    return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Login />
+                    return this.props.username ? <Redirect to="/dashboard" /> : <Login />
                   }} />
                   <Route exact path="/signup" render={() => {
-                    return this.props.username || this.props.toDash ? <Redirect to="/dashboard" /> : <Signup />
+                    return this.props.username ? <Redirect to="/dashboard" /> : <Signup />
                   }} />
                   <Route exact path="/portal" render={() => {
-                    return (!this.props.username) ? <Redirect to="/" /> : <Portal />
+                    return !this.props.username ? <Redirect to="/" /> : <Portal />
                   }} />
                   <Route exact path="/reviews" render={() => {
-                    return (!this.props.username) ? <Redirect to="/" /> : <Reviews />
+                    return !this.props.username ? <Redirect to="/" /> : <Reviews />
                   }} />
                 </main>
               <PageFooter />
@@ -55,8 +55,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-      username: state.auth.username,
-      toDash: state.auth.toDash
+      username: state.auth.username
   }
 }
 

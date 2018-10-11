@@ -13,7 +13,7 @@ export const loginUser = (object) => dispatch => {
         console.log('LOGIN RESPONSE ', json)
         if(json.status === 200) {
             localStorage.setItem('username', object.loginUsername)
-            return dispatch({ type:'LOGIN_SUCCESS' })
+            return dispatch({ type:'LOGIN_SUCCESS' , payload: object.loginUsername})
         } else {
             return dispatch({ type:'LOGIN_FAILED' })
         }

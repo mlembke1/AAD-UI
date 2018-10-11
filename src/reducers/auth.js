@@ -1,5 +1,4 @@
 export const auth = ( state={ 
-  toDash: false, 
   username: null,
   signupFailed: false,
   loginFailed: false,
@@ -12,7 +11,7 @@ export const auth = ( state={
  }, action) => {
     switch(action.type){
       case 'RESET_STATE':
-        return { toDash: false, 
+        return { 
           username: null,
           signupFailed: false,
           loginFailed: false,
@@ -25,13 +24,13 @@ export const auth = ( state={
       case 'SET_LOGGED_IN_USER':
         return { ...state, username: action.payload }
       case 'SIGNUP_SUCCESS':
-        return { ...state, toDash: true }
+        return { ...state, username: action.payload }
       case 'SIGNUP_FAILED':
           return { ...state, signupFailed: true }
       case 'LOGIN_SUCCESS':
-        return { ...state, toDash: true }
+        return { ...state, username: action.payload }
       case 'LOGIN_FAILED':
-          return { ...state, loginFailed: true, toDash: false }    
+          return { ...state, loginFailed: true }    
       // USED FOR SIGNUP 
       case 'USERNAME_IS_TAKEN':
         return { ...state, usernameIsTaken: true }
@@ -53,7 +52,7 @@ export const auth = ( state={
       case 'EMAIL_IS_VALID_AND_FREE':
         return { ...state, emailIsTaken: false, emailExists: false, invalidEmail: false }  
       case 'LOGOUT':
-        return { toDash: false, 
+        return { 
           username: null,
           signupFailed: false,
           loginFailed: false,
@@ -63,8 +62,6 @@ export const auth = ( state={
           emailExists: true, 
           invalidEmail: false, 
           tools: null }  
-      case 'TOOLS_AQUIRED':
-        return { ...state, tools: action.payload }  
 
       default:
         return state
