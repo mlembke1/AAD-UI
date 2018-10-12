@@ -50,6 +50,7 @@ class Signup extends Component {
     }
 
     setPasswordLengthPasses = () => {
+      console.log('Here is the password length', this.state.passwordInputValue.length)
       if(this.state.passwordInputValue.length >= 8 && this.state.passwordInputValue.length <= 30 ){
         this.setState({
           ...this.state,
@@ -64,6 +65,7 @@ class Signup extends Component {
     }
     
     setConfirmPasswordLengthPasses = () => {
+      console.log('Here is the confirm password length', this.state.confirmPasswordInputValue.length)
       if(this.state.confirmPasswordInputValue.length >= 8 && this.state.confirmPasswordInputValue.length <= 30 ){
         this.setState({
           ...this.state,
@@ -97,13 +99,13 @@ class Signup extends Component {
 
     
     passwordHandler = async  () => {
-      await this.setPasswordsMatch()
       await this.setPasswordLengthPasses()
+      await this.setPasswordsMatch()
     }
     
     confirmPasswordHandler = async  () => {
-      await this.setPasswordsMatch()
       await this.setConfirmPasswordLengthPasses()
+      await this.setPasswordsMatch()
     }
 
 
@@ -112,10 +114,17 @@ class Signup extends Component {
       this.setUsernameLengthPasses()
     }
     
-    updateInputValue(evt, inputType) {
-      return this.setState({
-        [inputType]: evt.target.value
-      })
+    updateInputValue = (evt, inputType) => {
+      this.setState({[inputType]: evt.target.value}, () => this.validatePasswords(inputType))
+    }
+
+    validatePasswords = inputType => {
+      if(inputType == "passwordInputValue"){
+        this.passwordHandler()
+      }
+      if(inputType == "confirmPasswordInputValue"){
+        this.confirmPasswordHandler()
+      }
     }
     
     handleSubmit = () => {
@@ -164,7 +173,7 @@ class Signup extends Component {
                 {this.props.emailIsTaken ? <div className="error-text">Email already taken.</div> : null }
                 
                 <Input 
-                onBlur={() => this.passwordHandler()}
+                // onBlur={() => this.passwordHandler()}
                 value={this.state.passwordInputValue}
                 onChange={evt => this.updateInputValue(evt, 'passwordInputValue')}
                 className="signup-input"
@@ -174,7 +183,7 @@ class Signup extends Component {
                 {!this.state.passwordLengthPasses ? <div className="error-text">Password must be between 8 and 30 characters.</div> : null }
               
                <Input 
-                onBlur={() => this.confirmPasswordHandler()}
+                // onBlur={() => this.confirmPasswordHandler()}
                 value={this.state.confirmPasswordInputValue}
                 onChange={evt => this.updateInputValue(evt, 'confirmPasswordInputValue')}
                 className="signup-input"

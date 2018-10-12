@@ -64,9 +64,9 @@ class Portal extends Component {
                           trigger={<Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light'> Open <Icon right tiny className="data">touch_app</Icon></Button>}>
                           <Row className="valign-wrapper margin-top">
                             <Col s={6}>
-                              <div>username: <span className="credentials">"admin"</span></div>
+                              <div>username: <span className="credentials">admin</span></div>
                               <hr></hr>
-                              <div>password: <span className="credentials">"password4u"</span></div>
+                              <div>password: <span className="credentials">password4u</span></div>
                               <hr></hr>
                             </Col>
                             <Col s={6}>

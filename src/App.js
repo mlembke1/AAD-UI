@@ -44,7 +44,6 @@ class App extends Component {
                   <Route exact path="/reviews" render={() => {
                     return !this.props.username ? <Redirect to="/" /> : <Reviews />
                   }} />
-                  
                 </main>
               <PageFooter />
             </div>
