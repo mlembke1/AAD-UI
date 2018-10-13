@@ -213,29 +213,29 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId, isPDF) => {
-      console.log('HERE IS THE BASE64', base64)
-      console.log('HERE IS THE CAVNASID', canvasId)
-      console.log('HERE IS THE isPDF', isPDF)
+      console.log('IVE BEEN HIT.')
+      console.log("Canvas ID", canvasId)
     if(isPDF){
         const pdfData = atob(base64);
           
           // Loaded via <script> tag, create shortcut to access PDF.js exports.
           const pdfjsLib = window['pdfjs-dist/build/pdf'];
+          const PDFJS = pdfjsLib;
+
           
           // The workerSrc property shall be specified.
-        //   pdfjsLib.GlobalWorkerOptions.workerSrc
+        //   pdfjsLib.GlobalWorkerOptions.workerSrc ='//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
           
           // Using DocumentInitParameters object to load binary data.
-          const loadingTask = pdfjsLib.getDocument({data: pdfData});
+          const loadingTask = PDFJS.getDocument({data: pdfData});
           loadingTask.promise.then(function(pdf) {
-            console.log('PDF loaded');
             
             // Fetch the first page
             const pageNumber = 1;
             pdf.getPage(pageNumber).then(function(page) {
-              console.log('Page loaded');
               
-              const scale = 1.5;
+              const scale = 3;
               const viewport = page.getViewport(scale);
           
               // Prepare canvas using PDF page dimensions
@@ -435,7 +435,15 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
-                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            trigger={
+                                            <div className="view-attachment-button" >
+                                                <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 
+                                                className="open-attachment-span" >
+                                                    View
+                                                    <Icon right tiny className="data">folder_open</Icon>
+                                                </span>
+                                            </div>
+                                            }>
                                             {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
