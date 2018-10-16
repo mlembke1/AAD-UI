@@ -401,7 +401,15 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
-                                            trigger={<Button className="view-attachment-button"><span className="open-attachment-span" onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')}>View<Icon right tiny className="data">folder_open</Icon></span></Button>}>
+                                            trigger={
+                                            <div className="portal-buttons view-buttons" >
+                                                <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 
+                                                className="open-attachment-span" >
+                                                    View
+                                                    <Icon right tiny className="data view-icon">folder_open</Icon>
+                                                </span>
+                                            </div>
+                                            }>
                                             {   
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
@@ -436,11 +444,11 @@ class Reviews extends Component {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
                                             trigger={
-                                            <div className="view-attachment-button" >
+                                            <div className="portal-buttons view-buttons" >
                                                 <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 
                                                 className="open-attachment-span" >
                                                     View
-                                                    <Icon right tiny className="data">folder_open</Icon>
+                                                    <Icon right tiny className="data view-icon">folder_open</Icon>
                                                 </span>
                                             </div>
                                             }>
