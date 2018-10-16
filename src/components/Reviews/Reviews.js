@@ -45,7 +45,7 @@ class Reviews extends Component {
                     }
                 })
             }
-        }, 100)
+        }, 300)
     }
 
     updateInputValue(evt, inputType) {
@@ -159,6 +159,7 @@ class Reviews extends Component {
     else {
         this.props.editSaveToggle(editable, toolName, reviewId)
         this.setState({
+            ...this.state,
             editToolNameInputValue: toolName,
             editTextInputValue: text
         })
