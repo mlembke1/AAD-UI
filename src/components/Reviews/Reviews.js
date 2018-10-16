@@ -214,53 +214,39 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId, isPDF) => {
-      console.log('IVE BEEN HIT.')
-      console.log("Canvas ID", canvasId)
+      
     if(isPDF){
         const pdfData = atob(base64);
-          
-          // Loaded via <script> tag, create shortcut to access PDF.js exports.
-          const pdfjsLib = window['pdfjs-dist/build/pdf'];
-          const PDFJS = pdfjsLib;
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        const PDFJS = pdfjsLib;
 
-          
-          // The workerSrc property shall be specified.
-        //   pdfjsLib.GlobalWorkerOptions.workerSrc ='//mozilla.github.io/pdf.js/build/pdf.worker.js';
-
-          
-          // Using DocumentInitParameters object to load binary data.
-          const loadingTask = PDFJS.getDocument({data: pdfData});
-          loadingTask.promise.then(function(pdf) {
+        function renderPage(page) {
+            var viewport = page.getViewport(1.4);
+            const canvas = document.createElement('canvas');
+            const canvasContainer = document.getElementById(`${canvasId}-container`)
+            console.log(canvasContainer)
+            var ctx = canvas.getContext('2d');
+            var renderContext = {
+              canvasContext: ctx,
+              viewport: viewport
+            };
             
-            // Fetch the first page
-            const pageNumber = 1;
-            pdf.getPage(pageNumber).then(function(page) {
-              
-              const scale = 3;
-              const viewport = page.getViewport(scale);
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            canvasContainer.appendChild(canvas);
+            
+            page.render(renderContext);
+        }
+        
+        function renderPages(pdfDoc) {
+            for(var num = 1; num <= pdfDoc.numPages; num++)
+                pdfDoc.getPage(num).then(renderPage);
+        }
+        PDFJS.disableWorker = true;
+        PDFJS.getDocument({data: pdfData}).then(renderPages);
           
-              // Prepare canvas using PDF page dimensions
-              const canvas = document.getElementById(`${canvasId}`)
-              const context = canvas.getContext('2d');
-              canvas.height = viewport.height;
-              canvas.width = viewport.width;
-          
-              // Render PDF page into canvas context
-              const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-              };
-              const renderTask = page.render(renderContext);
-              renderTask.then(function () {
-                console.log('Page rendered');
-              });
-            });
-          }, function (reason) {
-            // PDF loading error
-            console.error(reason);
-          });
-    }
-      
+        
+    } 
   }
 
   removeFileHandler = reviewId => {
@@ -402,6 +388,7 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
+                                            className="modal"
                                             trigger={
                                             <div className="portal-buttons view-buttons" >
                                                 <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 
@@ -413,7 +400,7 @@ class Reviews extends Component {
                                             }>
                                             {   
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
-                                                <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                                <div id={`${review.id}-canvas-container`}></div> :
                                                 review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' || review.path.substr(review.path.length - 3) == 'jpeg' ?
                                                 <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
@@ -444,6 +431,7 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
+                                            className="modal"
                                             trigger={
                                             <div className="portal-buttons view-buttons" >
                                                 <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 
@@ -455,7 +443,7 @@ class Reviews extends Component {
                                             }>
                                             {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
-                                                <canvas className="canvas" width="100%" id={`${review.id}-canvas`}></canvas> :
+                                                <div id={`${review.id}-canvas-container`}></div> :
                                                 review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
                                                 <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
