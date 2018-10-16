@@ -346,7 +346,7 @@ class Reviews extends Component {
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
                                 disabled={false} type='textarea' value={this.state.editTextInputValue} />
                             :
-                                <Input  disabled={true} type='textarea' defaultValue={review.text} />
+                                <Input  disabled={true} type='textarea' value={review.text} />
                             }
                         </Row>
                         {
