@@ -223,8 +223,8 @@ class Reviews extends Component {
         function renderPage(page) {
             var viewport = page.getViewport(1.4);
             const canvas = document.createElement('canvas');
-            const canvasContainer = document.getElementById(`${canvasId}-container`)
-            console.log(canvasContainer)
+            const canvasContainer = document.getElementById(`${canvasId}-container`)            
+            canvasContainer.innerHTML = ""
             var ctx = canvas.getContext('2d');
             var renderContext = {
               canvasContext: ctx,
