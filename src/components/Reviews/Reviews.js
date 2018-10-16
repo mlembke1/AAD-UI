@@ -219,12 +219,12 @@ class Reviews extends Component {
         const pdfData = atob(base64);
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
         const PDFJS = pdfjsLib;
+        const canvasContainer = document.getElementById(`${canvasId}-container`)            
+        canvasContainer.innerHTML = ""
 
         function renderPage(page) {
             var viewport = page.getViewport(1.4);
             const canvas = document.createElement('canvas');
-            const canvasContainer = document.getElementById(`${canvasId}-container`)            
-            canvasContainer.innerHTML = ""
             var ctx = canvas.getContext('2d');
             var renderContext = {
               canvasContext: ctx,
