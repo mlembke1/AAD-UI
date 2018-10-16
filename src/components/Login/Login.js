@@ -41,17 +41,17 @@ class Login extends Component {
   }
 
   setPasswordLengthPasses = () => {
-    if(this.state.passwordInputValue.length >= 8 && this.state.passwordInputValue.length <= 30){
-      this.setState({
-        ...this.state,
-        passwordLengthPasses: true
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        passwordLengthPasses: false
-      }) 
-    }
+      if(this.state.passwordInputValue.length >= 8 && this.state.passwordInputValue.length <= 30){
+        this.setState({
+          ...this.state,
+          passwordLengthPasses: true
+        })
+      } else {
+        this.setState({
+          ...this.state,
+          passwordLengthPasses: false
+        }) 
+      }
   }
 
   handleUsername = async () => {
@@ -73,9 +73,15 @@ class Login extends Component {
   }
 
   updateInputValue(evt, inputType) {
-    return this.setState({
-      [inputType]: evt.target.value
-    })
+    return this.setState({ [inputType]: evt.target.value }, () => this.validate(inputType))
+  }
+
+  validate = inputType => {
+    if(inputType == 'passwordInputValue'){
+      this.setPasswordLengthPasses()
+    } else {
+      this.setUsernameLengthPasses()
+    }
   }
 
   render() {
@@ -92,7 +98,6 @@ class Login extends Component {
                   {!this.state.usernameLengthPasses ? <div className="error-text">All usernames are 8-30 characters long.</div> : null }
                   <Input 
                   onChange={evt => this.updateInputValue(evt, 'passwordInputValue')} 
-                  onBlur={() => this.setPasswordLengthPasses()}
                   s={12} 
                   type="password"
                   label="Password" />
