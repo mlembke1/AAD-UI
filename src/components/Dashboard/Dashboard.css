@@ -14,18 +14,16 @@ i.orange-icon {
 
 hr.thick-line-orange {
     border: none;
-    height: 4px;
-    /* Set the hr color */
-    color: #dc4c18; /* old IE */
-    background-color: #dc4c18; /* Modern Browsers */
+    height: 1px;
+    color: #262626;
+    background-color: #262626;
 }
 
 hr.thick-line-blue {
     border: none;
-    height: 4px;
-    /* Set the hr color */
-    color: #033076; /* old IE */
-    background-color: #033076; /* Modern Browsers */
+    height: 1px;
+    color: #262626;
+    background-color: #262626;
 }
 
 .draw-wrapper {
