@@ -11,6 +11,7 @@ import { deleteReview } from '../../actions/deleteReview'
 import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
 import { removeFile } from '../../actions/removeFile'
+import { setIsFetching } from '../../actions/setIsFetching'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 
 
@@ -41,6 +42,7 @@ class Reviews extends Component {
             } else {
                 this.props.allReviews.map(review => {
                     if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                        this.props.setIsFetching()
                         this.props.getFile(review.path.substring(15), review.id)
                     }
                 })
@@ -200,6 +202,7 @@ class Reviews extends Component {
         setTimeout(() => {
             this.props.allReviews.map(review => {
                 if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                    this.props.setIsFetching()
                     this.props.getFile(review.path.substring(15), review.id)
                 }
             })
@@ -429,6 +432,14 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
+                                        this.props.isFetching && review.path ? 
+                                        <div>
+                                        <div className="progress">
+                                            <div className="indeterminate"></div>
+                                        </div>
+                                        <div>Loading File...</div>
+                                        </div>
+                                        :
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
                                             className="review-modal"
@@ -550,7 +561,8 @@ const mapStateToProps = state => {
   return {
       username: state.auth.username,
       allReviews: state.reviews.allReviews,
-      files: state.reviews.files
+      files: state.reviews.files,
+      isFetching: state.reviews.isFetching
   }
 }
 
@@ -563,6 +575,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     deleteReview,
     getFile, 
     clearFiles, 
+    setIsFetching, 
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

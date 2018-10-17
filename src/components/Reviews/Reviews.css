@@ -155,3 +155,25 @@ ul.dropdown-content.select-dropdown li span {
 }
 
 .review-modal { width: 75% !important ; height: 150% !important ; overflow: scroll; }  /* increase the height and width as you desire */
+
+.indeterminate {
+    width: 70%;
+}
+
+.progress {
+    position: relative;
+    height: 4px;
+    display: block;
+    width: 80%;
+    text-align: center;
+    background-color: #033076;
+    border-radius: 2px;
+    margin: .5rem 0 1rem 0;
+    overflow: hidden;
+    margin: 20px auto;
+}
+
+.progress .indeterminate:before,
+.progress .indeterminate:after {
+    background-color: #dc4c18 !important;
+}
