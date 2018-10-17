@@ -30,8 +30,6 @@
 body {
   /* font-family: 'Alegreya Sans SC', sans-serif; */
   font-family: 'Quicksand', sans-serif;
-
-
 }
 
 
@@ -39,7 +37,7 @@ div.app-body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  /* color: white; */
+  color: pink;
 }
 
 main.app {
