@@ -86,7 +86,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .error-text{
-    color: tomato;
+    color: #BD3D3A;
     font-weight: 700;
 }
 

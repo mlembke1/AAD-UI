@@ -87,7 +87,7 @@ class Login extends Component {
   render() {
       return (
         <main>
-              <h4 className="signup-login-header">Login</h4>
+              <h4 className="signup-login-header login-header">Login</h4>
               <Row className="login-signup-form">
                   <Input 
                     onChange={evt => this.updateInputValue(evt, 'usernameInputValue')} 

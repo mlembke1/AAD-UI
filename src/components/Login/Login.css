@@ -10,7 +10,7 @@ input:focus:not([readonly]) {
 }
 
 label {
-    color: #033076 !important;
+    color: #262626 !important;
 }
 
 input[type='email']:-webkit-autofill {
@@ -19,26 +19,28 @@ input[type='email']:-webkit-autofill {
 
 .login-signup-submit-button {
     background-color: white;
-    color: #dc4c18;
+    color: #262626;
     margin-top: 20px;
 }
 .login-signup-submit-button:hover {
-    background-color: #033076;
+    background-color: #262626;
     color: white;
 }
 
 .login-signup-submit-button:focus {
     background-color: white;
-    color: #dc4c18;
+    color: #262626;
 }
 
 .signup-login-header {
     text-align: center;
     margin-top: 50px;
+    color:  #262626;
+    font-weight: 300;
 }
 
 .error-text{
-    color: tomato;
+    color: #BD3D3A;
 }
 
 [type="checkbox"]:checked+label:before {
@@ -48,4 +50,8 @@ input[type='email']:-webkit-autofill {
 
 [type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after {
     border: 2px solid #dc4c18;
+}
+
+.login-header {
+    margin-top: 125px;
 }
