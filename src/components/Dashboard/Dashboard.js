@@ -38,9 +38,9 @@ class Dashboard extends Component {
           </Section>
 
           <Section id="dash-body-wrapper valign-wrapper">
-            <Row s={12} className='center valign-wrapper'>
-              <Col s={2}></Col>
-              <Col className='center' s={4}>
+            <Row s={12} className='center valign-wrapper dash-row-wrapper'>
+              {/* <Col s={2}></Col> */}
+              <Col className='center border-right-bottom' s={6}>
                   <Link  to="/reviews">
                     <div className="draw-wrapper draw ">
                       <Icon className="orange-icon" large>assignment</Icon>
@@ -49,7 +49,7 @@ class Dashboard extends Component {
                     </div>
                   </Link>
               </Col>
-              <Col className='center' s={4}>
+              <Col className='center border-left-bottom' s={6}>
                   <Link  to="/portal">
                     <div className="draw-wrapper draw ">
                       <Icon className="orange-icon" large>touch_app</Icon>
@@ -58,7 +58,7 @@ class Dashboard extends Component {
                     </div>
                   </Link>
               </Col>
-              <Col s={2}></Col>
+              {/* <Col s={2}></Col> */}
             </Row>
             <Row><Col s={12}></Col></Row>
           </Section>

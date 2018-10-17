@@ -26,7 +26,7 @@ hr.thick-line-blue {
     background-color: #262626;
 }
 
-.draw-wrapper {
+/* .draw-wrapper {
     background: none;
     border: 0;
     box-sizing: border-box;
@@ -73,4 +73,40 @@ hr.thick-line-blue {
 .draw:hover::after {
     transform: scale3d(1,1,1);
     transition: transform 0.5s;
+} */
+
+.border-right-bottom {
+    border-right: .5px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    margin-left: 10px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.border-left-bottom {
+    border-left: .5px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    margin-right: 10px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.border-right-top {
+    border-right: .5px solid #dcdcdc;
+    border-top: 1px solid #dcdcdc;
+    margin-left: 10px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.border-left-top {
+    border-left: .5px solid #dcdcdc;
+    border-top: 1px solid #dcdcdc;
+    margin-right: 10px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.dash-row-wrapper {
+    min-height: 100%;
 }
