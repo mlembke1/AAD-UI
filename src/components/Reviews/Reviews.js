@@ -388,7 +388,7 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
-                                            className="modal"
+                                            className="review-modal"
                                             trigger={
                                             <div className="portal-buttons view-buttons" >
                                                 <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 
@@ -431,7 +431,7 @@ class Reviews extends Component {
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
                                             <Modal
-                                            className="modal"
+                                            className="review-modal"
                                             trigger={
                                             <div className="portal-buttons view-buttons" >
                                                 <span onClick={() => this.openAttachment(this.props.files.filter(file => file.review_id == review.id)[0].file, `${review.id}-canvas`, review.path.substr(review.path.length - 3) == 'pdf')} 

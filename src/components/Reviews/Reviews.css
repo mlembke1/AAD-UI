@@ -154,4 +154,4 @@ ul.dropdown-content.select-dropdown li span {
     margin-top: 10px;
 }
 
-.modal { width: 75% !important ; height: 150% !important ; overflow: scroll; }  /* increase the height and width as you desire */
+.review-modal { width: 75% !important ; height: 150% !important ; overflow: scroll; }  /* increase the height and width as you desire */
