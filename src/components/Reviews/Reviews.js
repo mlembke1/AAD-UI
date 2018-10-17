@@ -214,10 +214,10 @@ class Reviews extends Component {
 
 
   openAttachment = (base64, canvasId, isPDF) => {
-      
     if(isPDF){
         const pdfData = atob(base64);
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
         const PDFJS = pdfjsLib;
         const canvasContainer = document.getElementById(`${canvasId}-container`)            
         canvasContainer.innerHTML = ""
