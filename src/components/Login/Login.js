@@ -76,12 +76,12 @@ class Login extends Component {
     return this.setState({ [inputType]: evt.target.value }, () => this.validate(inputType))
   }
 
-  validate = inputType => {
+  validate = async inputType => {
     if(inputType == 'passwordInputValue'){
       this.setPasswordLengthPasses()
-    } else {
-      this.setUsernameLengthPasses()
-    }
+    } else if (inputType == 'usernameInputValue'){
+      await this.handleUsername()
+    } 
   }
 
   render() {
@@ -92,8 +92,7 @@ class Login extends Component {
                   <Input 
                     onChange={evt => this.updateInputValue(evt, 'usernameInputValue')} 
                     s={12} 
-                    label="Username" 
-                    onBlur={() => this.handleUsername()} />
+                    label="Username" />
                   {!this.props.usernameExists ? <div className="error-text">Username doesn't exist.</div> : null }
                   {!this.state.usernameLengthPasses ? <div className="error-text">All usernames are 8-30 characters long.</div> : null }
                   <Input 
