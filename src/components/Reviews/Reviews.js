@@ -284,7 +284,8 @@ class Reviews extends Component {
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                <Icon className="orange-icon" right={true} medium>assignment</Icon>
+                {/* <Icon className="orange-icon" right={true} medium>assignment</Icon> */}
+                <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
                 <h5 className="dash-username">Reviews</h5>

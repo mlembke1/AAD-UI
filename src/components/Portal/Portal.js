@@ -31,7 +31,7 @@ class Portal extends Component {
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                <Icon className="orange-icon" right={true} medium>touch_app</Icon>
+              <img src={require("../../assets/launch_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
                 <h5 className="dash-username">Launch Portal</h5>
@@ -59,21 +59,6 @@ class Portal extends Component {
                     </Col>
                     <Col s={4} className="center">
                         <Row>
-                        {/* <Modal
-                          header="You'll need some credentials:"
-                          trigger={<Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light'> Open <Icon right tiny className="data">touch_app</Icon></Button>}>
-                          <Row className="valign-wrapper margin-top">
-                            <Col s={6}>
-                              <div>username: <span className="credentials">admin</span></div>
-                              <hr></hr>
-                              <div>password: <span className="credentials">password4u</span></div>
-                              <hr></hr>
-                            </Col>
-                            <Col s={6}>
-                              <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons sortoe-launch-button" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
-                            </Col>
-                          </Row>
-                        </Modal> */}
                           <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
                         </Row>
                         <Row>

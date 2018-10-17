@@ -32,7 +32,7 @@ class Dashboard extends Component {
             </Row>
             <Row>
               <Col s={12}>
-                <hr className="thick-line-blue" />
+                <hr className="thin" />
               </Col>
             </Row>
           </Section>
@@ -43,18 +43,36 @@ class Dashboard extends Component {
               <Col className='center border-right-bottom' s={6}>
                   <Link  to="/reviews">
                     <div className="draw-wrapper draw ">
-                      <Icon className="orange-icon" large>assignment</Icon>
-                      <div>Tool Assessments</div>
-                      <hr className="thick-line-blue width40Per"/>
+                      <img src={require("../../assets/assessment_icon.png")} width="100px" />
+                      <br /> 
+                      <br /> 
+                      <div>ASSESSMENTS</div>
+                      <br /> 
+                      <hr className="thin width40Per"/>
+                      <br /> 
+                      <p className="dashboard-description-text">
+                      Come here to post reviews on all the tools you have used. You'll have the opportunity to upload files and leave some custom comments.
+                      </p>
+                      <br /> 
+                      <hr className="thin width40Per"/>
                     </div>
                   </Link>
               </Col>
               <Col className='center border-left-bottom' s={6}>
                   <Link  to="/portal">
                     <div className="draw-wrapper draw ">
-                      <Icon className="orange-icon" large>touch_app</Icon>
-                      <div>Launch Portal</div>
-                      <hr className="thick-line-blue width40Per"/>
+                      <img src={require("../../assets/launch_icon.png")} width="100px" />
+                      <br /> 
+                      <br /> 
+                      <div>PORTAL</div>
+                      <br /> 
+                      <hr className="thin width40Per"/>
+                      <br /> 
+                      <p className="dashboard-description-text">
+                      All tools available will be found here. Take a look and see which ones are the most useful.
+                      </p>
+                      <br /> 
+                      <hr className="thin width40Per"/>
                     </div>
                   </Link>
               </Col>
