@@ -29,7 +29,9 @@
 
 body {
   /* font-family: 'Alegreya Sans SC', sans-serif; */
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: 2px;
 }
 
 
@@ -37,7 +39,6 @@ div.app-body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  color: pink;
 }
 
 main.app {
