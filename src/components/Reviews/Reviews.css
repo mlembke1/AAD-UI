@@ -131,7 +131,7 @@ ul.dropdown-content.select-dropdown li span {
 }
 
 .view-buttons {
-    max-width: 90%;
+    max-width: 70%;
     margin: auto;
     border: none;
     border-radius: 2px;
@@ -157,14 +157,14 @@ ul.dropdown-content.select-dropdown li span {
 .review-modal { width: 75% !important ; height: 150% !important ; overflow: scroll; }  /* increase the height and width as you desire */
 
 .indeterminate {
-    width: 70%;
+    max-width: 70%;
 }
 
 .progress {
     position: relative;
     height: 4px;
     display: block;
-    width: 80%;
+    width: 60%;
     text-align: center;
     background-color: #033076;
     border-radius: 2px;
