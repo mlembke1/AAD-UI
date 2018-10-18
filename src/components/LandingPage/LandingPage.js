@@ -13,7 +13,9 @@ class LandingPage extends Component {
   }
 
   componentDidMount(){
-    this.typeWriter()
+    setTimeout(() => {
+      this.typeWriter()
+    }, 600)
   }
 
   typeWriter = () => {
