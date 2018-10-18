@@ -14,6 +14,7 @@ import { removeFile } from '../../actions/removeFile'
 import { setIsFetching } from '../../actions/setIsFetching'
 import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
+import { Redirect } from 'react-router-dom'
 
 
 
@@ -278,6 +279,9 @@ class Reviews extends Component {
   }
 
   render() {
+    if(!this.props.username){
+        return <Redirect to="/" />
+      } else {
       return (
         <div>
           {/* ////////////////////  ///////   ///////////////////////// */}
@@ -559,6 +563,7 @@ class Reviews extends Component {
             </Section>  
         </div>
       )
+    }
   }
 }
 

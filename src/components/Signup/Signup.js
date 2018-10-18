@@ -9,10 +9,11 @@ import { checkCookie } from '../../actions/checkCookie'
 import { validateEmail } from '../../actions/validateEmail'
 import { inviteToSlack } from '../../actions/inviteToSlack'
 import { resetState } from '../../actions/resetState'
+import { Redirect } from 'react-router-dom'
 class Signup extends Component {
 
   componentWillMount(){
-    this.props.resetState()
+    // this.props.resetState()
     this.props.checkCookie()
   }
 
@@ -146,6 +147,9 @@ class Signup extends Component {
 
 
   render() {
+    if(this.props.username){
+      return <Redirect to="/dashboard" />
+    } else {
       return (
         <main>
           <h4 className="signup-login-header">Signup</h4>
@@ -217,6 +221,7 @@ class Signup extends Component {
           </Row>
         </main> 
       )
+    }
   }
 }
 const mapStateToProps = state => {

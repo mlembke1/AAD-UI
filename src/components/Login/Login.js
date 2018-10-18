@@ -7,12 +7,13 @@ import { loginUser } from '../../actions/loginUser'
 import { doesUsernameExist } from '../../actions/doesUsernameExist'
 import { checkCookie } from '../../actions/checkCookie'
 import { resetState } from '../../actions/resetState'
+import { Redirect } from 'react-router-dom'
 
 class Login extends Component {
 
   componentWillMount(){
     this.props.checkCookie()
-    this.props.resetState()
+    // this.props.resetState()
   }
 
 
@@ -85,6 +86,9 @@ class Login extends Component {
   }
 
   render() {
+    if(this.props.username){
+      return <Redirect to="/dashboard" />
+    } else {
       return (
         <main>
               <h4 className="signup-login-header login-header">Login</h4>
@@ -116,6 +120,7 @@ class Login extends Component {
               </Row>
          </main> 
       )
+    }
   }
 }
 

@@ -1,9 +1,4 @@
-
-const clearLocalStorage = async () => {
-        return localStorage.clear()
-}
-
 export const logout = () => dispatch => {
-        clearLocalStorage() 
+        localStorage.clear()
         return dispatch({type: 'LOGOUT'})
 }
