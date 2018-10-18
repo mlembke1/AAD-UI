@@ -28,10 +28,9 @@
 }
 
 body {
-  /* font-family: 'Alegreya Sans SC', sans-serif; */
-  font-family: 'Quicksand', sans-serif;
-
-
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  letter-spacing: .4px;
 }
 
 
@@ -39,9 +38,20 @@ div.app-body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  /* color: white; */
+  background-color: #f5f5f5;
+  color: #3f3f3f;
 }
 
 main.app {
   flex: 1 0 auto;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s !important;
+}
+.btn {
+  border-radius: 0 !important;
 }

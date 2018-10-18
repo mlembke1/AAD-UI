@@ -36,13 +36,13 @@
 }
 
 div.btn {
-    background-color: #dc4c18 !important;
+    background-color: #262626 !important;
     color: white;
 }
 
 textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #dc4c18;
-    box-shadow: 0 1px 0 0 #dc4c18;
+    border-bottom: 1px solid #262626;
+    box-shadow: 0 1px 0 0 #262626;
 }
 
 .review-underline-wrapper {
@@ -58,7 +58,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
     display: block;
     width: 0;
     height: 1px;
-    background: #dc4c18;
+    background: #262626;
     transition: width .6s;
 }
 
@@ -86,7 +86,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .error-text{
-    color: tomato;
+    color: #BD3D3A;
     font-weight: 700;
 }
 
@@ -95,12 +95,12 @@ i.icon-green {
 }
 
 .btn:hover, .btn-large:hover {
-    background-color: #dc4c18;
+    background-color: #262626;
     color: white;
 }
 
 ul.dropdown-content.select-dropdown li span {
-    color: #dc4c18;
+    color: #262626;
 }
 
 .delete-button {
@@ -140,10 +140,11 @@ ul.dropdown-content.select-dropdown li span {
     padding: 0 2rem;
     text-transform: uppercase;
     -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+    border-radius: 0 !important;
 }
 
 .view-buttons:hover {
-    background-color: #dc4c18;
+    background-color: #262626;
 }
 
 .view-buttons:focus {
@@ -166,7 +167,7 @@ ul.dropdown-content.select-dropdown li span {
     display: block;
     width: 60%;
     text-align: center;
-    background-color: #033076;
+    background-color: #dcdcdc;
     border-radius: 2px;
     margin: .5rem 0 1rem 0;
     overflow: hidden;
@@ -175,5 +176,10 @@ ul.dropdown-content.select-dropdown li span {
 
 .progress .indeterminate:before,
 .progress .indeterminate:after {
-    background-color: #dc4c18 !important;
+    background-color: #262626 !important;
+}
+
+.collapsible-header {
+    background-color: #f5f5f5;
+    justify-content: center;
 }

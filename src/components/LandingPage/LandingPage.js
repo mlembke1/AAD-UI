@@ -12,6 +12,26 @@ class LandingPage extends Component {
     this.props.checkCookie()
   }
 
+  componentDidMount(){
+    this.typeWriter()
+  }
+
+  typeWriter = () => {
+    let i = 0;
+    const txt = 'Test tools. Give Feedback. Move Forward.'; /* The text */
+    const speed = 70; /* The speed/duration of the effect in milliseconds */
+    
+    const type = () =>  {
+      if (i < txt.length) {
+        document.getElementById("typing").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(type, speed);
+      }
+    }
+
+    type()
+  }
+
 
   render() {
         return (
@@ -22,10 +42,8 @@ class LandingPage extends Component {
               <div className="aad-title">DEMONSTRATOR</div>
             </div>
   
-            <div id="aad-paragraph">
-              <h5>
-                Test tools. Give Feedback. Move Forward.
-              </h5>
+            <div className="typewriter" id="aad-paragraph">
+              <h5 id="typing"></h5>
             </div>
   
             <div id="signup-login-buttons-container">

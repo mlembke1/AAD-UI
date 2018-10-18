@@ -8,11 +8,15 @@ import { logout } from '../../actions/logout'
 
 
 class Header extends Component {
-
-  render() {
+    
+    render() {
+    const Img = 
+    <div className="valign-wrapper">
+        <img src={require("../../assets/aad_logo.png")} className="aad_logo" width="40px"  /> <span>a.a.d.</span>
+    </div>
     if (this.props.username || this.props.toDash) {
         return (
-            <Navbar className="navbar-logo" brand='a.a.d.' right>
+            <Navbar className="navbar-logo" brand={Img} right>
                 <div onClick={() => this.props.logout()}>
                     <Link to="/"> Logout </Link>
                 </div>
@@ -20,7 +24,7 @@ class Header extends Component {
         )
       } else {
         return (
-            <Navbar className="navbar-logo" brand="a.a.d." right>
+            <Navbar className="navbar-logo" brand={Img} right>
                 <Link className="link" to="/login"> Login </Link>
                 <Link className="link" to="/signup"> Signup </Link>
             </Navbar>

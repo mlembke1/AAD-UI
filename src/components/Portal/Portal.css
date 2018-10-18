@@ -16,7 +16,7 @@
     display: block;
     width: 0;
     height: 1px;
-    background: #dc4c18;
+    background: #262626;
     transition: width .6s;
 }
 
@@ -26,23 +26,22 @@
 }
 
 .portal-buttons {
-    background-color: #033076;
+    background-color: #262626;
     color: white;
     transition: .15s !important;
     min-width: 70%;
 }
 
 .portal-buttons:hover {
-    background-color: #033076;
-    border: 1px solid #dc4c18;
+    opacity: .7;
 }
 
 .portal-buttons:focus {
-    background-color: #033076;
+    background-color: #262626;
 }
 
 .tool-name {
-    border-bottom: 1px solid #033076;
+    border-bottom: 1px solid #262626;
     padding-bottom: 5px;
     min-width: 100px;
 }
@@ -83,11 +82,11 @@
 }
 
 .text {
-  background-color: #dc4c18;
+  background-color: #262626;
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 1.3em !important;
-  text-shadow: #033076;
+  text-shadow: #262626;
   color: white;
   font-size: 16px;
   padding: 16px 32px;
@@ -110,3 +109,8 @@ div.row.null.tool-wrapper {
 .margin-top {
     margin-top: 60px;
 }
+
+/* .tool-description {
+    font-family:  'Josefin Slab', serif;
+    font-size: 1.2em;
+} */

@@ -1,7 +1,10 @@
 
 main.landing-page {
     flex: 1 0 auto;
-    background-image: url('../../assets/landingPageBackground.jpg');
+    background: linear-gradient(
+                     rgba(20,20,20, .5), 
+                     rgba(20,20,20, .5)),
+                     url('../../assets/landingPageBackground2.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -11,19 +14,22 @@ main.landing-page {
 
 .aad-title {
     font-size: 5em;
-
-    font-weight:400;
-    text-shadow: 2px 1px #a5360e;
+    font-weight:100;
+    text-shadow: 2px 1px #262626;
     color: white;
     margin-left: 1em;
     line-height: 70px;
 }
 
+#aad-title-container {
+    padding-top: 30px;
+}
+
 
 #aad-paragraph h5 {
-    font-weight:700;
+    font-weight:300;
     color: white;
-    text-shadow: 3px 1px black;;
+    text-shadow: 1px 1px black;;
     margin-left: 6em;
     margin-top: 3em;
     line-height: 20px;
@@ -50,5 +56,5 @@ main.landing-page {
 }
 
 .side-nav {
-    background-color: #dc4c18;
+    background-color: #262626;
 }

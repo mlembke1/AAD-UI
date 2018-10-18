@@ -23,7 +23,7 @@ class Dashboard extends Component {
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                <Icon className="orange-icon" right={true} medium>account_circle</Icon>
+              <img src={require("../../assets/person_icon.png")}  width="50px" />
               </Col>
               <Col s={1}>
                 <h5 className="dash-username">{this.props.username}</h5>
@@ -32,33 +32,41 @@ class Dashboard extends Component {
             </Row>
             <Row>
               <Col s={12}>
-                <hr className="thick-line-blue" />
+                <hr className="thin" />
               </Col>
             </Row>
           </Section>
 
           <Section id="dash-body-wrapper valign-wrapper">
-            <Row s={12} className='center valign-wrapper'>
-              <Col s={2}></Col>
-              <Col className='center' s={4}>
+            <Row s={12} className='center valign-wrapper dash-row-wrapper'>
+              {/* <Col s={2}></Col> */}
+              <Col className='center border-right-bottom tool-wrapper' s={12} m={6}>
                   <Link  to="/reviews">
-                    <div className="draw-wrapper draw ">
-                      <Icon className="orange-icon" large>assignment</Icon>
-                      <div>Tool Assessments</div>
-                      <hr className="thick-line-blue width40Per"/>
+                    <div className="dashboard-block-wrapper">
+                      <img src={require("../../assets/assessment_icon.png")} width="100px" />
+                      <div className="j-title">ASSESSMENTS</div>
+                      <hr className="thin width40Per"/>
+                      <p className="dashboard-description-text">
+                      Come here to post reviews on all the tools you have used. You'll have the opportunity to upload files and leave some custom comments.
+                      </p>
+                      <hr className="thin width40Per"/>
                     </div>
                   </Link>
               </Col>
-              <Col className='center' s={4}>
+              <Col className='center border-left-bottom tool-wrapper' s={12} m={6}>
                   <Link  to="/portal">
-                    <div className="draw-wrapper draw ">
-                      <Icon className="orange-icon" large>touch_app</Icon>
-                      <div>Launch Portal</div>
-                      <hr className="thick-line-blue width40Per"/>
+                    <div className="dashboard-block-wrapper">
+                      <img src={require("../../assets/launch_icon.png")} width="100px" />
+                      <div className="j-title">PORTAL</div>
+                      <hr className="thin width40Per"/>
+                      <p className="dashboard-description-text">
+                      All tools available will be found here. Take a look and see which ones are the most useful.
+                      </p>
+                      <hr className="thin width40Per"/>
                     </div>
                   </Link>
               </Col>
-              <Col s={2}></Col>
+              {/* <Col s={2}></Col> */}
             </Row>
             <Row><Col s={12}></Col></Row>
           </Section>
