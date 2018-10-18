@@ -16,7 +16,7 @@
     display: block;
     width: 0;
     height: 1px;
-    background: #dc4c18;
+    background: #262626;
     transition: width .6s;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .text {
-  background-color: #dc4c18;
+  background-color: #262626;
   font-weight: 700;
   letter-spacing: 2px;
   font-size: 1.3em !important;

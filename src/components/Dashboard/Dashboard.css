@@ -30,15 +30,9 @@ hr.thin {
 
 .border-right-bottom {
     border-right: .5px solid #dcdcdc;
-    /* margin-left: 10px; */
-    /* padding-top: 10px !important; */
-    /* padding-bottom: 100px !important; */
 }
 
 .border-left-bottom {
-    /* margin-right: 10px; */
-    /* padding-top: 10px !important; */
-    /* padding-bottom: 100px !important; */
 }
 
 .dashboard-description-text {
@@ -46,7 +40,15 @@ hr.thin {
     max-width: 60%;
 }
 
-
-.draw-wrapper {
+.dashboard-block-wrapper {
+    padding-bottom: 2em;
     color: #262626;
+}
+
+.dashboard-block-wrapper * {
+    padding: 10px;
+}
+
+hr {
+    padding: 0 !important;
 }

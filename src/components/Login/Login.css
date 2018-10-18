@@ -5,8 +5,8 @@
 }
 
 input:focus:not([readonly]) {
-    border-bottom: 1px solid #dc4c18 !important;    
-    box-shadow: 0 1px 0 0 #dc4c18 !important;
+    border-bottom: 1px solid #3f3f3f !important;    
+    box-shadow: 0 1px 0 0 #3f3f3f !important;
 }
 
 label {
@@ -44,12 +44,12 @@ input[type='email']:-webkit-autofill {
 }
 
 [type="checkbox"]:checked+label:before {
-    border-right: 2px solid #dc4c18;
-    border-bottom: 2px solid #dc4c18;
+    border-right: 2px solid #3f3f3f;
+    border-bottom: 2px solid #3f3f3f;
 }
 
 [type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after {
-    border: 2px solid #dc4c18;
+    border: 2px solid #3f3f3f;
 }
 
 .login-header {
