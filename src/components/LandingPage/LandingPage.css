@@ -44,14 +44,14 @@ main.landing-page {
 
 .signup-login-buttons {
     margin: 1em;
-    background-color: white;
-    color: black;
+    background-color: #f5f5f5;
+    color: #262626;
     font-size: 1.1em;
 }
 
 .signup-login-buttons:hover,
 .signup-login-buttons:focus {
-    background-color: #033076;
+    background-color: #262626;
     color: white;
 }
 
