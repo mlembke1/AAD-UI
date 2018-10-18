@@ -14,3 +14,8 @@
 nav .nav-wrapper {
     padding: 0 80px !important;
 }
+
+.aad_logo {
+    margin-right: 30px;
+    margin-left: -10px;
+}

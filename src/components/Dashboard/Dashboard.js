@@ -23,7 +23,7 @@ class Dashboard extends Component {
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                <Icon className="orange-icon" right={true} medium>account_circle</Icon>
+              <img src={require("../../assets/person_icon.png")}  />
               </Col>
               <Col s={1}>
                 <h5 className="dash-username">{this.props.username}</h5>
