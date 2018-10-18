@@ -178,3 +178,8 @@ ul.dropdown-content.select-dropdown li span {
 .progress .indeterminate:after {
     background-color: #262626 !important;
 }
+
+.collapsible-header {
+    background-color: #f5f5f5;
+    justify-content: center;
+}

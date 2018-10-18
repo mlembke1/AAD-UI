@@ -8,7 +8,7 @@ class PageFooter extends Component {
 
   render() {
         return (
-            <Navbar id="footer"></Navbar>
+            <div id="footer"></div>
         )
     }
   }

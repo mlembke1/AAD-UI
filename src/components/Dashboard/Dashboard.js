@@ -40,7 +40,7 @@ class Dashboard extends Component {
           <Section id="dash-body-wrapper valign-wrapper">
             <Row s={12} className='center valign-wrapper dash-row-wrapper'>
               {/* <Col s={2}></Col> */}
-              <Col className='center border-right-bottom tool-wrapper' s={6}>
+              <Col className='center border-right-bottom tool-wrapper' s={12} m={6}>
                   <Link  to="/reviews">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/assessment_icon.png")} width="100px" />
@@ -53,7 +53,7 @@ class Dashboard extends Component {
                     </div>
                   </Link>
               </Col>
-              <Col className='center border-left-bottom tool-wrapper' s={6}>
+              <Col className='center border-left-bottom tool-wrapper' s={12} m={6}>
                   <Link  to="/portal">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/launch_icon.png")} width="100px" />
