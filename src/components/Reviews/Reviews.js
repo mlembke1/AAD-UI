@@ -12,6 +12,7 @@ import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
 import { removeFile } from '../../actions/removeFile'
 import { setIsFetching } from '../../actions/setIsFetching'
+import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 
 
@@ -48,6 +49,27 @@ class Reviews extends Component {
                 })
             }
         }, 300)
+    }
+
+    componentDidUpdate(){
+        if(this.props.postComplete) {
+            this.props.getAllReviews()
+            setTimeout(() => {
+                this.props.allReviews.map(review => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                        this.props.setIsFetching()
+                        this.props.getFile(review.path.substring(15), review.id)
+                    }
+                })
+            }, 100)
+            this.setState({
+                toolNameInputValue: 'SORTOE',
+                textInputValue: "",
+                fileInputValue: null
+            })
+            this.props.setPostCompleteFalse()
+            window.Materialize.toast('Post Successful!', 1300)
+        }
     }
 
     updateInputValue(evt, inputType) {
@@ -196,23 +218,7 @@ class Reviews extends Component {
       } 
       
     this.props.postReview(reviewObject)
-
-    setTimeout(() => {
-        this.props.getAllReviews()
-        setTimeout(() => {
-            this.props.allReviews.map(review => {
-                if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                    this.props.setIsFetching()
-                    this.props.getFile(review.path.substring(15), review.id)
-                }
-            })
-        }, 100)
-        this.setState({
-            toolNameInputValue: 'SORTOE',
-            textInputValue: "",
-            fileInputValue: null
-        })
-    }, 2200)
+ 
   }
 
 
@@ -563,7 +569,8 @@ const mapStateToProps = state => {
       username: state.auth.username,
       allReviews: state.reviews.allReviews,
       files: state.reviews.files,
-      isFetching: state.reviews.isFetching
+      isFetching: state.reviews.isFetching,
+      postComplete: state.reviews.postComplete
   }
 }
 
@@ -577,6 +584,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     getFile, 
     clearFiles, 
     setIsFetching, 
+    setPostCompleteFalse,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
