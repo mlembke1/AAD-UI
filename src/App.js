@@ -26,24 +26,12 @@ class App extends Component {
             <div className="app-body">
               <Header />
                 <main className="app">  
-                  <Route exact path="/" render={() => {
-                    return this.props.username ? <Redirect to="/dashboard" /> : <LandingPage />
-                  }} /> 
-                  <Route exact path="/dashboard" render={() => {
-                    return !this.props.username ? <Redirect to="/" /> : <Dashboard />
-                  }} />
-                  <Route exact path="/login" render={() => {
-                    return this.props.username ? <Redirect to="/dashboard" /> : <Login />
-                  }} />
-                  <Route exact path="/signup" render={() => {
-                    return this.props.username ? <Redirect to="/dashboard" /> : <Signup />
-                  }} />
-                  <Route exact path="/portal" render={() => {
-                    return !this.props.username ? <Redirect to="/" /> : <Portal />
-                  }} />
-                  <Route exact path="/reviews" render={() => {
-                    return !this.props.username ? <Redirect to="/" /> : <Reviews />
-                  }} />
+                  <Route exact path="/" component={LandingPage} /> 
+                  <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/signup" component={Signup} />
+                  <Route path="/portal" component={Portal} />
+                  <Route path="/reviews" component={Reviews} />
                 </main>
               <PageFooter />
             </div>

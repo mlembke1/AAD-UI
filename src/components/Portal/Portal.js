@@ -12,6 +12,7 @@ import { Icon,
          Collection,
          CollectionItem,
          Modal } from 'react-materialize'
+import { Redirect } from 'react-router-dom'
 
 
 class Portal extends Component {
@@ -21,6 +22,9 @@ class Portal extends Component {
   }
 
   render() {
+    if(!this.props.username){
+      return <Redirect to="/" />
+    } else {
       return (
         <div>
           {/* HEADER */}
@@ -103,6 +107,7 @@ class Portal extends Component {
 
         </div>
       )
+    }
   }
 }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { Icon, Section, Row, Col } from 'react-materialize'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 
 class Dashboard extends Component {
@@ -13,6 +13,9 @@ class Dashboard extends Component {
   }
 
   render() {
+    if(!this.props.username) {
+      return <Redirect to="/" />
+    } else {
       return (
         <div>
           {/* HEADER */}
@@ -73,6 +76,7 @@ class Dashboard extends Component {
 
         </div>
       )
+    }
   }
 }
 
