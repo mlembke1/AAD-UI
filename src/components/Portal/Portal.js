@@ -34,7 +34,7 @@ class Portal extends Component {
               <img src={require("../../assets/launch_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
-                <h5 className="dash-username">Launch Portal</h5>
+                <h5 className="dash-username j-title">PORTAL</h5>
               </Col>
               <Col s={10}></Col>
             </Row>

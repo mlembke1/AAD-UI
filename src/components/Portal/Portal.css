@@ -94,7 +94,6 @@
   -ms-transform: rotate(-3deg); /* IE 9 */
     -webkit-transform: rotate(-3deg); /* Safari 3-8 */
     transform: rotate(-3deg);
-    border-radius: 5px;
 }
 
 div.row.null.tool-wrapper {
