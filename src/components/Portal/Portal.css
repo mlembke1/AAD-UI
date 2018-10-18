@@ -94,7 +94,6 @@
   -ms-transform: rotate(-3deg); /* IE 9 */
     -webkit-transform: rotate(-3deg); /* Safari 3-8 */
     transform: rotate(-3deg);
-    border-radius: 5px;
 }
 
 div.row.null.tool-wrapper {
@@ -110,7 +109,6 @@ div.row.null.tool-wrapper {
     margin-top: 60px;
 }
 
-/* .tool-description {
-    font-family:  'Josefin Slab', serif;
-    font-size: 1.2em;
-} */
+.tool-description {
+    padding-bottom: 40px !important;
+}

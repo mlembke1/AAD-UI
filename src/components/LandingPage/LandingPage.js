@@ -8,30 +8,48 @@ import { checkCookie } from '../../actions/checkCookie'
 
 class LandingPage extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      typingIsFinished: false
+    }
+  }
+
   componentWillMount(){
     this.props.checkCookie()
   }
 
-  componentDidMount(){
+  componentDidMount () {
     setTimeout(() => {
       this.typeWriter()
     }, 600)
   }
 
-  typeWriter = () => {
+  typeWriter = async () => {
     let i = 0;
     const txt = 'Test tools. Give Feedback. Move Forward.'; /* The text */
-    const speed = 70; /* The speed/duration of the effect in milliseconds */
+    const speed = 60; /* The speed/duration of the effect in milliseconds */
     
-    const type = () =>  {
+    const type = async () =>  {
       if (i < txt.length) {
         document.getElementById("typing").innerHTML += txt.charAt(i);
         i++;
         setTimeout(type, speed);
+      } else {
+        await enableButtons()
       }
     }
 
+    const enableButtons = async () => {
+      return this.setState({
+        ...this.state,
+          typingIsFinished: true
+      })
+    }
+
     type()
+
+    
   }
 
 
@@ -50,10 +68,10 @@ class LandingPage extends Component {
   
             <div id="signup-login-buttons-container">
               <Link to="/signup">
-                <Button large={true} className="signup-login-buttons" waves='light'>Signup</Button>
+                <Button disabled={!this.state.typingIsFinished} large={true} className="signup-login-buttons" waves='light'>Signup</Button>
               </Link>
               <Link to="/login">
-                <Button large={true} className="signup-login-buttons" waves='light'>Login</Button> 
+                <Button disabled={!this.state.typingIsFinished} large={true} className="signup-login-buttons" waves='light'>Login</Button> 
               </Link>
             </div>
           </main>         
