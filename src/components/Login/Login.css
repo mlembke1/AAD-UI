@@ -37,6 +37,7 @@ input[type='email']:-webkit-autofill {
     margin-top: 50px;
     color:  #262626;
     font-weight: 300;
+    font-family: 'Josefin Slab', serif;
 }
 
 .error-text{

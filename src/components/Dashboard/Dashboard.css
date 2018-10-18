@@ -38,6 +38,8 @@ hr.thin {
 .dashboard-description-text {
     margin: auto;
     max-width: 60%;
+    /* font-size: 1.2em; */
+    
 }
 
 .dashboard-block-wrapper {
@@ -51,4 +53,10 @@ hr.thin {
 
 hr {
     padding: 0 !important;
+}
+
+.j-title {
+    font-family: 'Josefin Slab', serif; 
+    letter-spacing: 2px;
+    /* text-transform: uppercase; */
 }
