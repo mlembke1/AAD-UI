@@ -24,7 +24,7 @@ class Header extends Component {
         )
       } else {
         return (
-            <Navbar className="navbar-logo" brand={Img} right>
+            <Navbar className="navbar-logo" right>
                 <Link className="link" to="/login"> Login </Link>
                 <Link className="link" to="/signup"> Signup </Link>
             </Navbar>
