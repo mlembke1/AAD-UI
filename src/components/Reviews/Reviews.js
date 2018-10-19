@@ -39,15 +39,17 @@ class Reviews extends Component {
         this.props.checkCookie()
         this.props.getAllReviews()
         setTimeout(() => {
-            if(!this.props.allReviews || this.props.allReviews.length < 1 ){
+            if(this.props.reviewsRequestFinished && (!this.props.allReviews || this.props.allReviews.length < 1) ){
                 this.props.clearFiles()
             } else {
-                this.props.allReviews.map(review => {
-                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                        this.props.setIsFetching()
-                        this.props.getFile(review.path.substring(15), review.id)
-                    }
-                })
+                if(this.props.reviewsRequestFinished){
+                    this.props.allReviews.map(review => {
+                        if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                            this.props.setIsFetching()
+                            this.props.getFile(review.path.substring(15), review.id)
+                        }
+                    })
+                }
             }
         }, 300)
     }
@@ -575,7 +577,8 @@ const mapStateToProps = state => {
       allReviews: state.reviews.allReviews,
       files: state.reviews.files,
       isFetching: state.reviews.isFetching,
-      postComplete: state.reviews.postComplete
+      postComplete: state.reviews.postComplete,
+      reviewsRequestFinished: state.reviews.reviewsRequestFinished
   }
 }
 

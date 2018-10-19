@@ -3,11 +3,12 @@ export const reviews = ( state={
     postReviewFailed: false,
     files: [],
     isFetching: false,
-    postComplete: false
+    postComplete: false,
+    reviewsRequestFinished: false
    }, action) => {
       switch(action.type){
         case 'REVIEWS_AQUIRED':
-          return { ...state, allReviews: action.payload }  
+          return { ...state, allReviews: action.payload, reviewsRequestFinished: true }  
         case 'POST_COMPLETE_FALSE':
           return { ...state, postComplete: false }  
         case 'POST_REVIEW_SUCCESS':
