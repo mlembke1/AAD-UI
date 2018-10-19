@@ -12,6 +12,7 @@ import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
 import { removeFile } from '../../actions/removeFile'
 import { setIsFetching } from '../../actions/setIsFetching'
+import { setIsFetchingFalse } from '../../actions/setIsFetchingFalse'
 import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
@@ -43,10 +44,14 @@ class Reviews extends Component {
                 this.props.clearFiles()
             } else {
                 if(this.props.reviewsRequestFinished){
-                    this.props.allReviews.map(review => {
+                    this.props.allReviews.map((review, i) => {
                         if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                             this.props.setIsFetching()
-                            this.props.getFile(review.path.substring(15), review.id)
+                            if(this.props.allReviews.length == (i + 1)) {
+                                this.props.getFile(review.path.substring(15), review.id, true)
+                            } else {
+                                this.props.getFile(review.path.substring(15), review.id, false)
+                            }
                         }
                     })
                 }
@@ -59,10 +64,14 @@ class Reviews extends Component {
             this.props.getAllReviews()
             setTimeout(() => {
                 if(this.props.reviewsRequestFinished){
-                    this.props.allReviews.map(review => {
+                    this.props.allReviews.map((review, i) => {
                         if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                             this.props.setIsFetching()
-                            this.props.getFile(review.path.substring(15), review.id)
+                            if(this.props.allReviews.length == (i + 1)) {
+                                this.props.getFile(review.path.substring(15), review.id, true)
+                            } else {
+                                this.props.getFile(review.path.substring(15), review.id, false)
+                            }
                         }
                     })
                 }
@@ -594,6 +603,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     getFile, 
     clearFiles, 
     setIsFetching, 
+    setIsFetchingFalse,
     setPostCompleteFalse,
     removeFile}, dispatch)
 

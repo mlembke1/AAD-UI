@@ -20,17 +20,25 @@ export const reviews = ( state={
         case 'SET_IS_FETCHING_FALSE': 
           return { ...state, isFetching: false }
         case 'FILES_AQUIRED':
-          const reviewIdAlreadyExists = state.files.filter(file => file.review_id == action.payload.review_id).length > 0
+          const reviewIdAlreadyExists = state.files.filter(file => file.review_id == action.payload.response.review_id).length > 0
           if(reviewIdAlreadyExists){
             const updatedFiles = state.files.map(file => {
-              if(file.review_id == action.payload.review_id){
-                file = action.payload
+              if(file.review_id == action.payload.response.review_id){
+                file = action.payload.response
               }
               return file
             })
-            return { ...state, files: [...updatedFiles], isFetching: false }
+            if(action.payload.lastFileToBeFetched) {
+              return { ...state, files: [...updatedFiles], isFetching: false }
+            } else {
+              return { ...state, files: [...updatedFiles] }
+            }
           } else {
-            return { ...state, files: [...state.files, action.payload], isFetching: false }
+            if(action.payload.lastFileToBeFetched) {
+              return { ...state, files: [...state.files, action.payload.response], isFetching: false}
+            } else {
+              return { ...state, files: [...state.files, action.payload.response]}
+            }
           }
         case 'CLEAR_FILES': 
           return { ...state, files: [] }
