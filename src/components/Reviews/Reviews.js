@@ -39,21 +39,17 @@ class Reviews extends Component {
     componentWillMount = () => {
         this.props.checkCookie()
         this.props.getAllReviews()
-        setTimeout(() => {
-            if(this.props.reviewsRequestFinished && (!this.props.allReviews || this.props.allReviews.length < 1) ){
-                this.props.clearFiles()
-            } else {
-                if(this.props.reviewsRequestFinished){
-                    this.props.allReviews.map((review, i) => {
-                        if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                            this.props.setIsFetching()
-                            if(this.props.allReviews.length == (i + 1)) {
-                                this.props.getFile(review.path.substring(15), review.id, true)
-                            } else {
-                                this.props.getFile(review.path.substring(15), review.id, false)
-                            }
-                        }
-                    })
+        setTimeout( () => {
+            if(this.props.reviewsRequestFinished) {
+                console.log('the reviews request is finished')
+                if(!this.props.allReviews || this.props.allReviews.length < 1){
+                        this.props.clearFiles()
+                } else {
+                        this.props.allReviews.map((review, i) => {
+                            if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                                    this.props.getFile(review.path.substring(15), review.id)
+                                }
+                        })
                 }
             }
         }, 300)
@@ -66,16 +62,11 @@ class Reviews extends Component {
                 if(this.props.reviewsRequestFinished){
                     this.props.allReviews.map((review, i) => {
                         if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                            this.props.setIsFetching()
-                            if(this.props.allReviews.length == (i + 1)) {
-                                this.props.getFile(review.path.substring(15), review.id, true)
-                            } else {
-                                this.props.getFile(review.path.substring(15), review.id, false)
+                                this.props.getFile(review.path.substring(15), review.id)
                             }
-                        }
                     })
                 }
-            }, 100)
+            }, 300)
             this.setState({
                 toolNameInputValue: 'SORTOE',
                 textInputValue: "",
@@ -456,7 +447,8 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.isFetching && review.path ? 
+                                        // this.props.isFetching && review.path ? 
+                                        (this.props.files.length != this.props.allReviews.filter(review => review.path).length) && review.path ?
                                         <div>
                                         <div className="progress">
                                             <div className="indeterminate"></div>
