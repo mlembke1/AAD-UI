@@ -35,6 +35,7 @@ class Reviews extends Component {
             editFileTypePasses: true
         }
     }
+
     
     componentWillMount = () => {
         this.props.checkCookie()
@@ -52,7 +53,7 @@ class Reviews extends Component {
                         })
                 }
             }
-        }, 300)
+        }, 1000)
     }
 
     componentDidUpdate(){
@@ -66,12 +67,7 @@ class Reviews extends Component {
                             }
                     })
                 }
-            }, 300)
-            this.setState({
-                toolNameInputValue: 'SORTOE',
-                textInputValue: "",
-                fileInputValue: null
-            })
+            }, 1000)
             this.props.setPostCompleteFalse()
             window.Materialize.toast('Post Successful!', 1300)
         }
@@ -223,7 +219,11 @@ class Reviews extends Component {
       } 
       
     this.props.postReview(reviewObject)
- 
+    this.setState({
+        toolNameInputValue: 'SORTOE',
+        textInputValue: "",
+        fileInputValue: null
+    })
   }
 
 
