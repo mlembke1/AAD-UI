@@ -58,12 +58,14 @@ class Reviews extends Component {
         if(this.props.postComplete) {
             this.props.getAllReviews()
             setTimeout(() => {
-                this.props.allReviews.map(review => {
-                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                        this.props.setIsFetching()
-                        this.props.getFile(review.path.substring(15), review.id)
-                    }
-                })
+                if(this.props.reviewsRequestFinished){
+                    this.props.allReviews.map(review => {
+                        if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                            this.props.setIsFetching()
+                            this.props.getFile(review.path.substring(15), review.id)
+                        }
+                    })
+                }
             }, 100)
             this.setState({
                 toolNameInputValue: 'SORTOE',

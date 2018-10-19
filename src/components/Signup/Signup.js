@@ -51,7 +51,6 @@ class Signup extends Component {
     }
 
     setPasswordLengthPasses = () => {
-      console.log('Here is the password length', this.state.passwordInputValue.length)
       if(this.state.passwordInputValue.length >= 8 && this.state.passwordInputValue.length <= 30 ){
         this.setState({
           ...this.state,
@@ -66,7 +65,6 @@ class Signup extends Component {
     }
     
     setConfirmPasswordLengthPasses = () => {
-      console.log('Here is the confirm password length', this.state.confirmPasswordInputValue.length)
       if(this.state.confirmPasswordInputValue.length >= 8 && this.state.confirmPasswordInputValue.length <= 30 ){
         this.setState({
           ...this.state,
