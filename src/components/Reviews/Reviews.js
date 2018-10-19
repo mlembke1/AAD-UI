@@ -33,7 +33,8 @@ class Reviews extends Component {
             fileInputValue: null,
             editFileInputValue: null,
             fileTypePasses: true,
-            editFileTypePasses: true
+            editFileTypePasses: true,
+            postStarted: false
         }
     }
 
@@ -58,6 +59,7 @@ class Reviews extends Component {
 
     componentDidUpdate(){
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
+            this.props.postComplete ? this.setState({...this.state, postStarted: false }) : null
             this.props.clearFiles()
             this.props.getAllReviews()
             setTimeout(() => {
@@ -208,6 +210,10 @@ class Reviews extends Component {
   }
 
   postReviewHandler = async () => {
+    this.setState({
+        ...this.state,
+        postStarted: true
+    })
     let reviewObject
       if(this.state.fileInputValue){
         reviewObject = {
@@ -441,10 +447,10 @@ class Reviews extends Component {
                                         // this.props.isFetching && review.path ? 
                                         (this.props.files.length != this.props.allReviews.filter(review => review.path).length) && review.path ?
                                         <div>
-                                        <div className="progress">
-                                            <div className="indeterminate"></div>
-                                        </div>
-                                        <div>Loading File...</div>
+                                            <div className="progress">
+                                                <div className="indeterminate"></div>
+                                            </div>
+                                            <div>Loading File...</div>
                                         </div>
                                         :
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
@@ -548,9 +554,22 @@ class Reviews extends Component {
                                 }
                             </Col>
                             <Col s={4} className="center">
-                                <Button 
-                                disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
-                                onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'> Submit Review <Icon right tiny className="data">check</Icon></Button>
+                                <Row>
+                                    <Button 
+                                        disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
+                                        onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
+                                        Submit Review 
+                                        <Icon right tiny className="data">check</Icon>
+                                    </Button>            
+                                    {
+                                        !this.props.postComplete && this.state.postStarted ?
+                                        <div className="progress">
+                                            <div className="indeterminate"></div>
+                                        </div>
+                                        :
+                                        null
+                                    }
+                                </Row>
                             </Col>
                         </Row>
                     </Section>
