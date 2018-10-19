@@ -13,7 +13,6 @@ import { Redirect } from 'react-router-dom'
 class Signup extends Component {
 
   componentWillMount(){
-    // this.props.resetState()
     this.props.checkCookie()
   }
 
