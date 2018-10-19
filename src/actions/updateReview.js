@@ -15,6 +15,7 @@ export const updateReview = (object) => dispatch => {
     })
     .then(payload => {
       console.log('UPDATE REVIEW JSON RESPONSE', payload)
+      window.Materialize.toast('Update Successful!', 1300)
       return dispatch({ type:'UPDATE_REVIEW_SUCCESS' })
     })
     .catch(err => {

@@ -18,6 +18,7 @@ export const postReview = object => dispatch => {
     .then(json => {
             console.log('POST_REVIEW RESPONSE ', json)
             if(json.status === 200) {
+                window.Materialize.toast('Post Successful!', 1300)
                 return dispatch({ type:'POST_REVIEW_SUCCESS' })
             } else {
                 return dispatch({ type:'POST_REVIEW_FAILED' })

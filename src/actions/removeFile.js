@@ -13,7 +13,8 @@ export const removeFile = reviewId => dispatch => {
     .then(result => result.json())
     .then(payload => {
       console.log('REMOVE FILE JSON RESPONSE', payload)
-      return dispatch({ type:'REMOVE_FILE', payload: reviewId })
+        window.Materialize.toast('File Removed Successful!', 1300)
+      return dispatch({ type:'REMOVE_FILE_SUCCESS', payload: reviewId })
     })
     .catch(err => {
         return dispatch({ type: 'REMOVE_FILE_FAILED'})
