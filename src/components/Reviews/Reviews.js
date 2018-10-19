@@ -11,9 +11,10 @@ import { deleteReview } from '../../actions/deleteReview'
 import { getFile } from '../../actions/getFile'
 import { clearFiles } from '../../actions/clearFiles'
 import { removeFile } from '../../actions/removeFile'
-import { setIsFetching } from '../../actions/setIsFetching'
-import { setIsFetchingFalse } from '../../actions/setIsFetchingFalse'
 import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
+import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
+import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
+import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 
@@ -42,7 +43,6 @@ class Reviews extends Component {
         this.props.getAllReviews()
         setTimeout( () => {
             if(this.props.reviewsRequestFinished) {
-                console.log('the reviews request is finished')
                 if(!this.props.allReviews || this.props.allReviews.length < 1){
                         this.props.clearFiles()
                 } else {
@@ -57,7 +57,8 @@ class Reviews extends Component {
     }
 
     componentDidUpdate(){
-        if(this.props.postComplete) {
+        if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
+            this.props.clearFiles()
             this.props.getAllReviews()
             setTimeout(() => {
                 if(this.props.reviewsRequestFinished){
@@ -68,8 +69,13 @@ class Reviews extends Component {
                     })
                 }
             }, 1000)
-            this.props.setPostCompleteFalse()
-            window.Materialize.toast('Post Successful!', 1300)
+            
+            if (this.props.files.length == this.props.allReviews.filter(review => review.path).length) {
+                this.props.setPostCompleteFalse()
+                this.props.setUpdateCompleteFalse()
+                this.props.setDeleteCompleteFalse()
+                this.props.setRemoveFileCompleteFalse()
+            }
         }
     }
 
@@ -265,21 +271,6 @@ class Reviews extends Component {
 
   removeFileHandler = reviewId => {
     this.props.removeFile(reviewId)
-    setTimeout(() => this.props.getAllReviews(), 100)
-    setTimeout(() => {
-        if(this.props.allReviews.length > 0){
-            this.props.allReviews.map(review => {
-                if(review.path){
-                    this.props.getFile(review.path.substring(15), review.id)
-                }    
-            })
-        }
-    }, 200)
-
-    this.setState({
-        ...this.state,
-        editFileInputValue: null
-    })
   }
 
   render() {
@@ -579,8 +570,10 @@ const mapStateToProps = state => {
       username: state.auth.username,
       allReviews: state.reviews.allReviews,
       files: state.reviews.files,
-      isFetching: state.reviews.isFetching,
       postComplete: state.reviews.postComplete,
+      updateComplete: state.reviews.updateComplete,
+      deleteComplete: state.reviews.deleteComplete,
+      removeFileComplete: state.reviews.removeFileComplete,
       reviewsRequestFinished: state.reviews.reviewsRequestFinished
   }
 }
@@ -594,9 +587,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     deleteReview,
     getFile, 
     clearFiles, 
-    setIsFetching, 
-    setIsFetchingFalse,
     setPostCompleteFalse,
+    setUpdateCompleteFalse,
+    setDeleteCompleteFalse,
+    setRemoveFileCompleteFalse,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

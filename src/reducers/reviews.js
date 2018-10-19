@@ -2,8 +2,10 @@ export const reviews = ( state={
     allReviews: null,
     postReviewFailed: false,
     files: [],
-    isFetching: false,
     postComplete: false,
+    updateComplete: false,
+    deleteComplete: false,
+    removeFileComplete: false,
     reviewsRequestFinished: false
    }, action) => {
       switch(action.type){
@@ -11,14 +13,20 @@ export const reviews = ( state={
           return { ...state, allReviews: action.payload, reviewsRequestFinished: true }  
         case 'POST_COMPLETE_FALSE':
           return { ...state, postComplete: false }  
+        case 'UPDATE_COMPLETE_FALSE':
+          return { ...state, updateComplete: false }  
+        case 'DELETE_COMPLETE_FALSE':
+          return { ...state, deleteComplete: false }  
+        case 'REMOVE_FILE_COMPLETE_FALSE':
+          return { ...state, removeFileComplete: false }  
         case 'POST_REVIEW_SUCCESS':
           return { ...state, postReviewFailed: false,  postComplete: true }  
         case 'POST_REVIEW_FAILED':
           return { ...state, postReviewFailed: true }
-        case 'SET_IS_FETCHING':
-          return { ...state, isFetching: true }
-        case 'SET_IS_FETCHING_FALSE': 
-          return { ...state, isFetching: false }
+        case 'UPDATE_REVIEW_SUCCESS':
+          return { ...state, updateComplete: true }
+        case 'DELETE_REVIEW_SUCCESS':
+          return { ...state, deleteComplete: true }
         case 'FILES_AQUIRED':
           const reviewIdAlreadyExists = state.files.filter(file => file.review_id == action.payload.response.review_id).length > 0
           if(reviewIdAlreadyExists){
@@ -34,10 +42,8 @@ export const reviews = ( state={
           }
         case 'CLEAR_FILES': 
           return { ...state, files: [] }
-        case 'FILE_DOES_NOT_EXIST': 
-          return { ...state, isFetching: false }
-        case 'REMOVE_FILE': 
-          return { ...state, files: state.files.filter(file => file.review_id != action.payload.reviewId) }
+        case 'REMOVE_FILE_SUCCESS': 
+          return { ...state, files: state.files.filter(file => file.review_id != action.payload.reviewId), removeFileComplete: true }
     
         default:
           return state
