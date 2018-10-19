@@ -28,17 +28,9 @@ export const reviews = ( state={
               }
               return file
             })
-            if(action.payload.lastFileToBeFetched) {
-              return { ...state, files: [...updatedFiles], isFetching: false }
-            } else {
-              return { ...state, files: [...updatedFiles] }
-            }
+              return { ...state, files: [...updatedFiles]}
           } else {
-            if(action.payload.lastFileToBeFetched) {
-              return { ...state, files: [...state.files, action.payload.response], isFetching: false}
-            } else {
               return { ...state, files: [...state.files, action.payload.response]}
-            }
           }
         case 'CLEAR_FILES': 
           return { ...state, files: [] }

@@ -1,4 +1,4 @@
-export const getFile = (path, reviewId, lastFileToBeFetched) => dispatch => {
+export const getFile = (path, reviewId) => dispatch => {
     const options = {
       responseType: 'blob'
     }
@@ -8,12 +8,8 @@ export const getFile = (path, reviewId, lastFileToBeFetched) => dispatch => {
     }).then (response => {
       if(response.file != 'none'){
         console.log('HERE ARE THE FILES BEING BROUGHT BACK.', response)
-        if (lastFileToBeFetched){
-          return dispatch({ type: 'FILES_AQUIRED', payload: {response, lastFileToBeFetched: true } })
+          return dispatch({ type: 'FILES_AQUIRED', payload: {response} })
         } else {
-          return dispatch({ type: 'FILES_AQUIRED', payload: {response}})
-        }
-      } else {
         return dispatch({ type: 'FILE_DOES_NOT_EXIST' })
       }
     })
