@@ -15,11 +15,17 @@ export const loginUser = (object) => dispatch => {
             localStorage.setItem('username', object.loginUsername)
             return dispatch({ type:'LOGIN_SUCCESS' , payload: object.loginUsername})
         } else {
+            window.Materialize.toast('Login Failed. Please Check Your Internet Connection and/or post your problem in the AAD-Users Slack Channel.', 10000)
+            var element = document.getElementById("toast-container");
+              element.classList.add("failure");
             return dispatch({ type:'LOGIN_FAILED' })
         }
     })
     .catch(err => {
         console.log('ERROR WITH LOGIN REQUEST', err)
+        window.Materialize.toast('Login Failed. Please Check Your Internet Connection and/or post your problem in the AAD-Users Slack Channel.', 10000)
+        var element = document.getElementById("toast-container");
+          element.classList.add("failure");
         return dispatch({ type:'LOGIN_FAILED' })
     })    
   }
