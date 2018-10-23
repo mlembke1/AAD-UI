@@ -1,5 +1,9 @@
 export const auth = ( state={ 
   username: null,
+  firstName: null,
+  lastName: null,
+  jobTitle: null,
+  company: null,
   signupFailed: false,
   loginFailed: false,
   usernameIsTaken: false,// Assume the username is not taken for SIGNUP and not display the error message right away
@@ -22,7 +26,14 @@ export const auth = ( state={
           invalidEmail: false, 
           tools: null }
       case 'SET_LOGGED_IN_USER':
-        return { ...state, username: action.payload }
+        return { 
+          ...state,
+          username: action.payload.username,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          jobTitle: action.payload.jobTitle,
+          company: action.payload.company  
+        }
       case 'SIGNUP_SUCCESS':
         return { ...state, username: action.payload }
       case 'SIGNUP_FAILED':

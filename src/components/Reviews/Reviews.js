@@ -222,14 +222,22 @@ class Reviews extends Component {
             textInput: this.state.textInputValue,
             blob: this.state.fileInputValue,
             username: localStorage.getItem('username'),
-            sharable: this.state.publicIsChecked
+            sharable: this.state.publicIsChecked,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName,
+            jobTitle: this.props.jobTitle,
+            company: this.props.company
         }      
       } else {
         reviewObject = {
               toolName: this.state.toolNameInputValue,
               textInput: this.state.textInputValue,
               username: localStorage.getItem('username'),
-              sharable: this.state.publicIsChecked
+              sharable: this.state.publicIsChecked,
+              firstName: this.props.firstName,
+              lastName: this.props.lastName,
+              jobTitle: this.props.jobTitle,
+              company: this.props.company
         }  
       } 
       
@@ -601,6 +609,10 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
+      firstName: state.auth.firstName,
+      lastName: state.auth.lastName,
+      jobTitle: state.auth.jobTitle,
+      company: state.auth.company,
       allReviews: state.reviews.allReviews,
       files: state.reviews.files,
       postComplete: state.reviews.postComplete,

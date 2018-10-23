@@ -436,8 +436,9 @@ class PublicReviews extends Component {
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
-                                <Row>
-                                        <span className="author-class">Author: { review.username }</span>
+                                <Row className="author-class">
+                                        <div> { review.firstName } { review.lastName } </div>
+                                        <div> { review.jobTitle } at { review.company } </div>
                                 </Row>
                             </div>
                             :
@@ -487,8 +488,9 @@ class PublicReviews extends Component {
                                     }
                                 </Row>
 
-                                <Row>
-                                        <span className="author-class">Author: { review.username }</span>
+                                <Row className="author-class">
+                                        <div> { review.firstName } { review.lastName } </div>
+                                        <div> { review.jobTitle } at { review.company } </div>
                                 </Row>
                             </div>
                         }
