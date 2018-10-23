@@ -69,7 +69,7 @@ class Dashboard extends Component {
                   </Link>
               </Col>
               <Col className='valign-wrapper center border-left-bottom tool-wrapper' s={12} m={4}>
-                  <Link  to="/portal">
+                  <Link  to="/public">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/lightbulb_icon.png")} width="100px" />
                       <div className="j-title">PUBLIC REVIEWS</div>
