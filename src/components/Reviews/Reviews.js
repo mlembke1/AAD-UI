@@ -34,7 +34,8 @@ class Reviews extends Component {
             editFileInputValue: null,
             fileTypePasses: true,
             editFileTypePasses: true,
-            postStarted: false
+            postStarted: false,
+            publicIsChecked: true
         }
     }
 
@@ -220,13 +221,15 @@ class Reviews extends Component {
             toolName: this.state.toolNameInputValue,
             textInput: this.state.textInputValue,
             blob: this.state.fileInputValue,
-            username: localStorage.getItem('username')
+            username: localStorage.getItem('username'),
+            sharable: this.state.publicIsChecked
         }      
       } else {
         reviewObject = {
               toolName: this.state.toolNameInputValue,
               textInput: this.state.textInputValue,
-              username: localStorage.getItem('username')
+              username: localStorage.getItem('username'),
+              sharable: this.state.publicIsChecked
         }  
       } 
       
@@ -278,6 +281,8 @@ class Reviews extends Component {
   removeFileHandler = reviewId => {
     this.props.removeFile(reviewId)
   }
+
+  onCheckPublic = () => this.setState({...this.state, publicIsChecked: !this.state.publicIsChecked})
 
   render() {
     if(!this.props.username){
@@ -555,11 +560,20 @@ class Reviews extends Component {
                             </Col>
                             <Col s={4} className="center">
                                 <Row>
+                                <Input 
+                                    checked={this.state.publicIsChecked}
+                                    onChange={() => this.onCheckPublic()}
+                                    className="signup-input"
+                                    type="checkbox" 
+                                    label="Make This Review Public"
+                                    s={12} />           
+                                </Row>
+                                <Row>
                                     <Button 
                                         disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
                                         onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
+                                        <Icon left className="data">check</Icon>
                                         Submit Review 
-                                        <Icon right tiny className="data">check</Icon>
                                     </Button>            
                                     {
                                         !this.props.postComplete && this.state.postStarted ?

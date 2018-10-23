@@ -1,0 +1,13 @@
+.author-class {
+    display: inline-block;
+    font-weight: bold;
+    border: 1px solid #262626;
+    margin-top: 10px !important;
+    
+    min-width: 70%;
+    margin: auto;
+    border: 1px solid #262626;
+    height: 36px;
+    line-height: 36px;
+    text-transform: uppercase;
+}

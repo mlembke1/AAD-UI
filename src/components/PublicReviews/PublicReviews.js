@@ -43,11 +43,11 @@ class PublicReviews extends Component {
         this.props.checkCookie()
         this.props.getAllPublicReviews()
         setTimeout( () => {
-            if(this.props.reviewsRequestFinished) {
-                if(!this.props.allReviews || this.props.allReviews.length < 1){
+            if(this.props.publicReviewsRequestFinished) {
+                if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1){
                         this.props.clearFiles()
                 } else {
-                        this.props.allReviews.map((review, i) => {
+                        this.props.allPublicReviews.map((review, i) => {
                             if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                                     this.props.getFile(review.path.substring(15), review.id)
                                 }
@@ -63,8 +63,8 @@ class PublicReviews extends Component {
             this.props.clearFiles()
             this.props.getAllPublicReviews()
             setTimeout(() => {
-                if(this.props.reviewsRequestFinished){
-                    this.props.allReviews.map((review, i) => {
+                if(this.props.publicReviewsRequestFinished){
+                    this.props.allPublicReviews.map((review, i) => {
                         if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                                 this.props.getFile(review.path.substring(15), review.id)
                             }
@@ -72,7 +72,7 @@ class PublicReviews extends Component {
                 }
             }, 1000)
             
-            if (this.props.files.length == this.props.allReviews.filter(review => review.path).length) {
+            if (this.props.files.length == this.props.allPublicReviews.filter(review => review.path).length) {
                 this.props.setPostCompleteFalse()
                 this.props.setUpdateCompleteFalse()
                 this.props.setDeleteCompleteFalse()
@@ -156,7 +156,7 @@ class PublicReviews extends Component {
     this.props.deleteReview(id)
     setTimeout(() => this.props.getAllPublicReviews(), 200)
     setTimeout(() => {
-    if(this.props.allReviews.length < 1){
+    if(this.props.allPublicReviews.length < 1){
         this.props.clearFiles()
     }
     }, 400)
@@ -201,7 +201,7 @@ class PublicReviews extends Component {
         this.props.getAllPublicReviews()
     }, 200)
     setTimeout(() => {
-        this.props.allReviews.map(review => {
+        this.props.allPublicReviews.map(review => {
             if(review.path && updateObject.hasOwnProperty('blob')){
                 this.props.getFile(review.path.substring(15), review.id)
             }
@@ -299,7 +299,7 @@ class PublicReviews extends Component {
                 <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
-                <h5 className="dash-username j-title">ASSESSMENTS</h5>
+                <h5 className="dash-username j-title">PUBLIC REVIEWS</h5>
               </Col>
               <Col s={10}></Col>
             </Row>
@@ -314,8 +314,8 @@ class PublicReviews extends Component {
           {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
-            this.props.allReviews && this.props.allReviews.length > 0 ?            
-            this.props.allReviews.map((review) => {
+            this.props.allPublicReviews && this.props.allPublicReviews.length > 0 ?            
+            this.props.allPublicReviews.map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
                   <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
@@ -436,16 +436,25 @@ class PublicReviews extends Component {
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
+                                <Row>
+                                        <span className="author-class">Author: { review.username }</span>
+                                </Row>
                             </div>
                             :
                             <div>
-                                <Row>
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
-                                </Row>
+                                {
+                                    review.username == this.props.username ?
+                                    <Row>
+                                        <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                    </Row>
+                                    :
+                                    null
+                                }
+                                
                                 <Row>
                                     {
                                         // this.props.isFetching && review.path ? 
-                                        (this.props.files.length != this.props.allReviews.filter(review => review.path).length) && review.path ?
+                                        (this.props.files.length != this.props.allPublicReviews.filter(review => review.path).length) && review.path ?
                                         <div>
                                             <div className="progress">
                                                 <div className="indeterminate"></div>
@@ -477,6 +486,10 @@ class PublicReviews extends Component {
                                         null
                                     }
                                 </Row>
+
+                                <Row>
+                                        <span className="author-class">Author: { review.username }</span>
+                                </Row>
                             </div>
                         }
                     </Col>
@@ -498,13 +511,13 @@ class PublicReviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allReviews: state.reviews.allReviews,
+      allPublicReviews: state.reviews.allPublicReviews,
       files: state.reviews.files,
       postComplete: state.reviews.postComplete,
       updateComplete: state.reviews.updateComplete,
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
-      reviewsRequestFinished: state.reviews.reviewsRequestFinished
+      publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished
   }
 }
 
