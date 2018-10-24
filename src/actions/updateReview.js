@@ -8,6 +8,7 @@ export const updateReview = (object) => dispatch => {
     formData.append('text', object.text)
     formData.append('toolName', object.toolName)
     formData.append('reviewId', object.reviewId)
+    formData.append('sharable', object.sharable)
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateReview', {
         method: "patch",
         data: formData,

@@ -1,4 +1,4 @@
-export const editSaveToggle = (editable, toolName, reviewId) => dispatch => {
+export const editSaveToggle = (editable, toolName, reviewId, sharable) => dispatch => {
     const options = {
         headers: {
             'Accept': 'application/json',
@@ -7,7 +7,7 @@ export const editSaveToggle = (editable, toolName, reviewId) => dispatch => {
         credentials: 'include',
         crossDomain: true,
         method: 'PATCH',                                                              
-        body: JSON.stringify( { editable, toolName, reviewId } ) 
+        body: JSON.stringify( { editable, toolName, reviewId, sharable} ) 
     }
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/editSaveToggle', options)
     .then(payload => {

@@ -30,6 +30,7 @@ class Reviews extends Component {
             textInputValue: '',
             editToolNameInputValue: 'SORTOE',
             editTextInputValue: '',
+            editPublicIsChecked: "",
             fileInputValue: null,
             editFileInputValue: null,
             fileTypePasses: true,
@@ -84,11 +85,15 @@ class Reviews extends Component {
 
     updateInputValue(evt, inputType) {
         // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
-        if(inputType != "fileInputValue" && inputType != "editFileInputValue"){
+        if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'){
             return this.setState({
               [inputType]: evt.target.value
             })
-        } 
+        } else if (inputType == 'editPublicIsChecked') {
+            return this.setState({
+                [inputType]: evt.target.checked
+              })
+        }
         // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
         else {
             if(evt.target.files[0] == undefined){
@@ -164,7 +169,7 @@ class Reviews extends Component {
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId, text, path) => {
+  toggleEditSaveHandler = (editable, toolName, reviewId, text, path, sharable) => {
     // Edit has already been open, now time to save the updates.
     let updateObject = {}
     if(editable) {
@@ -174,13 +179,15 @@ class Reviews extends Component {
                 toolName: this.state.editToolNameInputValue,
                 text: this.state.editTextInputValue,
                 reviewId,
-                blob: this.state.editFileInputValue
+                blob: this.state.editFileInputValue,
+                sharable: this.state.editPublicIsChecked
             }
         } else {
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
                 text: this.state.editTextInputValue,
-                reviewId
+                reviewId,
+                sharable: this.state.editPublicIsChecked
             }
         }
         this.props.updateReview(updateObject)
@@ -191,11 +198,12 @@ class Reviews extends Component {
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, toolName, reviewId)
+        this.props.editSaveToggle(editable, toolName, reviewId, sharable)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
-            editTextInputValue: text
+            editTextInputValue: text,
+            editPublicIsChecked: sharable
         })
     }
     setTimeout(() => {
@@ -410,7 +418,7 @@ class Reviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
-                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
                                     {
@@ -449,11 +457,20 @@ class Reviews extends Component {
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
+                                <Row>
+                                    <Input 
+                                        checked={this.state.editPublicIsChecked}
+                                        onChange={evt => this.updateInputValue(evt, 'editPublicIsChecked')}
+                                        className="signup-input"
+                                        type="checkbox" 
+                                        label="Make This Review Public"
+                                        s={12} />           
+                                </Row>
                             </div>
                             :
                             <div>
                                 <Row>
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                                 </Row>
                                 <Row>
                                     {
@@ -489,6 +506,14 @@ class Reviews extends Component {
                                     :
                                         null
                                     }
+                                </Row>
+                                <Row >
+                                {
+                                    review.sharable ?
+                                    <div> Public <Icon >public</Icon></div>
+                                    :
+                                    <div> Private <Icon >security</Icon></div>
+                                }
                                 </Row>
                             </div>
                         }
