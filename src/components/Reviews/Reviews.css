@@ -203,7 +203,7 @@ ul.dropdown-content.select-dropdown li span {
   }
 
   .switch {
-      margin-top: 20px;
+      margin: 10px;
   }
 
   .tooltip {
@@ -221,7 +221,7 @@ ul.dropdown-content.select-dropdown li span {
 
     /* Position the tooltip */
     position: absolute;
-    top: 30px;
+    bottom: 30px;
     left: -20px;
     z-index: 1;
 }
@@ -236,23 +236,49 @@ ul.dropdown-content.select-dropdown li span {
     margin: auto;
 }
 
-.tabs .tab a:hover, .tabs .tab a.active {
-    color: #262626;
-}
-
-.tabs .tab a {
-    color: #262626 !important;
-}
-
-.tabs .indicator {
-    background-color: #262626;
-}
-
-.tabs {
-    background-color: #dcdcdc;
-    max-width: 90%;
-}
 
 .margin-top {
     margin-top: 20px;
+}
+
+.range-field {
+    /* padding: 0 57px; */
+}
+
+/* ********************* */
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: #262626;
+  }
+  input[type=range]::-moz-range-thumb {
+    background-color: #262626;
+  }
+  input[type=range]::-ms-thumb {
+    background-color: #262626;
+  }
+
+
+  /***** These are to edit the thumb and the text inside the thumb *****/
+  input[type=range] + .thumb {
+    background-color: #dcdcdc;
+  }
+  input[type=range] + .thumb.active .value {
+    color: #262626;
+  }
+
+  input[type=range]:focus:not([readonly]) {
+      border-bottom: none !important;
+      border-bottom: none !important;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+  }
+
+.F { color: #b71c1c; margin-left: 5px;}
+.D { color: #BD3D3A; margin-left: 5px;}
+.C { color: #f57f17; margin-left: 5px;}
+.B { color: #2e7d32; margin-left: 5px;}
+.A { color: #4caf50; margin-left: 5px;}
+
+.maxWidth70 {
+    max-width: 70%;
 }

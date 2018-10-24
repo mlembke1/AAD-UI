@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './PublicReviews.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllPublicReviews } from '../../actions/getAllPublicReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
@@ -41,6 +42,7 @@ class PublicReviews extends Component {
     
     componentWillMount = () => {
         this.props.checkCookie()
+        this.props.getUserInfo()
         this.props.getAllPublicReviews()
         setTimeout( () => {
             if(this.props.publicReviewsRequestFinished) {
@@ -441,6 +443,10 @@ class PublicReviews extends Component {
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
+                                <Row className="border-bottom">
+                                    <div>Author: {review.firstName} {review.lastName} </div>
+                                    <div> {review.jobTitle} at {review.company} </div>
+                                </Row>
                             </div>
                             :
                             <div>
@@ -488,6 +494,10 @@ class PublicReviews extends Component {
                                         null
                                     }
                                 </Row>
+                                <Row className="border-bottom">
+                                    <div>Author: {review.firstName} {review.lastName} </div>
+                                    <div> {review.jobTitle} at {review.company} </div>
+                                </Row>
                             </div>
                         }
                     </Col>
@@ -532,6 +542,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     setUpdateCompleteFalse,
     setDeleteCompleteFalse,
     setRemoveFileCompleteFalse,
+    getUserInfo,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublicReviews)

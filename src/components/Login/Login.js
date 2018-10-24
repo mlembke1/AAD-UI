@@ -6,6 +6,7 @@ import { Row, Input, Button } from 'react-materialize'
 import { loginUser } from '../../actions/loginUser'
 import { doesUsernameExist } from '../../actions/doesUsernameExist'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { resetState } from '../../actions/resetState'
 import { Redirect } from 'react-router-dom'
 
@@ -13,7 +14,7 @@ class Login extends Component {
 
   componentWillMount(){
     this.props.checkCookie()
-    // this.props.resetState()
+    this.props.getUserInfo()
   }
 
 
@@ -137,6 +138,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loginUser,
   doesUsernameExist,
   checkCookie,
+  getUserInfo,
   resetState}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

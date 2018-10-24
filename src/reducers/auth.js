@@ -28,7 +28,11 @@ export const auth = ( state={
       case 'SET_LOGGED_IN_USER':
         return { 
           ...state,
-          username: action.payload.username,
+          username: action.username
+        }
+      case 'GET_USER_INFO':
+        return { 
+          ...state,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
           jobTitle: action.payload.jobTitle,

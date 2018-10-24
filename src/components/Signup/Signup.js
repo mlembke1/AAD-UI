@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { submitNewUser } from '../../actions/submitNewUser'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { validateEmail } from '../../actions/validateEmail'
 import { inviteToSlack } from '../../actions/inviteToSlack'
 import { resetState } from '../../actions/resetState'
@@ -14,6 +15,7 @@ class Signup extends Component {
 
   componentWillMount(){
     this.props.checkCookie()
+    this.props.getUserInfo()
   }
 
     constructor(props){
@@ -300,9 +302,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   submitNewUser, 
   isUsernameTaken, 
   checkCookie,
+  getUserInfo,
   validateEmail,
   inviteToSlack,
-  resetState
+  resetState,
+  getUserInfo
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)

@@ -3,6 +3,7 @@ import './Dashboard.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { Icon, Section, Row, Col } from 'react-materialize'
 import { Link, Redirect } from 'react-router-dom'
 
@@ -10,6 +11,7 @@ import { Link, Redirect } from 'react-router-dom'
 class Dashboard extends Component {
   componentWillMount(){
     this.props.checkCookie()
+    this.props.getUserInfo()
   }
 
   render() {
@@ -99,6 +101,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

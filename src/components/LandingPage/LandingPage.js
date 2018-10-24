@@ -5,11 +5,13 @@ import { Button } from 'react-materialize'
 import { Link, Redirect } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 
 class LandingPage extends Component {
 
   componentWillMount(){
     this.props.checkCookie()
+    this.props.getUserInfo()
   }
 
 
@@ -52,6 +54,6 @@ const mapStateToProps = state => {
       toDash: state.auth.toDash
   }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from './actions/checkCookie'
+import { getUserInfo } from './actions/getUserInfo'
 import  Dashboard from './components/Dashboard/Dashboard'
 import  LandingPage from './components/LandingPage/LandingPage'
 import  Header from './components/Header/Header'
@@ -19,6 +20,7 @@ import { Redirect } from 'react-router-dom'
 class App extends Component {
   componentWillMount(){
     this.props.checkCookie()
+    this.props.getUserInfo()
   }
   
   render() {
@@ -49,6 +51,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
