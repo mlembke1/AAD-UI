@@ -458,13 +458,14 @@ class Reviews extends Component {
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
                                 <Row>
-                                    <Input 
-                                        checked={this.state.editPublicIsChecked}
-                                        onChange={evt => this.updateInputValue(evt, 'editPublicIsChecked')}
-                                        className="signup-input"
-                                        type="checkbox" 
-                                        label="Make This Review Public"
-                                        s={12} />           
+                                    <div className="switch">
+                                        <label>
+                                        Private
+                                        <input type="checkbox" checked={this.state.editPublicIsChecked} onChange={evt => this.updateInputValue(evt, 'editPublicIsChecked')}/>
+                                        <span className="lever"></span>
+                                        Public
+                                        </label>
+                                    </div>          
                                 </Row>
                             </div>
                             :
@@ -510,9 +511,9 @@ class Reviews extends Component {
                                 <Row >
                                 {
                                     review.sharable ?
-                                    <div> Public <Icon >public</Icon></div>
+                                    <div className="border-bottom"> Public <Icon >public</Icon></div>
                                     :
-                                    <div> Private <Icon >security</Icon></div>
+                                    <div className="border-bottom"> Private <Icon >security</Icon></div>
                                 }
                                 </Row>
                             </div>
@@ -610,22 +611,15 @@ class Reviews extends Component {
                                 </Row>
 
                                 <Row>
-                                <div className="switch tooltip">
-                                    <label>
-                                    Private
-                                    <input type="checkbox" checked={this.state.publicIsChecked} onChange={() => this.onCheckPublic()}/>
-                                    <span className="lever"></span>
-                                    Public
-                                    </label>
-                                    <span className="tooltiptext">Would you like this review to be made public?</span>
-                                </div>
-                                {/* <Input 
-                                    checked={this.state.publicIsChecked}
-                                    onChange={() => this.onCheckPublic()}
-                                    className="signup-input"
-                                    type="checkbox" 
-                                    label="Make This Review Public"
-                                    s={12} />            */}
+                                    <div className="switch tooltip">
+                                        <label>
+                                        Private
+                                        <input type="checkbox" checked={this.state.publicIsChecked} onChange={() => this.onCheckPublic()}/>
+                                        <span className="lever"></span>
+                                        Public
+                                        </label>
+                                        <span className="tooltiptext">Would you like this review to be made public?</span>
+                                    </div>
                                 </Row>
                             </Col>
                         </Row>

@@ -15,7 +15,7 @@ import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
 import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
 import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
-import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
+import { Icon, Input, Section, Row, Col, Button, Tab, Tabs, Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 
 
@@ -397,7 +397,12 @@ class PublicReviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
-                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} 
+                                        onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path)} 
+                                        className="portal-buttons" waves='light'>
+                                        Save
+                                        <Icon right tiny className="data">check</Icon>
+                                    </Button>
                                 </Row>
                                 <Row>
                                     {
@@ -435,10 +440,6 @@ class PublicReviews extends Component {
                                 }
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
-                                </Row>
-                                <Row className="author-class">
-                                        <div> { review.firstName } { review.lastName } </div>
-                                        <div> { review.jobTitle } at { review.company } </div>
                                 </Row>
                             </div>
                             :
@@ -486,11 +487,6 @@ class PublicReviews extends Component {
                                     :
                                         null
                                     }
-                                </Row>
-
-                                <Row className="author-class">
-                                        <div> { review.firstName } { review.lastName } </div>
-                                        <div> { review.jobTitle } at { review.company } </div>
                                 </Row>
                             </div>
                         }

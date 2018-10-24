@@ -203,7 +203,7 @@ ul.dropdown-content.select-dropdown li span {
   }
 
   .switch {
-      margin-top: 40px;
+      margin-top: 20px;
   }
 
   .tooltip {
@@ -228,4 +228,31 @@ ul.dropdown-content.select-dropdown li span {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #dcdcdc;
+    max-width: 70%;
+    margin: auto;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+    color: #262626;
+}
+
+.tabs .tab a {
+    color: #262626 !important;
+}
+
+.tabs .indicator {
+    background-color: #262626;
+}
+
+.tabs {
+    background-color: #dcdcdc;
+    max-width: 90%;
+}
+
+.margin-top {
+    margin-top: 20px;
 }

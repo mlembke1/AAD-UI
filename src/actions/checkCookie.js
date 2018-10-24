@@ -12,7 +12,6 @@ export const checkCookie = () => dispatch => {
         fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + `/getUserInfo/${username}`, options)
         .then(r => r.json())
         .then(payload => {
-            console.log('HERE IS THE USERINFO', payload)
           return dispatch({ 
               type:'SET_LOGGED_IN_USER', 
               payload: {
