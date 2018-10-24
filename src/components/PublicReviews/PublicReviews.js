@@ -35,7 +35,9 @@ class PublicReviews extends Component {
             editFileInputValue: null,
             fileTypePasses: true,
             editFileTypePasses: true,
-            postStarted: false
+            postStarted: false,
+            editRangeValue: 50,
+            editPublicIsChecked: true
         }
     }
 
@@ -85,11 +87,15 @@ class PublicReviews extends Component {
 
     updateInputValue(evt, inputType) {
         // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
-        if(inputType != "fileInputValue" && inputType != "editFileInputValue"){
+        if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'){
             return this.setState({
               [inputType]: evt.target.value
             })
-        } 
+        } else if (inputType == 'editPublicIsChecked') {
+            return this.setState({
+                [inputType]: evt.target.checked
+              })
+        }
         // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
         else {
             if(evt.target.files[0] == undefined){
@@ -165,7 +171,7 @@ class PublicReviews extends Component {
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId, text, path) => {
+  toggleEditSaveHandler = (editable, toolName, reviewId, text, path, sharable, rating) => {
     // Edit has already been open, now time to save the updates.
     let updateObject = {}
     if(editable) {
@@ -175,13 +181,17 @@ class PublicReviews extends Component {
                 toolName: this.state.editToolNameInputValue,
                 text: this.state.editTextInputValue,
                 reviewId,
-                blob: this.state.editFileInputValue
+                blob: this.state.editFileInputValue,
+                sharable: this.state.editPublicIsChecked,
+                rating: this.state.editRangeValue
             }
         } else {
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
                 text: this.state.editTextInputValue,
-                reviewId
+                reviewId,
+                rating: this.state.editRangeValue,
+                sharable: this.state.editPublicIsChecked
             }
         }
         this.props.updateReview(updateObject)
@@ -192,11 +202,13 @@ class PublicReviews extends Component {
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, toolName, reviewId)
+        this.props.editSaveToggle(editable, toolName, reviewId, rating)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
-            editTextInputValue: text
+            editTextInputValue: text,
+            editRangeValue: rating,
+            editPublicIsChecked: sharable
         })
     }
     setTimeout(() => {
@@ -209,35 +221,6 @@ class PublicReviews extends Component {
             }
         })
     }, 400)
-  }
-
-  postReviewHandler = async () => {
-    this.setState({
-        ...this.state,
-        postStarted: true
-    })
-    let reviewObject
-      if(this.state.fileInputValue){
-        reviewObject = {
-            toolName: this.state.toolNameInputValue,
-            textInput: this.state.textInputValue,
-            blob: this.state.fileInputValue,
-            username: localStorage.getItem('username')
-        }      
-      } else {
-        reviewObject = {
-              toolName: this.state.toolNameInputValue,
-              textInput: this.state.textInputValue,
-              username: localStorage.getItem('username')
-        }  
-      } 
-      
-    this.props.postReview(reviewObject)
-    this.setState({
-        toolNameInputValue: 'SORTOE',
-        textInputValue: "",
-        fileInputValue: null
-    })
   }
 
 
@@ -280,6 +263,13 @@ class PublicReviews extends Component {
   removeFileHandler = reviewId => {
     this.props.removeFile(reviewId)
   }
+
+  applyColor = rangeValue => {
+    return rangeValue >= 0 && rangeValue <= 59 ? "F" :
+    rangeValue >= 60 && rangeValue <= 69 ? "D" :
+    rangeValue >= 70 && rangeValue <= 79 ? "C" :
+    rangeValue >= 80 && rangeValue <= 89 ? "B" : "A"
+}
 
   render() {
     if(!this.props.username){
@@ -398,9 +388,30 @@ class PublicReviews extends Component {
                         {
                             review.editable ?
                             <div>
+                                <Row className="border-bottom">
+                                        <p>Overall {this.state.toolNameInputValue} rating: 
+                                            <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
+                                        <p class="range-field maxWidth70 center">
+                                            <input 
+                                            type="range"
+                                            value={this.state.editRangeValue}
+                                            onChange={evt => this.updateInputValue(evt, 'editRangeValue')}
+                                            min="0" max="100" />
+                                        </p>
+                                </Row>
+                                <Row className="border-bottom">
+                                        <div className="switch">
+                                            <label>
+                                            Private
+                                            <input type="checkbox" checked={this.state.editPublicIsChecked} onChange={evt => this.updateInputValue(evt, 'editPublicIsChecked')}/>
+                                            <span className="lever"></span>
+                                            Public
+                                            </label>
+                                        </div>          
+                                </Row>
                                 <Row>
                                     <Button disabled={!this.state.editFileTypePasses} 
-                                        onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path)} 
+                                        onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} 
                                         className="portal-buttons" waves='light'>
                                         Save
                                         <Icon right tiny className="data">check</Icon>
@@ -443,17 +454,23 @@ class PublicReviews extends Component {
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
-                                <Row className="border-bottom">
-                                    <div>Author: {review.firstName} {review.lastName} </div>
-                                    <div> {review.jobTitle} at {review.company} </div>
-                                </Row>
                             </div>
                             :
                             <div>
+                                <Row className="border-bottom"></Row>
+                                <Row className="valign-wrapper margin-top-bottom border-bottom">
+                                <Col s={2}>
+                                    <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
+                                </Col>
+                                <Col s={10}>
+                                    <div> {review.firstName} {review.lastName} </div>
+                                    <div> {review.jobTitle} at {review.company} </div>
+                                </Col>
+                                </Row>
                                 {
                                     review.username == this.props.username ?
                                     <Row>
-                                        <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                        <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                                     </Row>
                                     :
                                     null
@@ -494,10 +511,7 @@ class PublicReviews extends Component {
                                         null
                                     }
                                 </Row>
-                                <Row className="border-bottom">
-                                    <div>Author: {review.firstName} {review.lastName} </div>
-                                    <div> {review.jobTitle} at {review.company} </div>
-                                </Row>
+                                
                             </div>
                         }
                     </Col>

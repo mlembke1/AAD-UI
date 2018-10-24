@@ -116,7 +116,7 @@ ul.dropdown-content.select-dropdown li span {
 }
 
 .delete-button:focus {
-    background-color: #033076;
+    background-color: white;
 }
 
 .remove-file-button {
@@ -281,4 +281,16 @@ input[type=range]::-webkit-slider-thumb {
 
 .maxWidth70 {
     max-width: 70%;
+}
+
+.center {
+    margin: auto;
+}
+
+.standard-height {
+    height: 38px;
+}
+
+.margin-top-neg {
+    margin-top: -8px;
 }

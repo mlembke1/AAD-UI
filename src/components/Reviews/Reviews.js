@@ -434,6 +434,27 @@ class Reviews extends Component {
                             review.editable ?
                             <div>
                                 <Row>
+                                        <p>Overall {this.state.toolNameInputValue} rating: 
+                                            <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
+                                        <p class="range-field maxWidth70 center">
+                                            <input 
+                                            type="range"
+                                            value={this.state.editRangeValue}
+                                            onChange={evt => this.updateInputValue(evt, 'editRangeValue')}
+                                            min="0" max="100" />
+                                        </p>
+                                </Row>
+                                <Row>
+                                        <div className="switch">
+                                            <label>
+                                            Private
+                                            <input type="checkbox" checked={this.state.editPublicIsChecked} onChange={evt => this.updateInputValue(evt, 'editPublicIsChecked')}/>
+                                            <span className="lever"></span>
+                                            Public
+                                            </label>
+                                        </div>          
+                                </Row>
+                                <Row>
                                     <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
                                 <Row>
@@ -473,30 +494,24 @@ class Reviews extends Component {
                                 <Row>
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
-                                <Row>
-                                        <p>Overall {this.state.toolNameInputValue} rating: 
-                                            <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
-                                        <p class="range-field">
-                                            <input 
-                                            type="range"
-                                            value={this.state.editRangeValue}
-                                            onChange={evt => this.updateInputValue(evt, 'editRangeValue')}
-                                            min="0" max="100" />
-                                        </p>
-                                </Row>
-                                <Row>
-                                        <div className="switch">
-                                            <label>
-                                            Private
-                                            <input type="checkbox" checked={this.state.editPublicIsChecked} onChange={evt => this.updateInputValue(evt, 'editPublicIsChecked')}/>
-                                            <span className="lever"></span>
-                                            Public
-                                            </label>
-                                        </div>          
-                                </Row>
                             </div>
                             :
                             <div>
+                                <Row className="border-bottom"></Row>
+                                <br />
+                                <Row className="valign-wrapper maxWidth70">
+                                    <Col className="border-bottom standard-height" s={6}>
+                                            <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
+                                    </Col>
+                                    <Col className="border-bottom standard-height" s={6}>
+                                    {
+                                        review.sharable ?
+                                        <div className="margin-top-neg"> Public <Icon >public</Icon></div>
+                                        :
+                                        <div className="margin-top-neg"> Private <Icon >security</Icon></div>
+                                    }
+                                    </Col>
+                                </Row>
                                 <Row>
                                     <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                                 </Row>
@@ -534,20 +549,6 @@ class Reviews extends Component {
                                     :
                                         null
                                     }
-                                </Row>
-                                <Row className="valign-wrapper maxWidth70">
-                                    <Col s={6}>
-                                    {
-                                        review.sharable ?
-                                        <div className="border-bottom"> Public <Icon >public</Icon></div>
-                                        :
-                                        <div className="border-bottom"> Private <Icon >security</Icon></div>
-                                    }
-                                    </Col>
-                                    <Col s={6}>
-                                        <p>Overall {review.tool_name} rating: 
-                                            <span className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </span></p>
-                                    </Col>
                                 </Row>
                             </div>
                         }

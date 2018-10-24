@@ -13,3 +13,8 @@
     min-width: 70%;
     max-width: 70%;
 }
+
+
+.margin-top-bottom {
+    margin: 10px auto !important;
+}
