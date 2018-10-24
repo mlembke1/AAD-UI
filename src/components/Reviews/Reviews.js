@@ -593,15 +593,6 @@ class Reviews extends Component {
                             </Col>
                             <Col s={4} className="center">
                                 <Row>
-                                <Input 
-                                    checked={this.state.publicIsChecked}
-                                    onChange={() => this.onCheckPublic()}
-                                    className="signup-input"
-                                    type="checkbox" 
-                                    label="Make This Review Public"
-                                    s={12} />           
-                                </Row>
-                                <Row>
                                     <Button 
                                         disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
                                         onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
@@ -616,6 +607,25 @@ class Reviews extends Component {
                                         :
                                         null
                                     }
+                                </Row>
+
+                                <Row>
+                                <div className="switch tooltip">
+                                    <label>
+                                    Private
+                                    <input type="checkbox" checked={this.state.publicIsChecked} onChange={() => this.onCheckPublic()}/>
+                                    <span className="lever"></span>
+                                    Public
+                                    </label>
+                                    <span className="tooltiptext">Would you like this review to be made public?</span>
+                                </div>
+                                {/* <Input 
+                                    checked={this.state.publicIsChecked}
+                                    onChange={() => this.onCheckPublic()}
+                                    className="signup-input"
+                                    type="checkbox" 
+                                    label="Make This Review Public"
+                                    s={12} />            */}
                                 </Row>
                             </Col>
                         </Row>

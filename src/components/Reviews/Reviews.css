@@ -193,3 +193,39 @@ ul.dropdown-content.select-dropdown li span {
     background-color: #b71c1c !important;
     color:  #dcdcdc !important;
   }
+
+  .switch label input[type=checkbox]:checked+.lever {
+      background-color: #dcdcdc !important;
+  }
+
+  .switch label input[type=checkbox]:checked+.lever:after {
+      background-color: #262626;
+  }
+
+  .switch {
+      margin-top: 40px;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #262626;
+    color: #dcdcdc;
+    text-align: center;
+    padding: 10px;
+
+    /* Position the tooltip */
+    position: absolute;
+    top: 30px;
+    left: -20px;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
