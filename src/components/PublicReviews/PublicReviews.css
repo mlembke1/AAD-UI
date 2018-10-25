@@ -18,3 +18,20 @@
 .margin-top-bottom {
     margin: 10px auto !important;
 }
+
+.filter-icon {
+    padding-bottom: 2px !important;
+}
+
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: #262626 !important;
+}
+
+/* [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: #262626;
+} */
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+    background-color: #262626 !important;
+}

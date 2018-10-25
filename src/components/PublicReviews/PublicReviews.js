@@ -4,6 +4,7 @@ import './PublicReviews.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getUserInfo } from '../../actions/getUserInfo'
+import { getAllTools } from '../../actions/getAllTools'
 import { getAllPublicReviews } from '../../actions/getAllPublicReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
@@ -16,7 +17,7 @@ import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
 import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
 import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
-import { Icon, Input, Section, Row, Col, Button, Tab, Tabs, Modal } from 'react-materialize'
+import { Icon, Input, Section, Row, Col, Button, Modal, Collapsible, CollapsibleItem } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 
 
@@ -45,6 +46,7 @@ class PublicReviews extends Component {
     componentWillMount = () => {
         this.props.checkCookie()
         this.props.getUserInfo()
+        this.props.getAllTools()
         this.props.getAllPublicReviews()
         setTimeout( () => {
             if(this.props.publicReviewsRequestFinished) {
@@ -272,6 +274,7 @@ class PublicReviews extends Component {
 }
 
   render() {
+    const filterIcon = <img src={require("../../assets/filter_icon.png")} width="20px" className="filter-icon" />
     if(!this.props.username){
         return <Redirect to="/" />
       } else {
@@ -280,20 +283,38 @@ class PublicReviews extends Component {
           {/* ////////////////////  ///////   ///////////////////////// */}
           {/* ////////////////////  HEADER    ///////////////////////// */}
           {/* ////////////////////  ///////   ///////////////////////// */}
-          <Section className="dash-heading-wrapper">
+          <Section className="dash-heading-wrapper public-reviews-header">
             <Row> 
               <Col s={12}>
               </Col>
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                {/* <Icon className="orange-icon" right={true} medium>assignment</Icon> */}
                 <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
                 <h5 className="dash-username j-title">PUBLIC REVIEWS</h5>
               </Col>
-              <Col s={10}></Col>
+              <Col s={3}></Col>
+              <Col s={7}>
+              <Collapsible>
+                <CollapsibleItem header='Filter' icon={filterIcon}>
+                    <Row className="center-align">
+                        <Col s={1}>Tool:</Col>
+                        <Col className="center-align" s={11}>
+                        {
+                            this.props.allTools && this.props.allTools.length > 0 ?
+                            this.props.allTools.map(tool => {
+                              return  <Input name='group1' type='radio' value={tool.name} label={tool.name} />
+                            })
+                            :
+                            <div>Tools didn't make it</div>
+                        }
+                        </Col>
+                    </Row>
+                </CollapsibleItem>
+                </Collapsible>
+              </Col>
             </Row>
             <Row>
               <Col s={12}>
@@ -539,7 +560,8 @@ const mapStateToProps = state => {
       updateComplete: state.reviews.updateComplete,
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
-      publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished
+      publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished,
+      allTools: state.tools.allTools
   }
 }
 
@@ -557,6 +579,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     setDeleteCompleteFalse,
     setRemoveFileCompleteFalse,
     getUserInfo,
+    getAllTools,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublicReviews)

@@ -48,7 +48,7 @@ class Dashboard extends Component {
                   <Link  to="/reviews">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/assessment_icon.png")} width="100px" />
-                      <div className="j-title">ASSESSMENTS</div>
+                      <div className="j-title">YOUR ASSESSMENTS</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
                       Come here to post reviews on all the tools you have used.
