@@ -300,7 +300,7 @@ class PublicReviews extends Component {
               <Collapsible>
                 <CollapsibleItem header='Filter' icon={filterIcon}>
                     <Row className="center-align">
-                        <Col s={1}>Tool:</Col>
+                        <Col s={1}><span className="bold">Tool:</span></Col>
                         <Col className="center-align" s={11}>
                         {
                             this.props.allTools && this.props.allTools.length > 0 ?
