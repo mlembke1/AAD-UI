@@ -10,7 +10,6 @@ export const getAllPublicReviews = () => dispatch => {
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + `/getAllPublicReviews`, options)
     .then(r => r.json())
     .then(payload => {
-        console.log('HERE ARE THE PUBLIC REVIEWS', payload)
       return dispatch({ type:'PUBLIC_REVIEWS_AQUIRED', payload })
     })
     .catch(err => {

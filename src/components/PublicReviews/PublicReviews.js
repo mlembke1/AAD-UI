@@ -46,8 +46,8 @@ class PublicReviews extends Component {
             postStarted: false,
             editRangeValue: 50,
             editPublicIsChecked: true,
-            toolFilter: "all",
-            ratingFilter: "all"
+            toolFilter: ['SORTOE', 'AtN', 'SOF4D'],
+            ratingFilter: [0, 100]
         }
     }
 
@@ -97,17 +97,36 @@ class PublicReviews extends Component {
         }
     }
 
+    doesRatingPassFilter = rating => rating >= this.state.ratingFilter[0] && rating <= this.state.ratingFilter[1] ? true : false
 
+    doesToolNamePassFilter = toolName => this.state.toolFilter.includes(toolName) ? true : false
 
-    updateInputValue(evt, inputType) {
-        console.log('HERE IS THE INPUT TYPE', inputType)
-        console.log('HERE IS THE EVENT.TARGET.VALUE', evt.target.value)
+    
+
+    updateInputValue(evt, inputType, toolName) {
+        if (inputType == 'toolFilter') {
+            let found = this.state.toolFilter.includes(toolName)
+            if (found) {
+                return this.setState({ 
+                toolFilter: this.state.toolFilter.filter(x => x !== toolName)
+                })
+            } else {
+                return this.setState({ 
+                toolFilter: [ ...this.state.toolFilter, toolName ]
+                })
+            }
+        }
+
+        if(inputType == 'ratingFilter') {
+            return this.setState({
+                [inputType]: [evt[0], evt[1]]
+            })
+        }
         
-        // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
         if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'){
             return this.setState({
               [inputType]: evt.target.value
-            }, () => console.log('HERE IS THE "UPDATED" STATE', this.state.toolFilter))
+            })
         } else if (inputType == 'editPublicIsChecked') {
             return this.setState({
                 [inputType]: evt.target.checked
@@ -175,8 +194,7 @@ class PublicReviews extends Component {
                     }
                 }
             }
-        }
-        
+        }   
     }
 
   deleteHandler = (id) => {
@@ -317,26 +335,22 @@ class PublicReviews extends Component {
               <Collapsible>
                 <CollapsibleItem  header='Filters' icon={filterIcon}>
                     <Row className="center-align">
-                        <Col s={1}><span className="bold">Tool:</span></Col>
-                        <Col className="center-align" s={11} >
-                            <Input  
-                            onChange={evt => this.updateInputValue(evt, 'toolFilter')} 
-                            name='tool'
-                            type='radio'
-                            value="all"
-                            checked={this.state.toolFilter == 'all'}
-                            label="All Tools" />
+                        <Col s={1}><span className="bold">Tools:</span></Col>
+                        <Col s={2}></Col>
+                        <Col className="center-align" s={9} >
                             {
                                 this.props.allTools && this.props.allTools.length > 0 ?
                                 this.props.allTools.map((tool, i) => {
-                                  return  <Input  
-                                            onChange={evt => this.updateInputValue(evt, 'toolFilter')} 
+                                  return    <Input  
+                                            onChange={e => this.updateInputValue(e, 'toolFilter', tool.name)} 
                                             key={i}
-                                            name='tool'
-                                            type='radio'
+                                            name='toolFilter'
+                                            type='checkbox'
                                             value={tool.name}
-                                            checked={this.state.toolFilter == tool.name}
-                                            label={tool.name} />
+                                            checked={this.state.toolFilter.includes(tool.name)}
+                                            label={tool.name} 
+                                            />
+                                            
                                 })
                                 :
                                 <div>Tools didn't make it</div>
@@ -345,56 +359,8 @@ class PublicReviews extends Component {
                     </Row>
                     <Row className="center-align">
                         <Col s={1}><span className="bold top-margin-20">Rating:</span></Col>
-                         <Col s={11} >
-                         {/* <Input  
-                            onChange={evt => this.updateInputValue(evt, 'ratingFilter')} 
-                            name='rating'
-                            type='radio'
-                            value="all"
-                            checked={this.state.ratingFilter == 'all'}
-                            label="All Ratings" />
-                            
-                            <Input  
-                            onChange={evt => this.updateInputValue(evt, 'ratingFilter')} 
-                            name='rating'
-                            type='radio'
-                            value="<60"
-                            checked={this.state.ratingFilter == '<60'}
-                            label='Below 60' />
-
-                            <Input  
-                            onChange={evt => this.updateInputValue(evt, 'ratingFilter')} 
-                            name='rating'
-                            type='radio'
-                            value="60-69"
-                            checked={this.state.ratingFilter == '60-69'}
-                            label='60-69' />
-
-                            <Input  
-                            onChange={evt => this.updateInputValue(evt, 'ratingFilter')} 
-                            name='rating'
-                            type='radio'
-                            value="70-79"
-                            checked={this.state.ratingFilter == '70-79'}
-                            label='70-79' />
-
-                            <Input  
-                            onChange={evt => this.updateInputValue(evt, 'ratingFilter')} 
-                            name='rating'
-                            type='radio'
-                            value="80-89"
-                            checked={this.state.ratingFilter == '80-89'}
-                            label='80-89' />
-
-                            <Input  
-                            onChange={evt => this.updateInputValue(evt, 'ratingFilter')} 
-                            name='rating'
-                            type='radio'
-                            value="90-100"
-                            checked={this.state.ratingFilter == '90-100'}
-                            label='90-100' /> */}
-                            
-                            <Nouislider tooltips step={1}  decimals={0} range={{ min: 0, max: 100 }} start={[0, 100]} connect format={ wNumb({ decimals: 0 }) }/>
+                         <Col s={11} >   
+                            <Nouislider onChange={evt => this.updateInputValue(evt, 'ratingFilter')} tooltips step={1}  decimals={0} range={{ min: 0, max: 100 }} start={[0, 100]} connect format={ wNumb({ decimals: 0 }) }/>
                         </Col>
                     </Row>
                 </CollapsibleItem>
@@ -413,15 +379,7 @@ class PublicReviews extends Component {
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
             this.props.allPublicReviews && this.props.allPublicReviews.length > 0 ?            
-            // // this.state.toolFilter.length > 1 ? 
-            // this.props.allPublicReviews.filter(review => {
-            //     if( this.state.toolFilter.length > 1 ) {
-            //         review.tool_name == this.state.toolFilter
-            //     } else {
-            //         review
-            //     }
-            // }).map((review) => {
-            this.props.allPublicReviews.map((review) => {
+            this.props.allPublicReviews.filter(review => this.doesRatingPassFilter(review.rating) && this.doesToolNamePassFilter(review.tool_name)).map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
                   <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
