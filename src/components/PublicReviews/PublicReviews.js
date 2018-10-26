@@ -340,7 +340,7 @@ class PublicReviews extends Component {
                         <Col className="center-align" s={9} >
                             {
                                 this.props.allTools.map((tool, i) => {
-                                    return    <Input  
+                                    return  <Input  
                                             onChange={e => this.updateInputValue(e, 'toolFilter', tool.name)} 
                                             key={i}
                                             name='toolFilter'
