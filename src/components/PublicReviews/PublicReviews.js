@@ -46,7 +46,7 @@ class PublicReviews extends Component {
             postStarted: false,
             editRangeValue: 50,
             editPublicIsChecked: true,
-            toolFilter: ['SORTOE', 'AtN', 'SOF4D'],
+            toolFilter: ['SORTOE', 'ATN', 'SOF4D'],
             ratingFilter: [0, 100]
         }
     }
