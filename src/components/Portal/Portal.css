@@ -106,9 +106,13 @@ div.row.null.tool-wrapper {
 }
 
 .margin-top {
-    margin-top: 60px;
+    margin-top: 60px !important;
 }
 
 .tool-description {
     padding-bottom: 40px !important;
+}
+
+.bold {
+    font-weight: bold; 
 }

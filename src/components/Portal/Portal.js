@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './Portal.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllTools } from '../../actions/getAllTools'
 import { Icon,
          Section,
@@ -19,6 +20,7 @@ class Portal extends Component {
   componentWillMount(){
     this.props.checkCookie()
     this.props.getAllTools()
+    this.props.getUserInfo()
   }
 
   render() {
@@ -63,7 +65,19 @@ class Portal extends Component {
                     </Col>
                     <Col s={4} className="center">
                         <Row>
-                          <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
+                        <Modal
+                          header="You'll need some credentials"
+                          trigger={<Button disabled={tool.url[0] != 'h' ? true : false}  className="portal-buttons" waves='light' > Open <Icon right tiny className="data">touch_app</Icon></Button>}>
+                          <Row className="margin-top valign-wrapper">
+                            <Col s={6}>
+                              <div className="border-bottom">Username: <span className="bold">admin</span></div>
+                              <div className="border-bottom">Password: <span className="bold">password4u</span> </div>
+                            </Col>
+                            <Col s={6}>
+                              <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
+                            </Col>
+                          </Row>
+                        </Modal>
                         </Row>
                         <Row>
                           <Modal
@@ -120,6 +134,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllTools}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllTools, getUserInfo}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portal)

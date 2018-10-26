@@ -1,16 +1,20 @@
 export const reviews = ( state={ 
     allReviews: null,
+    allPublicReviews: null,
     postReviewFailed: false,
     files: [],
     postComplete: false,
     updateComplete: false,
     deleteComplete: false,
     removeFileComplete: false,
-    reviewsRequestFinished: false
+    reviewsRequestFinished: false,
+    publicReviewsRequestFinished: false
    }, action) => {
       switch(action.type){
         case 'REVIEWS_AQUIRED':
           return { ...state, allReviews: action.payload, reviewsRequestFinished: true }  
+        case 'PUBLIC_REVIEWS_AQUIRED':
+          return { ...state, allPublicReviews: action.payload, publicReviewsRequestFinished: true }  
         case 'POST_COMPLETE_FALSE':
           return { ...state, postComplete: false }  
         case 'UPDATE_COMPLETE_FALSE':

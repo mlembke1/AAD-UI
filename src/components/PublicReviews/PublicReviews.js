@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import './Reviews.css';
+import './PublicReviews.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { getAllReviews } from '../../actions/getAllReviews'
+import { getAllTools } from '../../actions/getAllTools'
+import { getAllPublicReviews } from '../../actions/getAllPublicReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
@@ -16,13 +17,20 @@ import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
 import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
 import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
-import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
+import { Icon, Input, Section, Row, Col, Button, Modal, Collapsible, CollapsibleItem } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
+import Nouislider from "nouislider-react";
+import "nouislider/distribute/nouislider.css";
+import wNumb from 'wnumb'
 
 
 
 
-class Reviews extends Component {
+
+
+
+
+class PublicReviews extends Component {
 
     constructor(props) {
         super(props)
@@ -31,15 +39,15 @@ class Reviews extends Component {
             textInputValue: '',
             editToolNameInputValue: 'SORTOE',
             editTextInputValue: '',
-            editPublicIsChecked: "",
             fileInputValue: null,
             editFileInputValue: null,
             fileTypePasses: true,
             editFileTypePasses: true,
             postStarted: false,
-            publicIsChecked: true,
-            rangeValue: 50,
-            editRangeValue: 50
+            editRangeValue: 50,
+            editPublicIsChecked: true,
+            toolFilter: ['SORTOE', 'ATN', 'SOF4D'],
+            ratingFilter: [0, 100]
         }
     }
 
@@ -47,13 +55,14 @@ class Reviews extends Component {
     componentWillMount = () => {
         this.props.checkCookie()
         this.props.getUserInfo()
-        this.props.getAllReviews()
+        this.props.getAllTools()
+        this.props.getAllPublicReviews()
         setTimeout( () => {
-            if(this.props.reviewsRequestFinished) {
-                if(!this.props.allReviews || this.props.allReviews.length < 1){
+            if(this.props.publicReviewsRequestFinished) {
+                if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1){
                         this.props.clearFiles()
                 } else {
-                        this.props.allReviews.map((review, i) => {
+                        this.props.allPublicReviews.map((review, i) => {
                             if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                                     this.props.getFile(review.path.substring(15), review.id)
                                 }
@@ -61,16 +70,17 @@ class Reviews extends Component {
                 }
             }
         }, 1000)
+
     }
 
     componentDidUpdate(){
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
             this.props.postComplete ? this.setState({...this.state, postStarted: false }) : null
             this.props.clearFiles()
-            this.props.getAllReviews()
+            this.props.getAllPublicReviews()
             setTimeout(() => {
-                if(this.props.reviewsRequestFinished){
-                    this.props.allReviews.map((review, i) => {
+                if(this.props.publicReviewsRequestFinished){
+                    this.props.allPublicReviews.map((review, i) => {
                         if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                                 this.props.getFile(review.path.substring(15), review.id)
                             }
@@ -78,7 +88,7 @@ class Reviews extends Component {
                 }
             }, 1000)
             
-            if (this.props.files.length == this.props.allReviews.filter(review => review.path).length) {
+            if (this.props.files.length == this.props.allPublicReviews.filter(review => review.path).length) {
                 this.props.setPostCompleteFalse()
                 this.props.setUpdateCompleteFalse()
                 this.props.setDeleteCompleteFalse()
@@ -87,8 +97,32 @@ class Reviews extends Component {
         }
     }
 
-    updateInputValue(evt, inputType) {
-        // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
+    doesRatingPassFilter = rating => rating >= this.state.ratingFilter[0] && rating <= this.state.ratingFilter[1] ? true : false
+
+    doesToolNamePassFilter = toolName => this.state.toolFilter.includes(toolName) ? true : false
+
+    
+
+    updateInputValue(evt, inputType, toolName) {
+        if (inputType == 'toolFilter') {
+            let found = this.state.toolFilter.includes(toolName)
+            if (found) {
+                return this.setState({ 
+                toolFilter: this.state.toolFilter.filter(x => x !== toolName)
+                })
+            } else {
+                return this.setState({ 
+                toolFilter: [ ...this.state.toolFilter, toolName ]
+                })
+            }
+        }
+
+        if(inputType == 'ratingFilter') {
+            return this.setState({
+                [inputType]: [evt[0], evt[1]]
+            })
+        }
+        
         if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'){
             return this.setState({
               [inputType]: evt.target.value
@@ -98,6 +132,7 @@ class Reviews extends Component {
                 [inputType]: evt.target.checked
               })
         }
+        
         // IF THE INPUT DOES CONTAIN FILES THE FOLLOWING WILL EXECUTE
         else {
             if(evt.target.files[0] == undefined){
@@ -159,14 +194,14 @@ class Reviews extends Component {
                     }
                 }
             }
-        }
+        }   
     }
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    setTimeout(() => this.props.getAllReviews(), 200)
+    setTimeout(() => this.props.getAllPublicReviews(), 200)
     setTimeout(() => {
-    if(this.props.allReviews.length < 1){
+    if(this.props.allPublicReviews.length < 1){
         this.props.clearFiles()
     }
     }, 400)
@@ -192,8 +227,8 @@ class Reviews extends Component {
                 toolName: this.state.editToolNameInputValue,
                 text: this.state.editTextInputValue,
                 reviewId,
-                sharable: this.state.editPublicIsChecked,
-                rating: this.state.editRangeValue
+                rating: this.state.editRangeValue,
+                sharable: this.state.editPublicIsChecked
             }
         }
         this.props.updateReview(updateObject)
@@ -204,66 +239,25 @@ class Reviews extends Component {
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, toolName, reviewId, sharable, rating)
+        this.props.editSaveToggle(editable, toolName, reviewId, rating)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
             editTextInputValue: text,
-            editPublicIsChecked: sharable,
-            editRangeValue: rating
+            editRangeValue: rating,
+            editPublicIsChecked: sharable
         })
     }
     setTimeout(() => {
-        this.props.getAllReviews()
+        this.props.getAllPublicReviews()
     }, 200)
     setTimeout(() => {
-        this.props.allReviews.map(review => {
+        this.props.allPublicReviews.map(review => {
             if(review.path && updateObject.hasOwnProperty('blob')){
                 this.props.getFile(review.path.substring(15), review.id)
             }
         })
     }, 400)
-  }
-
-  postReviewHandler = async () => {
-    this.setState({
-        ...this.state,
-        postStarted: true
-    })
-    let reviewObject
-      if(this.state.fileInputValue){
-        reviewObject = {
-            toolName: this.state.toolNameInputValue,
-            textInput: this.state.textInputValue,
-            blob: this.state.fileInputValue,
-            username: localStorage.getItem('username'),
-            sharable: this.state.publicIsChecked,
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
-            jobTitle: this.props.jobTitle,
-            company: this.props.company,
-            rating: this.state.rangeValue
-        }      
-      } else {
-        reviewObject = {
-              toolName: this.state.toolNameInputValue,
-              textInput: this.state.textInputValue,
-              username: localStorage.getItem('username'),
-              sharable: this.state.publicIsChecked,
-              firstName: this.props.firstName,
-              lastName: this.props.lastName,
-              jobTitle: this.props.jobTitle,
-              company: this.props.company,
-              rating: this.state.rangeValue
-        }  
-      } 
-      
-    this.props.postReview(reviewObject)
-    this.setState({
-        toolNameInputValue: 'SORTOE',
-        textInputValue: "",
-        fileInputValue: null
-    })
   }
 
 
@@ -308,15 +302,14 @@ class Reviews extends Component {
   }
 
   applyColor = rangeValue => {
-      return rangeValue >= 0 && rangeValue <= 59 ? "F" :
-      rangeValue >= 60 && rangeValue <= 69 ? "D" :
-      rangeValue >= 70 && rangeValue <= 79 ? "C" :
-      rangeValue >= 80 && rangeValue <= 89 ? "B" : "A"
-  }
-
-  onCheckPublic = () => this.setState({...this.state, publicIsChecked: !this.state.publicIsChecked})
+    return rangeValue >= 0 && rangeValue <= 59 ? "F" :
+    rangeValue >= 60 && rangeValue <= 69 ? "D" :
+    rangeValue >= 70 && rangeValue <= 79 ? "C" :
+    rangeValue >= 80 && rangeValue <= 89 ? "B" : "A"
+}
 
   render() {
+    const filterIcon = <img src={require("../../assets/filter_icon.png")} width="20px" className="filter-icon" />
     if(!this.props.username){
         return <Redirect to="/" />
       } else {
@@ -325,20 +318,54 @@ class Reviews extends Component {
           {/* ////////////////////  ///////   ///////////////////////// */}
           {/* ////////////////////  HEADER    ///////////////////////// */}
           {/* ////////////////////  ///////   ///////////////////////// */}
-          <Section className="dash-heading-wrapper">
+          <Section className="dash-heading-wrapper public-reviews-header">
             <Row> 
               <Col s={12}>
               </Col>
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                {/* <Icon className="orange-icon" right={true} medium>assignment</Icon> */}
                 <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
-                <h5 className="dash-username j-title">YOUR ASSESSMENTS</h5>
+                <h5 className="dash-username j-title">PUBLIC REVIEWS</h5>
               </Col>
-              <Col s={10}></Col>
+              <Col s={3}></Col>
+              <Col s={7}>
+              <Collapsible>
+                <CollapsibleItem  header='Filters' icon={filterIcon}>
+                    <Row className="center-align">
+                        <Col s={1}><span className="bold">Tools:</span></Col>
+                        <Col s={2}></Col>
+                        <Col className="center-align" s={9} >
+                            {
+                                this.props.allTools && this.props.allTools.length > 0 ?
+                                this.props.allTools.map((tool, i) => {
+                                  return    <Input  
+                                            onChange={e => this.updateInputValue(e, 'toolFilter', tool.name)} 
+                                            key={i}
+                                            name='toolFilter'
+                                            type='checkbox'
+                                            value={tool.name}
+                                            checked={this.state.toolFilter.includes(tool.name)}
+                                            label={tool.name} 
+                                            />
+                                            
+                                })
+                                :
+                                <div>Tools didn't make it</div>
+                            }
+                        </Col>
+                    </Row>
+                    <Row className="center-align">
+                        <Col s={1}><span className="bold top-margin-20">Rating:</span></Col>
+                         <Col s={11} >   
+                            <Nouislider onChange={evt => this.updateInputValue(evt, 'ratingFilter')} tooltips step={1}  decimals={0} range={{ min: 0, max: 100 }} start={[0, 100]} connect format={ wNumb({ decimals: 0 }) }/>
+                        </Col>
+                    </Row>
+                </CollapsibleItem>
+                </Collapsible>
+              </Col>
             </Row>
             <Row>
               <Col s={12}>
@@ -351,8 +378,8 @@ class Reviews extends Component {
           {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
-            this.props.allReviews && this.props.allReviews.length > 0 ?            
-            this.props.allReviews.map((review) => {
+            this.props.allPublicReviews && this.props.allPublicReviews.length > 0 ?            
+            this.props.allPublicReviews.filter(review => this.doesRatingPassFilter(review.rating) && this.doesToolNamePassFilter(review.tool_name)).map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
                   <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
@@ -433,10 +460,10 @@ class Reviews extends Component {
                         {
                             review.editable ?
                             <div>
-                                <Row>
+                                <Row className="border-bottom">
                                         <p>Overall {this.state.toolNameInputValue} rating: 
                                             <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
-                                        <p class="range-field maxWidth70 center">
+                                        <p className="range-field maxWidth70 center">
                                             <input 
                                             type="range"
                                             value={this.state.editRangeValue}
@@ -444,7 +471,7 @@ class Reviews extends Component {
                                             min="0" max="100" />
                                         </p>
                                 </Row>
-                                <Row>
+                                <Row className="border-bottom">
                                         <div className="switch">
                                             <label>
                                             Private
@@ -455,7 +482,12 @@ class Reviews extends Component {
                                         </div>          
                                 </Row>
                                 <Row>
-                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} 
+                                        onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} 
+                                        className="portal-buttons" waves='light'>
+                                        Save
+                                        <Icon right tiny className="data">check</Icon>
+                                    </Button>
                                 </Row>
                                 <Row>
                                     {
@@ -498,27 +530,28 @@ class Reviews extends Component {
                             :
                             <div>
                                 <Row className="border-bottom"></Row>
-                                <br />
-                                <Row className="valign-wrapper maxWidth70">
-                                    <Col className="border-bottom standard-height" s={6}>
-                                            <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
-                                    </Col>
-                                    <Col className="border-bottom standard-height" s={6}>
-                                    {
-                                        review.sharable ?
-                                        <div className="margin-top-neg"> Public <Icon >public</Icon></div>
-                                        :
-                                        <div className="margin-top-neg"> Private <Icon >security</Icon></div>
-                                    }
-                                    </Col>
+                                <Row className="valign-wrapper margin-top-bottom border-bottom">
+                                <Col s={2}>
+                                    <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
+                                </Col>
+                                <Col s={10}>
+                                    <div> {review.firstName} {review.lastName} </div>
+                                    <div> {review.jobTitle} at {review.company} </div>
+                                </Col>
                                 </Row>
-                                <Row>
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
-                                </Row>
+                                {
+                                    review.username == this.props.username ?
+                                    <Row>
+                                        <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                    </Row>
+                                    :
+                                    null
+                                }
+                                
                                 <Row>
                                     {
                                         // this.props.isFetching && review.path ? 
-                                        (this.props.files.length != this.props.allReviews.filter(review => review.path).length) && review.path ?
+                                        (this.props.files.length != this.props.allPublicReviews.filter(review => review.path).length) && review.path ?
                                         <div>
                                             <div className="progress">
                                                 <div className="indeterminate"></div>
@@ -550,6 +583,7 @@ class Reviews extends Component {
                                         null
                                     }
                                 </Row>
+                                
                             </div>
                         }
                     </Col>
@@ -560,119 +594,6 @@ class Reviews extends Component {
             : 
                 null
             }
-
-
-            {/* ////////////////////  ////////////////////  ///////////////////////// */}
-            {/* ////////////////////  ADD A REVIEW SECTION  ///////////////////////// */}
-            {/* ////////////////////  ////////////////////  ///////////////////////// */}
-            <Section className="reviews-wrapper center">            
-                <Collapsible popout defaultActiveKey={1}>
-                <CollapsibleItem header='Write A Review' icon='add'>
-                    <Section>
-                        <Row>
-                            <Col s={2} className='valign-wrapper'>
-                                <Input
-                                onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
-                                value={this.state.toolNameInputValue}
-                                type='select' label="Choose A Tool" >
-                                    <option value='SORTOE'>SORTOE</option>
-                                    <option value='ATN'>AtN</option>
-                                    <option value='OTHER'>Other</option>
-                                </Input>
-                            </Col>
-                            <Col s={6}>
-                                <Row>
-                                    <Input 
-                                    className="text-area"
-                                    type='textarea'
-                                    value={this.state.textInputValue}
-                                    onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                    placeholder="Your review here..." />
-                                </Row>
-                                <Row>
-                                    <Input 
-                                    id="file-input"
-                                    type="file"
-                                    label="File"
-                                    name="fileUpload"
-                                    s={12} 
-                                    placeholder="(.jpg/.png/.jpeg) or a .pdf"
-                                    onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
-                                    <div className="file-preview container">
-                                        {
-                                            this.state.fileInputValue && this.state.fileTypePasses ?
-                                                this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
-                                                    <div className="non-image-file file" >
-                                                        {this.state.fileInputValue.name}
-                                                        {this.state.fileInputValue.type}
-                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                    </div>
-                                                :
-                                                <div>
-                                                    <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
-                                                </div>
-                                            :
-                                            null
-                                        }
-                                    </div>
-                                </Row>
-                                {
-                                    !this.state.fileTypePasses ?
-                                    <div>
-                                        <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
-                                        <div className="error-text">Please ensure file extensions are all lowercase.</div>
-                                    </div>
-                                    :
-                                    null
-                                }
-                            </Col>
-                            <Col s={4} className="center">
-                                <Row className="border-bottom"></Row>
-                                <Row className="border-bottom">
-                                <p>Overall {this.state.toolNameInputValue} rating: 
-                                    <span className={`bold ${this.applyColor(this.state.rangeValue) }`}>{this.state.rangeValue}% </span></p>
-                                <p class="range-field">
-                                    <input 
-                                    type="range"
-                                    value={this.state.rangeValue}
-                                    onChange={evt => this.updateInputValue(evt, 'rangeValue')}
-                                     min="0" max="100" />
-                                </p>
-                                </Row>
-                                <Row className="border-bottom">
-                                    <div className="switch tooltip">
-                                        <label>
-                                        Private
-                                        <input type="checkbox" checked={this.state.publicIsChecked} onChange={() => this.onCheckPublic()}/>
-                                        <span className="lever"></span>
-                                        Public
-                                        </label>
-                                        <span className="tooltiptext">Would you like this review to be made public?</span>
-                                    </div>
-                                </Row>
-                                <Row>
-                                    <Button 
-                                        disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
-                                        onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
-                                        <Icon left className="data">check</Icon>
-                                        Submit Review 
-                                    </Button>            
-                                    {
-                                        !this.props.postComplete && this.state.postStarted ?
-                                        <div className="progress">
-                                            <div className="indeterminate"></div>
-                                        </div>
-                                        :
-                                        null
-                                    }
-                                </Row>
-
-                            </Col>
-                        </Row>
-                    </Section>
-                </CollapsibleItem>
-                </Collapsible>      
-            </Section>  
         </div>
       )
     }
@@ -684,23 +605,20 @@ class Reviews extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      firstName: state.auth.firstName,
-      lastName: state.auth.lastName,
-      jobTitle: state.auth.jobTitle,
-      company: state.auth.company,
-      allReviews: state.reviews.allReviews,
+      allPublicReviews: state.reviews.allPublicReviews,
       files: state.reviews.files,
       postComplete: state.reviews.postComplete,
       updateComplete: state.reviews.updateComplete,
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
-      reviewsRequestFinished: state.reviews.reviewsRequestFinished
+      publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished,
+      allTools: state.tools.allTools
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     checkCookie,
-    getAllReviews,
+    getAllPublicReviews,
     postReview, 
     editSaveToggle,
     updateReview,
@@ -712,6 +630,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     setDeleteCompleteFalse,
     setRemoveFileCompleteFalse,
     getUserInfo,
+    getAllTools,
     removeFile}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
+export default connect(mapStateToProps, mapDispatchToProps)(PublicReviews)

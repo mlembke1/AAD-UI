@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './Signup.css';
 import { connect } from 'react-redux'
-import { Row, Input, Button } from 'react-materialize'
+import { Row, Input, Button, Col } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { submitNewUser } from '../../actions/submitNewUser'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { checkCookie } from '../../actions/checkCookie'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { validateEmail } from '../../actions/validateEmail'
 import { inviteToSlack } from '../../actions/inviteToSlack'
 import { resetState } from '../../actions/resetState'
@@ -14,6 +15,7 @@ class Signup extends Component {
 
   componentWillMount(){
     this.props.checkCookie()
+    this.props.getUserInfo()
   }
 
     constructor(props){
@@ -27,7 +29,11 @@ class Signup extends Component {
         slackIsChecked: true,
         usernameLengthPasses: true,
         passwordLengthPasses: true,
-        confirmPasswordLengthPasses: true
+        confirmPasswordLengthPasses: true,
+        firstNameInputValue: "",
+        lastNameInputValue: "",
+        jobTitleInputValue: "",
+        companyInputValue: ""
       }
     }
 
@@ -129,7 +135,11 @@ class Signup extends Component {
       const user = {
         signupUsername: this.state.usernameInputValue,
         signupEmail: this.state.emailInputValue,
-        signupPassword: this.state.passwordInputValue
+        signupPassword: this.state.passwordInputValue,
+        firstName: this.state.firstNameInputValue,
+        lastName: this.state.lastNameInputValue,
+        jobTitle: this.state.jobTitleInputValue,
+        company: this.state.companyInputValue
       }
       if(this.passwordsMatch() && !this.props.invalidEmail && !this.props.emailIsTaken && this.state.usernameLengthPasses && this.state.passwordLengthPasses){
         this.props.submitNewUser(user)
@@ -151,48 +161,101 @@ class Signup extends Component {
         <main>
           <h4 className="signup-login-header">Signup</h4>
           <Row className="login-signup-form">
-              <Input 
-                onBlur={() => this.usernameHandler()} 
-                value={this.state.usernameInputValue}
-                onChange={evt => this.updateInputValue(evt, 'usernameInputValue')}
-                className="signup-input" 
-                type="text" 
-                label="Username"
-                s={12} /> 
-                {this.props.usernameIsTaken ? <div className="error-text">Username already taken.</div> : null }
-                {!this.state.usernameLengthPasses ? <div className="error-text">Username must be between 8 and 30 characters.</div> : null }
-                
-                <Input 
-                onBlur={() => this.setEmailIsValid(this.state.emailInputValue)} 
-                value={this.state.emailInputValue}
-                onChange={evt => this.updateInputValue(evt, 'emailInputValue')}
-                className="signup-input" 
-                type="email" 
-                label="Email"
-                s={12} /> 
-                {this.props.invalidEmail ? <div className="error-text">Invalid Email.</div> : null }
-                {this.props.emailIsTaken ? <div className="error-text">Email already taken.</div> : null }
-                
-                <Input 
-                // onBlur={() => this.passwordHandler()}
-                value={this.state.passwordInputValue}
-                onChange={evt => this.updateInputValue(evt, 'passwordInputValue')}
-                className="signup-input"
-                type="password"
-                label="Password"
-                s={12} /> 
-                {!this.state.passwordLengthPasses ? <div className="error-text">Password must be between 8 and 30 characters.</div> : null }
-              
-               <Input 
-                // onBlur={() => this.confirmPasswordHandler()}
-                value={this.state.confirmPasswordInputValue}
-                onChange={evt => this.updateInputValue(evt, 'confirmPasswordInputValue')}
-                className="signup-input"
-                type="password" 
-                label="Confirm Password"
-                s={12} />
-                {!this.state.confirmPasswordLengthPasses ? <div className="error-text">Confirm password must be between 8 and 30 characters.</div> : null }
-                {!this.state.passwordsMatch ? <div className="error-text">Passwords must match.</div> : null }
+              <Row>
+                  <Col s={3}>
+                        <Input 
+                        required
+                      onChange={evt => this.updateInputValue(evt, 'firstNameInputValue')}
+                      value={this.state.firstNameInputValue}
+                      className="signup-input"
+                      type="text"
+                      label="First Name"
+                      s={12} />
+                  </Col>
+                  <Col s={3}>
+                      <Input 
+                      required
+                      onChange={evt => this.updateInputValue(evt, 'lastNameInputValue')}
+                      value={this.state.lastNameInputValue}
+                      className="signup-input"
+                      type="text"
+                      label="Last Name"
+                      s={12} />
+                  </Col>
+                  <Col s={3}>
+                      <Input 
+                      required
+                      onChange={evt => this.updateInputValue(evt, 'jobTitleInputValue')}
+                      value={this.state.jobTitleInputValue}
+                      className="signup-input"
+                      type="text"
+                      label="Job Title"
+                      s={12} /> 
+                  </Col>
+                  <Col s={3}>
+                      <Input 
+                      required
+                      onChange={evt => this.updateInputValue(evt, 'companyInputValue')}
+                      value={this.state.companyInputValue}
+                      className="signup-input"
+                      type="text"
+                      label="Company"
+                      s={12} /> 
+                  </Col>
+              </Row>
+              <Row>
+                <Col s={6}>
+                  <Input 
+                  onBlur={() => this.usernameHandler()} 
+                  value={this.state.usernameInputValue}
+                  onChange={evt => this.updateInputValue(evt, 'usernameInputValue')}
+                  className="signup-input" 
+                  type="text" 
+                  label="Username"
+                  s={12}
+                  /> 
+                  {this.props.usernameIsTaken ? <div className="error-text">Username already taken.</div> : null }
+                  {!this.state.usernameLengthPasses ? <div className="error-text">Username must be between 8 and 30 characters.</div> : null }
+                </Col>
+                <Col s={6}>
+                  <Input 
+                  onBlur={() => this.setEmailIsValid(this.state.emailInputValue)} 
+                  value={this.state.emailInputValue}
+                  onChange={evt => this.updateInputValue(evt, 'emailInputValue')}
+                  className="signup-input" 
+                  type="email" 
+                  label="Email"
+                  s={12}
+                   /> 
+                  {this.props.invalidEmail ? <div className="error-text">Invalid Email.</div> : null }
+                  {this.props.emailIsTaken ? <div className="error-text">Email already taken.</div> : null }
+                </Col>
+              </Row>
+              <Row>
+                <Col s={6}>
+                  <Input 
+                  value={this.state.passwordInputValue}
+                  onChange={evt => this.updateInputValue(evt, 'passwordInputValue')}
+                  className="signup-input"
+                  type="password"
+                  label="Password"
+                  s={12}
+                  /> 
+                  {!this.state.passwordLengthPasses ? <div className="error-text">Password must be between 8 and 30 characters.</div> : null }
+                </Col>
+                <Col s={6}>
+                  <Input 
+                  value={this.state.confirmPasswordInputValue}
+                  onChange={evt => this.updateInputValue(evt, 'confirmPasswordInputValue')}
+                  className="signup-input"
+                  type="password" 
+                  label="Confirm Password"
+                  s={12}
+                   />
+                  {!this.state.confirmPasswordLengthPasses ? <div className="error-text">Confirm password must be between 8 and 30 characters.</div> : null }
+                  {!this.state.passwordsMatch ? <div className="error-text">Passwords must match.</div> : null }
+                </Col>
+              </Row>
                 
                 <Input 
                 checked={this.state.slackIsChecked}
@@ -203,6 +266,7 @@ class Signup extends Component {
                 s={12} /> 
                {this.props.signupFailed ? <div className="error-text">Signup Failed.</div> : null }
               
+              
                <Button
                onClick={this.handleSubmit}
                large={true} 
@@ -212,7 +276,10 @@ class Signup extends Component {
                 this.state.confirmPasswordInputValue.length < 1 ||
                 !this.state.passwordsMatch || 
                 this.props.usernameIsTaken ||
-                this.props.invalidEmail || this.props.emailIsTaken  ? "disabled" : '' }` } 
+                this.props.invalidEmail || this.props.emailIsTaken ||
+                this.state.firstNameInputValue.length < 1 || this.state.lastNameInputValue.length < 1 ||
+                this.state.jobTitleInputValue.length < 1 || this.state.companyInputValue.length < 1
+                ? "disabled" : '' }` } 
                 waves='light'
                 >Submit</Button> 
           </Row>
@@ -235,9 +302,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   submitNewUser, 
   isUsernameTaken, 
   checkCookie,
+  getUserInfo,
   validateEmail,
   inviteToSlack,
-  resetState
+  resetState,
+  getUserInfo
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)

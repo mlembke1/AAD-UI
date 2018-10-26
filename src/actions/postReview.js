@@ -10,6 +10,12 @@ export const postReview = object => dispatch => {
     formData.append('text', object.textInput);
     formData.append('toolName', object.toolName);
     formData.append('username', object.username);
+    formData.append('sharable', object.sharable);
+    formData.append('firstName', object.firstName)
+    formData.append('lastName', object.lastName)
+    formData.append('jobTitle', object.jobTitle)
+    formData.append('company', object.company)
+    formData.append('rating', object.rating)
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', {
         method: "post",
         data: formData,
