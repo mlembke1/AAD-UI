@@ -12,7 +12,7 @@ class Header extends Component {
     render() {
     const Img = 
     <div className="valign-wrapper">
-        <img src={require("../../assets/aad_logo.png")} className="aad_logo" width="40px"  /> <span>a.a.d.</span>
+        <img src={require("../../assets/aad_logo.png")} className="aad_logo font-thin" width="40px"  /> <span>SOF AAD</span>
     </div>
     if (this.props.username || this.props.toDash) {
         return (
