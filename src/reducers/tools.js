@@ -1,5 +1,5 @@
 export const tools = ( state={ 
-    allTools: null
+    allTools: []
    }, action) => {
       switch(action.type){
 

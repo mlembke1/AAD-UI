@@ -339,9 +339,8 @@ class PublicReviews extends Component {
                         <Col s={2}></Col>
                         <Col className="center-align" s={9} >
                             {
-                                this.props.allTools ?
                                 this.props.allTools.map((tool, i) => {
-                                  return    <Input  
+                                    return    <Input  
                                             onChange={e => this.updateInputValue(e, 'toolFilter', tool.name)} 
                                             key={i}
                                             name='toolFilter'
@@ -352,8 +351,6 @@ class PublicReviews extends Component {
                                             />
                                             
                                 })
-                                :
-                                <div>Tools didn't make it</div>
                             }
                         </Col>
                     </Row>
