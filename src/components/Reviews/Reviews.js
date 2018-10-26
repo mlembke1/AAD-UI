@@ -332,7 +332,6 @@ class Reviews extends Component {
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                {/* <Icon className="orange-icon" right={true} medium>assignment</Icon> */}
                 <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
@@ -367,9 +366,8 @@ class Reviews extends Component {
                             value={this.state.editToolNameInputValue}
                             onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}
                             >
-                                <option value='SORTOE'>SORTOE</option>
-                                <option value='ATN'>AtN</option>
-                                <option value='OTHER'>Other</option>
+                                <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
+                                <option value='Argument Mapper'>Argument Mapper</option>
                             </Input>
                         </Row>
                         :
@@ -575,9 +573,8 @@ class Reviews extends Component {
                                 onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
                                 value={this.state.toolNameInputValue}
                                 type='select' label="Choose A Tool" >
-                                    <option value='SORTOE'>SORTOE</option>
-                                    <option value='ATN'>AtN</option>
-                                    <option value='OTHER'>Other</option>
+                                    <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
+                                    <option value='Argument Mapper'>Argument Mapper</option>
                                 </Input>
                             </Col>
                             <Col s={6}>
