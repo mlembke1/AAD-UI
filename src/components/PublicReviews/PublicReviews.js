@@ -339,7 +339,7 @@ class PublicReviews extends Component {
                         <Col s={2}></Col>
                         <Col className="center-align" s={9} >
                             {
-                                this.props.allTools && this.props.allTools.length > 0 ?
+                                this.props.allTools ?
                                 this.props.allTools.map((tool, i) => {
                                   return    <Input  
                                             onChange={e => this.updateInputValue(e, 'toolFilter', tool.name)} 
