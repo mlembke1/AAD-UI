@@ -35,9 +35,9 @@ class PublicReviews extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            toolNameInputValue: 'SORTOE',
+            toolNameInputValue: 'MEADE/SORT-OE',
             textInputValue: '',
-            editToolNameInputValue: 'SORTOE',
+            editToolNameInputValue: 'MEADE/SORT-OE',
             editTextInputValue: '',
             fileInputValue: null,
             editFileInputValue: null,
@@ -340,7 +340,7 @@ class PublicReviews extends Component {
                         <Col className="center-align" s={9} >
                             {
                                 this.props.allTools.map((tool, i) => {
-                                    return    <Input  
+                                    return  <Input  
                                             onChange={e => this.updateInputValue(e, 'toolFilter', tool.name)} 
                                             key={i}
                                             name='toolFilter'
@@ -391,9 +391,8 @@ class PublicReviews extends Component {
                             value={this.state.editToolNameInputValue}
                             onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}
                             >
-                                <option value='SORTOE'>SORTOE</option>
+                                <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
                                 <option value='ATN'>AtN</option>
-                                <option value='OTHER'>Other</option>
                             </Input>
                         </Row>
                         :

@@ -116,3 +116,32 @@ div.row.null.tool-wrapper {
 .bold {
     font-weight: bold; 
 }
+
+
+ .portal-data .collapsible-body {
+    border-bottom: none;
+    transition: .2s;
+}
+
+
+.portal-data .collapsible-body {
+    min-height: 200px !important;
+}
+
+
+.collapsible {
+    margin: auto;
+}
+
+.portal-data .collapsible-header {
+    max-height: 38px;
+}
+
+.portal-data .collapsible-header {
+    padding-top: 8px;
+}
+
+.maxWith100 {
+    max-width: 100% !important;
+    display: inline-block !important;
+}
