@@ -27,9 +27,9 @@ class Reviews extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            toolNameInputValue: 'SORTOE',
+            toolNameInputValue: 'MEADE/SORT-OE',
             textInputValue: '',
-            editToolNameInputValue: 'SORTOE',
+            editToolNameInputValue: 'MEADE/SORT-OE',
             editTextInputValue: '',
             editPublicIsChecked: "",
             fileInputValue: null,
