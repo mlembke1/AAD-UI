@@ -328,7 +328,7 @@ class PublicReviews extends Component {
                 <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
-                <h5 className="dash-username j-title">PUBLIC REVIEWS</h5>
+                <h5 className="dash-username j-title">Public Reviews</h5>
               </Col>
               <Col s={3}></Col>
               <Col s={7}>

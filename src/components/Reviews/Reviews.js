@@ -335,7 +335,7 @@ class Reviews extends Component {
                 <img src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
-                <h5 className="dash-username j-title">YOUR ASSESSMENTS</h5>
+                <h5 className="dash-username j-title">Your Assessments</h5>
               </Col>
               <Col s={10}></Col>
             </Row>

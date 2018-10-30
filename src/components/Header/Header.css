@@ -24,3 +24,7 @@ nav .nav-wrapper {
 .font-thin {
     font-weight: 300;
 }
+
+i.arrow-icon {
+    color: #f5f5f5;
+}

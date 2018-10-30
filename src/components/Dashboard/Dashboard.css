@@ -56,7 +56,9 @@ hr {
 }
 
 .j-title {
-    font-family: 'Josefin Slab', serif; 
+    /* font-family: 'Josefin Slab', serif;  */
+    font-family: 'Dancing Script', cursive;
+    font-size: 2em;
     letter-spacing: 2px;
     /* text-transform: uppercase; */
 }
