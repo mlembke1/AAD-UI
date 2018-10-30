@@ -48,7 +48,7 @@ class Dashboard extends Component {
                   <Link  to="/reviews">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/assessment_icon.png")} width="100px" />
-                      <div className="j-title">YOUR ASSESSMENTS</div>
+                      <div className="j-title">Your Assessments</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
                       Come here to post reviews on all the tools you have used.
@@ -61,7 +61,7 @@ class Dashboard extends Component {
                   <Link  to="/portal">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/launch_icon.png")} width="100px" />
-                      <div className="j-title">PORTAL</div>
+                      <div className="j-title">Portal</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
                       All tools available will be found here.
@@ -74,7 +74,7 @@ class Dashboard extends Component {
                   <Link  to="/public">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/lightbulb_icon.png")} width="100px" />
-                      <div className="j-title">PUBLIC REVIEWS</div>
+                      <div className="j-title">Public Reviews</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
                       Checkout public reviews and see what other people are saying.

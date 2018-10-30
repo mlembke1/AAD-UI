@@ -11,13 +11,14 @@ import  PageFooter from './components/PageFooter/PageFooter'
 import  Portal from './components/Portal/Portal'
 import  Reviews from './components/Reviews/Reviews'
 import  PublicReviews from './components/PublicReviews/PublicReviews'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
-import { Redirect } from 'react-router-dom'
-
+import NotFound from './components/NotFound/NotFound'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 class App extends Component {
+
   componentWillMount(){
     this.props.checkCookie()
     this.props.getUserInfo()
@@ -26,19 +27,32 @@ class App extends Component {
   render() {
     return (
           <BrowserRouter>
+          <Route render={({ location }) => (
             <div className="app-body">
               <Header />
                 <main className="app">  
-                  <Route exact path="/" component={LandingPage} /> 
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Route path="/login" component={Login} />
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/portal" component={Portal} />
-                  <Route path="/reviews" component={Reviews} />
-                  <Route path="/public" component={PublicReviews} />
+                <TransitionGroup>
+                  <CSSTransition
+                  timeout={300}
+                  classNames="fade"
+                  key={location.key}
+                  >
+                  <Switch location={location}>
+                    <Route exact path="/" component={LandingPage} /> 
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/portal" component={Portal} />
+                    <Route path="/reviews" component={Reviews} />
+                    <Route path="/public" component={PublicReviews} />
+                    <Route component={NotFound}/>
+                  </Switch>
+                  </CSSTransition>
+                </TransitionGroup>
                 </main>
               <PageFooter />
             </div>
+          )}/>
           </BrowserRouter>
         )      
   }
