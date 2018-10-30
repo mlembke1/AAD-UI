@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Signup.css';
 import { connect } from 'react-redux'
-import { Row, Input, Button, Col } from 'react-materialize'
+import { Row, Input, Button, Col, Icon } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { submitNewUser } from '../../actions/submitNewUser'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
@@ -281,7 +281,9 @@ class Signup extends Component {
                 this.state.jobTitleInputValue.length < 1 || this.state.companyInputValue.length < 1
                 ? "disabled" : '' }` } 
                 waves='light'
-                >Submit</Button> 
+                >
+                <Icon className="login-signup-button-icon">send</Icon>
+                </Button> 
           </Row>
         </main> 
       )

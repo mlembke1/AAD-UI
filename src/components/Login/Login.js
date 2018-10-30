@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Login.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Row, Input, Button } from 'react-materialize'
+import { Row, Input, Button, Icon } from 'react-materialize'
 import { loginUser } from '../../actions/loginUser'
 import { doesUsernameExist } from '../../actions/doesUsernameExist'
 import { checkCookie } from '../../actions/checkCookie'
@@ -117,7 +117,9 @@ class Login extends Component {
                       !this.state.usernameLengthPasses ||
                       !this.state.passwordLengthPasses
                        ? "disabled" : null }`} 
-                    waves='light'>Login</Button> 
+                    waves='light'>
+                    <Icon className="login-signup-button-icon">send</Icon>
+                    </Button> 
               </Row>
          </main> 
       )
