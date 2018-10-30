@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css';
 import { connect } from 'react-redux'
-import { Navbar, Icon } from 'react-materialize'
+import { Navbar, Icon, SideNav, SideNavItem, Button } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../actions/logout'
@@ -9,23 +9,35 @@ import { logout } from '../../actions/logout'
 
 class Header extends Component {
     render() {
-    const Img = 
-    <div className="valign-wrapper">
-            <span>SOF AAD</span>
-    </div>
     if (this.props.username) {
         return (
-            <Navbar className="navbar-logo" brand={Img} right>
+            <Navbar className="navbar-logo" brand={<span className="valign-wrapper">SOF AAD</span>} right>
                 <div onClick={() => this.props.logout()}>
-                    <Link to="/"> Logout </Link>
+                    <SideNav
+                        trigger={<div className="hamburger-menu-icon-container"><Icon>menu</Icon></div>}
+                        options={{ closeOnClick: true, edge: "right" }}
+                        >
+                        <SideNavItem waves>
+                            <Link to="/"> Logout </Link>
+                        </SideNavItem>
+                    </SideNav>
                 </div>
             </Navbar>   
         )
       } else {
         return (
-            <Navbar className="navbar-logo" brand={Img} right>
-                <Link className="link" to="/login"> Login </Link>
-                <Link className="link" to="/signup"> Signup </Link>
+            <Navbar className="navbar-logo" brand={<span className="valign-wrapper">SOF AAD</span>} right>
+                <SideNav
+                    trigger={<div className="hamburger-menu-icon-container"><Icon>menu</Icon></div>}
+                    options={{ closeOnClick: true, edge: "right" }}
+                    >
+                    <SideNavItem>
+                        <Link className="link" to="/login"> Login </Link>
+                    </SideNavItem>
+                    <SideNavItem>
+                        <Link className="link" to="/signup"> Signup </Link>
+                    </SideNavItem>
+                </SideNav>
             </Navbar>
         )
       }
@@ -36,6 +48,8 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
+      firstName: state.auth.firstName,
+      lastName: state.auth.lastName,
   }
 }
 

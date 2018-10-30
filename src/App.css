@@ -69,3 +69,8 @@ input:-webkit-autofill:active {
 .fade-exit-active {
   visibility: hidden;
 }
+
+/* Change the white to any color ;) */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #f5f5f5 inset !important;
+}
