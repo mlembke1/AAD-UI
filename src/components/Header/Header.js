@@ -11,10 +11,15 @@ class Header extends Component {
     render() {
     if (this.props.username) {
         return (
-            <Navbar className="navbar-logo" brand={<span className="valign-wrapper">SOF AAD</span>} right>
+            <Navbar className="navbar-logo" brand={<span className="valign-wrapper sof-aad-header">SOF AAD</span>} right>
                 <div onClick={() => this.props.logout()}>
                     <SideNav
-                        trigger={<div className="hamburger-menu-icon-container"><Icon>menu</Icon></div>}
+                        trigger={
+                                <div className="valign-wrapper hamburger-menu-icon-container">
+                                    <span className="uppercase">{this.props.firstName} {this.props.lastName}</span>
+                                    <Icon className="hamburger">menu</Icon>
+                                </div>
+                                }
                         options={{ closeOnClick: true, edge: "right" }}
                         >
                         <SideNavItem waves>
@@ -26,7 +31,7 @@ class Header extends Component {
         )
       } else {
         return (
-            <Navbar className="navbar-logo" brand={<span className="valign-wrapper">SOF AAD</span>} right>
+            <Navbar className="navbar-logo" brand={<span className="sof-aad-header valign-wrapper">SOF AAD</span>} right>
                 <SideNav
                     trigger={<div className="hamburger-menu-icon-container"><Icon>menu</Icon></div>}
                     options={{ closeOnClick: true, edge: "right" }}

@@ -66,8 +66,8 @@ input:-webkit-autofill:active {
   transition: opacity 376ms ease-in;
 }
 
-.fade-exit-active {
-  visibility: hidden;
+.fade-exit, .fade-exit-active  {
+  display: none;
 }
 
 /* Change the white to any color ;) */
