@@ -10,8 +10,8 @@
 
 .link {
     display: inline-block;
-    min-height: 100%;
     min-width: 100%;
+    min-height: 100%;
 }
 
 nav .nav-wrapper {
@@ -30,11 +30,28 @@ nav .nav-wrapper {
 i.arrow-icon {
     color: #f5f5f5;
 }
+.hamburger-menu-icon-container * {
+    display: inline-block !important;
+    margin: -6px 10px;
+}
 
 .hamburger-menu-icon-container {
     padding: 0 5px;
+    
 }
-
 .hamburger-menu-icon-container:hover {
     cursor: pointer;
+}
+
+i.hamburger {
+    position: absolute;
+     top: 6px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.sof-aad-header {
+    font-size: .75em !important;
 }

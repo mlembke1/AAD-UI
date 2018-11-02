@@ -19,72 +19,64 @@ class Dashboard extends Component {
       return <Redirect to="/" />
     } else {
       return (
-        <div>
-          {/* HEADER */}
-          <Section className="dash-heading-wrapper">
-            <Row> 
-              <Col s={12}>
-              </Col>
-            </Row>
-            <Row className='center valign-wrapper'>
-              <Col s={1}>
-              <img src={require("../../assets/person_icon.png")}  width="50px" />
-              </Col>
-              <Col s={1}>
-                <h5 className="dash-username">{this.props.username}</h5>
-              </Col>
-              <Col s={10}></Col>
-            </Row>
-            <Row>
-              <Col s={12}>
-                <hr className="thin" />
-              </Col>
-            </Row>
-          </Section>
-
+        <div className="dash-outter-wrapper">
           <Section id="dash-body-wrapper valign-wrapper">
             <Row s={12} className='center valign-wrapper dash-row-wrapper'>
-              <Col className='valign-wrapper center border-right-bottom tool-wrapper' s={12} m={4}>
-                  <Link  to="/reviews">
-                    <div className="dashboard-block-wrapper">
-                      <img src={require("../../assets/assessment_icon.png")} width="100px" />
-                      <div className="j-title">Your Assessments</div>
-                      <hr className="thin width40Per"/>
-                      <p className="dashboard-description-text">
-                      Come here to post reviews on all the tools you have used.
-                      </p>
-                      <hr className="thin width40Per"/>
-                    </div>
-                  </Link>
-              </Col>
-              <Col className='valign-wrapper center border-right-bottom tool-wrapper' s={12} m={4}>
+              <Col className='valign-wrapper center tool-wrapper hover-lighten border-bottom-and-right' s={12} m={6}>
                   <Link  to="/portal">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/launch_icon.png")} width="100px" />
                       <div className="j-title">Portal</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
-                      All tools available will be found here.
+                      View and test all tools available from here.
                       </p>
                       <hr className="thin width40Per"/>
                     </div>
                   </Link>
               </Col>
-              <Col className='valign-wrapper center border-left-bottom tool-wrapper' s={12} m={4}>
-                  <Link  to="/public">
+              <Col className='valign-wrapper center  tool-wrapper hover-lighten border-bottom-and-left' s={12} m={6}>
+                  <Link  to="/reviews">
                     <div className="dashboard-block-wrapper">
-                      <img src={require("../../assets/lightbulb_icon.png")} width="100px" />
-                      <div className="j-title">Public Reviews</div>
+                      <img src={require("../../assets/assessment_icon.png")} width="100px" />
+                      <div className="j-title">Your Assessments</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
-                      Checkout public reviews and see what other people are saying.
+                      Post public or private reviews on all the tools you have used.
                       </p>
                       <hr className="thin width40Per"/>
                     </div>
                   </Link>
               </Col>
             </Row>
-            <Row><Col s={12}></Col></Row>
+            <Row>
+              <Col className='valign-wrapper center  tool-wrapper hover-lighten border-top-and-right' s={12} m={6}>
+                  <Link  to="/public">
+                    <div className="dashboard-block-wrapper">
+                      <img src={require("../../assets/lightbulb_icon.png")} width="100px" />
+                      <div className="j-title">Public Reviews</div>
+                      <hr className="thin width40Per"/>
+                      <p className="dashboard-description-text">
+                      See what other people are saying about the tools available.
+                      </p>
+                      <hr className="thin width40Per"/>
+                    </div>
+                  </Link>
+              </Col>
+              <Col className='stats-wrapper valign-wrapper center tool-wrapper border-top-and-left' s={12} m={6}>
+                  {/* <Link  to="/stats"> */}
+                    <div className="dashboard-block-wrapper">
+                      <img src={require("../../assets/stats_icon.png")} width="100px" />
+                      <div className="j-title">The Stats</div>
+                      <hr className="thin width40Per"/>
+                      <p className="dashboard-description-text">
+                      Statistically displaying how tools are measuring up.
+                      </p>
+                      <hr className="thin width40Per"/>
+                    </div>
+                  {/* </Link> */}
+              </Col>
+            </Row>
           </Section>
 
         </div>

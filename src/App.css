@@ -66,7 +66,7 @@ input:-webkit-autofill:active {
   transition: opacity 376ms ease-in;
 }
 
-.fade-exit, .fade-exit-active {
+.fade-exit, .fade-exit-active  {
   display: none;
 }
 

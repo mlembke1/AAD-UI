@@ -15,6 +15,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
 import NotFound from './components/NotFound/NotFound'
+import Stats from './components/Stats/Stats'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 class App extends Component {
@@ -45,6 +46,7 @@ class App extends Component {
                     <Route path="/portal" component={Portal} />
                     <Route path="/reviews" component={Reviews} />
                     <Route path="/public" component={PublicReviews} />
+                    <Route path="/stats" component={Stats} />
                     <Route component={NotFound}/>
                   </Switch>
                   </CSSTransition>
