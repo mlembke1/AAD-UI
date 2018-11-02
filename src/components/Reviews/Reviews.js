@@ -553,18 +553,9 @@ class Reviews extends Component {
                 <Collapsible popout defaultActiveKey={1}>
                 <CollapsibleItem header='Write A Review' icon='add'>
                     <Section>
-                        <Row className="valign-wrapper">
-                            <Col s={2} className='valign-wrapper'>
-                                {/* <Input
-                                onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
-                                value={this.state.toolNameInputValue}
-                                type='select' label="Choose A Tool" >
-                                    <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
-                                    <option disabled value='Argument Mapper'>Argument Mapper Coming Soon</option>
-                                </Input> */}
-                                <h6>{this.state.toolNameInputValue}</h6>
-                            </Col>
-                            <Col s={10}>
+                        <Row><h6>{this.state.toolNameInputValue}</h6></Row>
+                        <Row>
+                            <Col s={12}>
                                 {
                                     this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
                                     <SortoeQForm />
@@ -573,20 +564,20 @@ class Reviews extends Component {
                                 }
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className="border-bottom">
                             <Col s={12}>
                             <Input 
                             checked={this.state.showCustomReview}
                             onChange={evt => this.updateInputValue(evt, 'showCustomReview')}
                             className="signup-input"
                             type="checkbox" 
-                            label="Leave an Additional Custom Review"
+                            label="Additional Comments / File Uploads"
                             s={12} />  
                             </Col>
                         </Row>
                         {
                             this.state.showCustomReview ?
-                            <Row className="center-row">
+                            <Row className="center-row border-bottom">
                                 <Col s={12}>
                                     <Row>
                                         <Input 
@@ -594,7 +585,7 @@ class Reviews extends Component {
                                         type='textarea'
                                         value={this.state.textInputValue}
                                         onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                        placeholder="Your review here..." />
+                                        placeholder="Comment here..." />
                                     </Row>
                                     <Row>
                                         <Input 
@@ -638,7 +629,7 @@ class Reviews extends Component {
                             null
                         }
                         <Row className="valign-wrapper">
-                            <Col s={4} className="center">
+                            <Col s={6} className="center">
                                 <Row className="border-bottom">
                                 <p>Overall {this.state.toolNameInputValue} rating: 
                                     <span className={`bold ${this.applyColor(this.state.rangeValue) }`}>{this.state.rangeValue}% </span></p>
@@ -651,7 +642,7 @@ class Reviews extends Component {
                                 </p>
                                 </Row>
                             </Col>
-                            <Col s={4}>
+                            <Col s={6}>
                                 <Row className="border-bottom">
                                     <div className="switch tooltip">
                                         <label>
@@ -663,8 +654,6 @@ class Reviews extends Component {
                                         <span className="tooltiptext">Would you like this review to be made public?</span>
                                     </div>
                                 </Row>
-                            </Col>
-                            <Col s={4}>
                                 <Row>
                                     <Button 
                                         disabled={ !this.props.allQuestionsAreAnswered || !this.state.fileTypePasses }

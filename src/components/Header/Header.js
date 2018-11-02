@@ -23,7 +23,7 @@ class Header extends Component {
                         options={{ closeOnClick: true, edge: "right" }}
                         >
                         <SideNavItem waves>
-                            <Link to="/"> Logout </Link>
+                            <Link className="link" to="/"> Logout </Link>
                         </SideNavItem>
                     </SideNav>
                 </div>

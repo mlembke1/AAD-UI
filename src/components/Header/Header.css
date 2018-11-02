@@ -12,6 +12,10 @@
     display: inline-block;
     min-width: 100%;
     min-height: 100%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 nav .nav-wrapper {
@@ -33,6 +37,7 @@ i.arrow-icon {
 .hamburger-menu-icon-container * {
     display: inline-block !important;
     margin: -6px 10px;
+    letter-spacing: 2px;
 }
 
 .hamburger-menu-icon-container {
@@ -54,4 +59,5 @@ i.hamburger {
 
 .sof-aad-header {
     font-size: .75em !important;
+    letter-spacing: 3px;
 }

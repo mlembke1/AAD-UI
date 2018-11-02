@@ -49,14 +49,14 @@ class SortoeQform extends Component {
     } else {
       return (
         <Row>
-            { this.props.sortoeQuestions.map(question => {
+            { this.props.sortoeQuestions.map((question, i) => {
                 return (
                     <Row className="border-bottom-questions">
-                        <h6>{question.question}</h6>
+                        <h6 className="left-align">{i+1}. {question.question}</h6>
                         {
                             question.answers.map(answer => {
                                 return (
-                                    <Col s={12/question.answers.length}>
+                                    <Col className="margin" s={12/question.answers.length}>
                                         <Input
                                         required
                                         onChange={evt => this.updateInputValue(evt, `question${question.questionID}Answer`)}

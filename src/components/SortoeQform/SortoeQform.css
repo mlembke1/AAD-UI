@@ -1,6 +1,9 @@
 .border-bottom-questions {
     border-bottom: 1px solid #d5d5d5;
     display: inline-block;
-    padding: 30px !important;
-    text-align: left;
+    padding: 10px !important;
+}
+
+.margin {
+    margin: 15px 0;
 }
