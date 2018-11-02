@@ -10,13 +10,8 @@
 
 .link {
     display: inline-block;
-<<<<<<< HEAD
-    min-height: 100%;
-    min-width: 100%;
-=======
     min-width: 100%;
     min-height: 100%;
->>>>>>> stats_branch
 }
 
 nav .nav-wrapper {
