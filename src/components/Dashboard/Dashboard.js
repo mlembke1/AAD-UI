@@ -63,8 +63,8 @@ class Dashboard extends Component {
                     </div>
                   </Link>
               </Col>
-              <Col className='valign-wrapper center tool-wrapper hover-lighten border-top-and-left' s={12} m={6}>
-                  <Link  to="/stats">
+              <Col className='stats-wrapper valign-wrapper center tool-wrapper border-top-and-left' s={12} m={6}>
+                  {/* <Link  to="/stats"> */}
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/stats_icon.png")} width="100px" />
                       <div className="j-title">The Stats</div>
@@ -74,7 +74,7 @@ class Dashboard extends Component {
                       </p>
                       <hr className="thin width40Per"/>
                     </div>
-                  </Link>
+                  {/* </Link> */}
               </Col>
             </Row>
           </Section>
