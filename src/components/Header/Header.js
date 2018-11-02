@@ -33,7 +33,7 @@ class Header extends Component {
         return (
             <Navbar className="navbar-logo" brand={<span className="sof-aad-header valign-wrapper">SOF AAD</span>} right>
                 <SideNav
-                    trigger={<div className="hamburger-menu-icon-container"><Icon>menu</Icon></div>}
+                    trigger={<div className="hamburger-menu-icon-container"><Icon className="hamburger">menu</Icon></div>}
                     options={{ closeOnClick: true, edge: "right" }}
                     >
                     <SideNavItem>
