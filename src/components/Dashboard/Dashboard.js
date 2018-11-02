@@ -29,7 +29,7 @@ class Dashboard extends Component {
                       <div className="j-title">Portal</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
-                      All tools available will be found here.
+                      View and test all tools available from here.
                       </p>
                       <hr className="thin width40Per"/>
                     </div>

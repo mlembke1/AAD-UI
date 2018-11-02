@@ -48,6 +48,9 @@ class Stats extends Component {
               </Col>
             </Row>
           </Section>
+          <Row>
+              Show some stats here!
+          </Row>
         </div>
       )
     }
