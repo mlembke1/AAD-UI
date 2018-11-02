@@ -16,6 +16,8 @@ import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
 import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
 import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
+import SortoeQForm from '../SortoeQform/SortoeQform'
+import SubHeader from '../SubHeader/SubHeader'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 
@@ -38,10 +40,13 @@ class Reviews extends Component {
             editFileTypePasses: true,
             postStarted: false,
             publicIsChecked: true,
+            showCustomReview: false,
             rangeValue: 50,
             editRangeValue: 50
         }
     }
+
+    onCheckSlack = () => this.setState({...this.state, slackIsChecked: !this.state.slackIsChecked})
 
     
     componentWillMount = () => {
@@ -89,11 +94,11 @@ class Reviews extends Component {
 
     updateInputValue(evt, inputType) {
         // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
-        if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'){
+        if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'  && inputType !== 'showCustomReview'){
             return this.setState({
               [inputType]: evt.target.value
             })
-        } else if (inputType == 'editPublicIsChecked') {
+        } else if (inputType == 'editPublicIsChecked' || inputType == 'showCustomReview') {
             return this.setState({
                 [inputType]: evt.target.checked
               })
@@ -325,26 +330,7 @@ class Reviews extends Component {
           {/* ////////////////////  ///////   ///////////////////////// */}
           {/* ////////////////////  HEADER    ///////////////////////// */}
           {/* ////////////////////  ///////   ///////////////////////// */}
-          <Section className="dash-heading-wrapper">
-            <Row> 
-              <Col s={12}>
-              </Col>
-            </Row>
-            <Row className='center valign-wrapper'>
-              <Col s={1}>
-                <img src={require("../../assets/assessment_icon.png")} width="70px" />
-              </Col>
-              <Col s={1}>
-                <h5 className="dash-username j-title">Your Assessments</h5>
-              </Col>
-              <Col s={10}></Col>
-            </Row>
-            <Row>
-              <Col s={12}>
-                <hr className="thick-line-blue" />
-              </Col>
-            </Row>
-          </Section>
+          <SubHeader icon={require("../../assets/assessment_icon.png")} subHeader="Your Assessments"/>
 
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
           {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}
@@ -567,64 +553,92 @@ class Reviews extends Component {
                 <Collapsible popout defaultActiveKey={1}>
                 <CollapsibleItem header='Write A Review' icon='add'>
                     <Section>
-                        <Row>
+                        <Row className="valign-wrapper">
                             <Col s={2} className='valign-wrapper'>
-                                <Input
+                                {/* <Input
                                 onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
                                 value={this.state.toolNameInputValue}
                                 type='select' label="Choose A Tool" >
                                     <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
-                                    <option value='Argument Mapper'>Argument Mapper</option>
-                                </Input>
+                                    <option disabled value='Argument Mapper'>Argument Mapper Coming Soon</option>
+                                </Input> */}
+                                <h6>{this.state.toolNameInputValue}</h6>
                             </Col>
-                            <Col s={6}>
-                                <Row>
-                                    <Input 
-                                    className="text-area"
-                                    type='textarea'
-                                    value={this.state.textInputValue}
-                                    onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                    placeholder="Your review here..." />
-                                </Row>
-                                <Row>
-                                    <Input 
-                                    id="file-input"
-                                    type="file"
-                                    label="File"
-                                    name="fileUpload"
-                                    s={12} 
-                                    placeholder="(.jpg/.png/.jpeg) or a .pdf"
-                                    onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
-                                    <div className="file-preview container">
-                                        {
-                                            this.state.fileInputValue && this.state.fileTypePasses ?
-                                                this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
-                                                    <div className="non-image-file file" >
-                                                        {this.state.fileInputValue.name}
-                                                        {this.state.fileInputValue.type}
-                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                    </div>
-                                                :
-                                                <div>
-                                                    <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
-                                                </div>
-                                            :
-                                            null
-                                        }
-                                    </div>
-                                </Row>
+                            <Col s={10}>
                                 {
-                                    !this.state.fileTypePasses ?
-                                    <div>
-                                        <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
-                                        <div className="error-text">Please ensure file extensions are all lowercase.</div>
-                                    </div>
+                                    this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
+                                    <SortoeQForm />
                                     :
-                                    null
+                                    <p>No Question Form Available for this tool just yet.</p>
                                 }
                             </Col>
+                        </Row>
+                        <Row>
+                            <Col s={12}>
+                            <Input 
+                            checked={this.state.showCustomReview}
+                            onChange={evt => this.updateInputValue(evt, 'showCustomReview')}
+                            className="signup-input"
+                            type="checkbox" 
+                            label="Leave an Additional Custom Review"
+                            s={12} />  
+                            </Col>
+                        </Row>
+                        {
+                            this.state.showCustomReview ?
+                            <Row className="center-row">
+                                <Col s={12}>
+                                    <Row>
+                                        <Input 
+                                        className="text-area"
+                                        type='textarea'
+                                        value={this.state.textInputValue}
+                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
+                                        placeholder="Your review here..." />
+                                    </Row>
+                                    <Row>
+                                        <Input 
+                                        id="file-input"
+                                        type="file"
+                                        label="File"
+                                        name="fileUpload"
+                                        s={12} 
+                                        placeholder="(.jpg/.png/.jpeg) or a .pdf"
+                                        onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                        <div className="file-preview container">
+                                            {
+                                                this.state.fileInputValue && this.state.fileTypePasses ?
+                                                    this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
+                                                        <div className="non-image-file file" >
+                                                            {this.state.fileInputValue.name}
+                                                            {this.state.fileInputValue.type}
+                                                            <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                        </div>
+                                                    :
+                                                    <div>
+                                                        <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                    </div>
+                                                :
+                                                null
+                                            }
+                                        </div>
+                                    </Row>
+                                    {
+                                        !this.state.fileTypePasses ?
+                                        <div>
+                                            <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                                            <div className="error-text">Please ensure file extensions are all lowercase.</div>
+                                        </div>
+                                        :
+                                        null
+                                    }
+                                </Col>
+                            </Row>
+                            :
+                            null
+                        }
+                        <Row className="valign-wrapper">
                             <Col s={4} className="center">
-                                <Row className="border-bottom"></Row>
                                 <Row className="border-bottom">
                                 <p>Overall {this.state.toolNameInputValue} rating: 
                                     <span className={`bold ${this.applyColor(this.state.rangeValue) }`}>{this.state.rangeValue}% </span></p>
@@ -636,6 +650,8 @@ class Reviews extends Component {
                                      min="0" max="100" />
                                 </p>
                                 </Row>
+                            </Col>
+                            <Col s={4}>
                                 <Row className="border-bottom">
                                     <div className="switch tooltip">
                                         <label>
@@ -647,9 +663,11 @@ class Reviews extends Component {
                                         <span className="tooltiptext">Would you like this review to be made public?</span>
                                     </div>
                                 </Row>
+                            </Col>
+                            <Col s={4}>
                                 <Row>
                                     <Button 
-                                        disabled={ ((this.state.textInputValue.length > 3000 || this.state.textInputValue.length < 1) && this.state.fileInputValue == null)  || !this.state.fileTypePasses}
+                                        disabled={ !this.props.allQuestionsAreAnswered || !this.state.fileTypePasses }
                                         onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
                                         <Icon left className="data">check</Icon>
                                         Submit Review 
@@ -663,7 +681,6 @@ class Reviews extends Component {
                                         null
                                     }
                                 </Row>
-
                             </Col>
                         </Row>
                     </Section>
@@ -691,7 +708,8 @@ const mapStateToProps = state => {
       updateComplete: state.reviews.updateComplete,
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
-      reviewsRequestFinished: state.reviews.reviewsRequestFinished
+      reviewsRequestFinished: state.reviews.reviewsRequestFinished,
+      allQuestionsAreAnswered: state.reviews.allQuestionsAreAnswered
   }
 }
 

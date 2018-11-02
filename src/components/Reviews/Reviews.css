@@ -241,10 +241,6 @@ ul.dropdown-content.select-dropdown li span {
     margin-top: 20px;
 }
 
-.range-field {
-    /* padding: 0 57px; */
-}
-
 /* ********************* */
 
 input[type=range]::-webkit-slider-thumb {
@@ -285,6 +281,12 @@ input[type=range]::-webkit-slider-thumb {
 
 .center {
     margin: auto;
+}
+
+.center-row {
+    display: inline-block;
+    margin:auto;
+    width: 90%;
 }
 
 .standard-height {

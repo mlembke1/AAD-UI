@@ -9,6 +9,7 @@ export const reviews = ( state={
     removeFileComplete: false,
     reviewsRequestFinished: false,
     publicReviewsRequestFinished: false,
+    allQuestionsAreAnswered: false,
     sortoeQuestions:  [
       {
           questionID: 1,
@@ -80,6 +81,10 @@ export const reviews = ( state={
           return { ...state, files: [] }
         case 'REMOVE_FILE_SUCCESS': 
           return { ...state, files: state.files.filter(file => file.review_id != action.payload.reviewId), removeFileComplete: true }
+        case 'ALL_QUESTIONS_ANSWERED': 
+          return { ...state, allQuestionsAreAnswered: true }
+        case 'QUESTIONS_NOT_ANSWERED': 
+          return { ...state, allQuestionsAreAnswered: false }
     
         default:
           return state

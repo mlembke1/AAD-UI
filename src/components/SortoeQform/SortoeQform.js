@@ -3,6 +3,7 @@ import './SortoeQform.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { setAllQuestionsAreAnswered } from '../../actions/setAllQuestionsAreAnswered'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Input } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
@@ -27,8 +28,19 @@ class SortoeQform extends Component {
         this.props.getUserInfo()
     }
 
+    handleAreQuestionsAnswered = () => {
+        return this.state.question1Answer.length > 0 &&
+               this.state.question2Answer.length > 0 &&
+               this.state.question3Answer.length > 0 &&
+               this.state.question4Answer.length > 0 && 
+               this.state.question5Answer.length > 0 ? 
+               this.props.setAllQuestionsAreAnswered(true)
+               : 
+               this.props.setAllQuestionsAreAnswered(false)
+    }
+
     updateInputValue = (evt, inputType) => {
-        this.setState({[inputType]: evt.target.value})
+        this.setState({[inputType]: evt.target.value}, () => this.handleAreQuestionsAnswered())
       }
     
     render() {
@@ -65,6 +77,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setAllQuestionsAreAnswered}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortoeQform)
