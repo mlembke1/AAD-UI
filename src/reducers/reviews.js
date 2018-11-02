@@ -8,7 +8,39 @@ export const reviews = ( state={
     deleteComplete: false,
     removeFileComplete: false,
     reviewsRequestFinished: false,
-    publicReviewsRequestFinished: false
+    publicReviewsRequestFinished: false,
+    sortoeQuestions:  [
+      {
+          questionID: 1,
+          tool: 'MEADE/SORT-OE',
+          question: "Here is question one. What do you think?",
+          type: "text"
+      },
+      {
+          questionID: 2,
+          tool: 'MEADE/SORT-OE',
+          question: "Here is question two. What do you think?",
+          type: "text"
+      },
+      {
+          questionID: 3,
+          tool: 'MEADE/SORT-OE',
+          question: "Here is question three. What do you think?",
+          type: "text"
+      },
+      {
+          questionID: 4,
+          tool: 'MEADE/SORT-OE',
+          question: "Here is question four. What do you think?",
+          type: "text"
+      },
+      {
+          questionID: 5,
+          tool: 'MEADE/SORT-OE',
+          question: "Here is question five. What do you think?",
+          type: "text"
+      },
+  ]
    }, action) => {
       switch(action.type){
         case 'REVIEWS_AQUIRED':
