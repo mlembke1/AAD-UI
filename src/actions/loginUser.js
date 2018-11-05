@@ -26,6 +26,5 @@ export const loginUser = (object) => dispatch => {
         window.Materialize.toast('Request Failed. Please Check Your Internet Connection and/or post your problem in the AAD-Users Slack Channel.', 10000)
         var element = document.getElementById("toast-container");
           element.classList.add("failure");
-        return dispatch({ type:'LOGIN_FAILED' })
     })    
   }
