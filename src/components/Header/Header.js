@@ -12,7 +12,7 @@ class Header extends Component {
     if (this.props.username) {
         return (
             <Navbar className="navbar-logo" brand={<span className="valign-wrapper sof-aad-header">SOF AAD</span>} right>
-                <div onClick={() => this.props.logout()}>
+                <div>
                     <SideNav
                         trigger={
                                 <div className="valign-wrapper hamburger-menu-icon-container">
@@ -23,6 +23,9 @@ class Header extends Component {
                         options={{ closeOnClick: true, edge: "right" }}
                         >
                         <SideNavItem waves>
+                            <Link className="link" to="/"> Home </Link>
+                        </SideNavItem>
+                        <SideNavItem onClick={() => this.props.logout()} waves>
                             <Link className="link" to="/"> Logout </Link>
                         </SideNavItem>
                     </SideNav>
