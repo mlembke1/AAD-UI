@@ -15,11 +15,11 @@ class SortoeQform extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            question1Answer: "",
-            question2Answer: "",
-            question3Answer: "",
-            question4Answer: "",
-            question5Answer: "",
+            question1Answer: "Indifferent",
+            question2Answer: "Indifferent",
+            question3Answer: "Indifferent",
+            question4Answer: "Indifferent",
+            question5Answer: "Indifferent",
         }
     }
 
@@ -60,11 +60,12 @@ class SortoeQform extends Component {
                                         <Input
                                         required
                                         onChange={evt => this.updateInputValue(evt, `question${question.questionID}Answer`)}
-                                        value={this.state[`question${question.questionID}Answer`]}
                                         className="signup-input"
                                         type={question.type}
                                         name={question.questionID}
                                         label={answer}
+                                        value={answer}
+                                        checked={answer == this.state[`question${question.questionID}Answer`]}
                                         s={12} />
                                     </Col>
                                 )
