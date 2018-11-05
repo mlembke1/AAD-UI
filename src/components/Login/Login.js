@@ -106,7 +106,6 @@ class Login extends Component {
                   type="password"
                   label="Password" />
                   {!this.state.passwordLengthPasses ? <div className="error-text">All passwords are 8-30 characters long.</div> : null }
-                  {this.props.loginFailed ? <div className="error-text">Username or password was incorrect.</div> : null }
                   <Button 
                     onClick={this.handleSubmit}
                     large={true} 
@@ -131,7 +130,6 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
       usernameExists: state.auth.usernameExists,
-      loginFailed: state.auth.loginFailed,
       username: state.auth.username,
       toDash: state.auth.toDash
   }
