@@ -7,6 +7,8 @@ import { setAllQuestionsAreAnswered } from '../../actions/setAllQuestionsAreAnsw
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Input } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
+import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
+import '@trendmicro/react-radio/dist/react-radio.css';
 
 
 
@@ -29,19 +31,24 @@ class SortoeQform extends Component {
     }
 
     handleAreQuestionsAnswered = () => {
-        return this.state.question1Answer.length > 0 &&
-               this.state.question2Answer.length > 0 &&
-               this.state.question3Answer.length > 0 &&
-               this.state.question4Answer.length > 0 && 
-               this.state.question5Answer.length > 0 ? 
-               this.props.setAllQuestionsAreAnswered(true)
-               : 
+        return this.state.question1Answer.length == "Indifferent"  &&
+               this.state.question2Answer.length == "Indifferent"  &&
+               this.state.question3Answer.length == "Indifferent"  &&
+               this.state.question4Answer.length == "Indifferent"  && 
+               this.state.question5Answer.length == "Indifferent"  ? 
                this.props.setAllQuestionsAreAnswered(false)
+               : 
+               this.props.setAllQuestionsAreAnswered(true)
     }
 
     updateInputValue = (evt, inputType) => {
+        console.log('CHANGING THINGS')
         this.setState({[inputType]: evt.target.value}, () => this.handleAreQuestionsAnswered())
       }
+
+      handleChangeByKey = (key) => (value, event) => {
+          this.setState({ [key]: value }, () => this.handleAreQuestionsAnswered())
+    };
     
     render() {
     if(!this.props.username) {
@@ -53,11 +60,18 @@ class SortoeQform extends Component {
                 return (
                     <Row className="border-bottom-questions">
                         <h6 className="left-align">{i+1}. {question.question}</h6>
+                        <RadioGroup
+                            name={question.questionID}
+                            value={this.state[`question${question.questionID}Answer`]}
+                            depth={3} // This is needed to minimize the recursion overhead
+                            onChange={this.handleChangeByKey(`question${question.questionID}Answer`)}
+                        >
                         {
                             question.answers.map(answer => {
                                 return (
                                     <Col className="margin" s={12/question.answers.length}>
-                                        <Input
+                                        <RadioButton label={answer} value={answer} />
+                                        {/* <Input
                                         required
                                         onChange={evt => this.updateInputValue(evt, `question${question.questionID}Answer`)}
                                         className="signup-input"
@@ -66,11 +80,12 @@ class SortoeQform extends Component {
                                         label={answer}
                                         value={answer}
                                         checked={answer == this.state[`question${question.questionID}Answer`]}
-                                        s={12} />
+                                        s={12} /> */}
                                     </Col>
                                 )
                             })
                         }
+                        </RadioGroup>
                     </Row>
                 )
                 })
