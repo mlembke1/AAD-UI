@@ -18,8 +18,10 @@
     border: 1px solid #262626 !important;
 } 
 
-.margin-radio-button {
-    margin: 0px 50px;
+.radio-button {
+    display: inline-block;
+    margin: 0px 2px;
+    max-width: 50%; 
 }
 
 .radio---input-radio---2yM_b:checked + .radio---control-indicator---dcwXW::before {

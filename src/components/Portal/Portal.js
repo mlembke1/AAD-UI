@@ -63,6 +63,7 @@ class Portal extends Component {
                         </Row>
                         <Row>
                           <Modal
+                            className="full-page"
                             header={`${tool.name} Data Sources`}
                             bottomSheet
                             trigger={<Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light'>Data <Icon right tiny className="data">cloud</Icon> </Button>}>

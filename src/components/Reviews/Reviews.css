@@ -126,9 +126,6 @@ ul.dropdown-content.select-dropdown li span {
     min-width: 70%;
 }
 
-.reviews-wrapper .row {
-    margin-bottom: 5px !important;
-}
 
 .view-buttons {
     max-width: 70%;
@@ -286,7 +283,7 @@ input[type=range]::-webkit-slider-thumb {
 .center-row {
     display: inline-block;
     margin:auto;
-    width: 90%;
+    min-width: 90%;
 }
 
 .standard-height {
@@ -295,5 +292,72 @@ input[type=range]::-webkit-slider-thumb {
 
 .margin-top-neg {
     margin-top: -8px;
+}
+
+.margin-top-100px {
+    margin: 25px 0;
+}
+
+.background-white {
+    background-color: #f5f5f5 !important;
+  }
+  
+  .carousel .slide {
+    background-color: #f5f5f5 !important;
+  }
+  
+  .carousel .slide .legend {
+    color: black !important;
+    background-color: initial !important;
+    position: absolute !important;
+    bottom: -325px !important;
+  }
+  
+  .carousel .control-next.control-arrow:before {
+    border-left: 8px solid #262626 !important;
+  }
+  
+  .carousel.carousel-slider .control-arrow:hover {
+    /* background: none !important; */
+  }
+  
+  .carousel .control-prev.control-arrow:before {
+    border-right: 8px solid #262626 !important;
+  }
+
+  .carousel .thumbs-wrapper {
+    display: none;
+  }
+
+  .carousel .control-dots {
+    position: inherit;
+    margin: 70px 0;
+}
+
+.carousel .carousel-status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  font-size: 13px !important;
+  font-weight: 500;
+  text-shadow: none !important;
+  color: #262626 !important;
+}
+
+.card-container {
+    min-height: 450px;
+}
+
+.carousel .slider-wrapper {
+    min-height: 450px;
+}
+
+.carousel.carousel-slider {
+    min-height: 450px;
+}
+
+.file-field input.file-path {
+    display: none;
 }
 

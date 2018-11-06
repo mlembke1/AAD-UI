@@ -53,45 +53,64 @@ class SortoeQform extends Component {
     };
     
     render() {
+    let halfWayThrough = Math.ceil(this.props.sortoeQuestions.length / 2)
+    let firstHalf = this.props.sortoeQuestions.slice(0, halfWayThrough)
+    let secondHalf = this.props.sortoeQuestions.slice(halfWayThrough, this.props.sortoeQuestions.length)
     if(!this.props.username) {
       return <Redirect to="/" />
     } else {
       return (
         <Row>
-            { this.props.sortoeQuestions.map((question, i) => {
-                return (
-                    <Row className="border-bottom-questions">
-                        <h6 className="left-align">{i+1}. {question.question}</h6>
-                        <RadioGroup
-                            name={question.questionID}
-                            value={this.state[`question${question.questionID}Answer`]}
-                            depth={3} // This is needed to minimize the recursion overhead
-                            onChange={this.handleChangeByKey(`question${question.questionID}Answer`)}
-                        >
-                        {
-                            question.answers.map(answer => {
-                                return (
-                                    <Col className="margin" s={12/question.answers.length}>
-                                        <RadioButton className="margin-radio-button" label={answer} value={answer} />
-                                        {/* <Input
-                                        required
-                                        onChange={evt => this.updateInputValue(evt, `question${question.questionID}Answer`)}
-                                        className="signup-input"
-                                        type={question.type}
-                                        name={question.questionID}
-                                        label={answer}
-                                        value={answer}
-                                        checked={answer == this.state[`question${question.questionID}Answer`]}
-                                        s={12} /> */}
-                                    </Col>
-                                )
-                            })
-                        }
-                        </RadioGroup>
-                    </Row>
-                )
-                })
-            }
+            <Col s={6}>
+                { 
+                    firstHalf.map((question, i) => {
+                    return (
+                        <Row className="border-bottom-questions">
+                            <h6 className="left-align">{i+1}. {question.question}</h6>
+                            <RadioGroup
+                                name={question.questionID}
+                                value={this.state[`question${question.questionID}Answer`]}
+                                depth={3} // This is needed to minimize the recursion overhead
+                                onChange={this.handleChangeByKey(`question${question.questionID}Answer`)}
+                            >
+                            {
+                                question.answers.map(answer => {
+                                    return (
+                                            <RadioButton className="radio-button" label={answer} value={answer} />
+                                    )
+                                })
+                            }
+                            </RadioGroup>
+                        </Row>
+                    )
+                    })
+                }
+            </Col>
+            <Col s={6}>
+                { 
+                    secondHalf.map((question, i) => {
+                    return (
+                        <Row className="border-bottom-questions">
+                            <h6 className="left-align">{i+1}. {question.question}</h6>
+                            <RadioGroup
+                                name={question.questionID}
+                                value={this.state[`question${question.questionID}Answer`]}
+                                depth={3} // This is needed to minimize the recursion overhead
+                                onChange={this.handleChangeByKey(`question${question.questionID}Answer`)}
+                            >
+                            {
+                                question.answers.map(answer => {
+                                    return (
+                                            <RadioButton className="radio-button" label={answer} value={answer} />
+                                    )
+                                })
+                            }
+                            </RadioGroup>
+                        </Row>
+                    )
+                    })
+                }
+            </Col>
         </Row>     
       )
     }

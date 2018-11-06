@@ -549,7 +549,7 @@ class Reviews extends Component {
             {/* ////////////////////  ////////////////////  ///////////////////////// */}
             {/* ////////////////////  ADD A REVIEW SECTION  ///////////////////////// */}
             {/* ////////////////////  ////////////////////  ///////////////////////// */}
-            <Section className="reviews-wrapper center">            
+            <Section className="reviews-wrapper center">
                 <Collapsible popout defaultActiveKey={1}>
                 <CollapsibleItem header='Write A Review' icon='add'>
                     <Section>
@@ -564,7 +564,7 @@ class Reviews extends Component {
                                 }
                             </Col>
                         </Row>
-                        <Row className="border-bottom">
+                        <Row className="margin-top-100px">
                             <Col s={12}>
                             <Input 
                             checked={this.state.showCustomReview}
@@ -575,44 +575,118 @@ class Reviews extends Component {
                             s={12} />  
                             </Col>
                         </Row>
+                        <Row>
+                            <Collapsible popout default defaultActiveKey={2}>
+                                <CollapsibleItem header="Additional Comments / File Uploads" icon="add">
+                                <Row className="center-row border-bottom">
+                                    <Col s={12}>
+                                        <Row className="valign-wrapper">
+                                            <Col s={8}>
+                                                <Input 
+                                                className="text-area"
+                                                type='textarea'
+                                                value={this.state.textInputValue}
+                                                onChange={evt => this.updateInputValue(evt, 'textInputValue')}
+                                                placeholder="Comment here..." />
+                                            </Col>
+                                            <Col s={4}>
+                                                <Input 
+                                                id="file-input"
+                                                type="file"
+                                                label="File"
+                                                name="fileUpload"
+                                                s={12} 
+                                                placeholder="(.jpg/.png/.jpeg) or a .pdf"
+                                                onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                                <div className="file-preview container">
+                                                        {
+                                                            this.state.fileInputValue && this.state.fileTypePasses ?
+                                                                this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
+                                                                <Row>
+                                                                    <Col s={11}>
+                                                                        <div className="non-image-file file" >
+                                                                            {this.state.fileInputValue.name}
+                                                                            {this.state.fileInputValue.type}
+                                                                            <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                                        </div>
+                                                                    </Col>
+                                                                    <Col s={1}>
+                                                                        <Button className="delete-button" onClick={() => this.setState({ ...this.state, fileInputValue: null})}><Icon>delete</Icon></Button>                
+                                                                    </Col>
+                                                                </Row>
+                                                                :
+                                                                <Row>
+                                                                    <Col s={11}>
+                                                                        <div>
+                                                                            <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                                        </div>
+                                                                    </Col>
+                                                                    <Col s={1}>
+                                                                        <Button className="delete-button" onClick={() => this.setState({ ...this.state, fileInputValue: null})}><Icon>delete</Icon></Button>                
+                                                                    </Col>
+                                                                </Row>
+                                                            :
+                                                            null
+                                                        }
+                                                </div>
+
+                                            </Col>
+                                        </Row>
+                                        {
+                                            !this.state.fileTypePasses ?
+                                            <div>
+                                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                                                <div className="error-text">Please ensure file extensions are all lowercase.</div>
+                                            </div>
+                                            :
+                                            null
+                                        }
+                                    </Col>
+                                </Row>
+                                </CollapsibleItem>
+                            </Collapsible>
+                        </Row>
                         {
                             this.state.showCustomReview ?
                             <Row className="center-row border-bottom">
                                 <Col s={12}>
-                                    <Row>
-                                        <Input 
-                                        className="text-area"
-                                        type='textarea'
-                                        value={this.state.textInputValue}
-                                        onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                        placeholder="Comment here..." />
-                                    </Row>
-                                    <Row>
-                                        <Input 
-                                        id="file-input"
-                                        type="file"
-                                        label="File"
-                                        name="fileUpload"
-                                        s={12} 
-                                        placeholder="(.jpg/.png/.jpeg) or a .pdf"
-                                        onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
-                                        <div className="file-preview container">
-                                            {
-                                                this.state.fileInputValue && this.state.fileTypePasses ?
-                                                    this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
-                                                        <div className="non-image-file file" >
-                                                            {this.state.fileInputValue.name}
-                                                            {this.state.fileInputValue.type}
-                                                            <Icon small className="data icon-green">check_circle_outline</Icon>
+                                    <Row className="valign-wrapper">
+                                        <Col s={8}>
+                                            <Input 
+                                            className="text-area"
+                                            type='textarea'
+                                            value={this.state.textInputValue}
+                                            onChange={evt => this.updateInputValue(evt, 'textInputValue')}
+                                            placeholder="Comment here..." />
+                                        </Col>
+                                        <Col s={4}>
+                                            <Input 
+                                            id="file-input"
+                                            type="file"
+                                            label="File"
+                                            name="fileUpload"
+                                            s={12} 
+                                            placeholder="(.jpg/.png/.jpeg) or a .pdf"
+                                            onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                            <div className="file-preview container">
+                                                {
+                                                    this.state.fileInputValue && this.state.fileTypePasses ?
+                                                        this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
+                                                            <div className="non-image-file file" >
+                                                                {this.state.fileInputValue.name}
+                                                                {this.state.fileInputValue.type}
+                                                                <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                            </div>
+                                                        :
+                                                        <div>
+                                                            <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
                                                         </div>
                                                     :
-                                                    <div>
-                                                        <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
-                                                    </div>
-                                                :
-                                                null
-                                            }
-                                        </div>
+                                                    null
+                                                }
+                                            </div>
+
+                                        </Col>
                                     </Row>
                                     {
                                         !this.state.fileTypePasses ?
@@ -658,7 +732,7 @@ class Reviews extends Component {
                                     {
                                         this.props.allQuestionsAreIndifferent ?
                                             <Modal
-                                            header='Are you sure?'
+                                            header='Confirmation'
                                             trigger={
                                                 <Button 
                                                     disabled={ !this.state.fileTypePasses }
