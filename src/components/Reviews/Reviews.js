@@ -40,7 +40,6 @@ class Reviews extends Component {
             editFileTypePasses: true,
             postStarted: false,
             publicIsChecked: true,
-            showCustomReview: false,
             rangeValue: 50,
             editRangeValue: 50
         }
@@ -94,11 +93,11 @@ class Reviews extends Component {
 
     updateInputValue(evt, inputType) {
         // IF THE INPUT DOES NOT CONAINT FILES THE FOLLOWING WILL EXECUTE
-        if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked'  && inputType !== 'showCustomReview'){
+        if(inputType != "fileInputValue" && inputType != "editFileInputValue" && inputType !== 'editPublicIsChecked' ){
             return this.setState({
               [inputType]: evt.target.value
             })
-        } else if (inputType == 'editPublicIsChecked' || inputType == 'showCustomReview') {
+        } else if (inputType == 'editPublicIsChecked') {
             return this.setState({
                 [inputType]: evt.target.checked
               })
@@ -564,17 +563,6 @@ class Reviews extends Component {
                                 }
                             </Col>
                         </Row>
-                        <Row className="margin-top-100px">
-                            <Col s={12}>
-                            <Input 
-                            checked={this.state.showCustomReview}
-                            onChange={evt => this.updateInputValue(evt, 'showCustomReview')}
-                            className="signup-input"
-                            type="checkbox" 
-                            label="Additional Comments / File Uploads"
-                            s={12} />  
-                            </Col>
-                        </Row>
                         <Row>
                             <Collapsible popout default defaultActiveKey={2}>
                                 <CollapsibleItem header="Additional Comments / File Uploads" icon="add">
@@ -646,62 +634,6 @@ class Reviews extends Component {
                                 </CollapsibleItem>
                             </Collapsible>
                         </Row>
-                        {
-                            this.state.showCustomReview ?
-                            <Row className="center-row border-bottom">
-                                <Col s={12}>
-                                    <Row className="valign-wrapper">
-                                        <Col s={8}>
-                                            <Input 
-                                            className="text-area"
-                                            type='textarea'
-                                            value={this.state.textInputValue}
-                                            onChange={evt => this.updateInputValue(evt, 'textInputValue')}
-                                            placeholder="Comment here..." />
-                                        </Col>
-                                        <Col s={4}>
-                                            <Input 
-                                            id="file-input"
-                                            type="file"
-                                            label="File"
-                                            name="fileUpload"
-                                            s={12} 
-                                            placeholder="(.jpg/.png/.jpeg) or a .pdf"
-                                            onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
-                                            <div className="file-preview container">
-                                                {
-                                                    this.state.fileInputValue && this.state.fileTypePasses ?
-                                                        this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
-                                                            <div className="non-image-file file" >
-                                                                {this.state.fileInputValue.name}
-                                                                {this.state.fileInputValue.type}
-                                                                <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                            </div>
-                                                        :
-                                                        <div>
-                                                            <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
-                                                        </div>
-                                                    :
-                                                    null
-                                                }
-                                            </div>
-
-                                        </Col>
-                                    </Row>
-                                    {
-                                        !this.state.fileTypePasses ?
-                                        <div>
-                                            <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
-                                            <div className="error-text">Please ensure file extensions are all lowercase.</div>
-                                        </div>
-                                        :
-                                        null
-                                    }
-                                </Col>
-                            </Row>
-                            :
-                            null
-                        }
                         <Row className="valign-wrapper">
                             <Col s={6} className="center">
                                 <Row className="border-bottom">
