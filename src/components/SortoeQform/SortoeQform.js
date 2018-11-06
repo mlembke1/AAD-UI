@@ -3,7 +3,7 @@ import './SortoeQform.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
-import { setAllQuestionsAreAnswered } from '../../actions/setAllQuestionsAreAnswered'
+import { setAllQuestionsAreIndifferent } from '../../actions/setAllQuestionsAreIndifferent'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Input } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
@@ -22,6 +22,7 @@ class SortoeQform extends Component {
             question3Answer: "Indifferent",
             question4Answer: "Indifferent",
             question5Answer: "Indifferent",
+            answersAreAllIndifferent: true
         }
     }
 
@@ -31,15 +32,16 @@ class SortoeQform extends Component {
     }
 
     handleAreQuestionsAnswered = () => {
-        return this.state.question1Answer.length == "Indifferent"  &&
-               this.state.question2Answer.length == "Indifferent"  &&
-               this.state.question3Answer.length == "Indifferent"  &&
-               this.state.question4Answer.length == "Indifferent"  && 
-               this.state.question5Answer.length == "Indifferent"  ? 
-               this.props.setAllQuestionsAreAnswered(false)
+        return this.state.question1Answer == "Indifferent"  &&
+               this.state.question2Answer == "Indifferent"  &&
+               this.state.question3Answer == "Indifferent"  &&
+               this.state.question4Answer == "Indifferent"  && 
+               this.state.question5Answer == "Indifferent"  ? 
+               this.props.setAllQuestionsAreIndifferent(true)
                : 
-               this.props.setAllQuestionsAreAnswered(true)
+               this.props.setAllQuestionsAreIndifferent(false)
     }
+
 
     updateInputValue = (evt, inputType) => {
         console.log('CHANGING THINGS')
@@ -70,7 +72,7 @@ class SortoeQform extends Component {
                             question.answers.map(answer => {
                                 return (
                                     <Col className="margin" s={12/question.answers.length}>
-                                        <RadioButton label={answer} value={answer} />
+                                        <RadioButton className="margin-radio-button" label={answer} value={answer} />
                                         {/* <Input
                                         required
                                         onChange={evt => this.updateInputValue(evt, `question${question.questionID}Answer`)}
@@ -105,6 +107,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setAllQuestionsAreAnswered}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setAllQuestionsAreIndifferent}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortoeQform)

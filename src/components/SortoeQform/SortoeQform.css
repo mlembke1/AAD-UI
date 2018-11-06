@@ -9,7 +9,24 @@
 }
 
 .radio---control-radio---2rwkY .radio---control-indicator---dcwXW {
-    position: absolute;
-    top: -2px;
-    left: -15px;
+    /* position: absolute;
+    top: -20px;
+    left: 36%; */
+}
+
+.radio---control-radio---2rwkY .radio---control-indicator---dcwXW:hover {
+    border: 1px solid #262626 !important;
+} 
+
+.margin-radio-button {
+    margin: 0px 50px;
+}
+
+.radio---input-radio---2yM_b:checked + .radio---control-indicator---dcwXW::before {
+    border: 1px solid #262626 !important;
+    background-color: #262626 !important;
+}
+
+.radio---input-radio---2yM_b:checked + .radio---control-indicator---dcwXW::after {
+    top: 2px !important;
 }

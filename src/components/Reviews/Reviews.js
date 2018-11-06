@@ -265,7 +265,7 @@ class Reviews extends Component {
       
     this.props.postReview(reviewObject)
     this.setState({
-        toolNameInputValue: 'SORTOE',
+        toolNameInputValue: 'MEADE/SORT-OE',
         textInputValue: "",
         fileInputValue: null
     })
@@ -655,19 +655,49 @@ class Reviews extends Component {
                                     </div>
                                 </Row>
                                 <Row>
-                                    <Button 
-                                        disabled={ !this.props.allQuestionsAreAnswered || !this.state.fileTypePasses }
-                                        onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
-                                        <Icon left className="data">check</Icon>
-                                        Submit Review 
-                                    </Button>            
                                     {
-                                        !this.props.postComplete && this.state.postStarted ?
-                                        <div className="progress">
-                                            <div className="indeterminate"></div>
-                                        </div>
+                                        this.props.allQuestionsAreIndifferent ?
+                                            <Modal
+                                            header='Are you sure?'
+                                            trigger={
+                                                <Button 
+                                                    disabled={ !this.state.fileTypePasses }
+                                                    className="portal-buttons" waves='light'>
+                                                    <Icon left className="data">check</Icon>
+                                                    Submit Review 
+                                                </Button>            
+                                            }>
+                                            <Row>
+                                                <Col s={8}>
+                                                    You have left all of the fields marked as "Indifferent". Would you still like to submit your review?
+                                                </Col>
+                                                <Col s={4}>
+                                                <Button 
+                                                    disabled={ !this.state.fileTypePasses }
+                                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
+                                                    <Icon left className="data">check</Icon>
+                                                    Submit Review 
+                                                </Button>            
+                                                </Col>
+                                            </Row>
+                                            </Modal>
                                         :
-                                        null
+                                            <div>
+                                                <Button 
+                                                    disabled={ !this.state.fileTypePasses }
+                                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
+                                                    <Icon left className="data">check</Icon>
+                                                    Submit Review 
+                                                </Button>            
+                                                {
+                                                    !this.props.postComplete && this.state.postStarted ?
+                                                    <div className="progress">
+                                                        <div className="indeterminate"></div>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                            </div>
                                     }
                                 </Row>
                             </Col>
@@ -698,7 +728,7 @@ const mapStateToProps = state => {
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
       reviewsRequestFinished: state.reviews.reviewsRequestFinished,
-      allQuestionsAreAnswered: state.reviews.allQuestionsAreAnswered
+      allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent
   }
 }
 
