@@ -66,7 +66,7 @@ class SortoeQform extends Component {
                     firstHalf.map((question, i) => {
                     return (
                         <Row className="border-bottom-questions">
-                            <h6 className="left-align">{i+1}. {question.question}</h6>
+                            <h6 className="left-align">{question.questionID}. {question.question}</h6>
                             <RadioGroup
                                 name={question.questionID}
                                 value={this.state[`question${question.questionID}Answer`]}
@@ -91,7 +91,7 @@ class SortoeQform extends Component {
                     secondHalf.map((question, i) => {
                     return (
                         <Row className="border-bottom-questions">
-                            <h6 className="left-align">{i+1}. {question.question}</h6>
+                            <h6 className="left-align">{question.questionID}. {question.question}</h6>
                             <RadioGroup
                                 name={question.questionID}
                                 value={this.state[`question${question.questionID}Answer`]}
