@@ -14,6 +14,7 @@ import { Icon,
          CollectionItem,
          Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
+import SubHeader from '../SubHeader/SubHeader'
 
 
 class Portal extends Component {
@@ -30,26 +31,7 @@ class Portal extends Component {
       return (
         <div>
           {/* HEADER */}
-          <Section className="dash-heading-wrapper">
-            <Row> 
-              <Col s={12}>
-              </Col>
-            </Row>
-            <Row className='center valign-wrapper'>
-              <Col s={1}>
-              <img src={require("../../assets/launch_icon.png")} width="70px" />
-              </Col>
-              <Col s={1}>
-                <h5 className="dash-username j-title">Portal</h5>
-              </Col>
-              <Col s={10}></Col>
-            </Row>
-            <Row>
-              <Col s={12}>
-                <hr className="thick-line-blue" />
-              </Col>
-            </Row>
-          </Section>
+          <SubHeader icon={require("../../assets/launch_icon.png")} subHeader="Portal"/>
           
           {
             this.props.allTools ?
@@ -81,6 +63,7 @@ class Portal extends Component {
                         </Row>
                         <Row>
                           <Modal
+                            className="full-page"
                             header={`${tool.name} Data Sources`}
                             bottomSheet
                             trigger={<Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light'>Data <Icon right tiny className="data">cloud</Icon> </Button>}>

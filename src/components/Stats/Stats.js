@@ -13,6 +13,7 @@ import { Icon,
          CollectionItem,
          Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
+import SubHeader from '../SubHeader/SubHeader'
 
 
 class Stats extends Component {
@@ -28,26 +29,7 @@ class Stats extends Component {
       return (
         <div>
           {/* HEADER */}
-          <Section className="dash-heading-wrapper">
-            <Row> 
-              <Col s={12}>
-              </Col>
-            </Row>
-            <Row className='center valign-wrapper'>
-              <Col s={1}>
-              <img src={require("../../assets/stats_icon.png")} width="70px" />
-              </Col>
-              <Col s={1}>
-                <h5 className="dash-username j-title">The Stats</h5>
-              </Col>
-              <Col s={10}></Col>
-            </Row>
-            <Row>
-              <Col s={12}>
-                <hr className="thick-line-blue" />
-              </Col>
-            </Row>
-          </Section>
+          <SubHeader icon={require("../../assets/stats_icon.png")} subHeader="The Stats"/>
           <Row>
               Show some stats here!
           </Row>

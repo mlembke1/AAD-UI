@@ -392,7 +392,7 @@ class PublicReviews extends Component {
                             onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}
                             >
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
-                                <option value='ATN'>AtN</option>
+                                <option value='Argument Mapper'>Argument Mapper</option>
                             </Input>
                         </Row>
                         :
@@ -404,40 +404,79 @@ class PublicReviews extends Component {
                             {
                             review.editable ?
                                 <Input 
+                                s={12}
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
                                 disabled={false} type='textarea' value={this.state.editTextInputValue} />
                             :
-                                <Input  disabled={true} type='textarea' value={review.text} />
+                                <Input  s={12} disabled={true} type='textarea' value={review.text} />
                             }
                         </Row>
                         {
                             review.editable ?
+                                // <Row>
+                                //     <Input 
+                                //     id="file-input"
+                                //     type="file"
+                                //     label={`${review.path ? `Replace` : "Upload"} `}  
+                                //     name="fileUpload"
+                                //     s={12} 
+                                //     placeholder={`(.jpg/.png/.jpeg) or a .pdf.`}
+                                //     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                //     <div className="file-preview container">
+                                //         {
+                                //             this.state.editFileInputValue && this.state.editFileTypePasses ?
+                                //                 this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
+                                //                     <div className="non-image-file file" >
+                                //                         {this.state.editFileInputValue.name}
+                                //                         {this.state.editFileInputValue.type}
+                                //                         <Icon small className="data icon-green">check_circle_outline</Icon>
+                                //                     </div>
+                                //                 :
+                                //                 <div>
+                                //                     <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                //                 </div>
+                                //             :
+                                //             null
+                                //         }
+                                //     </div>
+                                // </Row>
                                 <Row>
-                                    <Input 
-                                    id="file-input"
-                                    type="file"
-                                    label={`${review.path ? `Replace` : "Upload"} `}  
-                                    name="fileUpload"
-                                    s={12} 
-                                    placeholder={`(.jpg/.png/.jpeg) or a .pdf.`}
-                                    onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
-                                    <div className="file-preview container">
-                                        {
-                                            this.state.editFileInputValue && this.state.editFileTypePasses ?
-                                                this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
-                                                    <div className="non-image-file file" >
-                                                        {this.state.editFileInputValue.name}
-                                                        {this.state.editFileInputValue.type}
-                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                    </div>
-                                                :
-                                                <div>
-                                                    <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
-                                                </div>
-                                            :
-                                            null
-                                        }
-                                    </div>
+                                    {
+                                    this.state.editFileInputValue && this.state.editFileTypePasses ?
+                                        this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
+                                        <Row className="valign-wrapper">
+                                            <Col s={7} className="non-image-file file" >
+                                                {this.state.editFileInputValue.name}
+                                                {this.state.editFileInputValue.type}
+                                                <Icon small className="data icon-green">check_circle_outline</Icon>
+                                            </Col>
+                                            <Col s={5}>
+                                                <Button onClick={() => this.setState({ ...this.state, editFileInputValue: null })} className="portal-buttons delete-button" waves='light'> Cancel <Icon right tiny className="data">delete_outline</Icon></Button>
+                                            </Col>
+                                        </Row>
+                                        :
+                                        <Row className="valign-wrapper">
+                                            <Col s={7}>
+                                                <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                            </Col>
+                                            <Col s={5}>
+                                                <Button onClick={() => this.setState({ ...this.state, editFileInputValue: null })} className="portal-buttons delete-button" waves='light'> Cancel <Icon right tiny className="data">delete_outline</Icon></Button>
+                                            </Col>
+                                        </Row>  
+                                    :
+                                    <Row>
+                                        <Input 
+                                        className="already-posted"
+                                        id="file-input"
+                                        type="file"
+                                        s={12}
+                                        label={review.path ? <span>Replace<Icon right tiny  className="data">cloud_upload</Icon></span> : <span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}  
+                                        name="fileUpload"
+                                        s={12} 
+                                        placeholder={`${review.path ? review.path : `(.jpg/.png/.jpeg) or a .pdf.`}`}
+                                        onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                    </Row>
+                                    }
                                 </Row>
                             :
                                 null
