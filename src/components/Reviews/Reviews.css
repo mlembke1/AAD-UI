@@ -18,13 +18,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 200%;
+    min-width: 100%;
+    margin: 0 auto !important;
 }
 
 .file {
     margin: 10px;
     height: 75px;
-    width: 75px;
     border-bottom: 1px solid black;
 }
 
@@ -32,7 +32,6 @@
     display: flex;
     text-align: center;
     align-items: center;
-    min-width: 100%;
 }
 
 div.btn {
@@ -107,7 +106,7 @@ ul.dropdown-content.select-dropdown li span {
     background-color: white;
     color: #b71c1c;
     transition: .5s !important;
-    min-width: 70%;
+    max-width: 70%;
 
 }
 
@@ -306,6 +305,10 @@ input[type=range]::-webkit-slider-thumb {
     margin-right: -20%;
 }
 
-.container {
-    margin: 0 !important;
+.side-margin-75 {
+    margin: 0 75px;
+}
+
+.min-width-100 {
+    min-width: 100% !important;
 }

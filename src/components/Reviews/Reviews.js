@@ -374,32 +374,41 @@ class Reviews extends Component {
                         {
                             review.editable ?
                                 <Row>
-                                    <Input 
-                                    className="already-posted"
-                                    id="file-input"
-                                    type="file"
-                                    label={review.path ? <span>Replace<Icon right tiny  className="data">cloud_upload</Icon></span> : <span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}  
-                                    name="fileUpload"
-                                    s={12} 
-                                    placeholder={`${review.path ? review.path : `(.jpg/.png/.jpeg) or a .pdf.`}`}
-                                    onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
-                                    <div className="file-preview container">
-                                        {
-                                            this.state.editFileInputValue && this.state.editFileTypePasses ?
-                                                this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
-                                                    <div className="non-image-file file" >
-                                                        {this.state.editFileInputValue.name}
-                                                        {this.state.editFileInputValue.type}
-                                                        <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                    </div>
-                                                :
-                                                <div>
-                                                    <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
-                                                </div>
-                                            :
-                                            null
-                                        }
-                                    </div>
+                                    {
+                                    this.state.editFileInputValue && this.state.editFileTypePasses ?
+                                        this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
+                                        <Row className="valign-wrapper">
+                                            <Col s={7} className="non-image-file file" >
+                                                {this.state.editFileInputValue.name}
+                                                {this.state.editFileInputValue.type}
+                                                <Icon small className="data icon-green">check_circle_outline</Icon>
+                                            </Col>
+                                            <Col s={5}>
+                                                <Button onClick={() => this.setState({ ...this.state, editFileInputValue: null })} className="portal-buttons delete-button" waves='light'> Cancel <Icon right tiny className="data">delete_outline</Icon></Button>
+                                            </Col>
+                                        </Row>
+                                        :
+                                        <Row className="valign-wrapper">
+                                            <Col s={7}>
+                                                <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                            </Col>
+                                            <Col s={5}>
+                                                <Button onClick={() => this.setState({ ...this.state, editFileInputValue: null })} className="portal-buttons delete-button" waves='light'> Cancel <Icon right tiny className="data">delete_outline</Icon></Button>
+                                            </Col>
+                                        </Row>  
+                                    :
+                                    <Row>
+                                        <Input 
+                                        className="already-posted"
+                                        id="file-input"
+                                        type="file"
+                                        label={review.path ? <span>Replace<Icon right tiny  className="data">cloud_upload</Icon></span> : <span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}  
+                                        name="fileUpload"
+                                        s={12} 
+                                        placeholder={`${review.path ? review.path : `(.jpg/.png/.jpeg) or a .pdf.`}`}
+                                        onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
+                                    </Row>
+                                    }
                                 </Row>
                             :
                                 null
@@ -407,7 +416,7 @@ class Reviews extends Component {
                         {
                             !this.state.editFileTypePasses && review.editable ?
                             <div>
-                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
                                 <div className="error-text">Please ensure file extensions are all lowercase.</div>
                             </div>
                             :
@@ -471,7 +480,7 @@ class Reviews extends Component {
                                 {
                                     review.editable && review.path ?
                                     <Row>
-                                        <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
+                                        <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove Current File <Icon right tiny className="data">delete_outline</Icon></Button>
                                     </Row>
                                     :
                                     null
@@ -568,10 +577,8 @@ class Reviews extends Component {
                         <Row>
                             <Collapsible popout default defaultActiveKey={2}>
                                 <CollapsibleItem header="Additional Comments / File Upload" icon="add">
-                                <Row className="center-row border-bottom">
-                                    <Col s={12}>
-                                        <Row className="valign-wrapper">
-                                            <Col s={6}>
+                                <Row className="center-row border-bottom valign-wrapper">
+                                            <Col s={8}>
                                                 <Input 
                                                 s={12}
                                                 className="text-area"
@@ -582,7 +589,7 @@ class Reviews extends Component {
                                             </Col>
                                             {
                                                 !this.state.fileInputValue ?
-                                                <Col className="center-input" s={6}>
+                                                <Col className="center-input" s={4}>
                                                     <Input
                                                     id="file-input"
                                                     type="file"
@@ -593,51 +600,47 @@ class Reviews extends Component {
                                                     onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
                                                 </Col>
                                                 : 
-                                                <Col s={6}>
-                                                    <div className="center-align file-preview container">
+                                                <Col s={4}>
                                                             {
                                                                 this.state.fileInputValue && this.state.fileTypePasses ?
                                                                     this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
-                                                                    <Row className="valign-wrapper">
-                                                                        <Col s={11}>
-                                                                            <div className="non-image-file file" >
-                                                                                {this.state.fileInputValue.name}
-                                                                                {this.state.fileInputValue.type}
-                                                                                <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                                            </div>
-                                                                        </Col>
-                                                                        <Col s={1}>
-                                                                        <Button onClick={() => this.setState({ ...this.state, fileInputValue: null })} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
-                                                                        </Col>
+                                                                    <Row>
+                                                                        <Row className="">
+                                                                                <div className="non-image-file file" >
+                                                                                    {this.state.fileInputValue.name}
+                                                                                    {this.state.fileInputValue.type}
+                                                                                    <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                                                </div>
+                                                                        </Row>
+                                                                        <Row>
+                                                                            <Button onClick={() => this.setState({ ...this.state, fileInputValue: null })} className="portal-buttons delete-button min-width-100" waves='light'> Remove Staged Upload <Icon right tiny className="data">delete_outline</Icon></Button>
+                                                                        </Row>
                                                                     </Row>
                                                                     :
-                                                                    <Row className="valign-wrapper">
-                                                                        <Col s={11}>
-                                                                            <div>
-                                                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
-                                                                            </div>
-                                                                        </Col>
-                                                                        <Col s={1}>
-                                                                        <Button onClick={() => this.setState({ ...this.state, fileInputValue: null })} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
-                                                                        </Col>
+                                                                    <Row>
+                                                                        <Row className="">
+                                                                                <div>
+                                                                                    <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                                                </div>
+                                                                        </Row>
+                                                                        <Row>
+                                                                            <Button onClick={() => this.setState({ ...this.state, fileInputValue: null })} className="portal-buttons delete-button min-width-100" waves='light'> Remove Staged Upload <Icon right tiny className="data">delete_outline</Icon></Button>
+                                                                        </Row>
                                                                     </Row>
                                                                 :
                                                                 null
                                                             }
-                                                    </div>
                                                 </Col>
                                             }
-                                        </Row>
                                         {
                                             !this.state.fileTypePasses ?
                                             <div>
-                                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
+                                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
                                                 <div className="error-text">Please ensure file extensions are all lowercase.</div>
                                             </div>
                                             :
                                             null
                                         }
-                                    </Col>
                                 </Row>
                                 </CollapsibleItem>
                             </Collapsible>
