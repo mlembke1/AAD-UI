@@ -317,3 +317,10 @@ input[type=range]::-webkit-slider-thumb {
     max-width: 50%;
 }
 
+.select-wrapper input.select-dropdown {
+    text-align: center !important;
+}
+
+ li {
+    text-align: center !important;
+}

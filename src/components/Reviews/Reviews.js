@@ -592,7 +592,7 @@ class Reviews extends Component {
                                             <Col s={8}>
                                                 <Input 
                                                 s={12}
-                                                className="text-area"
+                                                className="text-align-center"
                                                 type='textarea'
                                                 value={this.state.textInputValue}
                                                 onChange={evt => this.updateInputValue(evt, 'textInputValue')}
