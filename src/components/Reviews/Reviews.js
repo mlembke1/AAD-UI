@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import './Reviews.css';
 import { bindActionCreators } from 'redux'
@@ -44,6 +45,8 @@ class Reviews extends Component {
             rangeValue: 50,
             editRangeValue: 50
         }
+
+        this.myRef = React.createRef()
     }
 
     onCheckSlack = () => this.setState({...this.state, slackIsChecked: !this.state.slackIsChecked})
@@ -270,6 +273,10 @@ class Reviews extends Component {
         textInputValue: "",
         fileInputValue: null
     })
+
+    
+    let lastReview = this.refs.lastReview
+    lastReview.scrollIntoView({behavior: "smooth"})
   }
 
 
@@ -338,7 +345,7 @@ class Reviews extends Component {
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
             {
             this.props.allReviews && this.props.allReviews.length > 0 ?            
-            this.props.allReviews.map((review) => {
+            this.props.allReviews.map((review, i) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
                   <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
@@ -358,7 +365,7 @@ class Reviews extends Component {
                             </Input>
                         </Row>
                         :
-                        <h6 className="tool-name">{review.tool_name}</h6>
+                        <h6 ref={(i + 1) == this.props.allReviews.length ? "lastReview" : null} className="tool-name">{review.tool_name}</h6>
                       }
                     </Col>
                     <Col s={6}>
