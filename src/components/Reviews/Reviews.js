@@ -378,7 +378,7 @@ class Reviews extends Component {
                                     className="already-posted"
                                     id="file-input"
                                     type="file"
-                                    label={`${review.path ? `Replace` : "Upload"} `}  
+                                    label={review.path ? <span>Replace<Icon right tiny  className="data">cloud_upload</Icon></span> : <span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}  
                                     name="fileUpload"
                                     s={12} 
                                     placeholder={`${review.path ? review.path : `(.jpg/.png/.jpeg) or a .pdf.`}`}
@@ -586,7 +586,7 @@ class Reviews extends Component {
                                                     <Input
                                                     id="file-input"
                                                     type="file"
-                                                    label="Upload"
+                                                    label={<span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}
                                                     name="fileUpload"
                                                     s={12} 
                                                     placeholder="(.jpg/.png/.jpeg) or a .pdf"
