@@ -24,6 +24,7 @@ import { Redirect } from 'react-router-dom'
 
 
 
+
 class Reviews extends Component {
 
     constructor(props) {
@@ -230,6 +231,7 @@ class Reviews extends Component {
   }
 
   postReviewHandler = async () => {
+
     this.setState({
         ...this.state,
         postStarted: true
@@ -511,7 +513,6 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        // this.props.isFetching && review.path ? 
                                         (this.props.files.length != this.props.allReviews.filter(review => review.path).length) && review.path ?
                                         <div>
                                             <div className="progress">
@@ -561,7 +562,7 @@ class Reviews extends Component {
             {/* //////////////////// ////////////////////  //////////////////// //////////////////// ////////////////////  ///////////////////////// */}
             {/* //////////////////// ////////////////////   //////////////////// //////////////////// ////////////////////  ///////////////////////// */}
             <Section className="reviews-wrapper center">
-                <Collapsible popout defaultActiveKey={1}>
+                <Collapsible id="add-review-collapsible" popout defaultActiveKey={1}>
                 <CollapsibleItem header='Write A Review' icon='add'>
                     <Section>
                         <Row className="valign-wrapper max-width-50">
@@ -588,7 +589,7 @@ class Reviews extends Component {
                         <Row>
                             <Collapsible popout default defaultActiveKey={2}>
                                 <CollapsibleItem header="Additional Comments / File Upload" icon="add">
-                                <Row className="center-row border-bottom valign-wrapper">
+                                <Row className="valign-wrapper">
                                             <Col s={8}>
                                                 <Input 
                                                 s={12}
@@ -600,15 +601,19 @@ class Reviews extends Component {
                                             </Col>
                                             {
                                                 !this.state.fileInputValue ?
-                                                <Col className="center-input" s={4}>
-                                                    <Input
-                                                    id="file-input"
-                                                    type="file"
-                                                    label={<span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}
-                                                    name="fileUpload"
-                                                    s={12} 
-                                                    placeholder="(.jpg/.png/.jpeg) or a .pdf"
-                                                    onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                                <Col s={4}>
+                                                    <Row>
+                                                        <Col s={2}></Col>
+                                                        <Col s={10}>
+                                                            <Input
+                                                            id="file-input"
+                                                            type="file"
+                                                            label={<span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}
+                                                            name="fileUpload"
+                                                            placeholder="(.jpg/.png/.jpeg) or a .pdf"
+                                                            onChange={evt => this.updateInputValue(evt, 'fileInputValue')} />
+                                                        </Col>
+                                                    </Row>
                                                 </Col>
                                                 : 
                                                 <Col s={4}>
@@ -686,24 +691,25 @@ class Reviews extends Component {
                                     {
                                         this.props.allQuestionsAreIndifferent ?
                                             <Modal
+                                            id="submit-modal"
                                             header='Confirmation'
                                             trigger={
                                                 <Button 
                                                     disabled={ !this.state.fileTypePasses }
                                                     className="portal-buttons" waves='light'>
-                                                    <Icon left className="data">send</Icon>
+                                                    <Icon right className="data">send</Icon>
                                                     Submit Review 
                                                 </Button>            
                                             }>
-                                            <Row>
+                                            <Row className="valign-wrapper">
                                                 <Col s={8}>
-                                                    You have left all of the fields marked as "Indifferent". Would you still like to submit your review?
+                                                    <p>You have left all of the fields marked as <span className="bold">"Indifferent"</span> and have given {this.state.toolNameInputValue} an overall rating of<span className={`bold ${this.applyColor(this.state.rangeValue) }`}>{this.state.rangeValue}% </span>. Would you still like to submit your review?</p>
                                                 </Col>
                                                 <Col s={4}>
                                                 <Button 
                                                     disabled={ !this.state.fileTypePasses }
-                                                    onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
-                                                    <Icon left className="data">send</Icon>
+                                                    onClick={() => this.postReviewHandler()} className="portal-buttons modal-close" waves='light'>
+                                                    <Icon right className="data">send</Icon>
                                                     Submit Review 
                                                 </Button>            
                                                 </Col>
