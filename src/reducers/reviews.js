@@ -9,36 +9,42 @@ export const reviews = ( state={
     removeFileComplete: false,
     reviewsRequestFinished: false,
     publicReviewsRequestFinished: false,
+    allQuestionsAreIndifferent: true,
     sortoeQuestions:  [
       {
           questionID: 1,
           tool: 'MEADE/SORT-OE',
           question: "Here is question one. What do you think?",
-          type: "text"
+          answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
+          type: "radio"
       },
       {
           questionID: 2,
           tool: 'MEADE/SORT-OE',
           question: "Here is question two. What do you think?",
-          type: "text"
+          answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
+          type: "radio"
       },
       {
           questionID: 3,
           tool: 'MEADE/SORT-OE',
           question: "Here is question three. What do you think?",
-          type: "text"
+          answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
+          type: "radio"
       },
       {
           questionID: 4,
           tool: 'MEADE/SORT-OE',
           question: "Here is question four. What do you think?",
-          type: "text"
+          answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
+          type: "radio"
       },
       {
           questionID: 5,
           tool: 'MEADE/SORT-OE',
           question: "Here is question five. What do you think?",
-          type: "text"
+          answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
+          type: "radio"
       },
   ]
    }, action) => {
@@ -80,6 +86,10 @@ export const reviews = ( state={
           return { ...state, files: [] }
         case 'REMOVE_FILE_SUCCESS': 
           return { ...state, files: state.files.filter(file => file.review_id != action.payload.reviewId), removeFileComplete: true }
+        case 'ALL_QUESTIONS_INDIFFERENT': 
+          return { ...state, allQuestionsAreIndifferent: true }
+        case 'QUESTIONS_NOT_INDIFFERENT': 
+          return { ...state, allQuestionsAreIndifferent: false }
     
         default:
           return state
