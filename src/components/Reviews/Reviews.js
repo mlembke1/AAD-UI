@@ -555,15 +555,26 @@ class Reviews extends Component {
                 null
             }
 
-
-            {/* ////////////////////  ////////////////////  ///////////////////////// */}
-            {/* ////////////////////  ADD A REVIEW SECTION  ///////////////////////// */}
-            {/* ////////////////////  ////////////////////  ///////////////////////// */}
+            {/* //////////////////// ////////////////////   //////////////////// //////////////////// ////////////////////  ///////////////////////// */}
+            {/* //////////////////// ////////////////////   //////////////////// //////////////////// ////////////////////  ///////////////////////// */}
+            {/* //////////////////// ////////////////////              ADD A REVIEW SECTION             ///////////////////////// */}
+            {/* //////////////////// ////////////////////  //////////////////// //////////////////// ////////////////////  ///////////////////////// */}
+            {/* //////////////////// ////////////////////   //////////////////// //////////////////// ////////////////////  ///////////////////////// */}
             <Section className="reviews-wrapper center">
                 <Collapsible popout defaultActiveKey={1}>
                 <CollapsibleItem header='Write A Review' icon='add'>
                     <Section>
-                        <Row><h6>{this.state.toolNameInputValue}</h6></Row>
+                        <Row className="valign-wrapper max-width-50">
+                            <Input  
+                            className="center-align"
+                            s={12}
+                            onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
+                            value={this.state.toolNameInputValue}
+                            type='select' label="Choose A Tool" >
+                                <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
+                                <option value='Argument Mapper'>Argument Mapper</option>
+                            </Input>
+                        </Row>
                         <Row>
                             <Col s={12}>
                                 {
