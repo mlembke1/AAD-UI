@@ -507,12 +507,29 @@ class Reviews extends Component {
                                             <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
                                     </Col>
                                     <Col className="border-bottom standard-height" s={6}>
-                                    {
-                                        review.sharable ?
-                                        <div className="margin-top-neg"> Public <Icon >public</Icon></div>
-                                        :
-                                        <div className="margin-top-neg"> Private <Icon >security</Icon></div>
-                                    }
+                                        
+                                        {
+                                            review.sharable ?
+                                            <Row>
+                                                <Col s={4}>
+                                                    Public 
+                                                </Col>
+                                                <Col s={4}></Col>
+                                                <Col s={4}>
+                                                    <Icon >public</Icon>
+                                                </Col>
+                                            </Row>  
+                                            :
+                                            <Row>
+                                                <Col s={4}>
+                                                    Private 
+                                                </Col>
+                                                <Col s={4}></Col>
+                                                <Col s={4}>
+                                                    <Icon >security</Icon>
+                                                </Col>
+                                            </Row>  
+                                        }
                                     </Col>
                                 </Row>
                                 <Row className="edit-review-buttons">
