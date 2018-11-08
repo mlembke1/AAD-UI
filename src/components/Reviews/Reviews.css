@@ -324,3 +324,8 @@ input[type=range]::-webkit-slider-thumb {
  li {
     text-align: center !important;
 }
+
+
+.edit-review-buttons {
+    margin-bottom: 5px !important;
+}

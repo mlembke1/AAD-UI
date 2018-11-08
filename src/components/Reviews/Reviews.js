@@ -436,7 +436,7 @@ class Reviews extends Component {
                         {
                             review.editable ?
                             <div>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                         <p>Overall {this.state.toolNameInputValue} rating: 
                                             <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
                                         <p class="range-field maxWidth70 center">
@@ -447,7 +447,7 @@ class Reviews extends Component {
                                             min="0" max="100" />
                                         </p>
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                         <div className="switch">
                                             <label>
                                             Private
@@ -457,10 +457,10 @@ class Reviews extends Component {
                                             </label>
                                         </div>          
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
@@ -488,13 +488,13 @@ class Reviews extends Component {
                                 </Row>
                                 {
                                     review.editable && review.path ?
-                                    <Row>
+                                    <Row className="edit-review-buttons">
                                         <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove Current File <Icon right tiny className="data">delete_outline</Icon></Button>
                                     </Row>
                                     :
                                     null
                                 }
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
                             </div>
@@ -502,7 +502,7 @@ class Reviews extends Component {
                             <div>
                                 <Row className="border-bottom"></Row>
                                 <br />
-                                <Row className="valign-wrapper maxWidth70">
+                                <Row className="valign-wrapper maxWidth70 edit-review-buttons">
                                     <Col className="border-bottom standard-height" s={6}>
                                             <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
                                     </Col>
@@ -515,10 +515,10 @@ class Reviews extends Component {
                                     }
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons"> 
                                     {
                                         (this.props.files.length != this.props.allReviews.filter(review => review.path).length) && review.path ?
                                         <div>

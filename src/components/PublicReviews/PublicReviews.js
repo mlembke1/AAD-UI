@@ -413,33 +413,6 @@ class PublicReviews extends Component {
                         </Row>
                         {
                             review.editable ?
-                                // <Row>
-                                //     <Input 
-                                //     id="file-input"
-                                //     type="file"
-                                //     label={`${review.path ? `Replace` : "Upload"} `}  
-                                //     name="fileUpload"
-                                //     s={12} 
-                                //     placeholder={`(.jpg/.png/.jpeg) or a .pdf.`}
-                                //     onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
-                                //     <div className="file-preview container">
-                                //         {
-                                //             this.state.editFileInputValue && this.state.editFileTypePasses ?
-                                //                 this.state.editFileInputValue.type.substring(0, 5) !== 'image' ?
-                                //                     <div className="non-image-file file" >
-                                //                         {this.state.editFileInputValue.name}
-                                //                         {this.state.editFileInputValue.type}
-                                //                         <Icon small className="data icon-green">check_circle_outline</Icon>
-                                //                     </div>
-                                //                 :
-                                //                 <div>
-                                //                     <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
-                                //                 </div>
-                                //             :
-                                //             null
-                                //         }
-                                //     </div>
-                                // </Row>
                                 <Row>
                                     {
                                     this.state.editFileInputValue && this.state.editFileTypePasses ?
@@ -495,7 +468,7 @@ class PublicReviews extends Component {
                         {
                             review.editable ?
                             <div>
-                                <Row className="border-bottom">
+                                <Row className="border-bottom edit-review-buttons">
                                         <p>Overall {this.state.toolNameInputValue} rating: 
                                             <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
                                         <p className="range-field maxWidth70 center">
@@ -506,7 +479,7 @@ class PublicReviews extends Component {
                                             min="0" max="100" />
                                         </p>
                                 </Row>
-                                <Row className="border-bottom">
+                                <Row className="border-bottom edit-review-buttons">
                                         <div className="switch">
                                             <label>
                                             Private
@@ -516,7 +489,7 @@ class PublicReviews extends Component {
                                             </label>
                                         </div>          
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     <Button disabled={!this.state.editFileTypePasses} 
                                         onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} 
                                         className="portal-buttons" waves='light'>
@@ -524,7 +497,7 @@ class PublicReviews extends Component {
                                         <Icon right tiny className="data">check</Icon>
                                     </Button>
                                 </Row>
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     {
                                         this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
                                             <Modal
@@ -552,20 +525,20 @@ class PublicReviews extends Component {
                                 </Row>
                                 {
                                     review.editable && review.path ?
-                                    <Row>
+                                    <Row className="edit-review-buttons">
                                         <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
                                     </Row>
                                     :
                                     null
                                 }
                                 <Row>
-                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
+                                    <Button onClick={() => this.deleteHandler(review.id)} className="portal-buttons edit-review-buttons delete-button" waves='light'> Delete Review <Icon right tiny className="data">delete_outline</Icon></Button>
                                 </Row>
                             </div>
                             :
                             <div>
-                                <Row className="border-bottom"></Row>
-                                <Row className="valign-wrapper margin-top-bottom border-bottom">
+                                <Row className="border-bottom edit-review-buttons"></Row>
+                                <Row className="valign-wrapper margin-top-bottom border-bottom edit-review-buttons">
                                 <Col s={2}>
                                     <div className={`bold ${this.applyColor(review.rating) }`}>{review.rating}% </div>
                                 </Col>
@@ -576,14 +549,14 @@ class PublicReviews extends Component {
                                 </Row>
                                 {
                                     review.username == this.props.username ?
-                                    <Row>
+                                    <Row className="edit-review-buttons">
                                         <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
                                     </Row>
                                     :
                                     null
                                 }
                                 
-                                <Row>
+                                <Row className="edit-review-buttons">
                                     {
                                         // this.props.isFetching && review.path ? 
                                         (this.props.files.length != this.props.allPublicReviews.filter(review => review.path).length) && review.path ?

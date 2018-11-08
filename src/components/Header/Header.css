@@ -73,3 +73,25 @@ i.hamburger {
 #logged-out-nav{
     padding-top: 23% !important;
 }
+
+#logged-in-nav .border-bottom {
+    border-bottom: 1px solid #d5d5d5 !important;
+    min-width: 90% !important;
+}
+
+#logged-in-nav .width-50 {
+    min-width: 70% !important;
+}
+
+@media only screen and (max-width : 992px) {
+    [data-activates~="nav-mobile"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    [data-activates~="nav-mobile"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+  }
+   
