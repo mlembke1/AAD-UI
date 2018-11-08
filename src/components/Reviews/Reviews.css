@@ -22,14 +22,16 @@
 
 .file {
     margin: 10px;
-    height: 75px;
-    border-bottom: 1px solid black;
+    height: 100px;
+    max-width: 200px;
+    border-bottom: 1px solid #d5d5d5;
 }
 
 .non-image-file {
     display: flex;
     text-align: center;
     align-items: center;
+    padding-bottom: 15px;
 }
 
 div.btn {
@@ -321,4 +323,9 @@ input[type=range]::-webkit-slider-thumb {
 
  li {
     text-align: center !important;
+}
+
+
+.edit-review-buttons {
+    margin-bottom: 5px !important;
 }

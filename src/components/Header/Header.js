@@ -23,17 +23,17 @@ class Header extends Component {
                                 }
                         options={{ closeOnClick: true, edge: "right" }}
                         >
-                        <SideNavItem waves>
+                        <SideNavItem className="border-bottom width-50" waves>
                             <Link className="link" to="/"> Home </Link>
                         </SideNavItem>
-                        <SideNavItem waves>
+                        <SideNavItem className="border-bottom" waves>
+                            <Link className="link" to="/portal"> Portal </Link>
+                        </SideNavItem>
+                        <SideNavItem className="border-bottom" waves>
                             <Link className="link" to="/reviews"> My Assessments </Link>
                         </SideNavItem>
-                        <SideNavItem waves>
+                        <SideNavItem className="border-bottom width-50" waves>
                             <Link className="link" to="/public"> Public Reviews </Link>
-                        </SideNavItem>
-                        <SideNavItem waves>
-                            <Link className="link" to="/portal"> Portal </Link>
                         </SideNavItem>
                         <SideNavItem onClick={() => this.props.logout()} waves>
                             <Link className="link" to="/"> Logout </Link>
@@ -50,7 +50,7 @@ class Header extends Component {
                     trigger={<div className="hamburger-menu-icon-container"><Icon className="hamburger">menu</Icon></div>}
                     options={{ closeOnClick: true, edge: "right" }}
                     >
-                    <SideNavItem>
+                    <SideNavItem className="border-bottom">
                         <Link className="link" to="/login"> Login </Link>
                     </SideNavItem>
                     <SideNavItem>
