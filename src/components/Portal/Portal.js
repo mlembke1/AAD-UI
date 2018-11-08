@@ -56,7 +56,7 @@ class Portal extends Component {
                               <div className="border-bottom">Password: <span className="bold">password4u</span> </div>
                             </Col>
                             <Col s={6}>
-                              <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
+                              <Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons modal-close" waves='light' node='a' target="_blank" href={tool.url}> Open <Icon right tiny className="data">touch_app</Icon></Button>
                             </Col>
                           </Row>
                         </Modal>
