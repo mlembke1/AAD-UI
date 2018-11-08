@@ -21,7 +21,6 @@
 
 .tool-wrapper:hover::after {
     width: 100%;
-    /* //transition: width .3s; */
 }
 
 .portal-buttons {
@@ -40,7 +39,7 @@
 }
 
 .tool-name {
-    border-bottom: 1px solid #262626;
+    border-bottom: 1px solid #d5d5d5;
     padding-bottom: 5px;
     min-width: 100px;
 }
