@@ -338,7 +338,7 @@ class Reviews extends Component {
           {/* ////////////////////  ///////   ///////////////////////// */}
           {/* ////////////////////  HEADER    ///////////////////////// */}
           {/* ////////////////////  ///////   ///////////////////////// */}
-          <SubHeader icon={require("../../assets/assessment_icon.png")} subHeader="Your Assessments"/>
+          <SubHeader icon={require("../../assets/assessment_icon.png")} subHeader="My Assessments"/>
 
           {/* ////////////////////  ////////////////////////////////////////////   ///////////////////////// */}
           {/* ////////////////////  ARE THERE EXISTING REVIEWS? IF SO, SHOW HERE   ///////////////////////// */}

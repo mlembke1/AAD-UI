@@ -14,6 +14,7 @@ class Header extends Component {
             <Navbar className="navbar-logo" brand={<span className="valign-wrapper sof-aad-header">SOF AAD</span>} right>
                 <div>
                     <SideNav
+                        id="logged-in-nav"
                         trigger={
                                 <div className="valign-wrapper hamburger-menu-icon-container">
                                     <span className="uppercase">{this.props.firstName} {this.props.lastName}</span>
@@ -24,6 +25,15 @@ class Header extends Component {
                         >
                         <SideNavItem waves>
                             <Link className="link" to="/"> Home </Link>
+                        </SideNavItem>
+                        <SideNavItem waves>
+                            <Link className="link" to="/reviews"> My Assessments </Link>
+                        </SideNavItem>
+                        <SideNavItem waves>
+                            <Link className="link" to="/public"> Public Reviews </Link>
+                        </SideNavItem>
+                        <SideNavItem waves>
+                            <Link className="link" to="/portal"> Portal </Link>
                         </SideNavItem>
                         <SideNavItem onClick={() => this.props.logout()} waves>
                             <Link className="link" to="/"> Logout </Link>
@@ -36,6 +46,7 @@ class Header extends Component {
         return (
             <Navbar className="navbar-logo" brand={<span className="sof-aad-header valign-wrapper">SOF AAD</span>} right>
                 <SideNav
+                    id="logged-out-nav"
                     trigger={<div className="hamburger-menu-icon-container"><Icon className="hamburger">menu</Icon></div>}
                     options={{ closeOnClick: true, edge: "right" }}
                     >
