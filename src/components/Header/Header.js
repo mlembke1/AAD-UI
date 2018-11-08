@@ -27,13 +27,13 @@ class Header extends Component {
                             <Link className="link" to="/"> Home </Link>
                         </SideNavItem>
                         <SideNavItem waves>
+                            <Link className="link" to="/portal"> Portal </Link>
+                        </SideNavItem>
+                        <SideNavItem waves>
                             <Link className="link" to="/reviews"> My Assessments </Link>
                         </SideNavItem>
                         <SideNavItem waves>
                             <Link className="link" to="/public"> Public Reviews </Link>
-                        </SideNavItem>
-                        <SideNavItem waves>
-                            <Link className="link" to="/portal"> Portal </Link>
                         </SideNavItem>
                         <SideNavItem onClick={() => this.props.logout()} waves>
                             <Link className="link" to="/"> Logout </Link>

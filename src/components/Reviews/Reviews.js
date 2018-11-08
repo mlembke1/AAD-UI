@@ -628,12 +628,15 @@ class Reviews extends Component {
                                                                 this.state.fileInputValue && this.state.fileTypePasses ?
                                                                     this.state.fileInputValue.type.substring(0, 5) !== 'image' ?
                                                                     <Row>
-                                                                        <Row className="">
-                                                                                <div className="non-image-file file" >
+                                                                        <Row className="valign-wrapper">
+                                                                                <Col s={8} className="non-image-file file" >
                                                                                     {this.state.fileInputValue.name}
                                                                                     {this.state.fileInputValue.type}
+                                                                                </Col>
+                                                                                <Col s={2}></Col>
+                                                                                <Col s={2}>
                                                                                     <Icon small className="data icon-green">check_circle_outline</Icon>
-                                                                                </div>
+                                                                                </Col>
                                                                         </Row>
                                                                         <Row>
                                                                             <Button onClick={() => this.setState({ ...this.state, fileInputValue: null })} className="portal-buttons delete-button min-width-100" waves='light'> Remove Staged Upload <Icon right tiny className="data">delete_outline</Icon></Button>
@@ -641,10 +644,14 @@ class Reviews extends Component {
                                                                     </Row>
                                                                     :
                                                                     <Row>
-                                                                        <Row className="">
-                                                                                <div>
-                                                                                    <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
-                                                                                </div>
+                                                                        <Row className="valign-wrapper">
+                                                                                <Col s={8}>
+                                                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                                                </Col>
+                                                                                <Col s={1}></Col>
+                                                                                <Col s={3}>
+                                                                                    <Icon small className="data icon-green">check_circle_outline</Icon>
+                                                                                </Col>
                                                                         </Row>
                                                                         <Row>
                                                                             <Button onClick={() => this.setState({ ...this.state, fileInputValue: null })} className="portal-buttons delete-button min-width-100" waves='light'> Remove Staged Upload <Icon right tiny className="data">delete_outline</Icon></Button>
@@ -655,16 +662,16 @@ class Reviews extends Component {
                                                             }
                                                 </Col>
                                             }
-                                        {
-                                            !this.state.fileTypePasses ?
-                                            <div>
-                                                <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
-                                                <div className="error-text">Please ensure file extensions are all lowercase.</div>
-                                            </div>
-                                            :
-                                            null
-                                        }
                                 </Row>
+                                {
+                                    !this.state.fileTypePasses ?
+                                    <Row>
+                                        <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
+                                        <div className="error-text">Please ensure file extensions are all lowercase.</div>
+                                    </Row>
+                                    :
+                                    null
+                                }
                                 </CollapsibleItem>
                             </Collapsible>
                         </Row>
