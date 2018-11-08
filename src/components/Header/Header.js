@@ -35,7 +35,7 @@ class Header extends Component {
                         <SideNavItem className="border-bottom width-50" waves>
                             <Link className="link" to="/public"> Public Reviews </Link>
                         </SideNavItem>
-                        <SideNavItem onClick={() => this.props.logout()} waves>
+                        <SideNavItem className="width-50" onClick={() => this.props.logout()} waves>
                             <Link className="link" to="/"> Logout </Link>
                         </SideNavItem>
                     </SideNav>
