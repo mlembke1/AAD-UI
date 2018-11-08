@@ -63,3 +63,13 @@ i.hamburger {
     letter-spacing: 3px;
     font-weight: 300;
 }
+
+
+
+#logged-in-nav {
+    padding-top: 15% !important;
+}
+
+#logged-out-nav{
+    padding-top: 23% !important;
+}

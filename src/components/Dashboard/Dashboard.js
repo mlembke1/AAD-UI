@@ -39,7 +39,7 @@ class Dashboard extends Component {
                   <Link  to="/reviews">
                     <div className="dashboard-block-wrapper">
                       <img src={require("../../assets/assessment_icon.png")} width="100px" />
-                      <div className="j-title">Your Assessments</div>
+                      <div className="j-title">My Assessments</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
                       Post public or private reviews on all the tools you have used.
