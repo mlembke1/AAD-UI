@@ -183,13 +183,15 @@ class Reviews extends Component {
 
   toggleEditSaveHandler = (editable, toolName, reviewId, text, path, sharable, rating) => {
     // Edit has already been open, now time to save the updates.
+    console.log('HERE IS THE TEXT BEING BROUGHT INTO THE TOGGLE EDIT SAVE HANDLER. THIS VALUE IS WILL BE USED TO SET EDITtEXTINPUTVALUE', text)
+    console.log('AND HERE IS THE TYPEOF', typeof text)
     let updateObject = {}
     if(editable) {
-        this.props.editSaveToggle(editable, toolName, reviewId)
+        this.props.editSaveToggle(editable, reviewId)
         if(this.state.editFileInputValue){
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
-                text: this.state.editTextInputValue,
+                textInput: this.state.editTextInputValue,
                 reviewId,
                 blob: this.state.editFileInputValue,
                 sharable: this.state.editPublicIsChecked,
@@ -198,7 +200,7 @@ class Reviews extends Component {
         } else {
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
-                text: this.state.editTextInputValue,
+                textInput: this.state.editTextInputValue,
                 reviewId,
                 sharable: this.state.editPublicIsChecked,
                 rating: this.state.editRangeValue
@@ -212,7 +214,7 @@ class Reviews extends Component {
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, toolName, reviewId, sharable, rating)
+        this.props.editSaveToggle(editable, reviewId)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,

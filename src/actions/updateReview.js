@@ -5,7 +5,7 @@ export const updateReview = (object) => dispatch => {
     if(object.blob){
         formData.append('uploadedFile', object.blob);     
     }
-    formData.append('text', object.text)
+    formData.append('textInput', object.textInput)
     formData.append('toolName', object.toolName)
     formData.append('reviewId', object.reviewId)
     formData.append('sharable', object.sharable)

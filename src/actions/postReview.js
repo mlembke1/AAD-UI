@@ -13,18 +13,19 @@ export const postReview = (
         rangeValue,
         sortoeAnswers
 ) => dispatch => {
-
+    console.log('HERE IS THE TEXT INPUT COMING IN', typeof textInputValue)
+    
     let formData = new FormData();
-    toolNameInputValue ? formData.append('toolName', toolNameInputValue) : null
-    textInputValue ? formData.append('text', textInputValue) : null
+    formData.append('toolName', toolNameInputValue)
+    formData.append('text', textInputValue)
+    formData.append('username', username)
+    formData.append('sharable', publicIsChecked)
+    formData.append('firstName', firstName)
+    formData.append('lastName', lastName)
+    formData.append('jobTitle', jobTitle)
+    formData.append('company', company)
+    formData.append('rating', rangeValue)
     fileInputValue ? formData.append('uploadedFile', fileInputValue) : null
-    username ? formData.append('username', username) : null
-    publicIsChecked ? formData.append('sharable', publicIsChecked) : null
-    firstName ? formData.append('firstName', firstName) : null
-    lastName ? formData.append('lastName', lastName) : null
-    jobTitle ? formData.append('jobTitle', jobTitle) : null
-    company ? formData.append('company', company) : null
-    rangeValue ? formData.append('rating', rangeValue) : null
     if (toolNameInputValue == 'MEADE/SORT-OE') {
         formData.append('answer_1', sortoeAnswers.question1Answer)
         formData.append('answer_2', sortoeAnswers.question2Answer)
@@ -32,6 +33,7 @@ export const postReview = (
         formData.append('answer_4', sortoeAnswers.question4Answer)
         formData.append('answer_5', sortoeAnswers.question5Answer)
     }
+
 
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', {
         method: "post",
