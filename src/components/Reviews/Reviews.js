@@ -276,7 +276,7 @@ class Reviews extends Component {
 
     
     let lastReview = this.refs.lastReview
-    lastReview.scrollIntoView({behavior: "smooth"})
+    this.props.allReviews.length > 0 ? lastReview.scrollIntoView({behavior: "smooth"}) : null
   }
 
 
