@@ -1,21 +1,38 @@
 import axios from 'axios';
 
-export const postReview = object => dispatch => {
-    console.log('HERE IS THE OBJECT TO POST', object)
-    let formData = new FormData();
+export const postReview = (
+        toolNameInputValue,
+        textInputValue,
+        fileInputValue,
+        username,
+        publicIsChecked,
+        firstName,
+        lastName,
+        jobTitle,
+        company,
+        rangeValue,
+        sortoeAnswers
+) => dispatch => {
 
-    if(object.blob){
-        formData.append('uploadedFile', object.blob);      
+    let formData = new FormData();
+    toolNameInputValue ? formData.append('toolName', toolNameInputValue) : null
+    textInputValue ? formData.append('text', textInputValue) : null
+    fileInputValue ? formData.append('uploadedFile', fileInputValue) : null
+    username ? formData.append('username', username) : null
+    publicIsChecked ? formData.append('sharable', publicIsChecked) : null
+    firstName ? formData.append('firstName', firstName) : null
+    lastName ? formData.append('lastName', lastName) : null
+    jobTitle ? formData.append('jobTitle', jobTitle) : null
+    company ? formData.append('company', company) : null
+    rangeValue ? formData.append('rating', rangeValue) : null
+    if (toolNameInputValue == 'MEADE/SORT-OE') {
+        formData.append('answer_1', sortoeAnswers.question1Answer)
+        formData.append('answer_2', sortoeAnswers.question2Answer)
+        formData.append('answer_3', sortoeAnswers.question3Answer)
+        formData.append('answer_4', sortoeAnswers.question4Answer)
+        formData.append('answer_5', sortoeAnswers.question5Answer)
     }
-    formData.append('text', object.textInput);
-    formData.append('toolName', object.toolName);
-    formData.append('username', object.username);
-    formData.append('sharable', object.sharable);
-    formData.append('firstName', object.firstName)
-    formData.append('lastName', object.lastName)
-    formData.append('jobTitle', object.jobTitle)
-    formData.append('company', object.company)
-    formData.append('rating', object.rating)
+
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', {
         method: "post",
         data: formData,

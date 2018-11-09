@@ -3,6 +3,7 @@ import './SortoeQform.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { setSortoeAnswerInputs } from '../../actions/setSortoeAnswerInputs'
 import { setAllQuestionsAreIndifferent } from '../../actions/setAllQuestionsAreIndifferent'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Input } from 'react-materialize'
@@ -42,14 +43,13 @@ class SortoeQform extends Component {
                this.props.setAllQuestionsAreIndifferent(false)
     }
 
-
-    updateInputValue = (evt, inputType) => {
-        console.log('CHANGING THINGS')
-        this.setState({[inputType]: evt.target.value}, () => this.handleAreQuestionsAnswered())
-      }
-
       handleChangeByKey = (key) => (value, event) => {
-          this.setState({ [key]: value }, () => this.handleAreQuestionsAnswered())
+          this.setState({ [key]: value }, () => {
+            let stateCopy = { ...this.state }
+            delete stateCopy['answersAreAllIndifferent'];
+            this.props.setSortoeAnswerInputs(stateCopy)
+            this.handleAreQuestionsAnswered()
+          } )
     };
     
     render() {
@@ -126,6 +126,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setAllQuestionsAreIndifferent}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setAllQuestionsAreIndifferent, setSortoeAnswerInputs}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortoeQform)

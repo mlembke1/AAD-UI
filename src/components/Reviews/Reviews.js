@@ -234,40 +234,24 @@ class Reviews extends Component {
   }
 
   postReviewHandler = async () => {
-
     this.setState({
         ...this.state,
         postStarted: true
     })
-    let reviewObject
-      if(this.state.fileInputValue){
-        reviewObject = {
-            toolName: this.state.toolNameInputValue,
-            textInput: this.state.textInputValue,
-            blob: this.state.fileInputValue,
-            username: localStorage.getItem('username'),
-            sharable: this.state.publicIsChecked,
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
-            jobTitle: this.props.jobTitle,
-            company: this.props.company,
-            rating: this.state.rangeValue
-        }      
-      } else {
-        reviewObject = {
-              toolName: this.state.toolNameInputValue,
-              textInput: this.state.textInputValue,
-              username: localStorage.getItem('username'),
-              sharable: this.state.publicIsChecked,
-              firstName: this.props.firstName,
-              lastName: this.props.lastName,
-              jobTitle: this.props.jobTitle,
-              company: this.props.company,
-              rating: this.state.rangeValue
-        }  
-      } 
       
-    this.props.postReview(reviewObject)
+    this.props.postReview(
+        this.state.toolNameInputValue,
+        this.state.textInputValue,
+        this.state.fileInputValue,
+        localStorage.getItem('username'),
+        this.state.publicIsChecked,
+        this.props.firstName,
+        this.props.lastName,
+        this.props.jobTitle,
+        this.props.company,
+        this.state.rangeValue,
+        this.props.sortoeAnswerInputs
+    )
     this.setState({
         toolNameInputValue: 'MEADE/SORT-OE',
         textInputValue: "",
@@ -276,7 +260,7 @@ class Reviews extends Component {
 
     
     let lastReview = this.refs.lastReview
-    lastReview.scrollIntoView({behavior: "smooth"})
+    this.props.allReviews.length > 0 ? lastReview.scrollIntoView({behavior: "smooth"}) : null
   }
 
 
@@ -429,6 +413,12 @@ class Reviews extends Component {
                                 <div className="error-text">Please ensure file extensions are all lowercase.</div>
                             </div>
                             :
+                            null
+                        }
+                        {
+                            review.tool_name == 'MEADE/SORT-OE' ?
+                            review.answer_1
+                            : 
                             null
                         }
                     </Col>
@@ -751,7 +741,7 @@ class Reviews extends Component {
                                                 <Button 
                                                     disabled={ !this.state.fileTypePasses }
                                                     onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
-                                                    <Icon left className="data">send</Icon>
+                                                    <Icon right className="data">send</Icon>
                                                     Submit Review 
                                                 </Button>            
                                                 {
@@ -793,7 +783,8 @@ const mapStateToProps = state => {
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
       reviewsRequestFinished: state.reviews.reviewsRequestFinished,
-      allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent
+      allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent,
+      sortoeAnswerInputs: state.reviews.sortoeAnswerInputs
   }
 }
 
