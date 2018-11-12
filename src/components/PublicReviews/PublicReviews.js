@@ -379,7 +379,7 @@ class PublicReviews extends Component {
             this.props.allPublicReviews.filter(review => this.doesRatingPassFilter(review.rating) && this.doesToolNamePassFilter(review.tool_name)).map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item ${review.editable ? null : ""}`}>
+                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
                     <Col s={2}>
                       {
                         review.editable ?
@@ -405,13 +405,13 @@ class PublicReviews extends Component {
                             <Collapsible>
                                 <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
                                 {this.props.sortoeQuestions.map(question => (
-                                    <Row>
-                                        <Row>
+                                    <Row className="border-bottom valign-wrapper min-width-100">
+                                        <Col s={8}>
                                             <span className="uppercase-light-font">{question.question}</span>
-                                        </Row>
-                                        <Row>
-                                            {review[`answer_${question.questionID}`]}
-                                        </Row> 
+                                        </Col>
+                                        <Col s={4}>
+                                            <span className="uppercase-bold-font">{review[`answer_${question.questionID}`]}</span>
+                                        </Col> 
                                     </Row>
                                 ))}
                                 </CollapsibleItem>

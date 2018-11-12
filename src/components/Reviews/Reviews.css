@@ -335,3 +335,9 @@ input[type=range]::-webkit-slider-thumb {
     font-weight: 300;
     font-size: .7em;
 }
+
+.uppercase-bold-font {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: .7em;
+}
