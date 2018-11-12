@@ -2,14 +2,19 @@ import axios from 'axios';
 export const updateReview = (object) => dispatch => {
     let formData = new FormData();
 
-    if(object.blob){
-        formData.append('uploadedFile', object.blob);     
-    }
+    object.blob ? formData.append('uploadedFile', object.blob) : null
     formData.append('textInput', object.textInput)
     formData.append('toolName', object.toolName)
     formData.append('reviewId', object.reviewId)
     formData.append('sharable', object.sharable)
     formData.append('rating', object.rating)
+    if (object.toolName == 'MEADE/SORT-OE') {
+        formData.append('answer_1', object.answer_1)
+        formData.append('answer_2', object.answer_2)
+        formData.append('answer_3', object.answer_3)
+        formData.append('answer_4', object.answer_4)
+        formData.append('answer_5', object.answer_5)
+    }
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateReview', {
         method: "patch",
         data: formData,
