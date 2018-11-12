@@ -183,8 +183,6 @@ class Reviews extends Component {
 
   toggleEditSaveHandler = (editable, toolName, reviewId, text, path, sharable, rating) => {
     // Edit has already been open, now time to save the updates.
-    console.log('HERE IS THE TEXT BEING BROUGHT INTO THE TOGGLE EDIT SAVE HANDLER. THIS VALUE IS WILL BE USED TO SET EDITtEXTINPUTVALUE', text)
-    console.log('AND HERE IS THE TYPEOF', typeof text)
     let updateObject = {}
     if(editable) {
         this.props.editSaveToggle(editable, reviewId)
@@ -334,7 +332,7 @@ class Reviews extends Component {
             this.props.allReviews.map((review, i) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                  <Row className={`c-item ${review.editable ? null : ""}`}>
                     <Col s={2}>
                       {
                         review.editable ?
@@ -355,15 +353,40 @@ class Reviews extends Component {
                       }
                     </Col>
                     <Col s={6}>
+                        {
+                            review.tool_name == 'MEADE/SORT-OE' ?
+                            <Collapsible>
+                                <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
+                                {this.props.sortoeQuestions.map(question => (
+                                    <Row>
+                                        <Row>
+                                            <span className="uppercase-light-font">{question.question}</span>
+                                        </Row>
+                                        <Row>
+                                            {review[`answer_${question.questionID}`]}
+                                        </Row> 
+                                    </Row>
+                                ))}
+                                </CollapsibleItem>
+                            </Collapsible>
+                            : 
+                            null
+                        }
                         <Row>
                             {
                             review.editable ?
                                 <Input 
                                 s={12} 
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
-                                disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                                disabled={false} 
+                                type='textarea' 
+                                value={this.state.editTextInputValue}
+                                placeholder={review.text.length < 1 ? "Add A Comment Here..." : null} />
                             :
+                                review.text.length > 0 ? 
                                 <Input s={12}  disabled={true} type='textarea' value={review.text} />
+                                :
+                                null
                             }
                         </Row>
                         {
@@ -415,12 +438,6 @@ class Reviews extends Component {
                                 <div className="error-text">Please ensure file extensions are all lowercase.</div>
                             </div>
                             :
-                            null
-                        }
-                        {
-                            review.tool_name == 'MEADE/SORT-OE' ?
-                            review.answer_1
-                            : 
                             null
                         }
                     </Col>
@@ -712,7 +729,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.allQuestionsAreIndifferent ?
+                                        this.props.allQuestionsAreIndifferent && this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
                                             <Modal
                                             id="submit-modal"
                                             header='Confirmation'
@@ -786,7 +803,8 @@ const mapStateToProps = state => {
       removeFileComplete: state.reviews.removeFileComplete,
       reviewsRequestFinished: state.reviews.reviewsRequestFinished,
       allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent,
-      sortoeAnswerInputs: state.reviews.sortoeAnswerInputs
+      sortoeAnswerInputs: state.reviews.sortoeAnswerInputs,
+      sortoeQuestions: state.reviews.sortoeQuestions
   }
 }
 

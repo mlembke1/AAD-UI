@@ -212,11 +212,11 @@ class PublicReviews extends Component {
     // Edit has already been open, now time to save the updates.
     let updateObject = {}
     if(editable) {
-        this.props.editSaveToggle(editable, toolName, reviewId)
+        this.props.editSaveToggle(editable, reviewId)
         if(this.state.editFileInputValue){
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
-                text: this.state.editTextInputValue,
+                textInput: this.state.editTextInputValue,
                 reviewId,
                 blob: this.state.editFileInputValue,
                 sharable: this.state.editPublicIsChecked,
@@ -225,7 +225,7 @@ class PublicReviews extends Component {
         } else {
             updateObject = {
                 toolName: this.state.editToolNameInputValue,
-                text: this.state.editTextInputValue,
+                textInput: this.state.editTextInputValue,
                 reviewId,
                 rating: this.state.editRangeValue,
                 sharable: this.state.editPublicIsChecked
@@ -239,7 +239,7 @@ class PublicReviews extends Component {
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, toolName, reviewId, rating)
+        this.props.editSaveToggle(editable, reviewId)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
@@ -379,7 +379,7 @@ class PublicReviews extends Component {
             this.props.allPublicReviews.filter(review => this.doesRatingPassFilter(review.rating) && this.doesToolNamePassFilter(review.tool_name)).map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                  <Row className={`c-item ${review.editable ? null : ""}`}>
                     <Col s={2}>
                       {
                         review.editable ?
@@ -400,15 +400,40 @@ class PublicReviews extends Component {
                       }
                     </Col>
                     <Col s={6}>
+                        {
+                            review.tool_name == 'MEADE/SORT-OE' ?
+                            <Collapsible>
+                                <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
+                                {this.props.sortoeQuestions.map(question => (
+                                    <Row>
+                                        <Row>
+                                            <span className="uppercase-light-font">{question.question}</span>
+                                        </Row>
+                                        <Row>
+                                            {review[`answer_${question.questionID}`]}
+                                        </Row> 
+                                    </Row>
+                                ))}
+                                </CollapsibleItem>
+                            </Collapsible>
+                            : 
+                            null
+                        }
                         <Row>
-                            {
+                        {
                             review.editable ?
                                 <Input 
-                                s={12}
+                                s={12} 
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
-                                disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                                disabled={false} 
+                                type='textarea' 
+                                value={this.state.editTextInputValue}
+                                placeholder={review.text.length < 1 ? "Add A Comment Here..." : null}/>
                             :
-                                <Input  s={12} disabled={true} type='textarea' value={review.text} />
+                                review.text.length > 0 ? 
+                                <Input s={12}  disabled={true} type='textarea' value={review.text} />
+                                :
+                                null
                             }
                         </Row>
                         {
@@ -620,7 +645,8 @@ const mapStateToProps = state => {
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
       publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished,
-      allTools: state.tools.allTools
+      allTools: state.tools.allTools,
+      sortoeQuestions: state.reviews.sortoeQuestions
   }
 }
 
