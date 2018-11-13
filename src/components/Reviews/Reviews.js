@@ -340,7 +340,7 @@ class Reviews extends Component {
             this.props.allReviews.map((review, i) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                  <Row className={`c-item valign-wrapper`}>
                     <Col s={2}>
                       {
                         review.editable ?
@@ -368,11 +368,11 @@ class Reviews extends Component {
                                     <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
                                     {this.props.sortoeQuestions.map(question => (
                                         <Row className="border-bottom valign-wrapper min-width-100 edit-results-item">
-                                            <Col s={8}>
+                                            <Col s={1}>{question.questionID}</Col>
+                                            <Col s={7}>
                                                 <span className="uppercase-light-font">{question.question}</span>
                                             </Col>
                                             <Col s={4}>
-                                                {/* <span className="uppercase-bold-font">{review[`answer_${question.questionID}`]}</span> */}
                                                 <Input 
                                                 s={12} 
                                                 type='select' 
@@ -406,7 +406,8 @@ class Reviews extends Component {
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
                                     {this.props.sortoeQuestions.map(question => (
                                         <Row className="border-bottom valign-wrapper min-width-100 view-results-item">
-                                            <Col s={8}>
+                                            <Col s={1}>{question.questionID}</Col>
+                                            <Col s={7}>
                                                 <span className="uppercase-light-font">{question.question}</span>
                                             </Col>
                                             <Col s={4}>

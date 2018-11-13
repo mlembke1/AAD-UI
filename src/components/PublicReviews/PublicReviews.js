@@ -379,7 +379,7 @@ class PublicReviews extends Component {
             this.props.allPublicReviews.filter(review => this.doesRatingPassFilter(review.rating) && this.doesToolNamePassFilter(review.tool_name)).map((review) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                  <Row className={`c-item valign-wrapper`}>
                     <Col s={2}>
                       {
                         review.editable ?
