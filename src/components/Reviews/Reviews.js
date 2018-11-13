@@ -367,7 +367,7 @@ class Reviews extends Component {
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
                                     {this.props.sortoeQuestions.map(question => (
-                                        <Row className="border-bottom valign-wrapper min-width-100">
+                                        <Row className="border-bottom valign-wrapper min-width-100 ">
                                             <Col s={8}>
                                                 <span className="uppercase-light-font">{question.question}</span>
                                             </Col>

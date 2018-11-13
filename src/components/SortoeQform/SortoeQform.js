@@ -8,10 +8,6 @@ import { setAllQuestionsAreIndifferent } from '../../actions/setAllQuestionsAreI
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Input } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
-import { RadioButton, RadioGroup } from '@trendmicro/react-radio';
-import '@trendmicro/react-radio/dist/react-radio.css';
-
-
 
 class SortoeQform extends Component {
 
@@ -43,8 +39,8 @@ class SortoeQform extends Component {
                this.props.setAllQuestionsAreIndifferent(false)
     }
 
-      handleChangeByKey = (key) => (value, event) => {
-          this.setState({ [key]: value }, () => {
+      handleChangeByKey = (e, key) => {
+          this.setState({ [key]: e.target.value }, () => {
             let stateCopy = { ...this.state }
             delete stateCopy['answersAreAllIndifferent'];
             this.props.setSortoeAnswerInputs(stateCopy)
@@ -60,27 +56,29 @@ class SortoeQform extends Component {
       return <Redirect to="/" />
     } else {
       return (
-        <Row>
+        <Row className="background-light-grey">
             <Col s={6}>
                 { 
                     firstHalf.map((question, i) => {
                     return (
-                        <Row className="border-bottom-questions">
-                            <h6 className="left-align">{question.questionID}. {question.question}</h6>
-                            <RadioGroup
-                                name={question.questionID}
+                        <Row className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
+                            <Col className="uppercase-light-font" s={1}>{question.questionID}</Col>
+                            <Col s={6}>
+                                <span className="uppercase-light-font">{question.question}</span>
+                            </Col>
+                            <Col s={5}>
+                                <Input 
+                                s={12} 
+                                type='select' 
                                 value={this.state[`question${question.questionID}Answer`]}
-                                depth={3} // This is needed to minimize the recursion overhead
-                                onChange={this.handleChangeByKey(`question${question.questionID}Answer`)}
-                            >
-                            {
-                                question.answers.map(answer => {
-                                    return (
-                                            <RadioButton className="radio-button" label={answer} value={answer} />
-                                    )
-                                })
-                            }
-                            </RadioGroup>
+                                onChange={evt => this.handleChangeByKey(evt, `question${question.questionID}Answer`)}>
+                                    <option value='Strongly Disagree'>Strongly Disagree</option>
+                                    <option value='Disagree'>Disagree</option>
+                                    <option value='Indifferent'>Indifferent</option>
+                                    <option value='Agree'>Agree</option>
+                                    <option value='Strongly Agree'>Strongly Agree</option>
+                                </Input>
+                            </Col> 
                         </Row>
                     )
                     })
@@ -90,22 +88,24 @@ class SortoeQform extends Component {
                 { 
                     secondHalf.map((question, i) => {
                     return (
-                        <Row className="border-bottom-questions">
-                            <h6 className="left-align">{question.questionID}. {question.question}</h6>
-                            <RadioGroup
-                                name={question.questionID}
+                        <Row className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
+                            <Col className="uppercase-light-font" s={1}>{question.questionID}</Col>
+                            <Col s={6}>
+                                <span className="uppercase-light-font">{question.question}</span>
+                            </Col>
+                            <Col s={5}>
+                                <Input 
+                                s={12} 
+                                type='select' 
                                 value={this.state[`question${question.questionID}Answer`]}
-                                depth={3} // This is needed to minimize the recursion overhead
-                                onChange={this.handleChangeByKey(`question${question.questionID}Answer`)}
-                            >
-                            {
-                                question.answers.map(answer => {
-                                    return (
-                                            <RadioButton className="radio-button" label={answer} value={answer} />
-                                    )
-                                })
-                            }
-                            </RadioGroup>
+                                onChange={evt => this.handleChangeByKey(evt,`question${question.questionID}Answer`)}>
+                                    <option value='Strongly Disagree'>Strongly Disagree</option>
+                                    <option value='Disagree'>Disagree</option>
+                                    <option value='Indifferent'>Indifferent</option>
+                                    <option value='Agree'>Agree</option>
+                                    <option value='Strongly Agree'>Strongly Agree</option>
+                                </Input>
+                            </Col> 
                         </Row>
                     )
                     })
