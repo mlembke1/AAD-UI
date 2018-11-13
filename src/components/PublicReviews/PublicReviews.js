@@ -404,9 +404,9 @@ class PublicReviews extends Component {
                             <Row>
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
-                                    <CollapsibleItem id="view-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
+                                    <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
                                     {this.props.sortoeQuestions.map(question => (
-                                        <Row className="border-bottom valign-wrapper min-width-100">
+                                        <Row className="border-bottom valign-wrapper min-width-100 edit-results-item">
                                             <Col s={8}>
                                                 <span className="uppercase-light-font">{question.question}</span>
                                             </Col>
@@ -444,7 +444,7 @@ class PublicReviews extends Component {
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
                                     {this.props.sortoeQuestions.map(question => (
-                                        <Row className="border-bottom valign-wrapper min-width-100">
+                                        <Row className="border-bottom valign-wrapper min-width-100 view-results-item">
                                             <Col s={8}>
                                                 <span className="uppercase-light-font">{question.question}</span>
                                             </Col>
