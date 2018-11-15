@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './Reviews.css';
 import { bindActionCreators } from 'redux'
@@ -366,8 +365,8 @@ class Reviews extends Component {
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
-                                    {this.props.sortoeQuestions.map(question => (
-                                        <Row className="border-bottom valign-wrapper min-width-100 edit-results-item">
+                                    {this.props.sortoeQuestions.map((question, i) => (
+                                        <Row key={i} className="border-bottom valign-wrapper min-width-100 edit-results-item">
                                             <Col s={1}>{question.questionID}</Col>
                                             <Col s={7}>
                                                 <span className="uppercase-light-font">{question.question}</span>
@@ -404,8 +403,8 @@ class Reviews extends Component {
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
-                                    {this.props.sortoeQuestions.map(question => (
-                                        <Row className="border-bottom valign-wrapper min-width-100 view-results-item">
+                                    {this.props.sortoeQuestions.map((question, i) => (
+                                        <Row key={i} className="border-bottom valign-wrapper min-width-100 view-results-item">
                                             <Col s={1}>{question.questionID}</Col>
                                             <Col s={7}>
                                                 <span className="uppercase-light-font">{question.question}</span>
@@ -421,7 +420,7 @@ class Reviews extends Component {
                                 null}
                             
                                 {review.text.length > 0 ? 
-                                <Input s={12}  disabled={true} type='textarea' value={review.text} />
+                                <Input s={12}  disabled={true} type='textarea' defaultValue={review.text} />
                                 :
                                 null}
                             </Row>
@@ -485,7 +484,7 @@ class Reviews extends Component {
                                 <Row className="edit-review-buttons">
                                         <p>Overall {this.state.toolNameInputValue} rating: 
                                             <span className={`bold ${this.applyColor(this.state.editRangeValue) }`}>{this.state.editRangeValue}% </span></p>
-                                        <p class="range-field maxWidth70 center">
+                                        <p className="range-field maxWidth70 center">
                                             <input 
                                             type="range"
                                             value={this.state.editRangeValue}
@@ -760,7 +759,7 @@ class Reviews extends Component {
                                 <Row className="border-bottom">
                                 <p>Overall {this.state.toolNameInputValue} rating: 
                                     <span className={`bold ${this.applyColor(this.state.rangeValue) }`}>{this.state.rangeValue}% </span></p>
-                                <p class="range-field">
+                                <p className="range-field">
                                     <input 
                                     type="range"
                                     value={this.state.rangeValue}

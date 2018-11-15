@@ -13,8 +13,6 @@ export const postReview = (
         rangeValue,
         sortoeAnswers
 ) => dispatch => {
-    console.log('HERE IS THE TEXT INPUT COMING IN', typeof textInputValue)
-    
     let formData = new FormData();
     formData.append('toolName', toolNameInputValue)
     formData.append('text', textInputValue)
@@ -41,23 +39,21 @@ export const postReview = (
         withCredentials: true
     })
     .then(json => {
-            console.log('POST_REVIEW RESPONSE ', json)
             if(json.status === 200) {
                 window.Materialize.toast('Post Successful!', 1300)
-                var element = document.getElementById("toast-container");
+                const element = document.getElementById("toast-container");
                 element.classList.add("success");
                 return dispatch({ type:'POST_REVIEW_SUCCESS' })
             } else {
                 window.Materialize.toast('Post Failed. Please Check Your Internet Connection and/or post your problem in the Slack Channel', 3300)
-                var element = document.getElementById("toast-container");
+                const element = document.getElementById("toast-container");
                 element.classList.add("failure");
                 return dispatch({ type:'POST_REVIEW_FAILED' })
             }
         })
         .catch(err => {
-            console.log('ERROR WITH POST_REVIEW REQUEST', err)
             window.Materialize.toast('Post Failed. Please Check Your Internet Connection and/or post your problem in the AAD-Users Slack Channel.', 10000)
-            var element = document.getElementById("toast-container");
+            const element = document.getElementById("toast-container");
             element.classList.add("failure");
             return dispatch({ type:'POST_REVIEW_FAILED' })
         }) 

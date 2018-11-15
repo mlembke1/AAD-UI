@@ -11,7 +11,6 @@ export const editSaveToggle = (editable, reviewId) => dispatch => {
     }
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/editSaveToggle', options)
     .then(payload => {
-      console.log('EDIT TOGGLE JSON RESPONSE', payload)
       return dispatch({ type:'TOGGLE_EDIT_SAVE', payload })
     })
     .catch(err => {

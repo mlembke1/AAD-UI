@@ -4,14 +4,7 @@ import './Stats.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { Icon,
-         Section,
-         Row, 
-         Col, 
-         Button,
-         Collection,
-         CollectionItem,
-         Modal } from 'react-materialize'
+import { Row } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import SubHeader from '../SubHeader/SubHeader'
 

@@ -307,8 +307,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getUserInfo,
   validateEmail,
   inviteToSlack,
-  resetState,
-  getUserInfo
+  resetState
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)

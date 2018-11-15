@@ -61,7 +61,7 @@ class SortoeQform extends Component {
                 { 
                     firstHalf.map((question, i) => {
                     return (
-                        <Row className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
+                        <Row key={i} className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
                             <Col className="uppercase-light-font" s={1}><span className="bold">{question.questionID}</span></Col>
                             <Col s={6}>
                                 <span className="uppercase-light-font">{question.question}</span>
@@ -88,7 +88,7 @@ class SortoeQform extends Component {
                 { 
                     secondHalf.map((question, i) => {
                     return (
-                        <Row className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
+                        <Row key={i} className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
                             <Col className="uppercase-light-font" s={1}><span className="bold">{question.questionID}</span></Col>
                             <Col s={6}>
                                 <span className="uppercase-light-font">{question.question}</span>
