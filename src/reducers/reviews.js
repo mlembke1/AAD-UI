@@ -46,7 +46,14 @@ export const reviews = ( state={
           answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
           type: "radio"
       },
-  ]
+  ],
+  sortoeAnswerInputs: {
+      question1Answer: "Indifferent",
+      question2Answer: "Indifferent",
+      question3Answer: "Indifferent",
+      question4Answer: "Indifferent",
+      question5Answer: "Indifferent"
+  }
    }, action) => {
       switch(action.type){
         case 'REVIEWS_AQUIRED':
@@ -90,6 +97,8 @@ export const reviews = ( state={
           return { ...state, allQuestionsAreIndifferent: true }
         case 'QUESTIONS_NOT_INDIFFERENT': 
           return { ...state, allQuestionsAreIndifferent: false }
+        case 'SET_SORTOE_ANSWER_INPUTS': 
+          return { ...state, sortoeAnswerInputs: action.payload }
     
         default:
           return state

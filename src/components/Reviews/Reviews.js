@@ -43,7 +43,12 @@ class Reviews extends Component {
             postStarted: false,
             publicIsChecked: true,
             rangeValue: 50,
-            editRangeValue: 50
+            editRangeValue: 50,
+            editAnswer_1_value: "",
+            editAnswer_2_value: "",
+            editAnswer_3_value: "",
+            editAnswer_4_value: "",
+            editAnswer_5_value: ""
         }
 
         this.myRef = React.createRef()
@@ -181,28 +186,26 @@ class Reviews extends Component {
   }
    
 
-  toggleEditSaveHandler = (editable, toolName, reviewId, text, path, sharable, rating) => {
+  toggleEditSaveHandler = (editable, toolName, reviewId,
+                            text, path, sharable, rating, 
+                            answer_1, answer_2, answer_3, 
+                            answer_4, answer_5) => {
     // Edit has already been open, now time to save the updates.
     let updateObject = {}
     if(editable) {
-        this.props.editSaveToggle(editable, toolName, reviewId)
-        if(this.state.editFileInputValue){
-            updateObject = {
-                toolName: this.state.editToolNameInputValue,
-                text: this.state.editTextInputValue,
-                reviewId,
-                blob: this.state.editFileInputValue,
-                sharable: this.state.editPublicIsChecked,
-                rating: this.state.editRangeValue
-            }
-        } else {
-            updateObject = {
-                toolName: this.state.editToolNameInputValue,
-                text: this.state.editTextInputValue,
-                reviewId,
-                sharable: this.state.editPublicIsChecked,
-                rating: this.state.editRangeValue
-            }
+        this.props.editSaveToggle(editable, reviewId)
+         updateObject = {
+            toolName: this.state.editToolNameInputValue,
+            textInput: this.state.editTextInputValue,
+            reviewId,
+            blob: this.state.editFileInputValue,
+            sharable: this.state.editPublicIsChecked,
+            rating: this.state.editRangeValue,
+            answer_1: this.state.editAnswer_1_value,
+            answer_2: this.state.editAnswer_2_value,
+            answer_3: this.state.editAnswer_3_value,
+            answer_4: this.state.editAnswer_4_value,
+            answer_5: this.state.editAnswer_5_value
         }
         this.props.updateReview(updateObject)
         this.setState({
@@ -212,13 +215,18 @@ class Reviews extends Component {
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, toolName, reviewId, sharable, rating)
+        this.props.editSaveToggle(editable, reviewId)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
             editTextInputValue: text,
             editPublicIsChecked: sharable,
-            editRangeValue: rating
+            editRangeValue: rating,
+            editAnswer_1_value: answer_1 || "",
+            editAnswer_2_value: answer_2 || "",
+            editAnswer_3_value: answer_3 || "",
+            editAnswer_4_value: answer_4 || "",
+            editAnswer_5_value: answer_5 || ""
         })
     }
     setTimeout(() => {
@@ -234,40 +242,24 @@ class Reviews extends Component {
   }
 
   postReviewHandler = async () => {
-
     this.setState({
         ...this.state,
         postStarted: true
     })
-    let reviewObject
-      if(this.state.fileInputValue){
-        reviewObject = {
-            toolName: this.state.toolNameInputValue,
-            textInput: this.state.textInputValue,
-            blob: this.state.fileInputValue,
-            username: localStorage.getItem('username'),
-            sharable: this.state.publicIsChecked,
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
-            jobTitle: this.props.jobTitle,
-            company: this.props.company,
-            rating: this.state.rangeValue
-        }      
-      } else {
-        reviewObject = {
-              toolName: this.state.toolNameInputValue,
-              textInput: this.state.textInputValue,
-              username: localStorage.getItem('username'),
-              sharable: this.state.publicIsChecked,
-              firstName: this.props.firstName,
-              lastName: this.props.lastName,
-              jobTitle: this.props.jobTitle,
-              company: this.props.company,
-              rating: this.state.rangeValue
-        }  
-      } 
       
-    this.props.postReview(reviewObject)
+    this.props.postReview(
+        this.state.toolNameInputValue,
+        this.state.textInputValue,
+        this.state.fileInputValue,
+        localStorage.getItem('username'),
+        this.state.publicIsChecked,
+        this.props.firstName,
+        this.props.lastName,
+        this.props.jobTitle,
+        this.props.company,
+        this.state.rangeValue,
+        this.props.sortoeAnswerInputs
+    )
     this.setState({
         toolNameInputValue: 'MEADE/SORT-OE',
         textInputValue: "",
@@ -276,7 +268,7 @@ class Reviews extends Component {
 
     
     let lastReview = this.refs.lastReview
-    lastReview.scrollIntoView({behavior: "smooth"})
+    this.props.allReviews.length > 0 ? lastReview.scrollIntoView({behavior: "smooth"}) : null
   }
 
 
@@ -348,7 +340,7 @@ class Reviews extends Component {
             this.props.allReviews.map((review, i) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item ${review.editable ? null : "valign-wrapper"}`}>
+                  <Row className={`c-item valign-wrapper`}>
                     <Col s={2}>
                       {
                         review.editable ?
@@ -358,8 +350,7 @@ class Reviews extends Component {
                             type='select' 
                             label="Choose A Tool" 
                             value={this.state.editToolNameInputValue}
-                            onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}
-                            >
+                            onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}>
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
                                 <option value='Argument Mapper'>Argument Mapper</option>
                             </Input>
@@ -369,17 +360,72 @@ class Reviews extends Component {
                       }
                     </Col>
                     <Col s={6}>
-                        <Row>
                             {
                             review.editable ?
+                            <Row>
+                                {review.tool_name == 'MEADE/SORT-OE' ?
+                                <Collapsible>
+                                    <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
+                                    {this.props.sortoeQuestions.map(question => (
+                                        <Row className="border-bottom valign-wrapper min-width-100 edit-results-item">
+                                            <Col s={1}>{question.questionID}</Col>
+                                            <Col s={7}>
+                                                <span className="uppercase-light-font">{question.question}</span>
+                                            </Col>
+                                            <Col s={4}>
+                                                <Input 
+                                                s={12} 
+                                                type='select' 
+                                                value={this.state[`editAnswer_${question.questionID}_value`]}
+                                                onChange={evt => this.updateInputValue(evt, `editAnswer_${question.questionID}_value`)}>
+                                                    <option value='Strongly Disagree'>Strongly Disagree</option>
+                                                    <option value='Disagree'>Disagree</option>
+                                                    <option value='Indifferent'>Indifferent</option>
+                                                    <option value='Agree'>Agree</option>
+                                                    <option value='Strongly Agree'>Strongly Agree</option>
+                                                </Input>
+                                            </Col> 
+                                        </Row>
+                                    ))}
+                                    </CollapsibleItem>
+                                </Collapsible>
+                                : 
+                                null}
                                 <Input 
                                 s={12} 
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
-                                disabled={false} type='textarea' value={this.state.editTextInputValue} />
+                                disabled={false} 
+                                type='textarea' 
+                                value={this.state.editTextInputValue}
+                                placeholder={review.text.length < 1 ? "Add A Comment Here..." : null} />
+                            </Row>
                             :
+                            <Row>
+                                {review.tool_name == 'MEADE/SORT-OE' ?
+                                <Collapsible>
+                                    <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
+                                    {this.props.sortoeQuestions.map(question => (
+                                        <Row className="border-bottom valign-wrapper min-width-100 view-results-item">
+                                            <Col s={1}>{question.questionID}</Col>
+                                            <Col s={7}>
+                                                <span className="uppercase-light-font">{question.question}</span>
+                                            </Col>
+                                            <Col s={4}>
+                                                <span className="uppercase-bold-font">{review[`answer_${question.questionID}`]}</span>
+                                            </Col> 
+                                        </Row>
+                                    ))}
+                                    </CollapsibleItem>
+                                </Collapsible>
+                                : 
+                                null}
+                            
+                                {review.text.length > 0 ? 
                                 <Input s={12}  disabled={true} type='textarea' value={review.text} />
+                                :
+                                null}
+                            </Row>
                             }
-                        </Row>
                         {
                             review.editable ?
                                 <Row>
@@ -458,7 +504,16 @@ class Reviews extends Component {
                                         </div>          
                                 </Row>
                                 <Row className="edit-review-buttons">
-                                    <Button disabled={!this.state.editFileTypePasses} onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text, review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Save <Icon right tiny className="data">check</Icon></Button>
+                                    <Button disabled={!this.state.editFileTypePasses} 
+                                    onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name,
+                                                                            review.id, review.text, review.path,
+                                                                            review.sharable, review.rating, review.answer_1,
+                                                                            review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
+                                    className="portal-buttons" 
+                                    waves='light'> 
+                                        Save 
+                                        <Icon right tiny className="data">check</Icon>
+                                    </Button>
                                 </Row>
                                 <Row className="edit-review-buttons">
                                     {
@@ -533,7 +588,15 @@ class Reviews extends Component {
                                     </Col>
                                 </Row>
                                 <Row className="edit-review-buttons">
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, review.id, review.text,  review.path, review.sharable, review.rating)} className="portal-buttons" waves='light'> Edit <Icon right tiny className="data">create</Icon> </Button>
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, 
+                                                                                    review.id, review.text,  review.path,
+                                                                                    review.sharable, review.rating, review.answer_1,
+                                                                                    review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
+                                            className="portal-buttons" 
+                                            waves='light'> 
+                                            Edit 
+                                            <Icon right tiny className="data">create</Icon> 
+                                    </Button>
                                 </Row>
                                 <Row className="edit-review-buttons"> 
                                     {
@@ -720,7 +783,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.allQuestionsAreIndifferent ?
+                                        this.props.allQuestionsAreIndifferent && this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
                                             <Modal
                                             id="submit-modal"
                                             header='Confirmation'
@@ -751,7 +814,7 @@ class Reviews extends Component {
                                                 <Button 
                                                     disabled={ !this.state.fileTypePasses }
                                                     onClick={() => this.postReviewHandler()} className="portal-buttons" waves='light'>
-                                                    <Icon left className="data">send</Icon>
+                                                    <Icon right className="data">send</Icon>
                                                     Submit Review 
                                                 </Button>            
                                                 {
@@ -793,7 +856,9 @@ const mapStateToProps = state => {
       deleteComplete: state.reviews.deleteComplete,
       removeFileComplete: state.reviews.removeFileComplete,
       reviewsRequestFinished: state.reviews.reviewsRequestFinished,
-      allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent
+      allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent,
+      sortoeAnswerInputs: state.reviews.sortoeAnswerInputs,
+      sortoeQuestions: state.reviews.sortoeQuestions
   }
 }
 
