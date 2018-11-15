@@ -28,7 +28,7 @@ class SubHeader extends Component {
         </Row>
         <Row className='center valign-wrapper'>
           <Col s={1}>
-            <img src={this.props.icon} width="70px" />
+            <img src={this.props.icon} alt="Subheader icon" width="70px" />
           </Col>
           <Col s={1}>
             <h5 className="dash-username j-title">{this.props.subHeader}</h5>

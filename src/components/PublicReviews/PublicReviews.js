@@ -309,7 +309,7 @@ class PublicReviews extends Component {
 }
 
   render() {
-    const filterIcon = <img src={require("../../assets/filter_icon.png")} width="20px" className="filter-icon" />
+    const filterIcon = <img alt="icon" src={require("../../assets/filter_icon.png")} width="20px" className="filter-icon" />
     if(!this.props.username){
         return <Redirect to="/" />
       } else {
@@ -325,7 +325,7 @@ class PublicReviews extends Component {
             </Row>
             <Row className='center valign-wrapper'>
               <Col s={1}>
-                <img src={require("../../assets/assessment_icon.png")} width="70px" />
+                <img alt="icon" src={require("../../assets/assessment_icon.png")} width="70px" />
               </Col>
               <Col s={1}>
                 <h5 className="dash-username j-title">Public Reviews</h5>
@@ -483,7 +483,7 @@ class PublicReviews extends Component {
                                         :
                                         <Row className="valign-wrapper">
                                             <Col s={7}>
-                                                <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                                <img alt="file" className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
                                             </Col>
                                             <Col s={5}>
                                                 <Button onClick={() => this.setState({ ...this.state, editFileInputValue: null })} className="portal-buttons delete-button" waves='light'> Cancel <Icon right tiny className="data">delete_outline</Icon></Button>
@@ -498,7 +498,6 @@ class PublicReviews extends Component {
                                         s={12}
                                         label={review.path ? <span>Replace<Icon right tiny  className="data">cloud_upload</Icon></span> : <span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}  
                                         name="fileUpload"
-                                        s={12} 
                                         placeholder={`${review.path ? review.path : `(.jpg/.png/.jpeg) or a .pdf.`}`}
                                         onChange={evt => this.updateInputValue(evt, 'editFileInputValue')} />
                                     </Row>
@@ -572,7 +571,7 @@ class PublicReviews extends Component {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <div id={`${review.id}-canvas-container`}></div> :
                                                 review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' || review.path.substr(review.path.length - 3) == 'jpeg' ?
-                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                <img alt="pdf" className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
                                             }
                                             </Modal>
@@ -648,7 +647,7 @@ class PublicReviews extends Component {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <div id={`${review.id}-canvas-container`}></div> :
                                                 review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
-                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                <img alt="thumbnail" className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
                                             }
                                             </Modal>

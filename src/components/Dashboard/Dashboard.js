@@ -25,7 +25,7 @@ class Dashboard extends Component {
               <Col className='valign-wrapper center tool-wrapper hover-lighten ' s={12} m={6}>
                   <Link  to="/portal">
                     <div className="dashboard-block-wrapper">
-                      <img src={require("../../assets/launch_icon.png")} width="100px" />
+                      <img alt="icon" src={require("../../assets/launch_icon.png")} width="100px" />
                       <div className="j-title">Portal</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
@@ -38,7 +38,7 @@ class Dashboard extends Component {
               <Col className='valign-wrapper center  tool-wrapper hover-lighten border-bottom-and-left' s={12} m={6}>
                   <Link  to="/reviews">
                     <div className="dashboard-block-wrapper">
-                      <img src={require("../../assets/assessment_icon.png")} width="100px" />
+                      <img alt="icon" src={require("../../assets/assessment_icon.png")} width="100px" />
                       <div className="j-title">My Assessments</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
@@ -53,7 +53,7 @@ class Dashboard extends Component {
               <Col className='valign-wrapper center  tool-wrapper hover-lighten border-top-and-right' s={12} m={6}>
                   <Link  to="/public">
                     <div className="dashboard-block-wrapper">
-                      <img src={require("../../assets/lightbulb_icon.png")} width="100px" />
+                      <img alt="icon" src={require("../../assets/lightbulb_icon.png")} width="100px" />
                       <div className="j-title">Public Reviews</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">
@@ -66,7 +66,7 @@ class Dashboard extends Component {
               <Col className='stats-wrapper valign-wrapper center tool-wrapper ' s={12} m={6}>
                   {/* <Link  to="/stats"> */}
                     <div className="dashboard-block-wrapper">
-                      <img src={require("../../assets/stats_icon.png")} width="100px" />
+                      <img alt="icon" src={require("../../assets/stats_icon.png")} width="100px" />
                       <div className="j-title">The Stats</div>
                       <hr className="thin width40Per"/>
                       <p className="dashboard-description-text">

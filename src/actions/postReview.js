@@ -23,7 +23,7 @@ export const postReview = (
     formData.append('jobTitle', jobTitle)
     formData.append('company', company)
     formData.append('rating', rangeValue)
-    fileInputValue ? formData.append('uploadedFile', fileInputValue) : null
+    if(fileInputValue) formData.append('uploadedFile', fileInputValue) 
     if (toolNameInputValue == 'MEADE/SORT-OE') {
         formData.append('answer_1', sortoeAnswers.question1Answer)
         formData.append('answer_2', sortoeAnswers.question2Answer)
