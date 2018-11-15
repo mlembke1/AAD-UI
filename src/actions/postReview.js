@@ -1,21 +1,40 @@
 import axios from 'axios';
 
-export const postReview = object => dispatch => {
-    console.log('HERE IS THE OBJECT TO POST', object)
+export const postReview = (
+        toolNameInputValue,
+        textInputValue,
+        fileInputValue,
+        username,
+        publicIsChecked,
+        firstName,
+        lastName,
+        jobTitle,
+        company,
+        rangeValue,
+        sortoeAnswers
+) => dispatch => {
+    console.log('HERE IS THE TEXT INPUT COMING IN', typeof textInputValue)
+    
     let formData = new FormData();
-
-    if(object.blob){
-        formData.append('uploadedFile', object.blob);      
+    formData.append('toolName', toolNameInputValue)
+    formData.append('text', textInputValue)
+    formData.append('username', username)
+    formData.append('sharable', publicIsChecked)
+    formData.append('firstName', firstName)
+    formData.append('lastName', lastName)
+    formData.append('jobTitle', jobTitle)
+    formData.append('company', company)
+    formData.append('rating', rangeValue)
+    fileInputValue ? formData.append('uploadedFile', fileInputValue) : null
+    if (toolNameInputValue == 'MEADE/SORT-OE') {
+        formData.append('answer_1', sortoeAnswers.question1Answer)
+        formData.append('answer_2', sortoeAnswers.question2Answer)
+        formData.append('answer_3', sortoeAnswers.question3Answer)
+        formData.append('answer_4', sortoeAnswers.question4Answer)
+        formData.append('answer_5', sortoeAnswers.question5Answer)
     }
-    formData.append('text', object.textInput);
-    formData.append('toolName', object.toolName);
-    formData.append('username', object.username);
-    formData.append('sharable', object.sharable);
-    formData.append('firstName', object.firstName)
-    formData.append('lastName', object.lastName)
-    formData.append('jobTitle', object.jobTitle)
-    formData.append('company', object.company)
-    formData.append('rating', object.rating)
+
+
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', {
         method: "post",
         data: formData,
