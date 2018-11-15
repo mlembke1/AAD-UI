@@ -67,7 +67,7 @@ class Reviews extends Component {
                 } else {
                         this.props.allReviews.map((review, i) => {
                             if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                    this.props.getFile(review.path.substring(15), review.id)
+                                   return this.props.getFile(review.path.substring(15), review.id)
                                 }
                         })
                 }
@@ -77,7 +77,7 @@ class Reviews extends Component {
 
     componentDidUpdate(){
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
-            this.props.postComplete ? this.setState({...this.state, postStarted: false }) : null
+            if (this.props.postComplete ) this.setState({...this.state, postStarted: false })
             this.props.clearFiles()
             this.props.getAllReviews()
             setTimeout(() => {
@@ -232,9 +232,9 @@ class Reviews extends Component {
         this.props.getAllReviews()
     }, 200)
     setTimeout(() => {
-        this.props.allReviews.map(review => {
+        return this.props.allReviews.map(review => {
             if(review.path && updateObject.hasOwnProperty('blob')){
-                this.props.getFile(review.path.substring(15), review.id)
+                return this.props.getFile(review.path.substring(15), review.id)
             }
         })
     }, 400)
@@ -267,7 +267,7 @@ class Reviews extends Component {
 
     
     let lastReview = this.refs.lastReview
-    this.props.allReviews.length > 0 ? lastReview.scrollIntoView({behavior: "smooth"}) : null
+    if (this.props.allReviews.length > 0) lastReview.scrollIntoView({behavior: "smooth"})
   }
 
 
@@ -444,7 +444,7 @@ class Reviews extends Component {
                                         :
                                         <Row className="valign-wrapper">
                                             <Col s={7}>
-                                                <img className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
+                                                <img alt="upload-file" className="file"  src={window.URL.createObjectURL(this.state.editFileInputValue)} />
                                             </Col>
                                             <Col s={5}>
                                                 <Button onClick={() => this.setState({ ...this.state, editFileInputValue: null })} className="portal-buttons delete-button" waves='light'> Cancel <Icon right tiny className="data">delete_outline</Icon></Button>
@@ -532,7 +532,7 @@ class Reviews extends Component {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <div id={`${review.id}-canvas-container`}></div> :
                                                 review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' || review.path.substr(review.path.length - 3) == 'jpeg' ?
-                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                <img alt="pdf-file" className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
                                             }
                                             </Modal>
@@ -623,7 +623,7 @@ class Reviews extends Component {
                                                 review.path.substr(review.path.length - 3) == 'pdf' ?
                                                 <div id={`${review.id}-canvas-container`}></div> :
                                                 review.path.substr(review.path.length - 3) == 'jpg' || review.path.substr(review.path.length - 3) == 'png' ?
-                                                <img className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
+                                                <img alt="pdf-file" className="canvas" src={`data:image/${review.path.substr(review.path.length - 3)};base64,${this.props.files.filter(file => file.review_id == review.id)[0].file}`} /> :
                                                 null
                                             }
                                             </Modal>
@@ -725,7 +725,7 @@ class Reviews extends Component {
                                                                     <Row>
                                                                         <Row className="valign-wrapper">
                                                                                 <Col s={8}>
-                                                                                <img className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
+                                                                                <img alt="uploaded-file" className="file"  src={window.URL.createObjectURL(this.state.fileInputValue)} />
                                                                                 </Col>
                                                                                 <Col s={1}></Col>
                                                                                 <Col s={3}>

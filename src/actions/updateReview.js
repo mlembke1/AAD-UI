@@ -1,8 +1,7 @@
 import axios from 'axios';
 export const updateReview = (object) => dispatch => {
     let formData = new FormData();
-
-    object.blob ? formData.append('uploadedFile', object.blob) : null
+    if(object.blob) formData.append('uploadedFile', object.blob ) 
     formData.append('textInput', object.textInput)
     formData.append('toolName', object.toolName)
     formData.append('reviewId', object.reviewId)
