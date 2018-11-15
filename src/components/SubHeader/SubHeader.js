@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { Row, Col, Input, Section } from 'react-materialize'
+import { Row, Col, Section } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 
 

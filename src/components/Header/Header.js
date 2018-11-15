@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css';
 import { connect } from 'react-redux'
-import { Navbar, Icon, SideNav, SideNavItem, Button } from 'react-materialize'
+import { Navbar, Icon, SideNav, SideNavItem } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../actions/logout'
