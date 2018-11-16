@@ -42,7 +42,7 @@ export const auth = ( state={
           role: action.payload.role  
         }
       case 'SIGNUP_SUCCESS':
-        return { ...state, username: action.payload }
+        return { ...state, username: action.payload, usernameIsTaken:false }
       case 'SIGNUP_FAILED':
           return { ...state, signupFailed: true }
       case 'LOGIN_SUCCESS':

@@ -93,3 +93,16 @@ i.hamburger {
     }
   }
    
+  .edit-profile-button {
+    min-width: 125% !important;
+    background-color: #262626;
+    color: #f5f5f5;
+    font-weight: 300;
+    box-shadow: none; 
+    letter-spacing: 1px; 
+    margin-left: -14px;
+  }
+
+  .edit-profile-button:hover {
+      box-shadow: none !important;
+  }
