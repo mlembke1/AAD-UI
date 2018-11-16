@@ -4,6 +4,7 @@ export const auth = ( state={
   lastName: null,
   jobTitle: null,
   company: null,
+  role: null,
   signupFailed: false,
   loginFailed: false,
   usernameIsTaken: false,// Assume the username is not taken for SIGNUP and not display the error message right away
@@ -11,7 +12,8 @@ export const auth = ( state={
   emailIsTaken: false,// Assume the email is not taken for SIGNUP and not display the error message right away
   emailExists: true, // Assume the email does exist for LOGIN and not display the error message right away
   invalidEmail: false, // Assume the email they are typing is valid until proven otherwise
-  tools: null
+  tools: null,
+  permissions: []
  }, action) => {
     switch(action.type){
       case 'RESET_STATE':
@@ -36,7 +38,8 @@ export const auth = ( state={
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
           jobTitle: action.payload.jobTitle,
-          company: action.payload.company  
+          company: action.payload.company,
+          role: action.payload.role  
         }
       case 'SIGNUP_SUCCESS':
         return { ...state, username: action.payload }
@@ -66,6 +69,8 @@ export const auth = ( state={
       // USED FOR SIGNUP & LOGIN
       case 'EMAIL_IS_VALID_AND_FREE':
         return { ...state, emailIsTaken: false, emailExists: false, invalidEmail: false }  
+      case 'SET_PERMISSIONS':
+        return { ...state, permissions: action.payload }
       case 'LOGOUT':
         return { 
           username: null,
@@ -76,6 +81,11 @@ export const auth = ( state={
           emailIsTaken: false,
           emailExists: true, 
           invalidEmail: false, 
+          firstName: null,
+          lastName: null,
+          jobTitle: null,
+          company: null,
+          role: null,  
           tools: null }  
 
       default:

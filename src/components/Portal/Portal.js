@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './Portal.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllTools } from '../../actions/getAllTools'
 import { Icon,
@@ -22,6 +23,7 @@ class Portal extends Component {
     this.props.checkCookie()
     this.props.getAllTools()
     this.props.getUserInfo()
+    setTimeout(() => this.props.setPermissions(this.props.role), 300)
   }
 
   render() {
@@ -113,10 +115,11 @@ class Portal extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allTools: state.tools.allTools
+      allTools: state.tools.allTools,
+      role: state.auth.role
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllTools, getUserInfo}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllTools, getUserInfo, setPermissions}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portal)

@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { checkCookie } from './actions/checkCookie'
+import { setPermissions } from './actions/setPermissions'
 import { getUserInfo } from './actions/getUserInfo'
 import  Dashboard from './components/Dashboard/Dashboard'
 import  LandingPage from './components/LandingPage/LandingPage'
@@ -23,6 +24,7 @@ class App extends Component {
   componentWillMount(){
     this.props.checkCookie()
     this.props.getUserInfo()
+    setTimeout(()  => this.props.setPermissions(this.props.role), 300)
   }
   
   render() {
@@ -63,10 +65,11 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-      username: state.auth.username
+      username: state.auth.username,
+      role: state.auth.role
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

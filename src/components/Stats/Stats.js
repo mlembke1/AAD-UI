@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './Stats.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
@@ -13,6 +14,7 @@ class Stats extends Component {
   componentWillMount(){
     this.props.checkCookie()
     this.props.getUserInfo()
+    setTimeout(() => this.props.setPermissions(this.props.role), 300)
   }
 
   render() {
@@ -37,10 +39,11 @@ class Stats extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      allTools: state.tools.allTools
+      allTools: state.tools.allTools, 
+      role: state.auth.role
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats)

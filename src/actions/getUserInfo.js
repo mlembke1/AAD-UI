@@ -18,7 +18,8 @@ export const getUserInfo = () => dispatch => {
                   firstName: payload[0].firstName, 
                   lastName: payload[0].lastName, 
                   jobTitle: payload[0].jobTitle,
-                  company: payload[0].company
+                  company: payload[0].company,
+                  role: payload[0].role
                 }
             })
         })
