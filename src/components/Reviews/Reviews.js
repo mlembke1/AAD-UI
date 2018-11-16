@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './Reviews.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllReviews } from '../../actions/getAllReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
@@ -60,6 +61,7 @@ class Reviews extends Component {
         this.props.checkCookie()
         this.props.getUserInfo()
         this.props.getAllReviews()
+        setTimeout(() => this.props.setPermissions(this.props.role), 300)
         setTimeout( () => {
             if(this.props.reviewsRequestFinished) {
                 if(!this.props.allReviews || this.props.allReviews.length < 1){
@@ -857,7 +859,8 @@ const mapStateToProps = state => {
       reviewsRequestFinished: state.reviews.reviewsRequestFinished,
       allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent,
       sortoeAnswerInputs: state.reviews.sortoeAnswerInputs,
-      sortoeQuestions: state.reviews.sortoeQuestions
+      sortoeQuestions: state.reviews.sortoeQuestions,
+      role: state.auth.role
   }
 }
 
@@ -875,6 +878,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     setDeleteCompleteFalse,
     setRemoveFileCompleteFalse,
     getUserInfo,
+    setPermissions,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)

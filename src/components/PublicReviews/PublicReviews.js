@@ -4,6 +4,7 @@ import './PublicReviews.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { getUserInfo } from '../../actions/getUserInfo'
+import { setPermissions } from '../../actions/setPermissions'
 import { getAllTools } from '../../actions/getAllTools'
 import { getAllPublicReviews } from '../../actions/getAllPublicReviews'
 import { editSaveToggle } from '../../actions/editSaveToggle'
@@ -55,6 +56,7 @@ class PublicReviews extends Component {
         this.props.getUserInfo()
         this.props.getAllTools()
         this.props.getAllPublicReviews()
+        setTimeout(() => this.props.setPermissions(this.props.role), 300)
         setTimeout( () => {
             if(this.props.publicReviewsRequestFinished) {
                 if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1){
@@ -685,8 +687,9 @@ const mapStateToProps = state => {
       removeFileComplete: state.reviews.removeFileComplete,
       publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished,
       allTools: state.tools.allTools,
-      sortoeQuestions: state.reviews.sortoeQuestions
-  }
+      sortoeQuestions: state.reviews.sortoeQuestions,
+      role: state.auth.role
+    }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -704,6 +707,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     setRemoveFileCompleteFalse,
     getUserInfo,
     getAllTools,
+    setPermissions,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PublicReviews)
