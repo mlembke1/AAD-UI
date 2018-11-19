@@ -21,61 +21,62 @@ class Header extends Component {
             usernameLengthPasses: true,
             passwordLengthPasses: true,
             confirmPasswordLengthPasses: true,
-            usernameLabel: "Your Current Username"
+            usernameLabel: "Your Current Username",
+            updateProfileDisabled: true, 
+            usernameAlreadyTaken: this.props.usernameIsTaken
         }
     }
+
 
     passwordsMatch = () => this.state.passwordInputValue === this.state.confirmPasswordInputValue
       
     setPasswordsMatch = () => this.setState({...this.state, passwordsMatch: this.passwordsMatch()})
 
-    setPasswordLengthPasses = () => {
+    setPasswordLengthPasses = async() => {
         return this.setState({
           ...this.state,
           passwordLengthPasses: this.state.passwordInputValue.length >= 8 && this.state.passwordInputValue.length <= 30 
         })
     }
     
-    setConfirmPasswordLengthPasses = () => {
+    setConfirmPasswordLengthPasses = async () => {
         return this.setState({
           ...this.state,
           confirmPasswordLengthPasses: this.state.confirmPasswordInputValue.length >= 8 && this.state.confirmPasswordInputValue.length <= 30 
         })
     } 
 
-    setUsernameLengthPasses = () => {
+    setUsernameLengthPasses = async () => {
         return this.setState({
           ...this.state,
           usernameLengthPasses: this.state.usernameInputValue.length >= 8 && this.state.usernameInputValue.length <= 30
         })
     } 
 
-    updateInput(evt, inputType){
+    updateInput = async (evt, inputType) => {
         return this.setState({...this.state, [inputType]: evt.target.value}, () => this.validateUsername())
     }
 
-    setNoUsernameChange = () => this.setState({...this.state, noUsernameChange: this.props.username == this.state.usernameInputValue})
+    setNoUsernameChange = async () => this.setState({...this.state, noUsernameChange: this.props.username == this.state.usernameInputValue})
     
-    validateUsername(){
-        this.setNoUsernameChange()
-        this.props.isUsernameTaken(this.state.usernameInputValue)   
-        this.setUsernameLengthPasses()
-        this.generateUsernameLabel()
+    setUsernameIsAlreadyTaken = async () => await this.props.isUsernameTaken(this.state.usernameInputValue);
+      
+    validateUsername = async () => { 
+        await this.setUsernameIsAlreadyTaken()
+        await this.setNoUsernameChange();
+        await this.setUsernameLengthPasses();
+        await this.generateUsernameLabel()
     }
 
-    generateUsernameLabel(){
-        if(!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses){
-            console.log("Label should be 'Your new Username'")
-            this.setState({...this.state, usernameLabel: "Your New Username" })
-        } else if (this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses)  {
-            console.log("Label should be 'username already taken'")
-            this.setState({...this.state, usernameLabel: "Username Already Taken... Please try another."})
-        }  else if (!this.noUsernameChange && !this.state.usernameLengthPasses) {
-            console.log("Label should be '8-30'")
-            this.setState({...this.state, usernameLabel: "Username must be between 8-30 characters."})
+    generateUsernameLabel = async () => {
+        if(!this.state.usernameAlreadyTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses){
+            this.setState({...this.state, usernameLabel: "Your New Username", updateProfileDisabled: false})
+        } else if (this.state.usernameAlreadyTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses)  {
+            this.setState({...this.state, usernameLabel: "Username Already Taken... Please try another.", updateProfileDisabled: true})
+        }  else if (!this.state.noUsernameChange && !this.state.usernameLengthPasses) {
+            this.setState({...this.state, usernameLabel: "Username must be between 8-30 characters.", updateProfileDisabled: true})
         } else if (this.state.noUsernameChange) {
-            console.log("Label should be 'Your Current Username'")
-            this.setState({...this.state, usernameLabel: "Your Current Username."})
+            this.setState({...this.state, usernameLabel: "Your Current Username.", updateProfileDisabled: true})
         }                  
     }
 
@@ -121,7 +122,7 @@ class Header extends Component {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Button>
+                                    <Button disabled={this.state.updateProfileDisabled}className="login-signup-submit-button">
                                         Update
                                     </Button>
                                 </Row>
