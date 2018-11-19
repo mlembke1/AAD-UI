@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Header.css';
 import { connect } from 'react-redux'
-import { Navbar, Icon, SideNav, SideNavItem, Modal, Button, Row, Col, Input } from 'react-materialize'
+import { Navbar, Icon, SideNav, SideNavItem, Modal, Button, Row, Col, Input, Collapsible, CollapsibleItem } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../actions/logout'
@@ -26,8 +26,6 @@ class Header extends Component {
             usernameAlreadyTaken: this.props.usernameIsTaken
         }
     }
-
-
     passwordsMatch = () => this.state.passwordInputValue === this.state.confirmPasswordInputValue
       
     setPasswordsMatch = () => this.setState({...this.state, passwordsMatch: this.passwordsMatch()})
@@ -53,25 +51,23 @@ class Header extends Component {
         })
     } 
 
-    updateInput = async (evt, inputType) => {
-        return this.setState({...this.state, [inputType]: evt.target.value}, () => this.validateUsername())
-    }
+    updateInput = async (evt, inputType) => this.setState({ ...this.state, [inputType]: evt.target.value }, () => this.validateUsername())
 
     setNoUsernameChange = async () => this.setState({...this.state, noUsernameChange: this.props.username == this.state.usernameInputValue})
     
-    setUsernameIsAlreadyTaken = async () => await this.props.isUsernameTaken(this.state.usernameInputValue);
+    setUsernameIsAlreadyTaken = async () => this.props.isUsernameTaken(this.state.usernameInputValue);
       
     validateUsername = async () => { 
         await this.setUsernameIsAlreadyTaken()
         await this.setNoUsernameChange();
         await this.setUsernameLengthPasses();
-        await this.generateUsernameLabel()
+        setTimeout(() => {this.generateUsernameLabel()}, 100)
     }
 
     generateUsernameLabel = async () => {
-        if(!this.state.usernameAlreadyTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses){
+        if(!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses){
             this.setState({...this.state, usernameLabel: "Your New Username", updateProfileDisabled: false})
-        } else if (this.state.usernameAlreadyTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses)  {
+        } else if (this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses)  {
             this.setState({...this.state, usernameLabel: "Username Already Taken... Please try another.", updateProfileDisabled: true})
         }  else if (!this.state.noUsernameChange && !this.state.usernameLengthPasses) {
             this.setState({...this.state, usernameLabel: "Username must be between 8-30 characters.", updateProfileDisabled: true})
@@ -79,6 +75,8 @@ class Header extends Component {
             this.setState({...this.state, usernameLabel: "Your Current Username.", updateProfileDisabled: true})
         }                  
     }
+
+    handleUsernameUpdate = () => this.props.updateUsername(this.props.username, this.state.usernameInputValue)
 
     render() {
     if (this.props.username) {
@@ -106,25 +104,33 @@ class Header extends Component {
                         </SideNavItem>
                         <SideNavItem className="border-bottom width-50" waves>
                             <Modal
+                            className="edit-profile-modal"
                                 header='Edit Profile'
                                 trigger={<Button className="edit-profile-button">Edit Profile</Button>}>
                                 <Row>
-                                    <Col s={6}>
-                                        <Input 
-                                        label={this.state.usernameLabel} 
-                                        s={12} 
-                                        value={this.state.usernameInputValue}
-                                        onChange={evt => this.updateInput(evt, "usernameInputValue")}>
-                                        </Input>
-                                    </Col>
-                                    <Col s={6}>
-                                    
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Button disabled={this.state.updateProfileDisabled}className="login-signup-submit-button">
-                                        Update
-                                    </Button>
+                                    <Collapsible>
+                                        <CollapsibleItem header="Username" right icon="edit">
+                                            <Row>
+                                                <Col s={12}>
+                                                    <Input   
+                                                    className={this.state.updateProfileDisabled ? "margin-top-10" : null}                                        label={this.state.usernameLabel} 
+                                                    s={12} 
+                                                    value={this.state.usernameInputValue}
+                                                    onChange={evt => this.updateInput(evt, "usernameInputValue")}>
+                                                    </Input>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Button 
+                                                s={12}
+                                                onClick={() => this.handleUsernameUpdate()}
+                                                disabled={this.state.updateProfileDisabled}className="login-signup-submit-button">
+                                                    Update Username
+                                                    <Icon right>check</Icon>
+                                                </Button>
+                                            </Row>
+                                        </CollapsibleItem>
+                                    </Collapsible>
                                 </Row>
                             </Modal>
                         </SideNavItem>

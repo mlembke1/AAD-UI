@@ -3,7 +3,8 @@ export const updateUsername = (currentUsername, newUsername) => dispatch => {
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateUsername', {
         method: "patch",
         data: { currentUsername, newUsername },
-        withCredentials: true
+        withCredentials: true,
+        headers: {'Content-Type': "application/json"}
     })
     .then(payload => {
         window.Materialize.toast('Update Successful!', 1300)
