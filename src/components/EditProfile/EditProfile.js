@@ -7,7 +7,7 @@ import { updateUsername } from '../../actions/updateUsername'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { validateCurrentPasswordInput } from '../../actions/validateCurrentPasswordInput'
 import { validateNewPasswordInput } from '../../actions/validateNewPasswordInput'
-import { runInThisContext } from 'vm';
+import { Redirect } from 'react-router-dom'
 
 class EditProfile extends Component {
 
@@ -134,7 +134,10 @@ class EditProfile extends Component {
     handleUsernameUpdate = () => this.props.updateUsername(this.props.username, this.state.usernameInputValue)
     
     render() {
-    return (
+        if(!this.props.username) {
+            return <Redirect to="/" />
+          } else {
+            return(
             <main className="landing-page edit-profile-wrapper">
                 <h3>Edit Profile</h3>
                 <CardPanel className="max-width-60 card-panel">
@@ -227,6 +230,7 @@ class EditProfile extends Component {
                 </CardPanel>
             </main>
         )
+        }
     }
   }
 
