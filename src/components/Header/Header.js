@@ -20,23 +20,23 @@ class Header extends Component {
                                     <Icon className="hamburger">menu</Icon>
                                 </div>}
                         options={{ closeOnClick: true, edge: "right" }}>
-                        <SideNavItem className="border-bottom width-50" waves>
-                            <Link className="link" to="/"> Home </Link>
+                        <SideNavItem className="border-bottom" waves>
+                            <Link className="link" to="/">Home</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
-                            <Link className="link" to="/portal"> Portal </Link>
+                            <Link className="link" to="/portal">Portal</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
-                            <Link className="link" to="/reviews"> My Assessments </Link>
+                            <Link className="link" to="/reviews">My Assessments</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
-                            <Link className="link" to="/public"> Public Reviews </Link>
+                            <Link className="link" to="/public">Public Reviews</Link>
                         </SideNavItem>
-                        <SideNavItem className="border-bottom width-50" waves>
-                            <Link className="link" to="/editProfile"> Edit Profile </Link>
+                        <SideNavItem className="border-bottom" waves>
+                            <Link className="link" to="/editProfile">Edit Profile</Link>
                         </SideNavItem>
                         <SideNavItem className="width-50" onClick={() => this.props.logout()} waves>
-                            <Link className="link" to="/"> Logout </Link>
+                            <Link className="link" to="/">Logout</Link>
                         </SideNavItem>
                     </SideNav>
                 </div>
