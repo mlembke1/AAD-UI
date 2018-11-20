@@ -148,7 +148,7 @@ class EditProfile extends Component {
                                         label={<span className={
                                             this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses ||
                                             !this.state.noUsernameChange && !this.state.usernameLengthPasses ?
-                                            "error-text" : 'success-text'}>{this.state.usernameLabel}</span>} 
+                                            "error-text" : 'success-text'}>{this.state.usernameLabel}{!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses ? <Icon>check</Icon> : null}</span>} 
                                         s={12} 
                                         value={this.state.usernameInputValue}
                                         onChange={evt => this.updateInput(evt, "usernameInputValue")}>
