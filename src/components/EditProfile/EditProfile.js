@@ -75,14 +75,14 @@ class EditProfile extends Component {
 
     validateCurrentPasswordInputLocal = async () => {
         this.state.currentPasswordInput.length > 0 ? this.ensurePasswordIsCorrect() : null
-        setTimeout(() => this.generateCurrentPasswordInputLabel(), 100)
+        setTimeout(() => this.generateCurrentPasswordInputLabel(), 250)
     }
 
     validateNewPassword = async () => {
         this.state.newPasswordInput.length > 0 ? this.ensureNewPasswordIsDifferent() : null
         await this.setNewPasswordInputLengthPasses()
         await this.setPasswordsMatch()
-        setTimeout(() =>  this.generateNewPasswordInputLabel(), 100)
+        setTimeout(() =>  this.generateNewPasswordInputLabel(), 250)
     }
 
     validateConfirmPassword = async () => {
