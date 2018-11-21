@@ -97,6 +97,8 @@ export const auth = ( state={
           return {...state, newPasswordInputPasses: true }
       case 'INVALID_NEW_PASSWORD_INPUT':
           return {...state, newPasswordInputPasses: false }
+      case 'UPDATE_USERNAME_SUCCESS':
+          return {...state, username: action.payload}
       default:
         return state
     }
