@@ -1,0 +1,29 @@
+.max-width-60 {
+    /* max-width: 40%; */
+}
+
+.edit-profile-wrapper .card-panel {
+    position: absolute;
+    top: 30%;
+    left: 24%;
+    margin: 0 auto;
+    min-width: 52%;
+}
+
+.success-text {
+    font-weight: 700;
+    color: rgb(114, 150, 53);
+}
+
+.edit-profile-wrapper h3 {
+    color: white;
+    text-shadow: 1px 1px black;;
+    margin-left: 6em;
+    margin-top: 0;
+    text-align: center;
+    padding: 40px 0 10px;
+    margin: 0 auto;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 300;
+    font-size: 4em;
+}

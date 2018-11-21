@@ -83,6 +83,7 @@ class Signup extends Component {
       }
     } 
 
+
     setUsernameLengthPasses = () => {
       if(this.state.usernameInputValue.length >= 8 && this.state.usernameInputValue.length <= 30 ){
         this.setState({

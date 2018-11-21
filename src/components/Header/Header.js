@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../actions/logout'
 
-
 class Header extends Component {
+
     render() {
     if (this.props.username) {
         return (
@@ -15,28 +15,28 @@ class Header extends Component {
                 <div>
                     <SideNav
                         id="logged-in-nav"
-                        trigger={
-                                <div className="valign-wrapper hamburger-menu-icon-container">
+                        trigger={<div className="valign-wrapper hamburger-menu-icon-container">
                                     <span className="uppercase">{this.props.firstName} {this.props.lastName}</span>
                                     <Icon className="hamburger">menu</Icon>
-                                </div>
-                                }
-                        options={{ closeOnClick: true, edge: "right" }}
-                        >
-                        <SideNavItem className="border-bottom width-50" waves>
-                            <Link className="link" to="/"> Home </Link>
+                                </div>}
+                        options={{ closeOnClick: true, edge: "right" }}>
+                        <SideNavItem className="border-bottom" waves>
+                            <Link className="link" to="/">Home</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
-                            <Link className="link" to="/portal"> Portal </Link>
+                            <Link className="link" to="/portal">Portal</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
-                            <Link className="link" to="/reviews"> My Assessments </Link>
+                            <Link className="link" to="/reviews">My Assessments</Link>
                         </SideNavItem>
-                        <SideNavItem className="border-bottom width-50" waves>
-                            <Link className="link" to="/public"> Public Reviews </Link>
+                        <SideNavItem className="border-bottom" waves>
+                            <Link className="link" to="/public">Public Reviews</Link>
+                        </SideNavItem>
+                        <SideNavItem className="border-bottom" waves>
+                            <Link className="link" to="/editProfile">Edit Profile</Link>
                         </SideNavItem>
                         <SideNavItem className="width-50" onClick={() => this.props.logout()} waves>
-                            <Link className="link" to="/"> Logout </Link>
+                            <Link className="link" to="/">Logout</Link>
                         </SideNavItem>
                     </SideNav>
                 </div>
@@ -48,8 +48,7 @@ class Header extends Component {
                 <SideNav
                     id="logged-out-nav"
                     trigger={<div className="hamburger-menu-icon-container"><Icon className="hamburger">menu</Icon></div>}
-                    options={{ closeOnClick: true, edge: "right" }}
-                    >
+                    options={{ closeOnClick: true, edge: "right" }}>
                     <SideNavItem className="border-bottom">
                         <Link className="link" to="/login"> Login </Link>
                     </SideNavItem>
@@ -69,6 +68,7 @@ const mapStateToProps = state => {
       username: state.auth.username,
       firstName: state.auth.firstName,
       lastName: state.auth.lastName,
+      usernameIsTaken: state.auth.usernameIsTaken
   }
 }
 

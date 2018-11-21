@@ -13,7 +13,9 @@ export const auth = ( state={
   emailExists: true, // Assume the email does exist for LOGIN and not display the error message right away
   invalidEmail: false, // Assume the email they are typing is valid until proven otherwise
   tools: null,
-  permissions: []
+  permissions: [],
+  currentPasswordInputPasses: false,
+  newPasswordInputPasses: false
  }, action) => {
     switch(action.type){
       case 'RESET_STATE':
@@ -42,7 +44,7 @@ export const auth = ( state={
           role: action.payload.role  
         }
       case 'SIGNUP_SUCCESS':
-        return { ...state, username: action.payload }
+        return { ...state, username: action.payload, usernameIsTaken:false }
       case 'SIGNUP_FAILED':
           return { ...state, signupFailed: true }
       case 'LOGIN_SUCCESS':
@@ -87,7 +89,14 @@ export const auth = ( state={
           company: null,
           role: null,  
           tools: null }  
-
+      case 'VALID_CURRENT_PASSWORD_INPUT':
+          return {...state, currentPasswordInputPasses: true }
+      case 'INVALID_CURRENT_PASSWORD_INPUT':
+          return {...state, currentPasswordInputPasses: false }
+      case 'VALID_NEW_PASSWORD_INPUT':
+          return {...state, newPasswordInputPasses: true }
+      case 'INVALID_NEW_PASSWORD_INPUT':
+          return {...state, newPasswordInputPasses: false }
       default:
         return state
     }

@@ -12,6 +12,7 @@ import  PageFooter from './components/PageFooter/PageFooter'
 import  Portal from './components/Portal/Portal'
 import  Reviews from './components/Reviews/Reviews'
 import  PublicReviews from './components/PublicReviews/PublicReviews'
+import  EditProfile from './components/EditProfile/EditProfile'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
@@ -49,6 +50,7 @@ class App extends Component {
                     <Route path="/reviews" component={Reviews} />
                     <Route path="/public" component={PublicReviews} />
                     <Route path="/stats" component={Stats} />
+                    <Route path="/editProfile" component={EditProfile} />
                     <Route component={NotFound}/>
                   </Switch>
                   </CSSTransition>
