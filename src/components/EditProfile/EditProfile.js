@@ -4,6 +4,7 @@ import {  Icon, Button, Row, Col, Input, Collapsible, CollapsibleItem, CardPanel
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { updateUsername } from '../../actions/updateUsername'
+import { updatePassword } from '../../actions/updatePassword'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { validateCurrentPasswordInput } from '../../actions/validateCurrentPasswordInput'
 import { validateNewPasswordInput } from '../../actions/validateNewPasswordInput'
@@ -30,7 +31,8 @@ class EditProfile extends Component {
             confirmNewPasswordInputLengthPasses: false,
             passwordsMatch: false,
             newPasswordInputLabel: "Type your new password",
-            confirmPasswordInputLabel: "Confirm your new password"
+            confirmPasswordInputLabel: "Confirm your new password",
+            currentPasswordInputLabel: "Type your current password"
         }
     }
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput
@@ -62,7 +64,7 @@ class EditProfile extends Component {
     
     setUsernameIsAlreadyTaken = async () => this.props.isUsernameTaken(this.state.usernameInputValue);
 
-    setValidateCurrentPasswordInput = async () => this.props.validateCurrentPasswordInput(this.props.username, this.state.currentPasswordInput);
+    ensurePasswordIsCorrect = async () => this.props.validateCurrentPasswordInput(this.props.username, this.state.currentPasswordInput);
       
     validateUsername = async () => { 
         await this.setUsernameIsAlreadyTaken()
@@ -71,9 +73,15 @@ class EditProfile extends Component {
         setTimeout(() => {this.generateUsernameLabel()}, 100)
     }
 
+    validateCurrentPasswordInputLocal = async () => {
+        this.state.currentPasswordInput.length > 0 ? this.ensurePasswordIsCorrect() : null
+        setTimeout(() => this.generateCurrentPasswordInputLabel(), 100)
+    }
+
     validateNewPassword = async () => {
+        this.state.newPasswordInput.length > 0 ? this.ensureNewPasswordIsDifferent() : null
         await this.setNewPasswordInputLengthPasses()
-        await this.ensureNewPasswordIsDifferent()
+        await this.setPasswordsMatch()
         setTimeout(() =>  this.generateNewPasswordInputLabel(), 100)
     }
 
@@ -86,9 +94,9 @@ class EditProfile extends Component {
     validate = async inputType => {
         if (inputType == "usernameInputValue") {
             await this.validateUsername()
-        } else if (inputType == "currentPasswordInput" && this.state.currentPasswordInput.length > 0){
-            await this.setValidateCurrentPasswordInput()
-        } else if (inputType == "newPasswordInput" && this.state.newPasswordInput.length > 0) {
+        } else if (inputType == "currentPasswordInput"){
+            await this.validateCurrentPasswordInputLocal()
+        } else if (inputType == "newPasswordInput") {
             await this.validateNewPassword()
         } else {
             await this.validateConfirmPassword()
@@ -105,6 +113,16 @@ class EditProfile extends Component {
         } else if (this.state.noUsernameChange) {
             this.setState({...this.state, usernameLabel: "Your Current Username.", updateUsernameDisabled: true})
         }                  
+    }
+
+    generateCurrentPasswordInputLabel = async () => {
+        if (this.props.currentPasswordInputPasses) {
+            this.setState({...this.state, currentPasswordInputLabel: "Correct!"})
+        } else if(this.state.currentPasswordInput.length > 0 && !this.props.currentPasswordInputPasses) {
+            this.setState({...this.state, currentPasswordInputLabel: "Not quite..."})
+        } else if(this.state.currentPasswordInput.length < 1){
+            this.setState({...this.state, currentPasswordInputLabel: "Type your current password"})
+        }
     }
 
     generateNewPasswordInputLabel = async () => {
@@ -132,6 +150,12 @@ class EditProfile extends Component {
     }
 
     handleUsernameUpdate = () => this.props.updateUsername(this.props.username, this.state.usernameInputValue)
+
+    handlePasswordUpdate = () => {
+        this.setState({...this.state, currentPasswordInput: "", newPasswordInput: "", confirmNewPasswordInput: "", newPasswordInputLabel: "Type your new password",
+        confirmPasswordInputLabel: "Confirm your new password", currentPasswordInputLabel: "Type your current password"})
+        this.props.updatePassword(this.props.username, this.state.currentPasswordInput, this.state.newPasswordInput)
+    }
     
     render() {
         if(!this.props.username) {
@@ -175,8 +199,8 @@ class EditProfile extends Component {
                                     <Col s={12}>
                                         <Input 
                                         label={<span 
-                                            className={this.props.currentPasswordInputPasses ? 'success-text': null}>
-                                            {this.props.currentPasswordInputPasses ? "Correct" : "Type your current password."}{this.props.currentPasswordInputPasses ? <Icon>check</Icon> : null}
+                                            className={this.state.currentPasswordInputLabel == "Correct!" ? 'success-text': null}>
+                                            {this.state.currentPasswordInputLabel}{this.state.currentPasswordInput == "Correct!" ? <Icon>check</Icon> : null}
                                         </span>} 
                                         s={12} 
                                         value={this.state.currentPasswordInput}
@@ -185,13 +209,12 @@ class EditProfile extends Component {
                                         </Input>
 
                                          <Input 
-                                         disabled={!this.props.currentPasswordInputPasses}
+                                         disabled={this.state.currentPasswordInputLabel !== "Correct!"}
                                         label={<span 
-                                            className={this.state.newPasswordInputLengthPasses && this.props.newPasswordInputPasses ?
-                                             "success-text": this.state.newPasswordInput.length > 0 &&
-                                              (!this.state.newPasswordInputLengthPasses || !this.props.newPasswordInputPasses) ? "error-text" : null }>
+                                            className={this.state.newPasswordInputLabel == "Looks good to us!" && this.state.newPasswordInput.length > 0 ? "success-text" : 
+                                                       this.state.newPasswordInputLabel !== "Looks good to us!" && this.state.newPasswordInput.length > 0 ? "error-text" : null}>
                                               {this.state.newPasswordInputLabel}
-                                              {this.state.newPasswordInputLengthPasses && this.props.newPasswordInputPasses ? <Icon>check</Icon> : null}
+                                              {this.state.newPasswordInputLabel == "Looks good to us!" ? <Icon>check</Icon> : null}
                                             </span>} 
                                         s={12} 
                                         value={this.state.newPasswordInput}
@@ -200,13 +223,12 @@ class EditProfile extends Component {
                                         </Input>
 
                                         <Input 
-                                        disabled={!this.state.newPasswordInputLengthPasses || !this.props.newPasswordInputPasses}
+                                        disabled={this.state.newPasswordInputLabel !== "Looks good to us!"}
                                         label={<span 
-                                                className={(!this.state.confirmNewPasswordInputLengthPasses && this.state.confirmNewPasswordInput.length > 0) ||
-                                                            (this.state.confirmNewPasswordInput.length > 0 && !this.state.passwordsMatch) ? "error-text" : 
-                                                            this.state.confirmNewPasswordInputLengthPasses && this.state.confirmNewPasswordInput.length > 0 && this.state.passwordsMatch ? "success-text" : null}>
+                                                className={this.state.confirmPasswordInputLabel == "Match Confirmed!" && this.state.confirmNewPasswordInput.length > 0 ? "success-text" :
+                                                           this.state.confirmPasswordInputLabel !== "Match Confirmed!" && this.state.confirmNewPasswordInput.length > 0  ? "error-text" : null}>
                                             {this.state.confirmPasswordInputLabel}
-                                            {this.state.passwordsMatch? <Icon>check</Icon> : null}
+                                            {this.state.confirmPasswordInputLabel == "Match Confirmed!" ? <Icon>check</Icon> : null}
                                         </span>} 
                                         s={12} 
                                         value={this.state.confirmNewPasswordInput}
@@ -219,7 +241,10 @@ class EditProfile extends Component {
                                     <Button 
                                     s={12}
                                     onClick={() => this.handlePasswordUpdate()}
-                                    disabled={this.state.confirmPasswordInputLabel != "Match Confirmed!"}className="login-signup-submit-button">
+                                    disabled={this.state.confirmPasswordInputLabel != "Match Confirmed!" ||
+                                              this.state.newPasswordInputLabel != "Looks good to us!" ||
+                                              !this.props.currentPasswordInputPasses || !this.state.passwordsMatch}
+                                        className="login-signup-submit-button">
                                         Update Password
                                         <Icon right>check</Icon>
                                     </Button>
@@ -245,7 +270,14 @@ class EditProfile extends Component {
     }
   }
   
-  const mapDispatchToProps = dispatch => bindActionCreators({updateUsername, isUsernameTaken, validateCurrentPasswordInput, validateNewPasswordInput}, dispatch)
+  const mapDispatchToProps = dispatch => {
+      return bindActionCreators({
+          updateUsername, 
+          updatePassword,
+          isUsernameTaken, 
+          validateCurrentPasswordInput, 
+          validateNewPasswordInput}, dispatch) 
+    }
   
   
   export default connect(mapStateToProps, mapDispatchToProps)(EditProfile)    
