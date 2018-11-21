@@ -5,14 +5,15 @@ export const updateUsername = (currentUsername, newUsername) => dispatch => {
         data: { currentUsername, newUsername }
     })
     .then(payload => { 
-        console.log("payload", payload)
-        window.Materialize.toast('Update Successful!', 1300)
-        var element = document.getElementById("toast-container");
-        element.classList.add("success");
+        window.location.reload
+        setTimeout(() => {
+            window.Materialize.toast('Username Update Successful!', 2300)
+            var element = document.getElementById("toast-container");
+            element.classList.add("success");
+        }, 2000)
         return dispatch({ type:'UPDATE_USERNAME_SUCCESS', payload: newUsername })
     })
     .catch(err => { 
-        console.log("err", err)
         window.Materialize.toast('Update Failed. Please Check Your Internet Connection and/or post your problem in the AAD-Users Slack Channel.', 10000)
         var element = document.getElementById("toast-container");
         element.classList.add("failure");

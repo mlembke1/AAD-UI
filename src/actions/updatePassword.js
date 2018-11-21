@@ -7,9 +7,12 @@ export const updatePassword = (username, currentPassword, newPassword) => dispat
         headers: {'Content-Type': "application/json"}
     })
     .then(payload => {
-        window.Materialize.toast('Update Successful!', 1300)
-        var element = document.getElementById("toast-container");
-        element.classList.add("success");
+        setTimeout(() => {
+            window.Materialize.toast('Password Update Successful!', 2300) 
+            var element = document.getElementById("toast-container");
+            element.classList.add("success");
+        }, 2000)
+         
         return dispatch({ type:'UPDATE_PASSWORD_SUCCESS' })
     })
     .catch(err => {
