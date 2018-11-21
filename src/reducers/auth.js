@@ -41,7 +41,8 @@ export const auth = ( state={
           lastName: action.payload.lastName,
           jobTitle: action.payload.jobTitle,
           company: action.payload.company,
-          role: action.payload.role  
+          role: action.payload.role, 
+          username: action.payload.username  
         }
       case 'SIGNUP_SUCCESS':
         return { ...state, username: action.payload, usernameIsTaken:false }

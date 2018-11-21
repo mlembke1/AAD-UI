@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { updateUsername } from '../../actions/updateUsername'
 import { updatePassword } from '../../actions/updatePassword'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
+import { getUserInfo } from '../../actions/getUserInfo'
 import { validateCurrentPasswordInput } from '../../actions/validateCurrentPasswordInput'
 import { validateNewPasswordInput } from '../../actions/validateNewPasswordInput'
 import { Redirect } from 'react-router-dom'
@@ -35,6 +36,11 @@ class EditProfile extends Component {
             currentPasswordInputLabel: "Type your current password"
         }
     }
+
+    componentDidUpdate = () => {
+        () => this.props.getUserInfo()
+    }
+
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput
       
     setPasswordsMatch = async () => this.setState({...this.state, passwordsMatch: this.passwordsMatch()})
@@ -276,6 +282,7 @@ class EditProfile extends Component {
           updatePassword,
           isUsernameTaken, 
           validateCurrentPasswordInput, 
+          getUserInfo,
           validateNewPasswordInput}, dispatch) 
     }
   
