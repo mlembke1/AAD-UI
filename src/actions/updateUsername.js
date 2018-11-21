@@ -5,12 +5,9 @@ export const updateUsername = (currentUsername, newUsername) => dispatch => {
         data: { currentUsername, newUsername }
     })
     .then(payload => { 
-        window.location.reload()
-        setTimeout(() => {
-            window.Materialize.toast('Username Update Successful!', 2300)
-            var element = document.getElementById("toast-container");
-            element.classList.add("success");
-        }, 2000)
+        window.Materialize.toast('Username Update Successful!', 2300)
+        var element = document.getElementById("toast-container");
+        element.classList.add("success");
         return dispatch({ type:'UPDATE_USERNAME_SUCCESS', payload: newUsername })
     })
     .catch(err => { 
