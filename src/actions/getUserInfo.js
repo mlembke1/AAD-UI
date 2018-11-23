@@ -20,7 +20,8 @@ export const getUserInfo = () => dispatch => {
                   jobTitle: payload[0].jobTitle,
                   company: payload[0].company,
                   role: payload[0].role,
-                  username: payload[0].username
+                  username: payload[0].username, 
+                  user_id: payload[0].id
                 }
             })
         })

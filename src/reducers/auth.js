@@ -5,6 +5,7 @@ export const auth = ( state={
   jobTitle: null,
   company: null,
   role: null,
+  user_id: null,
   signupFailed: false,
   loginFailed: false,
   usernameIsTaken: false,// Assume the username is not taken for SIGNUP and not display the error message right away
@@ -42,7 +43,8 @@ export const auth = ( state={
           jobTitle: action.payload.jobTitle,
           company: action.payload.company,
           role: action.payload.role, 
-          username: action.payload.username  
+          username: action.payload.username,
+          user_id: action.payload.user_id  
         }
       case 'SIGNUP_SUCCESS':
         return { ...state, username: action.payload, usernameIsTaken:false }
@@ -100,6 +102,10 @@ export const auth = ( state={
           return {...state, newPasswordInputPasses: false }
       case 'UPDATE_USERNAME_SUCCESS':
           return {...state, username: action.payload}
+      case 'UPDATE_FULL_NAME_SUCCESS':
+          return {...state, firstName: action.payload.firstName, lastName: action.payload.lastName}
+      case 'UPDATE_WORK_SUCCESS':
+          return {...state, company: action.payload.company, jobTitle: action.payload.jobTitle}
       default:
         return state
     }
