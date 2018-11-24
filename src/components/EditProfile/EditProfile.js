@@ -31,7 +31,9 @@ class EditProfile extends Component {
         }
     }
 
-    componentWillMount = () => this.props.getUserInfo()
+    componentWillMount = () => {
+        this.props.getUserInfo()
+    }
 
     componentDidMount = () => {
         this.props.checkCookie()
@@ -207,11 +209,28 @@ class EditProfile extends Component {
         }
     }
     
-    handleFullNameUpdate = () => this.props.updateFullName(this.props.user_id, this.state.firstNameInput, this.state.lastNameInput)
+    handleFullNameUpdate = () => {
+        this.props.updateFullName(this.props.user_id, this.state.firstNameInput, this.state.lastNameInput)
+        setTimeout(() => {
+            this.generateFirstNameLabel()
+            this.generateLastNameLabel()
+        }, 100)
+    }
 
-    handleUsernameUpdate = () => this.props.updateUsername(this.props.user_id, this.state.usernameInputValue)
+    handleUsernameUpdate = () => {
+        this.props.updateUsername(this.props.user_id, this.state.usernameInputValue)
+        setTimeout(() => {
+            this.generateUsernameLabel()
+        }, 100)
+    }
 
-    handleWorkUpdate = () => this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput)
+    handleWorkUpdate = () => {
+        this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput)
+        setTimeout(() => {
+            this.generateCompanyLabel()
+            this.generateJobTitleLabel()
+        }, 100)
+    }
 
     handlePasswordUpdate = () => {
         this.setState({...this.state, currentPasswordInput: "", newPasswordInput: "", confirmNewPasswordInput: "", newPasswordInputLabel: "Type your new password",
