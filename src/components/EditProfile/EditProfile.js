@@ -25,9 +25,9 @@ class EditProfile extends Component {
             newPasswordInputLengthPasses: false, confirmNewPasswordInput: "", confirmNewPasswordInputLengthPasses: false,
             passwordsMatch: false, newPasswordInputLabel: "Type your new password", confirmPasswordInputLabel: "Confirm your new password",
             currentPasswordInputLabel: "Type your current password", firstNameInput: this.props.firstName,
-            lastNameInput: this.props.lastName, firstNameInputLabel: "Edit your first name here.",  lastNameInputLabel: "Edit your last name here.",
-            updateFullNameDisabled: true, jobTitleInput: this.props.jobTitle, companyInput: this.props.company, jobTitleLabel: "Edit your job title here.",
-            companyLabel: "Edit your company name here.", updateWorkDisabled: true
+            lastNameInput: this.props.lastName, firstNameInputLabel: "Current First Name",  lastNameInputLabel: "Current Last Name",
+            updateFullNameDisabled: true, jobTitleInput: this.props.jobTitle, companyInput: this.props.company, jobTitleLabel: "Current Job Title",
+            companyLabel: "Current Company Name", updateWorkDisabled: true
         }
     }
 
@@ -38,7 +38,9 @@ class EditProfile extends Component {
         this.props.getUserInfo()
     }
 
-    componentDidUpdate = () => this.props.getUserInfo()
+    componentDidUpdate = () => {
+        this.props.getUserInfo()
+    }
 
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput
       
@@ -154,7 +156,7 @@ class EditProfile extends Component {
 
     generateJobTitleLabel = async () => {
         this.setState({ 
-        ...this.state, jobTitleLabel: this.props.jobTitle == this.state.jobTitleInput ? "Current Job Title Name" : 
+        ...this.state, jobTitleLabel: this.props.jobTitle == this.state.jobTitleInput ? "Current Job Title" : 
                                            ((this.props.jobTitle !== this.state.jobTitleInput) && this.state.jobTitleInput.length > 0) ? 
                                            "looks great!" : "Edit Job Title Name Here."})
     }
@@ -230,7 +232,7 @@ class EditProfile extends Component {
                         {/* FULL NAME UPDATE */}
                         <CollapsibleItem header="Full Name" left icon="face">
                                 <Row>
-                                    <Col s={6}>
+                                    <Col s={12}>
                                         <Input 
                                         label={this.state.firstNameInputLabel} 
                                         s={12} 
@@ -238,7 +240,7 @@ class EditProfile extends Component {
                                         onChange={evt => this.updateInput(evt, "firstNameInput")}>
                                         </Input>
                                     </Col>
-                                    <Col s={6}>
+                                    <Col s={12}>
                                         <Input 
                                         label={this.state.lastNameInputLabel} 
                                         s={12} 
@@ -261,7 +263,7 @@ class EditProfile extends Component {
                             {/* WORK UPDATE */}
                             <CollapsibleItem  header="Company/Title" left icon="work_outline">
                                 <Row>
-                                    <Col s={6}>
+                                    <Col s={12}>
                                         <Input   
                                         label={this.state.jobTitleLabel} 
                                         s={12} 
@@ -269,7 +271,7 @@ class EditProfile extends Component {
                                         onChange={evt => this.updateInput(evt, "jobTitleInput")}>
                                         </Input>
                                     </Col>
-                                    <Col s={6}>
+                                    <Col s={12}>
                                         <Input   
                                         label={this.state.companyLabel} 
                                         s={12} 
