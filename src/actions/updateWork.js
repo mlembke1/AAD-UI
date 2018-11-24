@@ -5,7 +5,7 @@ export const updateWork = (user_id, company, jobTitle) => dispatch => {
         data: { user_id, company, jobTitle }
     })
     .then(payload => { 
-        window.Materialize.toast('Full Name Update Successful!', 2300)
+        window.Materialize.toast('Work Update Successful!', 2300)
         var element = document.getElementById("toast-container");
         element.classList.add("success");
         return dispatch({ type:'UPDATE_WORK_SUCCESS', payload: { company, jobTitle } })

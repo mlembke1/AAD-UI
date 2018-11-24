@@ -7,6 +7,7 @@ import { updateUsername } from '../../actions/updateUsername'
 import { updatePassword } from '../../actions/updatePassword'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { getUserInfo } from '../../actions/getUserInfo'
+import { checkCookie } from '../../actions/checkCookie'
 import { validateCurrentPasswordInput } from '../../actions/validateCurrentPasswordInput'
 import { validateNewPasswordInput } from '../../actions/validateNewPasswordInput'
 import { updateFullName } from '../../actions/updateFullName'
@@ -18,8 +19,7 @@ class EditProfile extends Component {
     constructor(props) { 
         super(props)
         this.state = {
-            noUsernameChange: true, usernameInputValue: this.props.username,
-            passwordsMatch: true, usernameLengthPasses: true, usernameLabel: "Your Current Username",
+            noUsernameChange: true, usernameInputValue: this.props.username, usernameLengthPasses: true, usernameLabel: "Your Current Username",
             updateUsernameDisabled: true, updatePasswordDisabled: true, usernameAlreadyTaken: this.props.usernameIsTaken,
             currentPasswordInput: "", currentPasswordInputPasses: false, newPasswordInput: "", 
             newPasswordInputLengthPasses: false, confirmNewPasswordInput: "", confirmNewPasswordInputLengthPasses: false,
@@ -31,9 +31,14 @@ class EditProfile extends Component {
         }
     }
 
-    componentDidUpdate = () => {
-        () => this.props.getUserInfo()
+    componentWillMount = () => this.props.getUserInfo()
+
+    componentDidMount = () => {
+        this.props.checkCookie()
+        this.props.getUserInfo()
     }
+
+    componentDidUpdate = () => this.props.getUserInfo()
 
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput
       
@@ -204,7 +209,7 @@ class EditProfile extends Component {
 
     handleUsernameUpdate = () => this.props.updateUsername(this.props.user_id, this.state.usernameInputValue)
 
-    handleWorkUpdate = () => this.props.updateWork(this.props.user_id, this.state.jobTitleInput, this.state.companyInput)
+    handleWorkUpdate = () => this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput)
 
     handlePasswordUpdate = () => {
         this.setState({...this.state, currentPasswordInput: "", newPasswordInput: "", confirmNewPasswordInput: "", newPasswordInputLabel: "Type your new password",
@@ -219,9 +224,10 @@ class EditProfile extends Component {
             return(
             <main className="landing-page edit-profile-wrapper">
                 <h3>Edit Profile</h3>
-                <CardPanel className="max-width-60 card-panel">
+                <CardPanel className="card-panel">
                     <Row>
                         <Collapsible>
+                        {/* FULL NAME UPDATE */}
                         <CollapsibleItem header="Full Name" left icon="face">
                                 <Row>
                                     <Col s={6}>
@@ -252,6 +258,7 @@ class EditProfile extends Component {
                                     </Button>
                                 </Row>
                             </CollapsibleItem>
+                            {/* WORK UPDATE */}
                             <CollapsibleItem  header="Company/Title" left icon="work_outline">
                                 <Row>
                                     <Col s={6}>
@@ -277,11 +284,12 @@ class EditProfile extends Component {
                                     onClick={() => this.handleWorkUpdate()}
                                     disabled={this.state.updateWorkDisabled}
                                     className="login-signup-submit-button">
-                                        Update Username
+                                        Update Work
                                         <Icon right>check</Icon>
                                     </Button>
                                 </Row>
                             </CollapsibleItem>
+                            {/* USERNAME UPDATE */}
                             <CollapsibleItem header="Username" left icon="fingerprint">
                                 <Row>
                                     <Col s={12}>
@@ -308,7 +316,7 @@ class EditProfile extends Component {
                                     </Button>
                                 </Row>
                             </CollapsibleItem>
-
+                            {/* PASSWORD UPDATE */}
                             <CollapsibleItem header="Password" left icon="lock">
                                 <Row>
                                     <Col s={12}>
@@ -397,6 +405,7 @@ class EditProfile extends Component {
           getUserInfo,
           updateFullName,
           updateWork,
+          checkCookie,
           validateNewPasswordInput}, dispatch) 
     }
   
