@@ -42,7 +42,7 @@ class Stats extends Component {
             {
               this.props.sortoeQuestions.map(question => (
                 <div className="height-100">
-                  <h6>{question.question}</h6>
+                  <h6>{question.questionID}. {question.question}</h6>
                   <Chart />
                 </div>
               ))
