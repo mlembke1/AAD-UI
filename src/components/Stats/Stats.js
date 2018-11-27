@@ -5,16 +5,20 @@ import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { Row } from 'react-materialize'
+import { Row, Input, Col } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import SubHeader from '../SubHeader/SubHeader'
+import Chart from '../Chart/Chart'
 
 
 class Stats extends Component {
   componentWillMount(){
     this.props.checkCookie()
     this.props.getUserInfo()
-    setTimeout(() => this.props.setPermissions(this.props.role), 300)
+    setTimeout(() => this.props.setPermissions(this.props.role), 300) 
+    this.state = {
+      selectedToolResults: "MEADE/SORT-OE"
+    }
   }
 
   render() {
@@ -25,8 +29,24 @@ class Stats extends Component {
         <div>
           {/* HEADER */}
           <SubHeader icon={require("../../assets/stats_icon.png")} subHeader="The Stats"/>
+          <Row className="margin-left"> 
+            <Col s={3}>
+              <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value})} label="Choose Tool Results" >
+                <option value='MEADE/SORT-OE'> MEADE/SORT-OE</option>
+                <option value='ARGUMENT MAPPER'> ARGUMENT MAPPER</option>
+              </Input>
+            </Col>
+            <Col s={9}></Col>
+          </Row> 
           <Row>
-              Show some stats here!
+            {
+              this.props.sortoeQuestions.map(question => (
+                <div className="height-100">
+                  <h6>{question.question}</h6>
+                  <Chart />
+                </div>
+              ))
+            }
           </Row>
         </div>
       )
@@ -40,7 +60,8 @@ const mapStateToProps = state => {
   return {
       username: state.auth.username,
       allTools: state.tools.allTools, 
-      role: state.auth.role
+      role: state.auth.role,
+      sortoeQuestions: state.reviews.sortoeQuestions
   }
 }
 
