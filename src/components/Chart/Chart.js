@@ -56,7 +56,8 @@ render () {
         defs={[ ]}
         fill={[ ]}
         borderWidth={1}
-        borderColor="inherit:darker(0.1)"
+        borderRadius={3}
+        borderColor="inherit:darker(0.2)"
         axisTop={null}
         axisRight={null}
         axisBottom={{

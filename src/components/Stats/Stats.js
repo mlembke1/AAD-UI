@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './Stats.css';
 import { bindActionCreators } from 'redux'
 import { checkCookie } from '../../actions/checkCookie'
+import { getAnswers } from '../../actions/getAnswers'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Input, Col } from 'react-materialize'
@@ -19,7 +20,10 @@ class Stats extends Component {
     this.state = {
       selectedToolResults: "MEADE/SORT-OE"
     }
+    this.props.getAnswers(this.state.selectedToolResults)
   }
+
+    
 
   render() {
     if(!this.props.username){
@@ -65,6 +69,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions, getAnswers}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats)
