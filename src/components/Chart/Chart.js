@@ -69,7 +69,7 @@ render () {
             "legendOffset": 32
         }}
         axisLeft={{
-            "tickSize": 5,
+            "tickSize": 10,
             "tickPadding": 5,
             "tickRotation": 0,
             "legend": "Percentage %",
