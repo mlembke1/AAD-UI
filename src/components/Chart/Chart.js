@@ -12,6 +12,11 @@ import { getUserInfo } from '../../actions/getUserInfo'
 // website examples showcase many properties, you'll often use just a few of them.
 
 class Chart extends Component {
+
+constructor(props){
+    super(props)
+}
+
 render () {
     return (
     <ResponsiveBar

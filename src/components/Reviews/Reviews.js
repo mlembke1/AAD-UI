@@ -17,6 +17,7 @@ import { setPostCompleteFalse } from '../../actions/setPostCompleteFalse'
 import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
 import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
 import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
+import { postAnswers } from '../../actions/postAnswers'
 import SortoeQForm from '../SortoeQform/SortoeQform'
 import SubHeader from '../SubHeader/SubHeader'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
@@ -84,6 +85,11 @@ class Reviews extends Component {
             this.props.getAllReviews()
             setTimeout(() => {
                 if(this.props.reviewsRequestFinished){
+                    if(this.props.allReviews.length > 0) {
+                        this.props.postAnswers(this.props.sortoeAnswerInputs,
+                            this.props.allReviews[this.props.allReviews.length - 1].tool_name,
+                            this.props.allReviews[this.props.allReviews.length - 1].id) 
+                    }
                     this.props.allReviews.map((review, i) => {
                         if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
                                 this.props.getFile(review.path.substring(15), review.id)
@@ -260,7 +266,8 @@ class Reviews extends Component {
         this.props.jobTitle,
         this.props.company,
         this.state.rangeValue,
-        this.props.sortoeAnswerInputs
+        this.props.sortoeAnswerInputs, 
+        this.props.lastReviewID
     )
     this.setState({
         toolNameInputValue: 'MEADE/SORT-OE',
@@ -861,7 +868,9 @@ const mapStateToProps = state => {
       allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent,
       sortoeAnswerInputs: state.reviews.sortoeAnswerInputs,
       sortoeQuestions: state.reviews.sortoeQuestions,
-      role: state.auth.role
+      role: state.auth.role, 
+      lastReviewID: state.reviews.lastReviewID, 
+      answers: state.reviews.answers
   }
 }
 
@@ -880,6 +889,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     setRemoveFileCompleteFalse,
     getUserInfo,
     setPermissions,
+    postAnswers,
     removeFile}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reviews)
