@@ -13,13 +13,18 @@ import Chart from '../Chart/Chart'
 
 
 class Stats extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedToolResults: "MEADE/SORT-OE"
+    }
+  }
+
   componentWillMount(){
     this.props.checkCookie()
     this.props.getUserInfo()
     setTimeout(() => this.props.setPermissions(this.props.role), 300) 
-    this.state = {
-      selectedToolResults: "MEADE/SORT-OE"
-    }
     this.props.getAnswers(this.state.selectedToolResults)
   }
 
