@@ -11,7 +11,18 @@ export const getAnswers = selected_tool_name => dispatch => {
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + `/getAnswers/${tool_name}`, options)
     .then(r => r.json())
     .then(payload => {
-        console.log('HERE ARE THE ANSWERS', payload)
+        let newAnswersArray = []
+        payload.map(answerObject => { 
+            let newAnswerObject = {}
+            for (let key in answerObject) {
+                if ((key.substring(0, 6) === "answer" && answerObject[key] !== null) ||
+                    key === "review_id" || key === "tool_name") {
+                    newAnswerObject[key] =  answerObject[key]
+                }
+            }
+            newAnswersArray.push(newAnswerObject)
+         })
+        console.log('here is the new answers array', newAnswersArray)
       return dispatch({ type:'ANSWERS_AQUIRED', payload })
     })
     .catch(err => {
