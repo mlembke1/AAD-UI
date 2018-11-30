@@ -7,8 +7,11 @@ import { updateUsername } from '../../actions/updateUsername'
 import { updatePassword } from '../../actions/updatePassword'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { getUserInfo } from '../../actions/getUserInfo'
+import { checkCookie } from '../../actions/checkCookie'
 import { validateCurrentPasswordInput } from '../../actions/validateCurrentPasswordInput'
 import { validateNewPasswordInput } from '../../actions/validateNewPasswordInput'
+import { updateFullName } from '../../actions/updateFullName'
+import { updateWork } from '../../actions/updateWork'
 import { Redirect } from 'react-router-dom'
 
 class EditProfile extends Component {
@@ -16,29 +19,28 @@ class EditProfile extends Component {
     constructor(props) { 
         super(props)
         this.state = {
-            noUsernameChange: true,
-            usernameInputValue: this.props.username,
-            passwordsMatch: true,
-            usernameLengthPasses: true,
-            usernameLabel: "Your Current Username",
-            updateUsernameDisabled: true, 
-            updatePasswordDisabled: true,
-            usernameAlreadyTaken: this.props.usernameIsTaken,
-            currentPasswordInput: "",
-            currentPasswordInputPasses: false,
-            newPasswordInput: "", 
-            newPasswordInputLengthPasses: false,
-            confirmNewPasswordInput: "",
-            confirmNewPasswordInputLengthPasses: false,
-            passwordsMatch: false,
-            newPasswordInputLabel: "Type your new password",
-            confirmPasswordInputLabel: "Confirm your new password",
-            currentPasswordInputLabel: "Type your current password"
+            updatePasswordDisabled: true, usernameAlreadyTaken: this.props.usernameIsTaken,
+            currentPasswordInput: "", currentPasswordInputPasses: false, newPasswordInput: "", 
+            newPasswordInputLengthPasses: false, confirmNewPasswordInput: "", confirmNewPasswordInputLengthPasses: false,
+            passwordsMatch: false, newPasswordInputLabel: "Type your new password", confirmPasswordInputLabel: "Confirm your new password",
+            currentPasswordInputLabel: "Type your current password", firstNameInput: this.props.firstName,
+            lastNameInput: this.props.lastName, firstNameInputLabel: "Current First Name",  lastNameInputLabel: "Current Last Name",
+            updateFullNameDisabled: true, jobTitleInput: this.props.jobTitle, companyInput: this.props.company, jobTitleLabel: "Current Job Title",
+            companyLabel: "Current Company Name", updateWorkDisabled: true
         }
     }
 
+    componentWillMount = () => {
+        this.props.getUserInfo()
+    }
+
+    componentDidMount = () => {
+        this.props.checkCookie()
+        this.props.getUserInfo()
+    }
+
     componentDidUpdate = () => {
-        () => this.props.getUserInfo()
+        this.props.getUserInfo()
     }
 
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput
@@ -59,25 +61,13 @@ class EditProfile extends Component {
             confirmNewPasswordInputLengthPasses: this.state.confirmNewPasswordInput.length >= 8 && this.state.confirmNewPasswordInput.length <= 30})
     } 
 
-    setUsernameLengthPasses = async () => {
-        return this.setState({...this.state,
-          usernameLengthPasses: this.state.usernameInputValue.length >= 8 && this.state.usernameInputValue.length <= 30})
-    } 
+    setFullNamePasses = async () => this.setState({ ...this.state,  updateFullNameDisabled: ((this.state.firstNameInput == this.props.firstName) && (this.state.lastNameInput == this.props.lastName))}) 
+
+    setWorkPasses = async () => this.setState({ ...this.state,  updateWorkDisabled: ((this.state.jobTitleInput == this.props.jobTitle) && (this.state.companyInput == this.props.company))}) 
 
     updateInput = async (evt, inputType) => this.setState({ ...this.state, [inputType]: evt.target.value }, () => this.validate(inputType))
-
-    setNoUsernameChange = async () => this.setState({...this.state, noUsernameChange: this.props.username == this.state.usernameInputValue})
     
-    setUsernameIsAlreadyTaken = async () => this.props.isUsernameTaken(this.state.usernameInputValue);
-
     ensurePasswordIsCorrect = async () => this.props.validateCurrentPasswordInput(this.props.username, this.state.currentPasswordInput);
-      
-    validateUsername = async () => { 
-        await this.setUsernameIsAlreadyTaken()
-        await this.setNoUsernameChange();
-        await this.setUsernameLengthPasses();
-        setTimeout(() => {this.generateUsernameLabel()}, 100)
-    }
 
     validateCurrentPasswordInputLocal = async () => {
         this.state.currentPasswordInput.length > 0 ? this.ensurePasswordIsCorrect() : null
@@ -97,28 +87,62 @@ class EditProfile extends Component {
         await this.generateConfirmPasswordInputLabel()
     }
 
-    validate = async inputType => {
-        if (inputType == "usernameInputValue") {
-            await this.validateUsername()
-        } else if (inputType == "currentPasswordInput"){
-            await this.validateCurrentPasswordInputLocal()
-        } else if (inputType == "newPasswordInput") {
-            await this.validateNewPassword()
-        } else {
-            await this.validateConfirmPassword()
-        }
+    validateFirstName = async () => {
+        await this.setFullNamePasses()
+        await this.generateFirstNameLabel()
     }
 
-    generateUsernameLabel = async () => {
-        if(!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses){
-            this.setState({...this.state, usernameLabel: "Your New Username", updateUsernameDisabled: false})
-        } else if (this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses)  {
-            this.setState({...this.state, usernameLabel: "Username Already Taken... Please try another.", updateUsernameDisabled: true})
-        }  else if (!this.state.noUsernameChange && !this.state.usernameLengthPasses) {
-            this.setState({...this.state, usernameLabel: "Username must be between 8-30 characters.", updateUsernameDisabled: true})
-        } else if (this.state.noUsernameChange) {
-            this.setState({...this.state, usernameLabel: "Your Current Username.", updateUsernameDisabled: true})
-        }                  
+    validateLastName = async () => {
+        await this.setFullNamePasses()
+        await this.generateLastNameLabel()
+    }
+
+    validateJobTitle = async () => {
+        await this.setWorkPasses()
+        await this.generateJobTitleLabel()
+    }
+
+    validateCompany = async () => {
+        await this.setWorkPasses()
+        await this.generateCompanyLabel()
+    }
+
+    validate = async inputType => {
+         if (inputType == "currentPasswordInput"){ await this.validateCurrentPasswordInputLocal() } 
+        else if (inputType == "newPasswordInput") { await this.validateNewPassword() } 
+        else if (inputType == "confirmNewPasswordInput") { await this.validateConfirmPassword() }
+        else if (inputType == "firstNameInput") { await this.validateFirstName() } 
+        else if (inputType == "lastNameInput") { await this.validateLastName() } 
+        else if (inputType == "companyInput") { await this.validateCompany() } 
+        else if (inputType == "jobTitleInput") { await this.validateJobTitle() } 
+    }
+
+    generateFirstNameLabel = async () => {
+        this.setState({ 
+        ...this.state, firstNameInputLabel: this.props.firstName == this.state.firstNameInput ? "Current First Name" : 
+                                           ((this.props.firstName !== this.state.firstNameInput) && this.state.firstNameInput.length > 0) ? 
+                                           "looks great!" : "Edit your first name here."})
+    }
+
+    generateLastNameLabel = async () => {
+        this.setState({ 
+        ...this.state, lastNameInputLabel: this.props.lastName == this.state.lastNameInput ? "Current Last Name" : 
+                                           ((this.props.lastName !== this.state.lastNameInput) && this.state.lastNameInput.length > 0) ? 
+                                           "looks great!" : "Edit your last name here."})
+    }
+
+    generateCompanyLabel = async () => {
+        this.setState({ 
+        ...this.state, companyLabel: this.props.company == this.state.companyInput ? "Current Company Name" : 
+                                           ((this.props.company !== this.state.companyInput) && this.state.companyInput.length > 0) ? 
+                                           "looks great!" : "Edit Company Name Here."})
+    }
+
+    generateJobTitleLabel = async () => {
+        this.setState({ 
+        ...this.state, jobTitleLabel: this.props.jobTitle == this.state.jobTitleInput ? "Current Job Title" : 
+                                           ((this.props.jobTitle !== this.state.jobTitleInput) && this.state.jobTitleInput.length > 0) ? 
+                                           "looks great!" : "Edit Job Title Name Here."})
     }
 
     generateCurrentPasswordInputLabel = async () => {
@@ -154,8 +178,22 @@ class EditProfile extends Component {
             this.setState({...this.state, confirmPasswordInputLabel: "Confirm your new password."})
         }
     }
+    
+    handleFullNameUpdate = () => {
+        this.props.updateFullName(this.props.user_id, this.state.firstNameInput, this.state.lastNameInput)
+        setTimeout(() => {
+            this.generateFirstNameLabel()
+            this.generateLastNameLabel()
+        }, 100)
+    }
 
-    handleUsernameUpdate = () => this.props.updateUsername(this.props.username, this.state.usernameInputValue)
+    handleWorkUpdate = () => {
+        this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput)
+        setTimeout(() => {
+            this.generateCompanyLabel()
+            this.generateJobTitleLabel()
+        }, 100)
+    }
 
     handlePasswordUpdate = () => {
         this.setState({...this.state, currentPasswordInput: "", newPasswordInput: "", confirmNewPasswordInput: "", newPasswordInputLabel: "Type your new password",
@@ -170,36 +208,72 @@ class EditProfile extends Component {
             return(
             <main className="landing-page edit-profile-wrapper">
                 <h3>Edit Profile</h3>
-                <CardPanel className="max-width-60 card-panel">
+                <CardPanel className="card-panel">
                     <Row>
                         <Collapsible>
-                            <CollapsibleItem header="Username" left icon="edit">
+                        {/* FULL NAME UPDATE */}
+                        <CollapsibleItem header="Full Name" left icon="face">
                                 <Row>
                                     <Col s={12}>
-                                        <Input   
-                                        className={this.state.updateUsernameDisabled ? "margin-top-10" : null}
-                                        label={<span className={
-                                            this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses ||
-                                            !this.state.noUsernameChange && !this.state.usernameLengthPasses ?
-                                            "error-text" : 'success-text'}>{this.state.usernameLabel}{!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses ? <Icon>check</Icon> : null}</span>} 
+                                        <Input 
+                                        label={this.state.firstNameInputLabel} 
                                         s={12} 
-                                        value={this.state.usernameInputValue}
-                                        onChange={evt => this.updateInput(evt, "usernameInputValue")}>
+                                        value={this.state.firstNameInput}
+                                        onChange={evt => this.updateInput(evt, "firstNameInput")}>
+                                        </Input>
+                                    </Col>
+                                    <Col s={12}>
+                                        <Input 
+                                        label={this.state.lastNameInputLabel} 
+                                        s={12} 
+                                        value={this.state.lastNameInput}
+                                        onChange={evt => this.updateInput(evt, "lastNameInput")}>
                                         </Input>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Button 
                                     s={12}
-                                    onClick={() => this.handleUsernameUpdate()}
-                                    disabled={this.state.updateUsernameDisabled}
+                                    onClick={() => this.handleFullNameUpdate()}
+                                    disabled={this.state.updateFullNameDisabled}
                                     className="login-signup-submit-button">
-                                        Update Username
+                                        Update Full Name
                                         <Icon right>check</Icon>
                                     </Button>
                                 </Row>
                             </CollapsibleItem>
-
+                            {/* WORK UPDATE */}
+                            <CollapsibleItem  header="Company/Title" left icon="work_outline">
+                                <Row>
+                                    <Col s={12}>
+                                        <Input   
+                                        label={this.state.jobTitleLabel} 
+                                        s={12} 
+                                        value={this.state.jobTitleInput}
+                                        onChange={evt => this.updateInput(evt, "jobTitleInput")}>
+                                        </Input>
+                                    </Col>
+                                    <Col s={12}>
+                                        <Input   
+                                        label={this.state.companyLabel} 
+                                        s={12} 
+                                        value={this.state.companyInput}
+                                        onChange={evt => this.updateInput(evt, "companyInput")}>
+                                        </Input>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Button 
+                                    s={12}
+                                    onClick={() => this.handleWorkUpdate()}
+                                    disabled={this.state.updateWorkDisabled}
+                                    className="login-signup-submit-button">
+                                        Update Work
+                                        <Icon right>check</Icon>
+                                    </Button>
+                                </Row>
+                            </CollapsibleItem>
+                            {/* PASSWORD UPDATE */}
                             <CollapsibleItem header="Password" left icon="lock">
                                 <Row>
                                     <Col s={12}>
@@ -272,7 +346,10 @@ class EditProfile extends Component {
         lastName: state.auth.lastName,
         usernameIsTaken: state.auth.usernameIsTaken,
         currentPasswordInputPasses: state.auth.currentPasswordInputPasses,
-        newPasswordInputPasses: state.auth.newPasswordInputPasses
+        newPasswordInputPasses: state.auth.newPasswordInputPasses,
+        user_id: state.auth.user_id,
+        jobTitle: state.auth.jobTitle,
+        company: state.auth.company
     }
   }
   
@@ -283,6 +360,9 @@ class EditProfile extends Component {
           isUsernameTaken, 
           validateCurrentPasswordInput, 
           getUserInfo,
+          updateFullName,
+          updateWork,
+          checkCookie,
           validateNewPasswordInput}, dispatch) 
     }
   

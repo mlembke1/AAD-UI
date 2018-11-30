@@ -1,13 +1,7 @@
-.max-width-60 {
-    /* max-width: 40%; */
-}
-
 .edit-profile-wrapper .card-panel {
-    position: absolute;
-    top: 30%;
-    left: 24%;
     margin: 0 auto;
-    min-width: 52%;
+    max-width: 52%; 
+    margin-top: 2%;
 }
 
 .success-text {
