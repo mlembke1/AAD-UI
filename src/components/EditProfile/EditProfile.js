@@ -19,8 +19,7 @@ class EditProfile extends Component {
     constructor(props) { 
         super(props)
         this.state = {
-            noUsernameChange: true, usernameInputValue: this.props.username, usernameLengthPasses: true, usernameLabel: "Your Current Username",
-            updateUsernameDisabled: true, updatePasswordDisabled: true, usernameAlreadyTaken: this.props.usernameIsTaken,
+            updatePasswordDisabled: true, usernameAlreadyTaken: this.props.usernameIsTaken,
             currentPasswordInput: "", currentPasswordInputPasses: false, newPasswordInput: "", 
             newPasswordInputLengthPasses: false, confirmNewPasswordInput: "", confirmNewPasswordInputLengthPasses: false,
             passwordsMatch: false, newPasswordInputLabel: "Type your new password", confirmPasswordInputLabel: "Confirm your new password",
@@ -62,29 +61,13 @@ class EditProfile extends Component {
             confirmNewPasswordInputLengthPasses: this.state.confirmNewPasswordInput.length >= 8 && this.state.confirmNewPasswordInput.length <= 30})
     } 
 
-    setUsernameLengthPasses = async () => {
-        return this.setState({...this.state,
-          usernameLengthPasses: this.state.usernameInputValue.length >= 8 && this.state.usernameInputValue.length <= 30})
-    } 
-
     setFullNamePasses = async () => this.setState({ ...this.state,  updateFullNameDisabled: ((this.state.firstNameInput == this.props.firstName) && (this.state.lastNameInput == this.props.lastName))}) 
 
     setWorkPasses = async () => this.setState({ ...this.state,  updateWorkDisabled: ((this.state.jobTitleInput == this.props.jobTitle) && (this.state.companyInput == this.props.company))}) 
 
     updateInput = async (evt, inputType) => this.setState({ ...this.state, [inputType]: evt.target.value }, () => this.validate(inputType))
-
-    setNoUsernameChange = async () => this.setState({...this.state, noUsernameChange: this.props.username == this.state.usernameInputValue})
     
-    setUsernameIsAlreadyTaken = async () => this.props.isUsernameTaken(this.state.usernameInputValue);
-
     ensurePasswordIsCorrect = async () => this.props.validateCurrentPasswordInput(this.props.username, this.state.currentPasswordInput);
-      
-    validateUsername = async () => { 
-        await this.setUsernameIsAlreadyTaken()
-        await this.setNoUsernameChange();
-        await this.setUsernameLengthPasses();
-        setTimeout(() => {this.generateUsernameLabel()}, 100)
-    }
 
     validateCurrentPasswordInputLocal = async () => {
         this.state.currentPasswordInput.length > 0 ? this.ensurePasswordIsCorrect() : null
@@ -125,8 +108,7 @@ class EditProfile extends Component {
     }
 
     validate = async inputType => {
-        if (inputType == "usernameInputValue") { await this.validateUsername() } 
-        else if (inputType == "currentPasswordInput"){ await this.validateCurrentPasswordInputLocal() } 
+         if (inputType == "currentPasswordInput"){ await this.validateCurrentPasswordInputLocal() } 
         else if (inputType == "newPasswordInput") { await this.validateNewPassword() } 
         else if (inputType == "confirmNewPasswordInput") { await this.validateConfirmPassword() }
         else if (inputType == "firstNameInput") { await this.validateFirstName() } 
@@ -161,18 +143,6 @@ class EditProfile extends Component {
         ...this.state, jobTitleLabel: this.props.jobTitle == this.state.jobTitleInput ? "Current Job Title" : 
                                            ((this.props.jobTitle !== this.state.jobTitleInput) && this.state.jobTitleInput.length > 0) ? 
                                            "looks great!" : "Edit Job Title Name Here."})
-    }
-
-    generateUsernameLabel = async () => {
-        if(!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses){
-            this.setState({...this.state, usernameLabel: "Your New Username", updateUsernameDisabled: false})
-        } else if (this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses)  {
-            this.setState({...this.state, usernameLabel: "Username Already Taken... Please try another.", updateUsernameDisabled: true})
-        }  else if (!this.state.noUsernameChange && !this.state.usernameLengthPasses) {
-            this.setState({...this.state, usernameLabel: "Username must be between 8-30 characters.", updateUsernameDisabled: true})
-        } else if (this.state.noUsernameChange) {
-            this.setState({...this.state, usernameLabel: "Your Current Username.", updateUsernameDisabled: true})
-        }                  
     }
 
     generateCurrentPasswordInputLabel = async () => {
@@ -214,13 +184,6 @@ class EditProfile extends Component {
         setTimeout(() => {
             this.generateFirstNameLabel()
             this.generateLastNameLabel()
-        }, 100)
-    }
-
-    handleUsernameUpdate = () => {
-        this.props.updateUsername(this.props.user_id, this.state.usernameInputValue)
-        setTimeout(() => {
-            this.generateUsernameLabel()
         }, 100)
     }
 
@@ -306,33 +269,6 @@ class EditProfile extends Component {
                                     disabled={this.state.updateWorkDisabled}
                                     className="login-signup-submit-button">
                                         Update Work
-                                        <Icon right>check</Icon>
-                                    </Button>
-                                </Row>
-                            </CollapsibleItem>
-                            {/* USERNAME UPDATE */}
-                            <CollapsibleItem header="Username" left icon="fingerprint">
-                                <Row>
-                                    <Col s={12}>
-                                        <Input   
-                                        className={this.state.updateUsernameDisabled ? "margin-top-10" : null}
-                                        label={<span className={
-                                            this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses ||
-                                            !this.state.noUsernameChange && !this.state.usernameLengthPasses ?
-                                            "error-text" : 'success-text'}>{this.state.usernameLabel}{!this.props.usernameIsTaken && !this.state.noUsernameChange && this.state.usernameLengthPasses ? <Icon>check</Icon> : null}</span>} 
-                                        s={12} 
-                                        value={this.state.usernameInputValue}
-                                        onChange={evt => this.updateInput(evt, "usernameInputValue")}>
-                                        </Input>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Button 
-                                    s={12}
-                                    onClick={() => this.handleUsernameUpdate()}
-                                    disabled={this.state.updateUsernameDisabled}
-                                    className="login-signup-submit-button">
-                                        Update Username
                                         <Icon right>check</Icon>
                                     </Button>
                                 </Row>
