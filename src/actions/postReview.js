@@ -11,7 +11,8 @@ export const postReview = (
         jobTitle,
         company,
         rangeValue,
-        sortoeAnswers
+        sortoeAnswers, 
+        lastReviewID
 ) => dispatch => {
     let formData = new FormData();
     formData.append('toolName', toolNameInputValue)

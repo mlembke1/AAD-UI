@@ -84,7 +84,3 @@ hr {
 .hover-lighten:hover {
     opacity: .75;
 }
-
-.stats-wrapper {
-    opacity: .2;
-}
