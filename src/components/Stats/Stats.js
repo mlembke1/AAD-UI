@@ -6,7 +6,7 @@ import { checkCookie } from '../../actions/checkCookie'
 import { getAnswers } from '../../actions/getAnswers'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { Row, Input, Col } from 'react-materialize'
+import { Row, Input, Col, Preloader } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import SubHeader from '../SubHeader/SubHeader'
 import Chart from '../Chart/Chart'
@@ -17,7 +17,8 @@ class Stats extends Component {
   constructor(props){
     super(props)
     this.state = {
-      selectedToolResults: "MEADE/SORT-OE"
+      selectedToolResults: "MEADE/SORT-OE", 
+      allAnswers: this.props.allAnswers
     }
   }
 
@@ -25,7 +26,7 @@ class Stats extends Component {
     this.props.checkCookie()
     this.props.getUserInfo()
     setTimeout(() => this.props.setPermissions(this.props.role), 300) 
-    this.props.getAnswers(this.state.selectedToolResults)
+    this.props.getAnswers(this.state.selectedToolResults, this.props.sortoeQuestions)
   }
 
     
@@ -48,14 +49,32 @@ class Stats extends Component {
             <Col s={9}></Col>
           </Row> 
           <Row>
-            {
-              this.props.sortoeQuestions.map(question => (
-                <div className="height-100">
-                  <h6>{question.questionID}. {question.question}</h6>
-                  <Chart />
-                </div>
-              ))
-            }
+            { 
+              !this.props.getAnswersComplete ?
+              <Row className="margin-top">
+                <Col s={6}></Col>
+                <Col s={4}>
+                  <Preloader size='big'/>
+                </Col>
+                <Col s={2}></Col>
+              </Row>
+              :
+                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 ?
+                  <Row>
+                    <Col s={3}></Col>
+                    <Col s={6}>
+                      <h5 className="font-300">No {this.state.selectedToolResults} Statistics Available Yet.</h5>
+                    </Col>
+                    <Col s={3}></Col>
+                  </Row> 
+                  :
+                  Object.keys(this.props.allAnswers).map(answerObjectKey => (
+                    <div className="height-100">
+                      <h6>{this.props.allAnswers[answerObjectKey].questionID}. {this.props.allAnswers[answerObjectKey].question}</h6>
+                      <Chart answerObject={this.props.allAnswers[answerObjectKey]}/>
+                    </div>
+                  )) 
+              }
           </Row>
         </div>
       )
@@ -70,7 +89,9 @@ const mapStateToProps = state => {
       username: state.auth.username,
       allTools: state.tools.allTools, 
       role: state.auth.role,
-      sortoeQuestions: state.reviews.sortoeQuestions
+      sortoeQuestions: state.reviews.sortoeQuestions, 
+      allAnswers: state.reviews.allAnswers, 
+      getAnswersComplete: state.reviews.getAnswersComplete
   }
 }
 

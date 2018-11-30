@@ -15,3 +15,7 @@ div.height-100:nth-child(odd) {
 .margin-left {
     margin-left: 60px;
 }
+
+.font-300 { 
+    font-weight: 300 !important;
+}

@@ -1,4 +1,4 @@
-export const getAnswers = selected_tool_name => dispatch => {
+export const getAnswers = (selected_tool_name, questionSet) => dispatch => {
     const options = {
         method: 'GET',
         credentials: 'include',
@@ -35,22 +35,32 @@ export const getAnswers = selected_tool_name => dispatch => {
 
          ////////////////////////////////////////////////////////////
          let totalOccurences = {}
+         let index = 0
          for (let answerNumber in totals) {
              let individualTotals = {}
+             let sum = totals[answerNumber].length
              totals[answerNumber].forEach((rating, i) => {
-                 individualTotals[rating] ? individualTotals[rating]++ : individualTotals[rating] = 1
+                 if (individualTotals[rating]) {
+                     individualTotals[rating] = ((individualTotals[rating] / 100) * sum)
+                    individualTotals[rating]++
+                 } else {
+                    individualTotals[rating] = 1
+                 }
                 if (!individualTotals["Agree"]) individualTotals["Agree"] = 0
                 if (!individualTotals["Disagree"])  individualTotals["Disagree"] = 0
                 if (!individualTotals["Indifferent"])  individualTotals["Indifferent"] = 0
                 if (!individualTotals["Strongly Agree"]) individualTotals["Strongly Agree"] = 0
                 if (!individualTotals["Strongly Disagree"]) individualTotals["Strongly Disagree"] = 0
+                if (!individualTotals['question']) individualTotals['question'] = questionSet[index].question
+                if (!individualTotals['questionID']) individualTotals['questionID'] = questionSet[index].questionID
+                individualTotals[rating] = ((individualTotals[rating] / sum) * 100)
              })
              totalOccurences[answerNumber] = individualTotals
+             index++
          }
-        
+         
          //////////////////////////////////////////////////////////////////
-         console.log(totalOccurences)
-      return dispatch({ type:'ANSWERS_AQUIRED', payload: newAnswersArray })
+      return dispatch({ type:'ANSWERS_AQUIRED', payload: totalOccurences })
     })
     .catch(err => {
         return dispatch({ type: 'ANSWERS_AQUISITION_FAILED'})

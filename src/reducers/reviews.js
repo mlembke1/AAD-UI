@@ -11,6 +11,7 @@ export const reviews = ( state={
     publicReviewsRequestFinished: false,
     allQuestionsAreIndifferent: true,
     lastReviewID: null,
+    getAnswersComplete: false,
     sortoeQuestions:  [
       {
           questionID: 1,
@@ -103,7 +104,7 @@ export const reviews = ( state={
         case 'LAST_REVIEW_ID_AQUIRED':
           return { ...state, lastReviewID: action.payload }
         case 'ANSWERS_AQUIRED': 
-          return { ...state, allAnswers: action.payload }
+          return { ...state, allAnswers: action.payload, getAnswersComplete: true }
         default:
           return state
       }

@@ -23,27 +23,27 @@ render () {
         data={[
             {
               "country": "Strongly Disagree",
-              "Results": 20,
+              "Results": Math.trunc(this.props.answerObject['Strongly Disagree']),
               "kebabColor": "hsl(0, 0%, 84%)"
             },
             {
               "country": "Disagree",
-              "Results": 10,
+              "Results": Math.trunc(this.props.answerObject['Disagree']),
               "kebabColor": "hsl(0, 0%, 84%)"
             },
             {
               "country": "Indifferent",
-              "Results": 18,
+              "Results": Math.trunc(this.props.answerObject['Indifferent']),
               "kebabColor": "hsl(0, 0%, 84%)"
             },
             {
               "country": "Agree",
-              "Results": 40,
+              "Results": Math.trunc(this.props.answerObject['Agree']),
               "kebabColor": "hsl(0, 0%, 84%)"
             },
             {
               "country": "Strongly Agree",
-              "Results": 12,
+              "Results": Math.trunc(this.props.answerObject['Strongly Agree']),
               "kebabColor": "hsl(0, 0%, 84%)"
             }
         ]}
