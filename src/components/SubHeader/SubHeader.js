@@ -31,7 +31,7 @@ class SubHeader extends Component {
             <img src={this.props.icon} alt="Subheader icon" width="70px" />
           </Col>
           <Col s={1}>
-            <h5 className="dash-username j-title">{this.props.subHeader}</h5>
+            <h5 className={`dash-username j-title padding-left`}>{this.props.subHeader}</h5>
           </Col>
           <Col s={10}></Col>
         </Row>
