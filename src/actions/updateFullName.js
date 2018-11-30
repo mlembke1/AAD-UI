@@ -1,8 +1,8 @@
 import axios from 'axios';
-export const updateFullName = (user_id, firstName, lastName) => dispatch => {
+export const updateFullName = (user_id, firstName, lastName, username, company, jobTitle) => dispatch => {
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateFullName', {
         method: "patch",
-        data: { user_id, firstName, lastName }
+        data: { user_id, firstName, lastName, username, company, jobTitle }
     })
     .then(payload => { 
         window.Materialize.toast('Full Name Update Successful!', 2300)

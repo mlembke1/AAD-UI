@@ -1,8 +1,8 @@
 import axios from 'axios';
-export const updateWork = (user_id, company, jobTitle) => dispatch => {
+export const updateWork = (user_id, company, jobTitle, username) => dispatch => {
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/updateWork', {
         method: "patch",
-        data: { user_id, company, jobTitle }
+        data: { user_id, company, jobTitle, username }
     })
     .then(payload => { 
         window.Materialize.toast('Work Update Successful!', 2300)
