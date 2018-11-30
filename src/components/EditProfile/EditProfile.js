@@ -180,7 +180,10 @@ class EditProfile extends Component {
     }
     
     handleFullNameUpdate = () => {
-        this.props.updateFullName(this.props.user_id, this.state.firstNameInput, this.state.lastNameInput)
+        this.props.updateFullName(this.props.user_id, 
+                                  this.state.firstNameInput, 
+                                  this.state.lastNameInput, 
+                                  this.props.username)
         setTimeout(() => {
             this.generateFirstNameLabel()
             this.generateLastNameLabel()
@@ -188,7 +191,7 @@ class EditProfile extends Component {
     }
 
     handleWorkUpdate = () => {
-        this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput)
+        this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput, this.props.username)
         setTimeout(() => {
             this.generateCompanyLabel()
             this.generateJobTitleLabel()
