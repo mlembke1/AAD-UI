@@ -38,15 +38,16 @@ class Stats extends Component {
       return (
         <div>
           {/* HEADER */}
-          <SubHeader icon={require("../../assets/stats_icon.png")} subHeader="The Stats"/>
-          <Row className="margin-left"> 
-            <Col s={3}>
+          <Row className="valign-wrapper"> 
+            <Col s={9}>
+              <SubHeader icon={require("../../assets/stats_icon.png")} subHeader="The Stats"/>
+            </Col>
+            <Col s={3} className="margin-right">
               <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value})} label="Choose Tool Results" >
                 <option value='MEADE/SORT-OE'> MEADE/SORT-OE</option>
                 <option value='ARGUMENT MAPPER'> ARGUMENT MAPPER</option>
               </Input>
             </Col>
-            <Col s={9}></Col>
           </Row> 
           <Row>
             { 
