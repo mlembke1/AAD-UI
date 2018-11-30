@@ -6,7 +6,7 @@ import { checkCookie } from '../../actions/checkCookie'
 import { getAnswers } from '../../actions/getAnswers'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { Row, Input, Col, Preloader } from 'react-materialize'
+import { Row, Input, Col, ProgressBar } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import SubHeader from '../SubHeader/SubHeader'
 import Chart from '../Chart/Chart'
@@ -52,14 +52,14 @@ class Stats extends Component {
             { 
               !this.props.getAnswersComplete ?
               <Row className="margin-top">
-                <Col s={6}></Col>
+                <Col s={4}></Col>
                 <Col s={4}>
-                  <Preloader size='big'/>
+                    <ProgressBar /> 
                 </Col>
-                <Col s={2}></Col>
+                <Col s={4}></Col>
               </Row>
               :
-                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 ?
+                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 || this.state.selectedToolResults !== "MEADE/SORT-OE"?
                   <Row>
                     <Col s={3}></Col>
                     <Col s={6}>
