@@ -33,7 +33,7 @@ class Header extends Component {
                             <Link className="link" to="/public">Public Reviews</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
-                            <Link className="link" to="/stats">Stats</Link>
+                            <Link className="link" to="/stats">The Stats</Link>
                         </SideNavItem>
                         <SideNavItem className="border-bottom" waves>
                             <Link className="link" to="/editProfile">Edit Profile</Link>
