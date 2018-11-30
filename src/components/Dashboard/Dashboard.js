@@ -65,7 +65,7 @@ class Dashboard extends Component {
                     </div>
                   </Link>
               </Col>
-              <Col className='stats-wrapper valign-wrapper center tool-wrapper ' s={12} m={6}>
+              <Col className='stats-wrapper hover-lighten   align-wrapper center tool-wrapper ' s={12} m={6}>
                   <Link  to="/stats">
                     <div className="dashboard-block-wrapper">
                       <img alt="icon" src={require("../../assets/stats_icon.png")} width="100px" />
