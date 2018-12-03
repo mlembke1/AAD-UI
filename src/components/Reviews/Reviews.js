@@ -464,7 +464,6 @@ class Reviews extends Component {
                                     <Row>
                                         <Input 
                                         className="already-posted"
-                                        id="file-input"
                                         type="file"
                                         label={review.path ? <span>Replace<Icon right tiny  className="data">cloud_upload</Icon></span> : <span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}  
                                         name="fileUpload"
@@ -702,7 +701,6 @@ class Reviews extends Component {
                                                         <Col s={2}></Col>
                                                         <Col s={10}>
                                                             <Input
-                                                            id="file-input"
                                                             type="file"
                                                             label={<span>Upload<Icon right tiny  className="data">cloud_upload</Icon></span>}
                                                             name="fileUpload"
