@@ -349,7 +349,7 @@ class Reviews extends Component {
             this.props.allReviews.map((review, i) => {
               return (
                 <Section key={review.id} className="reviews-wrapper center review-underline-wrapper">
-                  <Row className={`c-item valign-wrapper`}>
+                  <Row className={`c-item `}>
                     <Col s={2}>
                       {
                         review.editable ?
