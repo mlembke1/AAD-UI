@@ -249,7 +249,6 @@ class Reviews extends Component {
   }
 
   postReviewHandler = async () => {
-    console.log('You just entered post review handler!')
     this.setState({
         ...this.state,
         postStarted: true

@@ -6,7 +6,7 @@ export const validateEmail = (email) => dispatch => {
           const emails = json.map(x => x.email)
           const emailIsTaken = emails.includes(email.trim()) ? true : false
           if(!emailRegex.test(email)){
-              return dispatch({type: 'INVALID_EMAIL'})
+                return dispatch({type: 'INVALID_EMAIL'})
           } else {
             if(emailIsTaken){
                 return dispatch({type: 'EMAIL_ALREADY_EXISTS'})

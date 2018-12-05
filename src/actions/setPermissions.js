@@ -6,7 +6,6 @@ export const setPermissions = role => dispatch => {
               type:'SET_PERMISSIONS', 
               payload: permissions
             })
-        return
         })
         .catch(err => {
             return dispatch({ type: 'SET_PERMISSIONS_FAILED'})
