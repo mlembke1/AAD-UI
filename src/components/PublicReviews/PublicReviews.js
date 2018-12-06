@@ -7,7 +7,6 @@ import { getUserInfo } from '../../actions/getUserInfo'
 import { setPermissions } from '../../actions/setPermissions'
 import { getAllTools } from '../../actions/getAllTools'
 import { getAllPublicReviews } from '../../actions/getAllPublicReviews'
-import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
@@ -205,7 +204,6 @@ class PublicReviews extends Component {
                           answer_4, answer_5) => {
     let updateObject = {}
     if(editable) {
-        this.props.editSaveToggle(editable, reviewId)
         updateObject = {
             toolName: this.state.editToolNameInputValue,
             textInput: this.state.editTextInputValue,
@@ -685,7 +683,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     authenticate,
     getAllPublicReviews,
     postReview, 
-    editSaveToggle,
     updateReview,
     deleteReview,
     getFile, 

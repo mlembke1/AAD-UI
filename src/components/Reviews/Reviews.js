@@ -6,7 +6,6 @@ import { authenticate } from '../../actions/authenticate'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllReviews } from '../../actions/getAllReviews'
-import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
@@ -49,7 +48,8 @@ class Reviews extends Component {
             editAnswer_2_value: "",
             editAnswer_3_value: "",
             editAnswer_4_value: "",
-            editAnswer_5_value: ""
+            editAnswer_5_value: "",
+            reviewIdBeingEdited: null
         }
 
         this.myRef = React.createRef()
@@ -176,12 +176,11 @@ class Reviews extends Component {
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    setTimeout(() => this.props.getAllReviews(), 200)
-    setTimeout(() => {
-    if(this.props.allReviews.length < 1){
-        this.props.clearFiles()
-    }
-    }, 400)
+    this.props.getAllReviews().then(r => {
+        if(this.props.allReviews.length < 1){
+            this.props.clearFiles()
+        }
+    })
   }
    
 
@@ -192,7 +191,6 @@ class Reviews extends Component {
     // Edit has already been open, now time to save the updates.
     let updateObject = {}
     if(editable) {
-        this.props.editSaveToggle(editable, reviewId)
          updateObject = {
             toolName: this.state.editToolNameInputValue,
             textInput: this.state.editTextInputValue,
@@ -207,14 +205,23 @@ class Reviews extends Component {
             answer_5: this.state.editAnswer_5_value
         }
         this.props.updateReview(updateObject)
+        .then(res => {
+            this.props.getAllReviews().then(r => {
+                this.props.allReviews.map(review => {
+                    if(review.path && updateObject.hasOwnProperty('blob')){
+                        return this.props.getFile(review.path.substring(15), review.id)
+                    }
+                })
+            })
+        })
         this.setState({
             ...this.state,
+            reviewIdBeingEdited: null,
             editFileInputValue: null
         })
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, reviewId)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
@@ -225,20 +232,11 @@ class Reviews extends Component {
             editAnswer_2_value: answer_2 || "",
             editAnswer_3_value: answer_3 || "",
             editAnswer_4_value: answer_4 || "",
-            editAnswer_5_value: answer_5 || ""
+            editAnswer_5_value: answer_5 || "",
+            reviewIdBeingEdited: reviewId
         })
     }
-    setTimeout(() => {
-        this.props.getAllReviews()
-    }, 200)
-    setTimeout(() => {
-        return this.props.allReviews.map(review => {
-            if(review.path && updateObject.hasOwnProperty('blob')){
-                return this.props.getFile(review.path.substring(15), review.id)
-            }
-        })
-    }, 400)
-  }
+}
 
   postReviewHandler = async () => {
     this.setState({
@@ -343,7 +341,7 @@ class Reviews extends Component {
                   <Row className={`c-item `}>
                     <Col s={2}>
                       {
-                        review.editable ?
+                        review.id === this.state.reviewIdBeingEdited ?
                         <Row>
                             <Input 
                             s={12} 
@@ -361,7 +359,7 @@ class Reviews extends Component {
                     </Col>
                     <Col s={6}>
                             {
-                            review.editable ?
+                            review.id === this.state.reviewIdBeingEdited ?
                             <Row>
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
@@ -427,7 +425,7 @@ class Reviews extends Component {
                             </Row>
                             }
                         {
-                            review.editable ?
+                            review.id === this.state.reviewIdBeingEdited ?
                                 <Row>
                                     {
                                     this.state.editFileInputValue && this.state.editFileTypePasses ?
@@ -468,7 +466,7 @@ class Reviews extends Component {
                                 null
                         }
                         {
-                            !this.state.editFileTypePasses && review.editable ?
+                            !this.state.editFileTypePasses && (review.id === this.state.reviewIdBeingEdited) ?
                             <div>
                                 <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a .pdf.</div>
                                 <div className="error-text">Please ensure file extensions are all lowercase.</div>
@@ -479,7 +477,7 @@ class Reviews extends Component {
                     </Col>
                     <Col s={4} className="center">
                         {
-                            review.editable ?
+                            review.id === this.state.reviewIdBeingEdited ?
                             <div>
                                 <Row className="edit-review-buttons">
                                         <p>Overall {this.state.toolNameInputValue} rating: 
@@ -504,7 +502,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row className="edit-review-buttons">
                                     <Button disabled={!this.state.editFileTypePasses} 
-                                    onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name,
+                                    onClick={() => this.toggleEditSaveHandler(review.id === this.state.reviewIdBeingEdited, review.tool_name,
                                                                             review.id, review.text, review.path,
                                                                             review.sharable, review.rating, review.answer_1,
                                                                             review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
@@ -516,7 +514,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row className="edit-review-buttons">
                                     {
-                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.id === this.state.reviewIdBeingEdited && review.path ?
                                             <Modal
                                             className="review-modal"
                                             trigger={
@@ -541,7 +539,7 @@ class Reviews extends Component {
                                     }
                                 </Row>
                                 {
-                                    review.editable && review.path ?
+                                    review.id === this.state.reviewIdBeingEdited && review.path ?
                                     <Row className="edit-review-buttons">
                                         <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove Current File <Icon right tiny className="data">delete_outline</Icon></Button>
                                     </Row>
@@ -587,7 +585,7 @@ class Reviews extends Component {
                                     </Col>
                                 </Row>
                                 <Row className="edit-review-buttons">
-                                    <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, 
+                                    <Button onClick={() => this.toggleEditSaveHandler(review.id === this.state.reviewIdBeingEdited, review.tool_name, 
                                                                                     review.id, review.text,  review.path,
                                                                                     review.sharable, review.rating, review.answer_1,
                                                                                     review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
@@ -607,7 +605,7 @@ class Reviews extends Component {
                                             <div>Loading File...</div>
                                         </div>
                                         :
-                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && (review.id !== this.state.reviewIdBeingEdited) && review.path ?
                                             <Modal
                                             className="review-modal"
                                             trigger={
@@ -867,7 +865,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     authenticate,
     getAllReviews,
     postReview, 
-    editSaveToggle,
     updateReview,
     deleteReview,
     getFile, 
