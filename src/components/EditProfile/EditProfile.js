@@ -7,7 +7,7 @@ import { updateUsername } from '../../actions/updateUsername'
 import { updatePassword } from '../../actions/updatePassword'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
 import { getUserInfo } from '../../actions/getUserInfo'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { validateCurrentPasswordInput } from '../../actions/validateCurrentPasswordInput'
 import { validateNewPasswordInput } from '../../actions/validateNewPasswordInput'
 import { updateFullName } from '../../actions/updateFullName'
@@ -31,16 +31,13 @@ class EditProfile extends Component {
     }
 
     componentWillMount = () => {
-        this.props.getUserInfo()
-    }
-
-    componentDidMount = () => {
-        this.props.checkCookie()
-        this.props.getUserInfo()
-    }
-
-    componentDidUpdate = () => {
-        this.props.getUserInfo()
+        this.props.getUserInfo().then(r => {
+            this.setState({...this.state, 
+                          firstNameInput: r.payload.firstName,
+                          lastNameInput: r.payload.lastName,
+                          companyInput: r.payload.company,
+                          jobTitleInput: r.payload.jobTitle})
+        })
     }
 
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput
@@ -181,21 +178,23 @@ class EditProfile extends Component {
     
     handleFullNameUpdate = () => {
         this.props.updateFullName(this.props.user_id, 
-                                  this.state.firstNameInput, 
-                                  this.state.lastNameInput, 
-                                  this.props.username)
-        setTimeout(() => {
-            this.generateFirstNameLabel()
-            this.generateLastNameLabel()
-        }, 100)
+            this.state.firstNameInput, 
+            this.state.lastNameInput, 
+            this.props.username)
+            .then(r => {
+                this.generateFirstNameLabel()
+                this.generateLastNameLabel()
+                this.setFullNamePasses()
+            })
     }
 
     handleWorkUpdate = () => {
         this.props.updateWork(this.props.user_id, this.state.companyInput, this.state.jobTitleInput, this.props.username)
-        setTimeout(() => {
+        .then(r => {
             this.generateCompanyLabel()
             this.generateJobTitleLabel()
-        }, 100)
+            this.setWorkPasses()
+        })
     }
 
     handlePasswordUpdate = () => {
@@ -365,7 +364,7 @@ class EditProfile extends Component {
           getUserInfo,
           updateFullName,
           updateWork,
-          checkCookie,
+          authenticate,
           validateNewPasswordInput}, dispatch) 
     }
   

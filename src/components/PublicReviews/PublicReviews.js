@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './PublicReviews.css';
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { setPermissions } from '../../actions/setPermissions'
 import { getAllTools } from '../../actions/getAllTools'
 import { getAllPublicReviews } from '../../actions/getAllPublicReviews'
-import { editSaveToggle } from '../../actions/editSaveToggle'
 import { updateReview } from '../../actions/updateReview'
 import { postReview } from '../../actions/postReview'
 import { deleteReview } from '../../actions/deleteReview'
@@ -46,30 +45,26 @@ class PublicReviews extends Component {
             editAnswer_2_value: "",
             editAnswer_3_value: "",
             editAnswer_4_value: "",
-            editAnswer_5_value: ""
+            editAnswer_5_value: "",
+            reviewIdBeingEdited: null
         }
     }
 
     
     componentWillMount = () => {
-        this.props.checkCookie()
-        this.props.getUserInfo()
+        this.props.authenticate()
+        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
         this.props.getAllTools()
-        this.props.getAllPublicReviews()
-        setTimeout(() => this.props.setPermissions(this.props.role), 300)
-        setTimeout( () => {
-            if(this.props.publicReviewsRequestFinished) {
-                if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1){
-                        this.props.clearFiles()
-                } else {
-                        this.props.allPublicReviews.map((review, i) => {
-                            if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                    this.props.getFile(review.path.substring(15), review.id)
-                                }
-                        })
-                }
+        this.props.getAllPublicReviews().then(r => {
+            if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1) {this.props.clearFiles()}
+            else {
+                this.props.allPublicReviews.map((review, i) => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                           return this.props.getFile(review.path.substring(15), review.id)
+                        }
+                })
             }
-        }, 1000)
+        })
 
     }
 
@@ -77,16 +72,13 @@ class PublicReviews extends Component {
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
             this.props.postComplete ? this.setState({...this.state, postStarted: false }) : null
             this.props.clearFiles()
-            this.props.getAllPublicReviews()
-            setTimeout(() => {
-                if(this.props.publicReviewsRequestFinished){
-                    this.props.allPublicReviews.map((review, i) => {
-                        if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                this.props.getFile(review.path.substring(15), review.id)
-                            }
-                    })
-                }
-            }, 1000)
+            this.props.getAllPublicReviews().then(r => {
+                this.props.allPublicReviews.map((review, i) => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                            this.props.getFile(review.path.substring(15), review.id)
+                        }
+                })
+            })
             
             if (this.props.files.length == this.props.allPublicReviews.filter(review => review.path).length) {
                 this.props.setPostCompleteFalse()
@@ -199,12 +191,11 @@ class PublicReviews extends Component {
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    setTimeout(() => this.props.getAllPublicReviews(), 200)
-    setTimeout(() => {
-    if(this.props.allPublicReviews.length < 1){
-        this.props.clearFiles()
-    }
-    }, 400)
+    this.props.getAllPublicReviews().then(r => {
+        if(this.props.allPublicReviews.length < 1){
+            this.props.clearFiles()
+        }
+    })
   }
    
 
@@ -214,7 +205,6 @@ class PublicReviews extends Component {
                           answer_4, answer_5) => {
     let updateObject = {}
     if(editable) {
-        this.props.editSaveToggle(editable, reviewId)
         updateObject = {
             toolName: this.state.editToolNameInputValue,
             textInput: this.state.editTextInputValue,
@@ -229,14 +219,23 @@ class PublicReviews extends Component {
             answer_5: this.state.editAnswer_5_value
         }
         this.props.updateReview(updateObject)
+        .then(res => {
+            this.props.getAllPublicReviews().then(r => {
+                this.props.allPublicReviews.map(review => {
+                    if(review.path && updateObject.hasOwnProperty('blob')){
+                        this.props.getFile(review.path.substring(15), review.id)
+                    }
+                })
+            })
+        })
         this.setState({
             ...this.state,
-            editFileInputValue: null
+            editFileInputValue: null,
+            reviewIdBeingEdited: null
         })
     } 
     // Edit has NOT already been open, now time to update the fields.
     else {
-        this.props.editSaveToggle(editable, reviewId)
         this.setState({
             ...this.state,
             editToolNameInputValue: toolName,
@@ -247,19 +246,10 @@ class PublicReviews extends Component {
             editAnswer_2_value: answer_2 || "",
             editAnswer_3_value: answer_3 || "",
             editAnswer_4_value: answer_4 || "",
-            editAnswer_5_value: answer_5 || ""
+            editAnswer_5_value: answer_5 || "",
+            reviewIdBeingEdited: reviewId
         })
     }
-    setTimeout(() => {
-        this.props.getAllPublicReviews()
-    }, 200)
-    setTimeout(() => {
-        this.props.allPublicReviews.map(review => {
-            if(review.path && updateObject.hasOwnProperty('blob')){
-                this.props.getFile(review.path.substring(15), review.id)
-            }
-        })
-    }, 400)
   }
 
 
@@ -384,7 +374,7 @@ class PublicReviews extends Component {
                   <Row className={`c-item`}>
                     <Col s={2}>
                       {
-                        review.editable ?
+                        (review.id === this.state.reviewIdBeingEdited) ?
                         <Row>
                             <Input 
                             s={12} 
@@ -402,7 +392,7 @@ class PublicReviews extends Component {
                     </Col>
                     <Col s={6}>
                         {
-                            review.editable ?
+                            (review.id === this.state.reviewIdBeingEdited) ?
                             <Row>
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
@@ -467,7 +457,7 @@ class PublicReviews extends Component {
                             </Row>
                             }
                         {
-                            review.editable ?
+                            (review.id === this.state.reviewIdBeingEdited) ?
                                 <Row>
                                     {
                                     this.state.editFileInputValue && this.state.editFileTypePasses ?
@@ -509,7 +499,7 @@ class PublicReviews extends Component {
                                 null
                         }
                         {
-                            !this.state.editFileTypePasses && review.editable ?
+                            !this.state.editFileTypePasses && ((review.id === this.state.reviewIdBeingEdited)) ?
                             <div>
                                 <div className="error-text">File must be a picture(.jpg/.png/.jpeg) or a PDF.</div>
                                 <div className="error-text">Please ensure file extensions are all lowercase.</div>
@@ -520,7 +510,7 @@ class PublicReviews extends Component {
                     </Col>
                     <Col s={4} className="center margin-top-0">
                         {
-                            review.editable ?
+                            (review.id === this.state.reviewIdBeingEdited) ?
                             <div>
                                 <Row className="border-bottom edit-review-buttons">
                                         <p>Overall {this.state.toolNameInputValue} rating: 
@@ -545,7 +535,7 @@ class PublicReviews extends Component {
                                 </Row>
                                 <Row className="edit-review-buttons">
                                     <Button disabled={!this.state.editFileTypePasses} 
-                                    onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name,
+                                    onClick={() => this.toggleEditSaveHandler((review.id === this.state.reviewIdBeingEdited), review.tool_name,
                                                                             review.id, review.text, review.path,
                                                                             review.sharable, review.rating, review.answer_1,
                                                                             review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
@@ -557,7 +547,7 @@ class PublicReviews extends Component {
                                 </Row>
                                 <Row className="edit-review-buttons">
                                     {
-                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && review.editable && review.path ?
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0 && (review.id === this.state.reviewIdBeingEdited) && review.path ?
                                             <Modal
                                             className="review-modal"
                                             trigger={
@@ -582,7 +572,7 @@ class PublicReviews extends Component {
                                     }
                                 </Row>
                                 {
-                                    review.editable && review.path ?
+                                    (review.id === this.state.reviewIdBeingEdited) && review.path ?
                                     <Row className="edit-review-buttons">
                                         <Button onClick={() => this.removeFileHandler(review.id)} className="portal-buttons delete-button" waves='light'> Remove File <Icon right tiny className="data">delete_outline</Icon></Button>
                                     </Row>
@@ -608,7 +598,7 @@ class PublicReviews extends Component {
                                 {
                                     review.username == this.props.username ?
                                     <Row className="edit-review-buttons">
-                                        <Button onClick={() => this.toggleEditSaveHandler(review.editable, review.tool_name, 
+                                        <Button onClick={() => this.toggleEditSaveHandler((review.id === this.state.reviewIdBeingEdited), review.tool_name, 
                                                                                         review.id, review.text,  review.path,
                                                                                         review.sharable, review.rating, review.answer_1,
                                                                                         review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
@@ -633,7 +623,7 @@ class PublicReviews extends Component {
                                             <div>Loading File...</div>
                                         </div>
                                         :
-                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && !review.editable && review.path ?
+                                        this.props.files && this.props.files.filter(file => file.review_id == review.id).length  > 0  && (review.id !== this.state.reviewIdBeingEdited) && review.path ?
                                             <Modal
                                             className="review-modal"
                                             trigger={
@@ -693,10 +683,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    checkCookie,
+    authenticate,
     getAllPublicReviews,
     postReview, 
-    editSaveToggle,
     updateReview,
     deleteReview,
     getFile, 

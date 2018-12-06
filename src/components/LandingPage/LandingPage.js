@@ -4,16 +4,15 @@ import { connect } from 'react-redux'
 import { Button } from 'react-materialize'
 import { Link, Redirect } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { setPermissions } from '../../actions/setPermissions'
 
 class LandingPage extends Component {
 
   componentWillMount(){
-    this.props.checkCookie()
-    this.props.getUserInfo()
-    setTimeout(()  => this.props.setPermissions(this.props.role), 300)
+    this.props.authenticate().then(r => r).catch(err => err)
+    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
   }
 
 
@@ -56,6 +55,6 @@ const mapStateToProps = state => {
       role: state.auth.role
   }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({authenticate, getUserInfo, setPermissions}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

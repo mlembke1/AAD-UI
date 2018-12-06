@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { Row, Input, Button, Icon } from 'react-materialize'
 import { loginUser } from '../../actions/loginUser'
 import { doesUsernameExist } from '../../actions/doesUsernameExist'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { resetState } from '../../actions/resetState'
 import { Redirect } from 'react-router-dom'
@@ -13,7 +13,7 @@ import { Redirect } from 'react-router-dom'
 class Login extends Component {
 
   componentWillMount(){
-    this.props.checkCookie()
+    this.props.authenticate()
     this.props.getUserInfo()
   }
 
@@ -137,7 +137,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   loginUser,
   doesUsernameExist,
-  checkCookie,
+  authenticate,
   getUserInfo,
   resetState}, dispatch)
 

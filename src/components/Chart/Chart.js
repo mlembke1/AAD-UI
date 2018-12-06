@@ -3,7 +3,6 @@ import './Chart.css';
 import { ResponsiveBar } from '@nivo/bar'
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
 import { setPermissions  } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 
@@ -100,6 +99,6 @@ const mapStateToProps = state => {
     }
   }
   
-  const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions}, dispatch)
+  const mapDispatchToProps = dispatch => bindActionCreators({getUserInfo, setPermissions}, dispatch)
   
   export default connect(mapStateToProps, mapDispatchToProps)(Chart)

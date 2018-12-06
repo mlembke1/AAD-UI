@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './Portal.css';
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllTools } from '../../actions/getAllTools'
@@ -20,10 +20,9 @@ import SubHeader from '../SubHeader/SubHeader'
 
 class Portal extends Component {
   componentWillMount(){
-    this.props.checkCookie()
+    this.props.authenticate()
     this.props.getAllTools()
-    this.props.getUserInfo()
-    setTimeout(() => this.props.setPermissions(this.props.role), 300)
+    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
   }
 
   render() {
@@ -120,6 +119,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getAllTools, getUserInfo, setPermissions}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({authenticate, getAllTools, getUserInfo, setPermissions}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portal)
