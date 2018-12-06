@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './SubHeader.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Section } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
@@ -12,7 +11,6 @@ import { Redirect } from 'react-router-dom'
 class SubHeader extends Component {
 
     componentWillMount(){
-        this.props.checkCookie()
         this.props.getUserInfo()
     }
     
@@ -54,6 +52,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({getUserInfo}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubHeader)

@@ -5,7 +5,7 @@ import { Row, Input, Button, Col, Icon } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { submitNewUser } from '../../actions/submitNewUser'
 import { isUsernameTaken } from '../../actions/isUsernameTaken'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { validateEmail } from '../../actions/validateEmail'
 import { inviteToSlack } from '../../actions/inviteToSlack'
@@ -14,7 +14,7 @@ import { Redirect } from 'react-router-dom'
 class Signup extends Component {
 
   componentWillMount(){
-    this.props.checkCookie()
+    this.props.authenticate()
     this.props.getUserInfo()
   }
 
@@ -304,7 +304,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   submitNewUser, 
   isUsernameTaken, 
-  checkCookie,
+  authenticate,
   getUserInfo,
   validateEmail,
   inviteToSlack,

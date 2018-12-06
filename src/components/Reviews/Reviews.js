@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './Reviews.css';
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { getAllReviews } from '../../actions/getAllReviews'
@@ -59,44 +59,36 @@ class Reviews extends Component {
 
     
     componentWillMount = () => {
-        this.props.checkCookie()
-        this.props.getUserInfo()
-        this.props.getAllReviews()
-        setTimeout(() => this.props.setPermissions(this.props.role), 300)
-        setTimeout( () => {
-            if(this.props.reviewsRequestFinished) {
-                if(!this.props.allReviews || this.props.allReviews.length < 1){
-                        this.props.clearFiles()
-                } else {
-                        this.props.allReviews.map((review, i) => {
-                            if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                   return this.props.getFile(review.path.substring(15), review.id)
-                                }
-                        })
-                }
+        this.props.authenticate()
+        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
+        this.props.getAllReviews().then(r => {
+            if(!this.props.allReviews || this.props.allReviews.length < 1) {this.props.clearFiles()}
+            else {
+                this.props.allReviews.map((review, i) => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                           return this.props.getFile(review.path.substring(15), review.id)
+                        }
+                })
             }
-        }, 1000)
+        })
     }
 
     componentDidUpdate(){
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
             if (this.props.postComplete ) this.setState({...this.state, postStarted: false })
             this.props.clearFiles()
-            this.props.getAllReviews()
-            setTimeout(() => {
-                if(this.props.reviewsRequestFinished){
-                    if(this.props.allReviews.length > 0) {
-                        this.props.postAnswers(this.props.sortoeAnswerInputs,
-                            this.props.allReviews[this.props.allReviews.length - 1].tool_name,
-                            this.props.allReviews[this.props.allReviews.length - 1].id) 
-                    }
-                    this.props.allReviews.map((review, i) => {
-                        if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                this.props.getFile(review.path.substring(15), review.id)
-                            }
-                    })
+            this.props.getAllReviews().then(r => {
+                if(this.props.allReviews.length > 0) {
+                    this.props.postAnswers(this.props.sortoeAnswerInputs,
+                        this.props.allReviews[this.props.allReviews.length - 1].tool_name,
+                        this.props.allReviews[this.props.allReviews.length - 1].id) 
                 }
-            }, 1000)
+                this.props.allReviews.map((review, i) => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                            this.props.getFile(review.path.substring(15), review.id)
+                    }
+                })
+            })
             
             if (this.props.files.length == this.props.allReviews.filter(review => review.path).length) {
                 this.props.setPostCompleteFalse()
@@ -872,7 +864,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    checkCookie,
+    authenticate,
     getAllReviews,
     postReview, 
     editSaveToggle,

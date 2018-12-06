@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './PublicReviews.css';
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { getUserInfo } from '../../actions/getUserInfo'
 import { setPermissions } from '../../actions/setPermissions'
 import { getAllTools } from '../../actions/getAllTools'
@@ -52,24 +52,19 @@ class PublicReviews extends Component {
 
     
     componentWillMount = () => {
-        this.props.checkCookie()
-        this.props.getUserInfo()
+        this.props.authenticate()
+        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
         this.props.getAllTools()
-        this.props.getAllPublicReviews()
-        setTimeout(() => this.props.setPermissions(this.props.role), 300)
-        setTimeout( () => {
-            if(this.props.publicReviewsRequestFinished) {
-                if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1){
-                        this.props.clearFiles()
-                } else {
-                        this.props.allPublicReviews.map((review, i) => {
-                            if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                    this.props.getFile(review.path.substring(15), review.id)
-                                }
-                        })
-                }
+        this.props.getAllPublicReviews().then(r => {
+            if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1) {this.props.clearFiles()}
+            else {
+                this.props.allPublicReviews.map((review, i) => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                           return this.props.getFile(review.path.substring(15), review.id)
+                        }
+                })
             }
-        }, 1000)
+        })
 
     }
 
@@ -77,16 +72,13 @@ class PublicReviews extends Component {
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
             this.props.postComplete ? this.setState({...this.state, postStarted: false }) : null
             this.props.clearFiles()
-            this.props.getAllPublicReviews()
-            setTimeout(() => {
-                if(this.props.publicReviewsRequestFinished){
-                    this.props.allPublicReviews.map((review, i) => {
-                        if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
-                                this.props.getFile(review.path.substring(15), review.id)
-                            }
-                    })
-                }
-            }, 1000)
+            this.props.getAllPublicReviews().then(r => {
+                this.props.allPublicReviews.map((review, i) => {
+                    if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
+                            this.props.getFile(review.path.substring(15), review.id)
+                        }
+                })
+            })
             
             if (this.props.files.length == this.props.allPublicReviews.filter(review => review.path).length) {
                 this.props.setPostCompleteFalse()
@@ -199,12 +191,11 @@ class PublicReviews extends Component {
 
   deleteHandler = (id) => {
     this.props.deleteReview(id)
-    setTimeout(() => this.props.getAllPublicReviews(), 200)
-    setTimeout(() => {
-    if(this.props.allPublicReviews.length < 1){
-        this.props.clearFiles()
-    }
-    }, 400)
+    this.props.getAllPublicReviews().then(r => {
+        if(this.props.allPublicReviews.length < 1){
+            this.props.clearFiles()
+        }
+    })
   }
    
 
@@ -250,16 +241,14 @@ class PublicReviews extends Component {
             editAnswer_5_value: answer_5 || ""
         })
     }
-    setTimeout(() => {
-        this.props.getAllPublicReviews()
-    }, 200)
-    setTimeout(() => {
+    
+    this.props.getAllPublicReviews().then(r => {
         this.props.allPublicReviews.map(review => {
             if(review.path && updateObject.hasOwnProperty('blob')){
                 this.props.getFile(review.path.substring(15), review.id)
             }
         })
-    }, 400)
+    })
   }
 
 
@@ -693,7 +682,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    checkCookie,
+    authenticate,
     getAllPublicReviews,
     postReview, 
     editSaveToggle,

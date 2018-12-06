@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './Stats.css';
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
+import { authenticate } from '../../actions/authenticate'
 import { getAnswers } from '../../actions/getAnswers'
 import { setPermissions } from '../../actions/setPermissions'
 import { getUserInfo } from '../../actions/getUserInfo'
@@ -23,9 +23,8 @@ class Stats extends Component {
   }
 
   componentWillMount(){
-    this.props.checkCookie()
-    this.props.getUserInfo()
-    setTimeout(() => this.props.setPermissions(this.props.role), 300) 
+    this.props.authenticate()
+    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)) 
     this.props.getAnswers(this.state.selectedToolResults, this.props.sortoeQuestions)
   }
 
@@ -96,6 +95,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setPermissions, getAnswers}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({authenticate, getUserInfo, setPermissions, getAnswers}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats)

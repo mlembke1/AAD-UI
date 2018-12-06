@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './SortoeQform.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { checkCookie } from '../../actions/checkCookie'
 import { setSortoeAnswerInputs } from '../../actions/setSortoeAnswerInputs'
 import { setAllQuestionsAreIndifferent } from '../../actions/setAllQuestionsAreIndifferent'
 import { getUserInfo } from '../../actions/getUserInfo'
@@ -24,7 +23,6 @@ class SortoeQform extends Component {
     }
 
     componentWillMount(){
-        this.props.checkCookie()
         this.props.getUserInfo()
     }
 
@@ -126,6 +124,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({checkCookie, getUserInfo, setAllQuestionsAreIndifferent, setSortoeAnswerInputs}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({getUserInfo, setAllQuestionsAreIndifferent, setSortoeAnswerInputs}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortoeQform)
