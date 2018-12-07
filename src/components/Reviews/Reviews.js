@@ -73,7 +73,7 @@ class Reviews extends Component {
         })
     }
 
-    componentDidUpdate(){
+    componentDidUpdate = () => {
         if(this.props.postComplete || this.props.deleteComplete || this.props.updateComplete || this.props.removeFileComplete) {
             if (this.props.postComplete ) this.setState({...this.state, postStarted: false })
             this.props.clearFiles()
