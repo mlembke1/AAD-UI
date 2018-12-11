@@ -44,3 +44,7 @@
 .no-bottom-margin {
     margin-bottom: 0px !important;
 }
+
+.font-1em {
+    font-size: 1em;
+}

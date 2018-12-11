@@ -55,16 +55,17 @@ class SortoeQform extends Component {
     } else {
       return (
         <Row className="background-light-grey">
-            <Col s={6}>
+            <Col s={12}>
                 { 
-                    firstHalf.map((question, i) => {
+                    this.props.sortoeQuestions.map((question, i) => {
                     return (
                         <Row key={i} className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
+                            <Col s={1}></Col>
                             <Col className="uppercase-light-font" s={1}><span className="bold">{question.questionID}</span></Col>
-                            <Col s={6}>
-                                <span className="uppercase-light-font">{question.question}</span>
+                            <Col s={7}>
+                                <span className="uppercase-bold-font font-1em">{question.question}</span>
                             </Col>
-                            <Col s={5}>
+                            <Col s={2}>
                                 <Input 
                                 s={12} 
                                 type='select' 
@@ -77,12 +78,13 @@ class SortoeQform extends Component {
                                     <option value='Strongly Agree'>Strongly Agree</option>
                                 </Input>
                             </Col> 
+                            <Col s={1}></Col>
                         </Row>
                     )
                     })
                 }
             </Col>
-            <Col s={6}>
+            {/* <Col s={6}>
                 { 
                     secondHalf.map((question, i) => {
                     return (
@@ -108,7 +110,7 @@ class SortoeQform extends Component {
                     )
                     })
                 }
-            </Col>
+            </Col> */}
         </Row>     
       )
     }

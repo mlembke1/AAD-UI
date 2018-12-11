@@ -16,35 +16,35 @@ export const reviews = ( state={
       {
           questionID: 1,
           tool: 'MEADE/SORT-OE',
-          question: "Here is question one. What do you think?",
+          question: "Proficient in Network and Graph Analytics with Link Analysis.",
           answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
           type: "radio"
       },
       {
           questionID: 2,
           tool: 'MEADE/SORT-OE',
-          question: "Here is question two. What do you think?",
+          question: "Provides Geospatial Analytics",
           answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
           type: "radio"
       },
       {
           questionID: 3,
           tool: 'MEADE/SORT-OE',
-          question: "Here is question three. What do you think?",
+          question: "Provides Graphical Statistical Analytics",
           answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
           type: "radio"
       },
       {
           questionID: 4,
           tool: 'MEADE/SORT-OE',
-          question: "Here is question four. What do you think?",
+          question: "Provides Pattern Recognition through Predictive Analytics.",
           answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
           type: "radio"
       },
       {
           questionID: 5,
           tool: 'MEADE/SORT-OE',
-          question: "Here is question five. What do you think?",
+          question: "This tool supports numerous data-sets and is customizable.",
           answers: ["Strongly Disagree", "Disagree", "Indifferent", "Agree", "Strongly Agree"],
           type: "radio"
       },
