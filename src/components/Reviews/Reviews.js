@@ -49,6 +49,8 @@ class Reviews extends Component {
             editAnswer_3_value: "",
             editAnswer_4_value: "",
             editAnswer_5_value: "",
+            intType: "HUMINT",
+            editIntType: "",
             reviewIdBeingEdited: null
         }
 
@@ -81,7 +83,7 @@ class Reviews extends Component {
                 if(this.props.allReviews.length > 0) {
                     this.props.postAnswers(this.props.sortoeAnswerInputs,
                         this.props.allReviews[this.props.allReviews.length - 1].tool_name,
-                        this.props.allReviews[this.props.allReviews.length - 1].id) 
+                        this.props.allReviews[this.props.allReviews.length - 1].id, this.props.allReviews[this.props.allReviews.length - 1].int_type)
                 }
                 this.props.allReviews.map((review, i) => {
                     if(this.props.files && (this.props.files.filter(file => file.review_id == review.id).length < 1) && review.path != null){
@@ -187,7 +189,7 @@ class Reviews extends Component {
   toggleEditSaveHandler = (editable, toolName, reviewId,
                             text, path, sharable, rating, 
                             answer_1, answer_2, answer_3, 
-                            answer_4, answer_5) => {
+                            answer_4, answer_5, int_type) => {
     // Edit has already been open, now time to save the updates.
     let updateObject = {}
     if(editable) {
@@ -202,7 +204,8 @@ class Reviews extends Component {
             answer_2: this.state.editAnswer_2_value,
             answer_3: this.state.editAnswer_3_value,
             answer_4: this.state.editAnswer_4_value,
-            answer_5: this.state.editAnswer_5_value
+            answer_5: this.state.editAnswer_5_value,
+            int_type: this.state.editIntType
         }
         this.props.updateReview(updateObject)
         .then(res => {
@@ -233,6 +236,7 @@ class Reviews extends Component {
             editAnswer_3_value: answer_3 || "",
             editAnswer_4_value: answer_4 || "",
             editAnswer_5_value: answer_5 || "",
+            editIntType: int_type,
             reviewIdBeingEdited: reviewId
         })
     }
@@ -256,12 +260,13 @@ class Reviews extends Component {
         this.props.company,
         this.state.rangeValue,
         this.props.sortoeAnswerInputs, 
-        this.props.lastReviewID
+        this.state.intType
     )
     this.setState({
         toolNameInputValue: 'MEADE/SORT-OE',
         textInputValue: "",
-        fileInputValue: null
+        fileInputValue: null,
+        intType: "HUMINT"
     })
 
     
@@ -505,7 +510,7 @@ class Reviews extends Component {
                                     onClick={() => this.toggleEditSaveHandler(review.id === this.state.reviewIdBeingEdited, review.tool_name,
                                                                             review.id, review.text, review.path,
                                                                             review.sharable, review.rating, review.answer_1,
-                                                                            review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
+                                                                            review.answer_2, review.answer_3, review.answer_4, review.answer_5, review.int_type)} 
                                     className="portal-buttons" 
                                     waves='light'> 
                                         Save 
@@ -588,7 +593,7 @@ class Reviews extends Component {
                                     <Button onClick={() => this.toggleEditSaveHandler(review.id === this.state.reviewIdBeingEdited, review.tool_name, 
                                                                                     review.id, review.text,  review.path,
                                                                                     review.sharable, review.rating, review.answer_1,
-                                                                                    review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
+                                                                                    review.answer_2, review.answer_3, review.answer_4, review.answer_5, review.int_type)} 
                                             className="portal-buttons" 
                                             waves='light'> 
                                             Edit 
@@ -650,15 +655,34 @@ class Reviews extends Component {
                 <CollapsibleItem header='Write A Review' icon='add'>
                     <Section>
                         <Row className="valign-wrapper max-width-50">
+                            <Col s={6}>
                             <Input  
                             className="center-align"
                             s={12}
                             onChange={evt => this.updateInputValue(evt, 'toolNameInputValue')} 
                             value={this.state.toolNameInputValue}
-                            type='select' label="Choose A Tool" >
+                            type='select' label="Tool" >
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
                                 <option value='Argument Mapper'>Argument Mapper</option>
                             </Input>
+                            </Col>
+                            <Col s={6}>
+                            <Input  
+                            className="center-align"
+                            s={12}
+                            onChange={evt => this.updateInputValue(evt, 'intType')} 
+                            value={this.state.intType}
+                            type='select' label="Intelligence Discipline" >
+                                <option value='HUMINT'>HUMINT</option>
+                                <option value='SIGNINT'>SIGNINT</option>
+                                <option value='GEOINT'>GEOINT</option>
+                                <option value='MASINT'>MASINT</option>
+                                <option value='OSINT'>OSINT</option>
+                                <option value='CYBINT/DNINT'>CYBINT/DNINT</option>
+                                <option value='FININT'>FININT</option>
+                                <option value='OTHER'>OTHER</option>
+                            </Input>
+                            </Col>
                         </Row>
                         <Row>
                             <Col s={12}>

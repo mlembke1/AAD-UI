@@ -13,8 +13,8 @@ import { Redirect } from 'react-router-dom'
 class Login extends Component {
 
   componentWillMount(){
-    this.props.authenticate()
-    this.props.getUserInfo()
+    this.props.authenticate().then(r => r).catch(err => err)
+    this.props.getUserInfo().then(r => r).catch(err => err)
   }
 
 
