@@ -61,16 +61,12 @@ export const getAnswers = (selected_tool_name, questionSet) => dispatch => {
                     if (!individualTotals["Indifferent"])  individualTotals["Indifferent"] = 0
                     if (!individualTotals["Strongly Agree"]) individualTotals["Strongly Agree"] = 0
                     if (!individualTotals["Strongly Disagree"]) individualTotals["Strongly Disagree"] = 0
-                    // if (!individualTotals['question']) individualTotals['question'] = questionSet[index].question
-                    // if (!individualTotals['questionID']) individualTotals['questionID'] = questionSet[index].questionID
                     individualTotals[rating] = ((individualTotals[rating] / sum) * 100)
                 })
                 totals[intType][answerNumber] = individualTotals 
                 index++
              }
          }
-
-         console.log(totals)
          //////////////////////////////////////////////////////////////////
       return dispatch({ type:'ANSWERS_AQUIRED', payload: totals })
     })
