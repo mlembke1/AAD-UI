@@ -674,12 +674,13 @@ class Reviews extends Component {
                             value={this.state.intType}
                             type='select' label="Intelligence Discipline" >
                                 <option value='HUMINT'>HUMINT</option>
-                                <option value='SIGNINT'>SIGNINT</option>
+                                <option value='SIGINT'>SIGNINT</option>
                                 <option value='GEOINT'>GEOINT</option>
                                 <option value='MASINT'>MASINT</option>
                                 <option value='OSINT'>OSINT</option>
                                 <option value='CYBINT/DNINT'>CYBINT/DNINT</option>
                                 <option value='FININT'>FININT</option>
+                                <option value='TECHINT'>TECHINT</option>
                                 <option value='OTHER'>OTHER</option>
                             </Input>
                             </Col>

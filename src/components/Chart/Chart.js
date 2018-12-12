@@ -22,91 +22,101 @@ render () {
         data={[
             {
               "opinion": "Strongly Disagree",
-              "HUMINT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "HUMINT": this.props.answerObject['HUMINT'] ? Math.trunc(this.props.answerObject['HUMINT']['Strongly Disagree']) : 0,
               "HUMINTColor": "hsl(313, 70%, 50%)",
-              "SIGINT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "SIGINT": this.props.answerObject['SIGINT'] ? Math.trunc(this.props.answerObject['SIGINT']['Strongly Disagree']) : 0,
               "SIGINTColor": "hsl(316, 70%, 50%)",
-              "GEOINT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "GEOINT": this.props.answerObject['GEOINT'] ? Math.trunc(this.props.answerObject['GEOINT']['Strongly Disagree']) : 0,
               "GEOINTColor": "hsl(55, 70%, 50%)",
-              "OSINT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "OSINT": this.props.answerObject['OSINT'] ? Math.trunc(this.props.answerObject['OSINT']['Strongly Disagree']) : 0,
               "OSINTColor": "hsl(139, 70%, 50%)",
-              "CYBINT/DNINT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "CYBINT/DNINT":this.props.answerObject['CYBINT/DNINT'] ? Math.trunc(this.props.answerObject['CYBINT/DNINT']['Strongly Disagree']) : 0,
               "CYBINT/DNINTColor": "hsl(111, 70%, 50%)",
-              "FININT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "FININT": this.props.answerObject['FININT'] ? Math.trunc(this.props.answerObject['FININT']['Strongly Disagree']) : 0,
               "FININTColor": "hsl(226, 70%, 50%)",
-              "MASINT": Math.trunc(this.props.answerObject['Strongly Disagree']),
+              "MASINT": this.props.answerObject['MASINT'] ? Math.trunc(this.props.answerObject['MASINT']['Strongly Disagree']) : 0,
               "MASINTColor": "hsl(99, 70%, 90%)",
+              "TECHINT": this.props.answerObject['TECHINT'] ? Math.trunc(this.props.answerObject['TECHINT']['Strongly Disagree']) : 0,
+              "TECHINTColor": "hsl(190, 70%, 90%)",
             },
             {
               "opinion": "Disagree",
-              "HUMINT": Math.trunc(this.props.answerObject['Disagree']),
+              "HUMINT": this.props.answerObject['HUMINT'] ? Math.trunc(this.props.answerObject['HUMINT']['Disagree']) : 0,
               "HUMINTColor": "hsl(313, 70%, 50%)",
-              "SIGINT": Math.trunc(this.props.answerObject['Disagree']),
+              "SIGINT": this.props.answerObject['SIGINT'] ? Math.trunc(this.props.answerObject['SIGINT']['Disagree']) : 0,
               "SIGINTColor": "hsl(316, 70%, 50%)",
-              "GEOINT": Math.trunc(this.props.answerObject['Disagree']),
+              "GEOINT": this.props.answerObject['GEOINT'] ? Math.trunc(this.props.answerObject['GEOINT']['Disagree']) : 0,
               "GEOINTColor": "hsl(55, 70%, 50%)",
-              "OSINT": Math.trunc(this.props.answerObject['Disagree']),
+              "OSINT": this.props.answerObject['OSINT'] ? Math.trunc(this.props.answerObject['OSINT']['Disagree']) : 0,
               "OSINTColor": "hsl(139, 70%, 50%)",
-              "CYBINT/DNINT": Math.trunc(this.props.answerObject['Disagree']),
+              "CYBINT/DNINT": this.props.answerObject['CYBINT/DNINT'] ? Math.trunc(this.props.answerObject['CYBINT/DNINT']['Disagree']) : 0,
               "CYBINT/DNINTColor": "hsl(111, 70%, 50%)",
-              "FININT": Math.trunc(this.props.answerObject['Disagree']),
+              "FININT": this.props.answerObject['FININT'] ? Math.trunc(this.props.answerObject['FININT']['Disagree']) : 0,
               "FININTColor": "hsl(226, 70%, 50%)",
-              "MASINT": Math.trunc(this.props.answerObject['Disagree']),
+              "MASINT": this.props.answerObject['MASINT'] ? Math.trunc(this.props.answerObject['MASINT']['Disagree']) : 0,
               "MASINTColor": "hsl(99, 70%, 90%)",
+              "TECHINT": this.props.answerObject['TECHINT'] ? Math.trunc(this.props.answerObject['TECHINT']['Disagree']) : 0,
+              "TECHINTColor": "hsl(190, 70%, 90%)",
             },
             {
               "opinion": "Indifferent",
-              "HUMINT": Math.trunc(this.props.answerObject['Indifferent']),
+              "HUMINT": this.props.answerObject['HUMINT'] ? Math.trunc(this.props.answerObject['HUMINT']['Indifferent']) : 0,
               "HUMINTColor": "hsl(313, 70%, 50%)",
-              "SIGINT": Math.trunc(this.props.answerObject['Indifferent']),
+              "SIGINT": this.props.answerObject['SIGINT'] ? Math.trunc(this.props.answerObject['SIGINT']['Indifferent']) : 0,
               "SIGINTColor": "hsl(316, 70%, 50%)",
-              "GEOINT": Math.trunc(this.props.answerObject['Indifferent']),
+              "GEOINT": this.props.answerObject['GEOINT'] ? Math.trunc(this.props.answerObject['GEOINT']['Indifferent']) : 0,
               "GEOINTColor": "hsl(55, 70%, 50%)",
-              "OSINT": Math.trunc(this.props.answerObject['Indifferent']),
+              "OSINT": this.props.answerObject['OSINT'] ? Math.trunc(this.props.answerObject['OSINT']['Indifferent']) : 0,
               "OSINTColor": "hsl(139, 70%, 50%)",
-              "CYBINT/DNINT": Math.trunc(this.props.answerObject['Indifferent']),
+              "CYBINT/DNINT": this.props.answerObject['CYBINT/DNINT'] ? Math.trunc(this.props.answerObject['CYBINT/DNINT']['Indifferent']) : 0,
               "CYBINT/DNINTColor": "hsl(111, 70%, 50%)",
-              "FININT": Math.trunc(this.props.answerObject['Indifferent']),
+              "FININT": this.props.answerObject['FININT'] ? Math.trunc(this.props.answerObject['FININT']['Indifferent']) : 0,
               "FININTColor": "hsl(226, 70%, 50%)",
-              "MASINT": Math.trunc(this.props.answerObject['Indifferent']),
+              "MASINT": this.props.answerObject['MASINT'] ? Math.trunc(this.props.answerObject['MASINT']['Indifferent']) : 0,
               "MASINTColor": "hsl(99, 70%, 90%)",
+              "TECHINT": this.props.answerObject['TECHINT'] ? Math.trunc(this.props.answerObject['TECHINT']['Indifferent']) : 0,
+              "TECHINTColor": "hsl(190, 70%, 90%)",
             },
             {
               "opinion": "Agree",
-              "HUMINT": Math.trunc(this.props.answerObject['Agree']),
+              "HUMINT": this.props.answerObject['HUMINT'] ? Math.trunc(this.props.answerObject['HUMINT']['Agree']) : 0,
               "HUMINTColor": "hsl(313, 70%, 50%)",
-              "SIGINT": Math.trunc(this.props.answerObject['Agree']),
+              "SIGINT": this.props.answerObject['SIGINT'] ? Math.trunc(this.props.answerObject['SIGINT']['Agree']) : 0,
               "SIGINTColor": "hsl(316, 70%, 50%)",
-              "GEOINT": Math.trunc(this.props.answerObject['Agree']),
+              "GEOINT": this.props.answerObject['GEOINT'] ? Math.trunc(this.props.answerObject['GEOINT']['Agree']) : 0,
               "GEOINTColor": "hsl(55, 70%, 50%)",
-              "OSINT": Math.trunc(this.props.answerObject['Agree']),
+              "OSINT": this.props.answerObject['OSINT'] ? Math.trunc(this.props.answerObject['OSINT']['Agree']) : 0,
               "OSINTColor": "hsl(139, 70%, 50%)",
-              "CYBINT/DNINT": Math.trunc(this.props.answerObject['Agree']),
+              "CYBINT/DNINT": this.props.answerObject['CYBINT/DNINT'] ? Math.trunc(this.props.answerObject['CYBINT/DNINT']['Agree']) : 0,
               "CYBINT/DNINTColor": "hsl(111, 70%, 50%)",
-              "FININT": Math.trunc(this.props.answerObject['Agree']),
+              "FININT": this.props.answerObject['FININT'] ? Math.trunc(this.props.answerObject['FININT']['Agree']) : 0,
               "FININTColor": "hsl(226, 70%, 50%)",
-              "MASINT": Math.trunc(this.props.answerObject['Agree']),
+              "MASINT": this.props.answerObject['MASINT'] ? Math.trunc(this.props.answerObject['MASINT']['Agree']) : 0,
               "MASINTColor": "hsl(99, 70%, 90%)",
+              "TECHINT": this.props.answerObject['TECHINT'] ? Math.trunc(this.props.answerObject['TECHINT']['Agree']) : 0,
+              "TECHINTColor": "hsl(190, 70%, 90%)",
             },
             {
               "opinion": "Strongly Agree",
-              "HUMINT": Math.trunc(this.props.answerObject['Strongly Agree']),
-              "HUMINTColor": "hsl(313, 70%, 50%)",
-              "SIGINT": Math.trunc(this.props.answerObject['Strongly Agree']),
-              "SIGINTColor": "hsl(316, 70%, 50%)",
-              "GEOINT": Math.trunc(this.props.answerObject['Strongly Agree']),
+              "HUMINT":  this.props.answerObject['HUMINT'] ? Math.trunc(this.props.answerObject['HUMINT']['Strongly Agree']) : 0,
+              "HUMINTColor": "hsl(31, 70%, 50%)",
+              "SIGINT":  this.props.answerObject['SIGINT'] ? Math.trunc(this.props.answerObject['SIGINT']['Strongly Agree']) : 0,
+              "SIGINTColor": "hsl(31, 70%, 50%)",
+              "GEOINT":  this.props.answerObject['GEOINT'] ? Math.trunc(this.props.answerObject['GEOINT']['Strongly Agree']) : 0,
               "GEOINTColor": "hsl(55, 70%, 50%)",
-              "OSINT": Math.trunc(this.props.answerObject['Strongly Agree']),
-              "OSINTColor": "hsl(139, 70%, 50%)",
-              "CYBINT/DNINT": Math.trunc(this.props.answerObject['Strongly Agree']),
-              "CYBINT/DNINTColor": "hsl(111, 70%, 50%)",
-              "FININT": Math.trunc(this.props.answerObject['Strongly Agree']),
+              "OSINT": this.props.answerObject['OSINT'] ? Math.trunc(this.props.answerObject['OSINT']['Strongly Agree']) : 0,
+              "OSINTColor": "hsl(19, 70%, 50%)",
+              "CYBINT/DNINT":  this.props.answerObject['CYBINT/DNINT'] ? Math.trunc(this.props.answerObject['CYBINT/DNINT']['Strongly Agree']) : 0,
+              "CYBINT/DNINTColor": "hsl(1 70%, 50%)",
+              "FININT":  this.props.answerObject['FININT'] ? Math.trunc(this.props.answerObject['FININT']['Strongly Agree']) : 0,
               "FININTColor": "hsl(226, 70%, 50%)",
-              "MASINT": Math.trunc(this.props.answerObject['Strongly Agree']),
+              "MASINT":  this.props.answerObject['MASINT'] ? Math.trunc(this.props.answerObject['MASINT']['Strongly Agree']) : 0,
               "MASINTColor": "hsl(99, 70%, 90%)",
+              "TECHINT": this.props.answerObject['TECHINT'] ? Math.trunc(this.props.answerObject['TECHINT']['Strongly Agree']) : 0,
+              "TECHINTColor": "hsl(190, 70%, 90%)",
             }
         ]}
-        keys={["HUMINT",  "SIGINT", "GEOINT", "OSINT", "CYBINT/DNINT", "FININT", "MASINT"]}
+        keys={Object.keys(this.props.answerObject)}
         indexBy="opinion"
         groupMode="grouped"
         margin={{
@@ -116,6 +126,7 @@ render () {
             "left": 60
         }}
         padding={0.3}
+        labelTextColor='inherit:darker(4)'
         colors="blues"
         colorBy="id"
         defs={[
@@ -132,7 +143,7 @@ render () {
                 "id": "lines",
                 "type": "patternLines",
                 "background": "inherit",
-                "color": "#eed312",
+                "color": "#d5d5d5",
                 "rotation": -45,
                 "lineWidth": 6,
                 "spacing": 10
@@ -168,13 +179,13 @@ render () {
             "legendPosition": "middle",
             "legendOffset": -40
         }}
-        borderRadius={3}
+        borderRadius={1}
+        borderWidth={.3}
         borderColor="inherit:darker(1.6)"
         axisTop={null}
         axisRight={null}
         labelSkipWidth={12}
         labelSkipHeight={12}
-        labelTextColor="inherit:darker(1.6)"
         animate={true}
         motionStiffness={90}
         motionDamping={15}

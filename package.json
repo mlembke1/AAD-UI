@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@nivo/bar": "^0.51.5",
+    "@nivo/bar": "^0.52.0",
     "@trendmicro/react-radio": "^3.2.2",
     "axios": "^0.18.0",
     "jquery": "^3.3.1",
