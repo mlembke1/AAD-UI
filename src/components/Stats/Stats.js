@@ -69,11 +69,13 @@ class Stats extends Component {
                   </Row> 
                   :
                   Object.keys(this.props.allAnswers).map((answerObjectKey, i) => (
-                    <div key={i} className="height-100">
-                      <h6>{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
-                      <Chart answerObject={this.props.allAnswers[answerObjectKey]}/>
+                    <Row key={i} className="height-100">
+                      <Col>
+                       <h6>{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
+                      </Col>
+                       <Chart answerObject={this.props.allAnswers[answerObjectKey]}/>
 
-                    </div>
+                    </Row>
                   )) 
               }
           </Row>
