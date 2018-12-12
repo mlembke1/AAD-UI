@@ -357,6 +357,22 @@ class Reviews extends Component {
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
                                 <option value='Argument Mapper'>Argument Mapper</option>
                             </Input>
+                            <Input 
+                            s={12} 
+                            type='select' 
+                            label="Intelligence Discipline" 
+                            value={this.state.editIntType}
+                            onChange={evt => this.updateInputValue(evt, 'editIntType')}>
+                                <option value='HUMINT'>HUMINT</option>
+                                <option value='SIGINT'>SIGNINT</option>
+                                <option value='GEOINT'>GEOINT</option>
+                                <option value='MASINT'>MASINT</option>
+                                <option value='OSINT'>OSINT</option>
+                                <option value='CYBINT/DNINT'>CYBINT/DNINT</option>
+                                <option value='FININT'>FININT</option>
+                                <option value='TECHINT'>TECHINT</option>
+                                <option value='OTHER'>OTHER</option>
+                            </Input>
                         </Row>
                         :
                         <h6 ref={(i + 1) == this.props.allReviews.length ? "lastReview" : null} className="tool-name">{review.tool_name}</h6>
