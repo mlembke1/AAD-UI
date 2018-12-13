@@ -66,11 +66,10 @@ class Stats extends Component {
             </Col>
           </Row> 
           <Row>
-            <Row className="margin-left">
+            <Row className="fixed">
               {
-                this.state.intTypes.map((intType, i) => {
-                    return  <Input  
-                                className="padding-right-10 inline-block border-right"
+                this.state.intTypes.map((intType, i) => (
+                                <Input
                                 onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
                                 key={i}
                                 name='Intelligence Discipline Filter'
@@ -79,9 +78,8 @@ class Stats extends Component {
                                 checked={this.state.intTypesIncluded.includes(intType)}
                                 label={intType} 
                               />
-                            
-                })
-              }
+                  ))
+                }
             </Row>
             { 
               !this.props.getAnswersComplete ?
@@ -105,7 +103,7 @@ class Stats extends Component {
                   Object.keys(this.props.allAnswers).map((answerObjectKey, i) => (
                     <Row key={i} className="height-100">
                       <Col>
-                       <h6>{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
+                       <h6 className="uppercase-letter-spacing">{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
                       </Col>
                        <Chart includedInts={this.state.intTypesIncluded} answerObject={this.props.allAnswers[answerObjectKey]}/>
 
