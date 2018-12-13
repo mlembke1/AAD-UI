@@ -12,11 +12,6 @@
     min-width: 100%;
 }
 
-.reviews-wrapper:nth-child(odd) {
-    border-left: 1px solid #d5d5d5;
-    border-right: 1px solid #d5d5d5;
-} 
-
 .file-preview-conatiner {
     display: flex;
     flex-direction: column;
