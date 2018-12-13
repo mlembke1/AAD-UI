@@ -18,7 +18,24 @@ class Stats extends Component {
     super(props)
     this.state = {
       selectedToolResults: "MEADE/SORT-OE", 
-      allAnswers: this.props.allAnswers
+      allAnswers: this.props.allAnswers,
+      intTypes: ["SIGNINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
+      intTypesIncluded: ["SIGNINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
+    }
+  }
+
+  updateInputValue(evt, inputType, intType) {
+    if (inputType == 'intTypesIncluded') {
+        let found = this.state.intTypesIncluded.includes(intType)
+        if (found) {
+            return this.setState({ 
+            intTypesIncluded: this.state.intTypesIncluded.filter(x => x !== intType)
+            })
+        } else {
+            return this.setState({ 
+            intTypesIncluded: [ ...this.state.intTypesIncluded, intType ]
+            })
+        }
     }
   }
 
@@ -49,6 +66,23 @@ class Stats extends Component {
             </Col>
           </Row> 
           <Row>
+            <Row className="margin-left">
+              {
+                this.state.intTypes.map((intType, i) => {
+                    return  <Input  
+                                className="padding-right-10 inline-block border-right"
+                                onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
+                                key={i}
+                                name='Intelligence Discipline Filter'
+                                type='checkbox'
+                                value={intType}
+                                checked={this.state.intTypesIncluded.includes(intType)}
+                                label={intType} 
+                              />
+                            
+                })
+              }
+            </Row>
             { 
               !this.props.getAnswersComplete ?
               <Row className="margin-top">
@@ -73,11 +107,11 @@ class Stats extends Component {
                       <Col>
                        <h6>{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
                       </Col>
-                       <Chart answerObject={this.props.allAnswers[answerObjectKey]}/>
+                       <Chart includedInts={this.state.intTypesIncluded} answerObject={this.props.allAnswers[answerObjectKey]}/>
 
                     </Row>
                   )) 
-              }
+                   }
           </Row>
         </div>
       )
