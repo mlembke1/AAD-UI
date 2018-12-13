@@ -19,8 +19,8 @@ class Stats extends Component {
     this.state = {
       selectedToolResults: "MEADE/SORT-OE", 
       allAnswers: this.props.allAnswers,
-      intTypes: ["SIGNINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
-      intTypesIncluded: ["SIGNINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
+      intTypes: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
+      intTypesIncluded: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
     }
   }
 
