@@ -1,4 +1,4 @@
-export const postAnswers = (answers, tool_name, review_id) => dispatch => {
+export const postAnswers = (answers, tool_name, review_id, int_type) => dispatch => {
    let postObject = {} 
     if (tool_name == 'MEADE/SORT-OE') {
         postObject['answer_1'] = answers.question1Answer
@@ -9,6 +9,7 @@ export const postAnswers = (answers, tool_name, review_id) => dispatch => {
     }
     postObject["tool_name"] = tool_name
     postObject["review_id"] = review_id
+    postObject["int_type"] = int_type
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postAnswers', {
         method: "POST",
         body: JSON.stringify(postObject),

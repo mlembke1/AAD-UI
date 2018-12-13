@@ -8,6 +8,7 @@ export const updateReview = (object) => dispatch => {
         formData.append('reviewId', object.reviewId)
         formData.append('sharable', object.sharable)
         formData.append('rating', object.rating)
+        formData.append('int_type', object.int_type)
         if (object.toolName == 'MEADE/SORT-OE') {
             formData.append('answer_1', object.answer_1)
             formData.append('answer_2', object.answer_2)

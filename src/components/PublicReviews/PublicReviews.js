@@ -46,7 +46,8 @@ class PublicReviews extends Component {
             editAnswer_3_value: "",
             editAnswer_4_value: "",
             editAnswer_5_value: "",
-            reviewIdBeingEdited: null
+            reviewIdBeingEdited: null,
+            editIntType: ""
         }
     }
 
@@ -202,7 +203,7 @@ class PublicReviews extends Component {
   toggleEditSaveHandler = (editable, toolName, reviewId,
                           text, path, sharable, rating,
                           answer_1, answer_2, answer_3, 
-                          answer_4, answer_5) => {
+                          answer_4, answer_5, int_type) => {
     let updateObject = {}
     if(editable) {
         updateObject = {
@@ -216,7 +217,8 @@ class PublicReviews extends Component {
             answer_2: this.state.editAnswer_2_value,
             answer_3: this.state.editAnswer_3_value,
             answer_4: this.state.editAnswer_4_value,
-            answer_5: this.state.editAnswer_5_value
+            answer_5: this.state.editAnswer_5_value,
+            int_type: this.state.editIntType
         }
         this.props.updateReview(updateObject)
         .then(res => {
@@ -247,7 +249,8 @@ class PublicReviews extends Component {
             editAnswer_3_value: answer_3 || "",
             editAnswer_4_value: answer_4 || "",
             editAnswer_5_value: answer_5 || "",
-            reviewIdBeingEdited: reviewId
+            reviewIdBeingEdited: reviewId,
+            editIntType: int_type
         })
     }
   }
@@ -384,6 +387,22 @@ class PublicReviews extends Component {
                             onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}>
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
                                 <option value='Argument Mapper'>Argument Mapper</option>
+                            </Input>
+                            <Input 
+                            s={12} 
+                            type='select' 
+                            label="Intelligence Discipline" 
+                            value={this.state.editIntType}
+                            onChange={evt => this.updateInputValue(evt, 'editIntType')}>
+                                <option value='HUMINT'>HUMINT</option>
+                                <option value='SIGINT'>SIGNINT</option>
+                                <option value='GEOINT'>GEOINT</option>
+                                <option value='MASINT'>MASINT</option>
+                                <option value='OSINT'>OSINT</option>
+                                <option value='CYBINT/DNINT'>CYBINT/DNINT</option>
+                                <option value='FININT'>FININT</option>
+                                <option value='TECHINT'>TECHINT</option>
+                                <option value='OTHER'>OTHER</option>
                             </Input>
                         </Row>
                         :
@@ -538,7 +557,7 @@ class PublicReviews extends Component {
                                     onClick={() => this.toggleEditSaveHandler((review.id === this.state.reviewIdBeingEdited), review.tool_name,
                                                                             review.id, review.text, review.path,
                                                                             review.sharable, review.rating, review.answer_1,
-                                                                            review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
+                                                                            review.answer_2, review.answer_3, review.answer_4, review.answer_5, review.int_type)} 
                                     className="portal-buttons" 
                                     waves='light'> 
                                         Save 
@@ -601,7 +620,7 @@ class PublicReviews extends Component {
                                         <Button onClick={() => this.toggleEditSaveHandler((review.id === this.state.reviewIdBeingEdited), review.tool_name, 
                                                                                         review.id, review.text,  review.path,
                                                                                         review.sharable, review.rating, review.answer_1,
-                                                                                        review.answer_2, review.answer_3, review.answer_4, review.answer_5)} 
+                                                                                        review.answer_2, review.answer_3, review.answer_4, review.answer_5, review.int_type)} 
                                                 className="portal-buttons" 
                                                 waves='light'> 
                                                 Edit 

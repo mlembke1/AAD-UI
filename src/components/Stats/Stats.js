@@ -18,7 +18,24 @@ class Stats extends Component {
     super(props)
     this.state = {
       selectedToolResults: "MEADE/SORT-OE", 
-      allAnswers: this.props.allAnswers
+      allAnswers: this.props.allAnswers,
+      intTypes: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
+      intTypesIncluded: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
+    }
+  }
+
+  updateInputValue(evt, inputType, intType) {
+    if (inputType == 'intTypesIncluded') {
+        let found = this.state.intTypesIncluded.includes(intType)
+        if (found) {
+            return this.setState({ 
+            intTypesIncluded: this.state.intTypesIncluded.filter(x => x !== intType)
+            })
+        } else {
+            return this.setState({ 
+            intTypesIncluded: [ ...this.state.intTypesIncluded, intType ]
+            })
+        }
     }
   }
 
@@ -49,6 +66,21 @@ class Stats extends Component {
             </Col>
           </Row> 
           <Row>
+            <Row className="fixed">
+              {
+                this.state.intTypes.map((intType, i) => (
+                                <Input
+                                onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
+                                key={i}
+                                name='Intelligence Discipline Filter'
+                                type='checkbox'
+                                value={intType}
+                                checked={this.state.intTypesIncluded.includes(intType)}
+                                label={intType} 
+                              />
+                  ))
+                }
+            </Row>
             { 
               !this.props.getAnswersComplete ?
               <Row className="margin-top">
@@ -68,13 +100,16 @@ class Stats extends Component {
                     <Col s={3}></Col>
                   </Row> 
                   :
-                  Object.keys(this.props.allAnswers).map(answerObjectKey => (
-                    <div className="height-100">
-                      <h6>{this.props.allAnswers[answerObjectKey].questionID}. {this.props.allAnswers[answerObjectKey].question}</h6>
-                      <Chart answerObject={this.props.allAnswers[answerObjectKey]}/>
-                    </div>
+                  Object.keys(this.props.allAnswers).map((answerObjectKey, i) => (
+                    <Row key={i} className="height-100">
+                      <Col>
+                       <h6 className="uppercase-letter-spacing">{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
+                      </Col>
+                       <Chart includedInts={this.state.intTypesIncluded} answerObject={this.props.allAnswers[answerObjectKey]}/>
+
+                    </Row>
                   )) 
-              }
+                   }
           </Row>
         </div>
       )

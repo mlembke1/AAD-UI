@@ -12,7 +12,7 @@ export const postReview = (
         company,
         rangeValue,
         sortoeAnswers, 
-        lastReviewID
+        int_type
 ) => dispatch => {
     let formData = new FormData();
     formData.append('toolName', toolNameInputValue)
@@ -24,6 +24,7 @@ export const postReview = (
     formData.append('jobTitle', jobTitle)
     formData.append('company', company)
     formData.append('rating', rangeValue)
+    formData.append('int_type', int_type)
     if(fileInputValue) formData.append('uploadedFile', fileInputValue) 
     if (toolNameInputValue == 'MEADE/SORT-OE') {
         formData.append('answer_1', sortoeAnswers.question1Answer)
