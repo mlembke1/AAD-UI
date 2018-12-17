@@ -47,9 +47,6 @@ class SortoeQform extends Component {
     };
     
     render() {
-    let halfWayThrough = Math.ceil(this.props.OFFquestions.length / 2)
-    let firstHalf = this.props.OFFquestions.slice(0, halfWayThrough)
-    let secondHalf = this.props.OFFquestions.slice(halfWayThrough, this.props.OFFquestions.length)
     if(!this.props.username) {
       return <Redirect to="/" />
     } else {
@@ -59,7 +56,7 @@ class SortoeQform extends Component {
                 { 
                     this.props.OFFquestions.map((question, i) => {
                     return (
-                        <Row key={i} className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
+                        <Row key={i} className={`no-bottom-margin valign-wrapper min-width-100 border-bottom-light`}>
                             <Col s={1}></Col>
                             <Col className="uppercase-light-font" s={1}><span className="bold">{question.questionID}</span></Col>
                             <Col s={7}>
