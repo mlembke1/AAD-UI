@@ -47,9 +47,9 @@ class SortoeQform extends Component {
     };
     
     render() {
-    let halfWayThrough = Math.ceil(this.props.sortoeQuestions.length / 2)
-    let firstHalf = this.props.sortoeQuestions.slice(0, halfWayThrough)
-    let secondHalf = this.props.sortoeQuestions.slice(halfWayThrough, this.props.sortoeQuestions.length)
+    let halfWayThrough = Math.ceil(this.props.OFFquestions.length / 2)
+    let firstHalf = this.props.OFFquestions.slice(0, halfWayThrough)
+    let secondHalf = this.props.OFFquestions.slice(halfWayThrough, this.props.OFFquestions.length)
     if(!this.props.username) {
       return <Redirect to="/" />
     } else {
@@ -57,7 +57,7 @@ class SortoeQform extends Component {
         <Row className="background-light-grey">
             <Col s={12}>
                 { 
-                    this.props.sortoeQuestions.map((question, i) => {
+                    this.props.OFFquestions.map((question, i) => {
                     return (
                         <Row key={i} className={`no-bottom-margin valign-wrapper min-width-100 ${i == firstHalf.length -1 ? null: "border-bottom-light"}`}>
                             <Col s={1}></Col>
@@ -122,7 +122,7 @@ class SortoeQform extends Component {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
-      sortoeQuestions: state.reviews.sortoeQuestions
+      OFFquestions: state.reviews.OFFquestions
   }
 }
 

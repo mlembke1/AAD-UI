@@ -44,7 +44,6 @@ export const getAnswers = (selected_tool_name, questionSet) => dispatch => {
          
          
          ////////////////////////////////////////////////////////////
-         let index = 0
          for (let intType in totals) {
              for (let answerNumber in totals[intType]) {
                 let individualTotals = {}
@@ -63,12 +62,12 @@ export const getAnswers = (selected_tool_name, questionSet) => dispatch => {
                     if (!individualTotals["Strongly Disagree"]) individualTotals["Strongly Disagree"] = 0
                     individualTotals[rating] = ((individualTotals[rating] / sum) * 100)
                 })
-                totals[intType][answerNumber] = individualTotals 
-                index++
+                totals[intType][answerNumber] = individualTotals
              }
          }
+         
          //////////////////////////////////////////////////////////////////
-      return dispatch({ type:'ANSWERS_AQUIRED', payload: totals })
+      return dispatch({ type:'ANSWERS_AQUIRED', payload: {totals, tool_name: selected_tool_name} })
     })
     .catch(err => {
         return dispatch({ type: 'ANSWERS_AQUISITION_FAILED'})

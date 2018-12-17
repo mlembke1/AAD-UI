@@ -42,10 +42,8 @@ class Stats extends Component {
   componentWillMount(){
     this.props.authenticate()
     this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)) 
-    this.props.getAnswers(this.state.selectedToolResults, this.props.sortoeQuestions)
+    this.props.getAnswers(this.state.selectedToolResults, this.props.OFFquestions)
   }
-
-    
 
   render() {
     if(!this.props.username){
@@ -59,7 +57,7 @@ class Stats extends Component {
               <SubHeader icon={require("../../assets/stats_icon.png")} subHeader="The Stats"/>
             </Col>
             <Col s={3} className="margin-right">
-              <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value})} label="Choose Tool Results" >
+              <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value}, () => this.props.getAnswers(evt.target.value))} label="Choose Tool Results" >
                 <option value='MEADE/SORT-OE'> MEADE/SORT-OE</option>
                 <option value='ARGUMENT MAPPER'> ARGUMENT MAPPER</option>
               </Input>
@@ -69,17 +67,16 @@ class Stats extends Component {
             <Row className="fixed">
               {
                 this.state.intTypes.map((intType, i) => (
-                                <Input
-                                onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
-                                key={i}
-                                name='Intelligence Discipline Filter'
-                                type='checkbox'
-                                value={intType}
-                                checked={this.state.intTypesIncluded.includes(intType)}
-                                label={intType} 
-                              />
-                  ))
-                }
+                  <Input
+                  onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
+                  key={i}
+                  name='Intelligence Discipline Filter'
+                  type='checkbox'
+                  value={intType}
+                  checked={this.state.intTypesIncluded.includes(intType)}
+                  label={intType} />
+                ))
+              }
             </Row>
             { 
               !this.props.getAnswersComplete ?
@@ -91,7 +88,7 @@ class Stats extends Component {
                 <Col s={4}></Col>
               </Row>
               :
-                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 || this.state.selectedToolResults !== "MEADE/SORT-OE"?
+                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 || this.state.selectedToolResults !== "MEADE/SORT-OE" ?
                   <Row>
                     <Col s={3}></Col>
                     <Col s={6}>
@@ -103,13 +100,12 @@ class Stats extends Component {
                   Object.keys(this.props.allAnswers).map((answerObjectKey, i) => (
                     <Row key={i} className="height-100">
                       <Col>
-                       <h6 className="uppercase-letter-spacing">{this.props.sortoeQuestions[i].questionID}. {this.props.sortoeQuestions[i].question}</h6>
+                       <h6 className="uppercase-letter-spacing">{this.props.OFFquestions[i].questionID}. {this.props.OFFquestions[i].question}</h6>
                       </Col>
                        <Chart includedInts={this.state.intTypesIncluded} answerObject={this.props.allAnswers[answerObjectKey]}/>
-
                     </Row>
                   )) 
-                   }
+              }
           </Row>
         </div>
       )
@@ -124,9 +120,10 @@ const mapStateToProps = state => {
       username: state.auth.username,
       allTools: state.tools.allTools, 
       role: state.auth.role,
-      sortoeQuestions: state.reviews.sortoeQuestions, 
+      OFFquestions: state.reviews.OFFquestions, 
       allAnswers: state.reviews.allAnswers, 
-      getAnswersComplete: state.reviews.getAnswersComplete
+      getAnswersComplete: state.reviews.getAnswersComplete,
+      selectedStatsToolResults: state.reviews.selectedStatsToolResults
   }
 }
 

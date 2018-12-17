@@ -12,7 +12,8 @@ export const reviews = ( state={
     allQuestionsAreIndifferent: true,
     lastReviewID: null,
     getAnswersComplete: false,
-    sortoeQuestions:  [
+    selectedStatsToolName: null,
+    OFFquestions:  [
       {
           questionID: 1,
           tool: 'MEADE/SORT-OE',
@@ -104,7 +105,7 @@ export const reviews = ( state={
         case 'LAST_REVIEW_ID_AQUIRED':
           return { ...state, lastReviewID: action.payload }
         case 'ANSWERS_AQUIRED': 
-          return { ...state, allAnswers: action.payload, getAnswersComplete: true }
+          return { ...state, allAnswers: action.payload.totals, getAnswersComplete: true, selectedStatsToolName: action.payload.tool_name }
         default:
           return state
       }
