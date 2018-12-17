@@ -17,7 +17,7 @@ import { setUpdateCompleteFalse } from '../../actions/setUpdateCompleteFalse'
 import { setDeleteCompleteFalse } from '../../actions/setDeleteCompleteFalse'
 import { setRemoveFileCompleteFalse } from '../../actions/setRemoveFileCompleteFalse'
 import { postAnswers } from '../../actions/postAnswers'
-import SortoeQForm from '../SortoeQform/SortoeQform'
+import OFF from '../OFF/OFF'
 import SubHeader from '../SubHeader/SubHeader'
 import { Icon, Input, Section, Row, Col, Button, Collapsible, CollapsibleItem, Modal } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
@@ -705,7 +705,7 @@ class Reviews extends Component {
                             <Col s={12}>
                                 {
                                     this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
-                                    <SortoeQForm />
+                                    <OFF />
                                     :
                                     <p>No Question Form Available for this tool just yet.</p>
                                 }

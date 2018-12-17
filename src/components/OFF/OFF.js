@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './SortoeQform.css';
+import './OFF.css';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { setSortoeAnswerInputs } from '../../actions/setSortoeAnswerInputs'
@@ -8,7 +8,7 @@ import { getUserInfo } from '../../actions/getUserInfo'
 import { Row, Col, Input } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 
-class SortoeQform extends Component {
+class OFF extends Component {
 
     constructor(props) {
         super(props)
@@ -125,4 +125,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({getUserInfo, setAllQuestionsAreIndifferent, setSortoeAnswerInputs}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SortoeQform)
+export default connect(mapStateToProps, mapDispatchToProps)(OFF)
