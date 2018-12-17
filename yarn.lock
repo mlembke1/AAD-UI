@@ -6486,9 +6486,9 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-materialize@^2.4.5:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/react-materialize/-/react-materialize-2.5.1.tgz#7ac2cd825af482c5769d1eb5bae46fca0bdc4a31"
+react-materialize@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/react-materialize/-/react-materialize-2.6.0.tgz#656c511599c547a879c9f97e87727b5376fdfaf2"
   dependencies:
     classnames "^2.2.5"
     react "^16.2.0"

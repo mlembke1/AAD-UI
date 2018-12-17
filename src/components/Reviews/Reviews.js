@@ -385,7 +385,7 @@ class Reviews extends Component {
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
-                                    {this.props.sortoeQuestions.map((question, i) => (
+                                    {this.props.OFFquestions.map((question, i) => (
                                         <Row key={i} className="border-bottom valign-wrapper min-width-100 edit-results-item">
                                             <Col s={1}>{question.questionID}</Col>
                                             <Col s={7}>
@@ -423,7 +423,7 @@ class Reviews extends Component {
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
-                                    {this.props.sortoeQuestions.map((question, i) => (
+                                    {this.props.OFFquestions.map((question, i) => (
                                         <Row key={i} className="border-bottom valign-wrapper min-width-100 view-results-item">
                                             <Col s={1}>{question.questionID}</Col>
                                             <Col s={7}>
@@ -895,7 +895,7 @@ const mapStateToProps = state => {
       reviewsRequestFinished: state.reviews.reviewsRequestFinished,
       allQuestionsAreIndifferent: state.reviews.allQuestionsAreIndifferent,
       sortoeAnswerInputs: state.reviews.sortoeAnswerInputs,
-      sortoeQuestions: state.reviews.sortoeQuestions,
+      OFFquestions: state.reviews.OFFquestions,
       role: state.auth.role, 
       lastReviewID: state.reviews.lastReviewID, 
       answers: state.reviews.answers

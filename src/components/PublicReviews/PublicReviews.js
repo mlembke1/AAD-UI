@@ -416,7 +416,7 @@ class PublicReviews extends Component {
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
-                                    {this.props.sortoeQuestions.map(question => (
+                                    {this.props.OFFquestions.map(question => (
                                         <Row className="border-bottom valign-wrapper min-width-100 edit-results-item">
                                             <Col s={8}>
                                                 <span className="uppercase-light-font">{question.question}</span>
@@ -454,7 +454,7 @@ class PublicReviews extends Component {
                                 {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
-                                    {this.props.sortoeQuestions.map(question => (
+                                    {this.props.OFFquestions.map(question => (
                                         <Row className="border-bottom valign-wrapper min-width-100 view-results-item">
                                             <Col s={8}>
                                                 <span className="uppercase-light-font">{question.question}</span>
@@ -696,7 +696,7 @@ const mapStateToProps = state => {
       removeFileComplete: state.reviews.removeFileComplete,
       publicReviewsRequestFinished: state.reviews.publicReviewsRequestFinished,
       allTools: state.tools.allTools,
-      sortoeQuestions: state.reviews.sortoeQuestions,
+      OFFquestions: state.reviews.OFFquestions,
       role: state.auth.role
     }
 }
