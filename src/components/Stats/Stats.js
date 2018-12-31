@@ -19,7 +19,7 @@ class Stats extends Component {
     this.state = {
       selectedToolResults: "MEADE/SORT-OE", 
       allAnswers: this.props.allAnswers,
-      intFilterOn: true,
+      intFilterOn: false,
       intTypes: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
       intTypesIncluded: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
     }
@@ -75,28 +75,33 @@ class Stats extends Component {
                     All Participants
                     <input type="checkbox" checked={this.state.intFilterOn} onChange={() => this.onCheckGeneral()}/>
                     <span className="lever"></span>
-                    Filter
+                    Intelligence Filter
                     </label>
-                    <span className="tooltiptext">Switching to 'All Participants' will exclude all Intelligence Background filters and display the results as a whole.</span>
+                    {/* <span className="tooltiptext">Switching to 'Intelligence Filter' will  all Intelligence Background filters and display the results as a whole.</span> */}
                 </div>
               </Row>
             </Col>
           </Row> 
           <Row>
-            <Row className="fixed">
-              {
-                this.state.intTypes.map((intType, i) => (
-                  <Input
-                  onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
-                  key={i}
-                  name='Intelligence Discipline Filter'
-                  type='checkbox'
-                  value={intType}
-                  checked={this.state.intTypesIncluded.includes(intType)}
-                  label={intType} />
-                ))
-              }
-            </Row>
+            {
+              this.state.intFilterOn ?
+              <Row className="fixed">
+                {
+                  this.state.intTypes.map((intType, i) => (
+                    <Input
+                    onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
+                    key={i}
+                    name='Intelligence Discipline Filter'
+                    type='checkbox'
+                    value={intType}
+                    checked={this.state.intTypesIncluded.includes(intType)}
+                    label={intType} />
+                  ))
+                }
+              </Row>
+              :
+              null
+            }
             { 
               !this.props.getAnswersComplete ?
               <Row className="margin-top">

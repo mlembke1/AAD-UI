@@ -117,27 +117,27 @@ dataSet = (intFilterOn) => {
         return [{
                 "opinion": "Strongly Disagree",
                 "All Participants": Math.trunc(this.props.answerObject['Strongly Disagree']),
-                "All ParticipantsColor": "hsl(90, 70%, 90%)"
+                "All ParticipantsColor": "hsl(190, 70%, 90%)"
               },
               {
                 "opinion": "Disagree",
                 "All Participants": Math.trunc(this.props.answerObject['Disagree']),
-                "All ParticipantsColor": "hsl(90, 70%, 90%)"
+                "All ParticipantsColor": "hsl(190, 70%, 90%)"
               },
               {
                 "opinion": "Indifferent",
                 "All Participants": Math.trunc(this.props.answerObject['Indifferent']),
-                "All ParticipantsColor": "hsl(90, 70%, 90%)"
+                "All ParticipantsColor": "hsl(190, 70%, 90%)"
               },
               {
                 "opinion": "Agree",
                 "All Participants": Math.trunc(this.props.answerObject['Agree']),
-                "All ParticipantsColor": "hsl(90, 70%, 90%)"
+                "All ParticipantsColor": "hsl(190, 70%, 90%)"
               },
               {
                 "opinion": "Strongly Agree",
                 "All Participants": Math.trunc(this.props.answerObject['Strongly Agree']),
-                "All ParticipantsColor": "hsl(90, 70%, 90%)"
+                "All ParticipantsColor": "hsl(190, 70%, 90%)"
               }]
         }
 }
