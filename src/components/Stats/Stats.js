@@ -19,6 +19,7 @@ class Stats extends Component {
     this.state = {
       selectedToolResults: "MEADE/SORT-OE", 
       allAnswers: this.props.allAnswers,
+      intFilterOn: false,
       intTypes: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
       intTypesIncluded: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
     }
@@ -42,8 +43,13 @@ class Stats extends Component {
   componentWillMount(){
     this.props.authenticate()
     this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)) 
-    this.props.getAnswers(this.state.selectedToolResults, this.props.OFFquestions)
+    this.props.getAnswers(this.state.selectedToolResults, this.props.OFFquestions, this.state.intFilterOn)
   }
+
+  onCheckGeneral = () => this.setState({...this.state, intFilterOn: !this.state.intFilterOn}, () => {
+    return this.props.getAnswers(this.state.selectedToolResults, this.props.OFFquestions, this.state.intFilterOn)
+  })
+
 
   render() {
     if(!this.props.username){
@@ -56,28 +62,46 @@ class Stats extends Component {
             <Col s={9}>
               <SubHeader icon={require("../../assets/stats_icon.png")} subHeader="The Stats"/>
             </Col>
-            <Col s={3} className="margin-right">
-              <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value}, () => this.props.getAnswers(evt.target.value))} label="Choose Tool Results" >
-                <option value='MEADE/SORT-OE'> MEADE/SORT-OE</option>
-                <option value='ARGUMENT MAPPER'> ARGUMENT MAPPER</option>
-              </Input>
+            <Col s={3} className="margin-right margin-top">
+              <Row>
+                <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value}, () => this.props.getAnswers(evt.target.value))} label="Choose Tool Results" >
+                  <option value='MEADE/SORT-OE'> MEADE/SORT-OE</option>
+                  <option value='ARGUMENT MAPPER'> ARGUMENT MAPPER</option>
+                </Input>
+              </Row>
+              <Row>
+                <div className="switch tooltip">
+                    <label>
+                    All Participants
+                    <input type="checkbox" checked={this.state.intFilterOn} onChange={() => this.onCheckGeneral()}/>
+                    <span className="lever"></span>
+                    Intelligence Filter
+                    </label>
+                    {/* <span className="tooltiptext">Switching to 'Intelligence Filter' will  all Intelligence Background filters and display the results as a whole.</span> */}
+                </div>
+              </Row>
             </Col>
           </Row> 
           <Row>
-            <Row className="fixed">
-              {
-                this.state.intTypes.map((intType, i) => (
-                  <Input
-                  onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
-                  key={i}
-                  name='Intelligence Discipline Filter'
-                  type='checkbox'
-                  value={intType}
-                  checked={this.state.intTypesIncluded.includes(intType)}
-                  label={intType} />
-                ))
-              }
-            </Row>
+            {
+              this.state.intFilterOn ?
+              <Row className="fixed">
+                {
+                  this.state.intTypes.map((intType, i) => (
+                    <Input
+                    onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
+                    key={i}
+                    name='Intelligence Discipline Filter'
+                    type='checkbox'
+                    value={intType}
+                    checked={this.state.intTypesIncluded.includes(intType)}
+                    label={intType} />
+                  ))
+                }
+              </Row>
+              :
+              null
+            }
             { 
               !this.props.getAnswersComplete ?
               <Row className="margin-top">
@@ -102,7 +126,7 @@ class Stats extends Component {
                       <Col>
                        <h6 className="uppercase-letter-spacing">{this.props.OFFquestions[i].questionID}. {this.props.OFFquestions[i].question}</h6>
                       </Col>
-                       <Chart includedInts={this.state.intTypesIncluded} answerObject={this.props.allAnswers[answerObjectKey]}/>
+                       <Chart intFilterOn={this.state.intFilterOn} includedInts={this.state.intTypesIncluded} answerObject={this.props.allAnswers[answerObjectKey]}/>
                     </Row>
                   )) 
               }
