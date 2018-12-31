@@ -218,7 +218,7 @@ render () {
         labelSkipHeight={12}
         animate={true}
         motionStiffness={190}
-        motionDamping={15}
+        motionDamping={27}
         legends={[
             {
                 "dataFrom": "keys",
