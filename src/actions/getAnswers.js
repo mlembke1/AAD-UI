@@ -1,5 +1,5 @@
 export const getAnswers = (selected_tool_name, questionSet, intFilterOn) => dispatch => {
-    if (selected_tool_name == "MEADE/SORT-OE")  {const options = {
+    const options = {
         method: 'GET',
         credentials: 'include',
         crossDomain: true,
@@ -124,5 +124,5 @@ export const getAnswers = (selected_tool_name, questionSet, intFilterOn) => disp
     })
     .catch(err => {
         return dispatch({ type: 'ANSWERS_AQUISITION_FAILED'})
-    })}
+    })
 }

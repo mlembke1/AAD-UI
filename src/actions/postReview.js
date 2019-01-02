@@ -25,14 +25,12 @@ export const postReview = (
     formData.append('company', company)
     formData.append('rating', rangeValue)
     formData.append('int_type', int_type)
+    formData.append('answer_1', sortoeAnswers.question1Answer)
+    formData.append('answer_2', sortoeAnswers.question2Answer)
+    formData.append('answer_3', sortoeAnswers.question3Answer)
+    formData.append('answer_4', sortoeAnswers.question4Answer)
+    formData.append('answer_5', sortoeAnswers.question5Answer)
     if(fileInputValue) formData.append('uploadedFile', fileInputValue) 
-    if (toolNameInputValue == 'MEADE/SORT-OE') {
-        formData.append('answer_1', sortoeAnswers.question1Answer)
-        formData.append('answer_2', sortoeAnswers.question2Answer)
-        formData.append('answer_3', sortoeAnswers.question3Answer)
-        formData.append('answer_4', sortoeAnswers.question4Answer)
-        formData.append('answer_5', sortoeAnswers.question5Answer)
-    }
 
     axios((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/postReview', {
         method: "post",

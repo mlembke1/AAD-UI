@@ -1,6 +1,7 @@
 export const tools = ( state={ 
     allTools: [],
-    sortoeDataSets: ['WorldBank', 'FragileState', 'EconomicFreedom', 'GlobalPeace', 'GlobalTerror', 'USAid']
+    MEADEDataSets: ['WorldBank', 'FragileState', 'EconomicFreedom', 'GlobalPeace', 'GlobalTerror', 'USAid'],
+    AtNDataSets: ["Data sources not publicly shared yet."]
    }, action) => {
       switch(action.type){
 

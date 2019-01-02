@@ -47,7 +47,7 @@ class Stats extends Component {
   }
 
   onCheckGeneral = () => this.setState({...this.state, intFilterOn: !this.state.intFilterOn}, () => {
-    return this.props.getAnswers(this.state.selectedToolResults, this.props.OFFquestions, this.state.intFilterOn)
+    this.props.getAnswers(this.state.selectedToolResults, this.props.OFFquestions, this.state.intFilterOn)
   })
 
 
@@ -64,9 +64,9 @@ class Stats extends Component {
             </Col>
             <Col s={3} className="margin-right margin-top">
               <Row>
-                <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value}, () => this.props.getAnswers(evt.target.value))} label="Choose Tool Results" >
+                <Input s={12} type='select' onChange={evt => this.setState({selectedToolResults: evt.target.value}, () => this.props.getAnswers(evt.target.value, this.props.OFFquestions, this.state.intFilterOn))} label="Choose Tool Results" >
                   <option value='MEADE/SORT-OE'> MEADE/SORT-OE</option>
-                  <option value='ARGUMENT MAPPER'> ARGUMENT MAPPER</option>
+                  <option value='AtN'> AtN</option>
                 </Input>
               </Row>
               <Row>
@@ -112,7 +112,7 @@ class Stats extends Component {
                 <Col s={4}></Col>
               </Row>
               :
-                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 || this.state.selectedToolResults !== "MEADE/SORT-OE" ?
+                !this.props.allAnswers || Object.keys(this.props.allAnswers).length < 1 ?
                   <Row>
                     <Col s={3}></Col>
                     <Col s={6}>
