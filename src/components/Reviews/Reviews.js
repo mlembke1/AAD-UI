@@ -355,7 +355,7 @@ class Reviews extends Component {
                             value={this.state.editToolNameInputValue}
                             onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}>
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
-                                <option value='Argument Mapper'>Argument Mapper</option>
+                                <option value='AtN'>AtN</option>
                             </Input>
                             <Input 
                             s={12} 
@@ -382,7 +382,6 @@ class Reviews extends Component {
                             {
                             review.id === this.state.reviewIdBeingEdited ?
                             <Row>
-                                {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
                                     {this.props.OFFquestions.map((question, i) => (
@@ -408,8 +407,6 @@ class Reviews extends Component {
                                     ))}
                                     </CollapsibleItem>
                                 </Collapsible>
-                                : 
-                                null}
                                 <Input 
                                 s={12} 
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
@@ -420,7 +417,6 @@ class Reviews extends Component {
                             </Row>
                             :
                             <Row>
-                                {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
                                     {this.props.OFFquestions.map((question, i) => (
@@ -436,8 +432,6 @@ class Reviews extends Component {
                                     ))}
                                     </CollapsibleItem>
                                 </Collapsible>
-                                : 
-                                null}
                             
                                 {review.text.length > 0 ? 
                                 <Input s={12}  disabled={true} type='textarea' defaultValue={review.text} />
@@ -679,7 +673,7 @@ class Reviews extends Component {
                             value={this.state.toolNameInputValue}
                             type='select' label="Tool" >
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
-                                <option value='Argument Mapper'>Argument Mapper</option>
+                                <option value='AtN'>AtN</option>
                             </Input>
                             </Col>
                             <Col s={6}>
@@ -702,14 +696,7 @@ class Reviews extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col s={12}>
-                                {
-                                    this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
-                                    <OFF />
-                                    :
-                                    <p>No Question Form Available for this tool just yet.</p>
-                                }
-                            </Col>
+                            <OFF />
                         </Row>
                         <Row>
                             <Collapsible popout default defaultActiveKey={2}>
@@ -820,7 +807,7 @@ class Reviews extends Component {
                                 </Row>
                                 <Row>
                                     {
-                                        this.props.allQuestionsAreIndifferent && this.state.toolNameInputValue == 'MEADE/SORT-OE' ?
+                                        this.props.allQuestionsAreIndifferent  ?
                                             <Modal
                                             id="submit-modal"
                                             header='Confirmation'

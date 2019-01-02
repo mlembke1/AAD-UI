@@ -1,12 +1,10 @@
 export const postAnswers = (answers, tool_name, review_id, int_type) => dispatch => {
    let postObject = {} 
-    if (tool_name == 'MEADE/SORT-OE') {
-        postObject['answer_1'] = answers.question1Answer
-        postObject['answer_2'] = answers.question2Answer
-        postObject['answer_3'] = answers.question3Answer
-        postObject['answer_4'] = answers.question4Answer
-        postObject['answer_5'] = answers.question5Answer
-    }
+    postObject['answer_1'] = answers.question1Answer
+    postObject['answer_2'] = answers.question2Answer
+    postObject['answer_3'] = answers.question3Answer
+    postObject['answer_4'] = answers.question4Answer
+    postObject['answer_5'] = answers.question5Answer
     postObject["tool_name"] = tool_name
     postObject["review_id"] = review_id
     postObject["int_type"] = int_type

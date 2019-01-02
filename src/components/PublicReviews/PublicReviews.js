@@ -39,7 +39,7 @@ class PublicReviews extends Component {
             postStarted: false,
             editRangeValue: 50,
             editPublicIsChecked: true,
-            toolFilter: ['MEADE/SORT-OE', 'Argument Mapper'],
+            toolFilter: ['MEADE/SORT-OE', 'AtN'],
             ratingFilter: [0, 100],
             editAnswer_1_value: "",
             editAnswer_2_value: "",
@@ -386,7 +386,7 @@ class PublicReviews extends Component {
                             value={this.state.editToolNameInputValue}
                             onChange={evt => this.updateInputValue(evt, 'editToolNameInputValue')}>
                                 <option value='MEADE/SORT-OE'>MEADE/SORT-OE</option>
-                                <option value='Argument Mapper'>Argument Mapper</option>
+                                <option value='AtN'>AtN</option>
                             </Input>
                             <Input 
                             s={12} 
@@ -413,7 +413,6 @@ class PublicReviews extends Component {
                         {
                             (review.id === this.state.reviewIdBeingEdited) ?
                             <Row>
-                                {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="edit-results-collapsible" header="Edit Questionaire Results" icon="expand_more">
                                     {this.props.OFFquestions.map(question => (
@@ -439,8 +438,6 @@ class PublicReviews extends Component {
                                     ))}
                                     </CollapsibleItem>
                                 </Collapsible>
-                                : 
-                                null}
                                 <Input 
                                 s={12} 
                                 onChange={evt => this.updateInputValue(evt, 'editTextInputValue')}
@@ -451,7 +448,6 @@ class PublicReviews extends Component {
                             </Row>
                             :
                             <Row>
-                                {review.tool_name == 'MEADE/SORT-OE' ?
                                 <Collapsible>
                                     <CollapsibleItem id="view-results-collapsible" header="View Questionaire Results" icon="expand_more">
                                     {this.props.OFFquestions.map(question => (
@@ -466,8 +462,6 @@ class PublicReviews extends Component {
                                     ))}
                                     </CollapsibleItem>
                                 </Collapsible>
-                                : 
-                                null}
                             
                                 {review.text.length > 0 ? 
                                 <Input s={12}  disabled={true} type='textarea' value={review.text} />
