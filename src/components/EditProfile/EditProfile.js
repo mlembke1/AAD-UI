@@ -37,7 +37,7 @@ class EditProfile extends Component {
                           lastNameInput: r.payload.lastName,
                           companyInput: r.payload.company,
                           jobTitleInput: r.payload.jobTitle})
-        })
+        }).catch(err => err)
     }
 
     passwordsMatch = () => this.state.newPasswordInput === this.state.confirmNewPasswordInput

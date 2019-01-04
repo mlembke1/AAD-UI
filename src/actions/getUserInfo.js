@@ -1,6 +1,7 @@
+const localStorageLoggedIn = JSON.parse(localStorage.getItem("loggedIn"))
 export const getUserInfo = () => dispatch => {
     return new Promise((resolve, reject) => {
-        if(localStorage.username){
+        if(localStorageLoggedIn){
             const options = {
                 method: 'GET',
                 credentials: 'include',
@@ -9,7 +10,7 @@ export const getUserInfo = () => dispatch => {
                     'Content-Type': 'application/json'
                 }
             }
-            const username = localStorage.getItem('username')
+            const username = localStorageLoggedIn.username
             fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + `/getUserInfo/${username}`, options)
             .then(r => r.json())
             .then(payload => {

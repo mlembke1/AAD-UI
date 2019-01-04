@@ -11,8 +11,8 @@ import { Link, Redirect } from 'react-router-dom'
 
 class Dashboard extends Component {
   componentWillMount(){
-    this.props.authenticate()
-    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
+    this.props.authenticate().then(r => r).catch(err => err)
+    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)).catch(err => err)
   }
 
   render() {

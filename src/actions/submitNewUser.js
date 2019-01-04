@@ -11,7 +11,9 @@ export const submitNewUser = (object) => dispatch => {
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/signup', options)
     .then(json => {
         if(json.status === 200) {
-            localStorage.setItem('username', object.signupUsername)
+            const objectToStore = {"username": object.signupUsername, timestamp: new Date().getTime()}
+            localStorage.setItem("loggedIn", JSON.stringify(objectToStore))
+            window.location.reload()
             return dispatch({ type:'SIGNUP_SUCCESS' , payload: object.signupUsername})
         } else {
             window.Materialize.toast('Signup Failed. Please fill out the appropriate fields.', 7000)

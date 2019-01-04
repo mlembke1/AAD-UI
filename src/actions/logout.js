@@ -1,4 +1,5 @@
 export const logout = () => dispatch => {
-        localStorage.clear()
+        localStorage.removeItem("loggedIn")
+        window.location.reload()
         return dispatch({type: 'LOGOUT'})
 }

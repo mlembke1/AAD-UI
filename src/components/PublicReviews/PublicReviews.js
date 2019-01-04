@@ -53,8 +53,8 @@ class PublicReviews extends Component {
 
     
     componentWillMount = () => {
-        this.props.authenticate()
-        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
+        this.props.authenticate().then(r => r).catch(err => err)
+        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)).catch(err => err)
         this.props.getAllTools()
         this.props.getAllPublicReviews().then(r => {
             if(!this.props.allPublicReviews || this.props.allPublicReviews.length < 1) {this.props.clearFiles()}

@@ -20,9 +20,9 @@ import SubHeader from '../SubHeader/SubHeader'
 
 class Portal extends Component {
   componentWillMount(){
-    this.props.authenticate()
+    this.props.authenticate().then(r => r).catch(err => err)
     this.props.getAllTools()
-    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
+    this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)).catch(err => err)
   }
 
   render() {
