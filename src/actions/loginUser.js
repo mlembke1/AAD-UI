@@ -11,7 +11,9 @@ export const loginUser = (object) => dispatch => {
     fetch((process.env.REACT_APP_API_URL || 'http://localhost:3000') + '/login', options)
     .then(json => {
         if(json.status === 200) {
-            localStorage.setItem('username', object.loginUsername)
+            const objectToStore = {username: object.loginUsername, timestamp: new Date().getTime()}
+            localStorage.setItem("loggedIn", JSON.stringify(objectToStore))
+            window.location.reload()
             return dispatch({ type:'LOGIN_SUCCESS' , payload: object.loginUsername})
         } else {
             window.Materialize.toast('Login Failed. This is most likely a wrong username or password.', 5000)

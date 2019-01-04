@@ -61,8 +61,8 @@ class Reviews extends Component {
 
     
     componentWillMount = () => {
-        this.props.authenticate()
-        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role))
+        this.props.authenticate().then(r => r).catch(err => err)
+        this.props.getUserInfo().then(r => this.props.setPermissions(r.payload.role)).catch(err => err)
         this.props.getAllReviews().then(r => {
             if(!this.props.allReviews || this.props.allReviews.length < 1) {this.props.clearFiles()}
             else {
