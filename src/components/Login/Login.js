@@ -70,7 +70,7 @@ class Login extends Component {
     if(this.state.passwordLengthPasses &&
        this.state.usernameLengthPasses &&
        this.props.usernameExists){
-      this.props.loginUser(user)
+      this.props.loginUser(user).then(r => r).catch(err => err)
     }
   }
 

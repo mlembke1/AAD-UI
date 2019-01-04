@@ -15,7 +15,6 @@ export const authenticate = () => dispatch => {
         } else {
             if(localStorageLoggedIn && tokenExpired()) {
                 localStorageLoggedIn.removeItem("loggedIn")
-                window.location.reload()
             } 
             return reject(dispatch({  type:'SET_LOGGED_IN_USER', username: null }))
         }
