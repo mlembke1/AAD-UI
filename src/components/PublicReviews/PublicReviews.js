@@ -394,6 +394,7 @@ class PublicReviews extends Component {
                             label="Intelligence Discipline" 
                             value={this.state.editIntType}
                             onChange={evt => this.updateInputValue(evt, 'editIntType')}>
+                                <option value='NOT SPECIFIED'>NOT SPECIFIED</option>
                                 <option value='HUMINT'>HUMINT</option>
                                 <option value='SIGINT'>SIGNINT</option>
                                 <option value='GEOINT'>GEOINT</option>

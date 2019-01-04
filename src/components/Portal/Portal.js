@@ -72,22 +72,6 @@ class Portal extends Component {
                             {this.props[`${tool.name == "MEADE/SORT-OE" ? "MEADE" : tool.name}DataSets`].map(dataSet => {
                               return <CollectionItem>{dataSet}</CollectionItem>
                             })}
-                                {/* <CollectionItem>The World Bank</CollectionItem>
-                                <CollectionItem>USAID</CollectionItem>
-                                <CollectionItem>2018 Index Of Economic Freedom</CollectionItem>
-                                <CollectionItem>GTD(Global Terrorism Database)</CollectionItem>
-                                <CollectionItem>Global Peace Index 2017</CollectionItem>
-                                <CollectionItem>The GDELT Project</CollectionItem>
-                                <CollectionItem>Fragile States Index</CollectionItem>
-                                <CollectionItem>Google and Google News</CollectionItem>
-                                <CollectionItem>Yahoo! Fellowship at Georgetown University</CollectionItem>
-                                <CollectionItem>BBC Monitoring</CollectionItem>
-                                <CollectionItem>National Academies Keck Futures Program</CollectionItem>
-                                <CollectionItem>Reed Elsevier's LexisNexis Group</CollectionItem>
-                                <CollectionItem>JSTOR</CollectionItem>
-                                <CollectionItem>DTIC</CollectionItem>
-                                <CollectionItem>Internet Archive</CollectionItem>
-                               */}
                               </Collection>
                           </Modal>
                         </Row>
