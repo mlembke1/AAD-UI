@@ -49,7 +49,7 @@ class Reviews extends Component {
             editAnswer_3_value: "",
             editAnswer_4_value: "",
             editAnswer_5_value: "",
-            intType: "HUMINT",
+            intType: "NOT SPECIFIED",
             editIntType: "",
             reviewIdBeingEdited: null
         }
@@ -266,7 +266,7 @@ class Reviews extends Component {
         toolNameInputValue: 'MEADE/SORT-OE',
         textInputValue: "",
         fileInputValue: null,
-        intType: "HUMINT"
+        intType: "NOT SPECIFIED"
     })
 
     
@@ -363,6 +363,7 @@ class Reviews extends Component {
                             label="Intelligence Discipline" 
                             value={this.state.editIntType}
                             onChange={evt => this.updateInputValue(evt, 'editIntType')}>
+                                <option value='NOT SPECIFIED'>NOT SPECIFIED</option>
                                 <option value='HUMINT'>HUMINT</option>
                                 <option value='SIGINT'>SIGNINT</option>
                                 <option value='GEOINT'>GEOINT</option>
@@ -683,6 +684,7 @@ class Reviews extends Component {
                             onChange={evt => this.updateInputValue(evt, 'intType')} 
                             value={this.state.intType}
                             type='select' label="Intelligence Discipline" >
+                                <option value='NOT SPECIFIED'>NOT SPECIFIED</option>
                                 <option value='HUMINT'>HUMINT</option>
                                 <option value='SIGINT'>SIGNINT</option>
                                 <option value='GEOINT'>GEOINT</option>

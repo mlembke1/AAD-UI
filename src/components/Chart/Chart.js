@@ -20,6 +20,8 @@ dataSet = (intFilterOn) => {
     if (intFilterOn) {
         return  [{
             "opinion": "Strongly Disagree",
+            "NOT SPECIFIED": this.props.answerObject['NOT SPECIFIED'] && this.props.includedInts.includes("NOT SPECIFIED") ? Math.trunc(this.props.answerObject['NOT SPECIFIED']['Strongly Disagree']) : 0,
+            "NOT SPECIFIEDColor": "hsl(313, 70%, 50%)",
             "HUMINT": this.props.answerObject['HUMINT'] && this.props.includedInts.includes("HUMINT") ? Math.trunc(this.props.answerObject['HUMINT']['Strongly Disagree']) : 0,
             "HUMINTColor": "hsl(313, 70%, 50%)",
             "SIGINT": this.props.answerObject['SIGINT'] && this.props.includedInts.includes('SIGINT') ? Math.trunc(this.props.answerObject['SIGINT']['Strongly Disagree']) : 0,
@@ -39,6 +41,8 @@ dataSet = (intFilterOn) => {
           },
           {
             "opinion": "Disagree",
+            "NOT SPECIFIED": this.props.answerObject['NOT SPECIFIED'] && this.props.includedInts.includes("NOT SPECIFIED") ? Math.trunc(this.props.answerObject['NOT SPECIFIED']['Disagree']) : 0,
+            "NOT SPECIFIEDColor": "hsl(313, 70%, 50%)",
             "HUMINT": this.props.answerObject['HUMINT'] && this.props.includedInts.includes("HUMINT") ? Math.trunc(this.props.answerObject['HUMINT']['Disagree']) : 0,
             "HUMINTColor": "hsl(313, 70%, 50%)",
             "SIGINT": this.props.answerObject['SIGINT'] && this.props.includedInts.includes('SIGINT') ? Math.trunc(this.props.answerObject['SIGINT']['Disagree']) : 0,
@@ -58,6 +62,8 @@ dataSet = (intFilterOn) => {
           },
           {
             "opinion": "Indifferent",
+            "NOT SPECIFIED": this.props.answerObject['NOT SPECIFIED'] && this.props.includedInts.includes("NOT SPECIFIED") ? Math.trunc(this.props.answerObject['NOT SPECIFIED']['Indifferent']) : 0,
+            "NOT SPECIFIEDColor": "hsl(313, 70%, 50%)",
             "HUMINT": this.props.answerObject['HUMINT'] && this.props.includedInts.includes("HUMINT") ? Math.trunc(this.props.answerObject['HUMINT']['Indifferent']) : 0,
             "HUMINTColor": "hsl(313, 70%, 50%)",
             "SIGINT": this.props.answerObject['SIGINT'] && this.props.includedInts.includes('SIGINT') ? Math.trunc(this.props.answerObject['SIGINT']['Indifferent']) : 0,
@@ -77,6 +83,8 @@ dataSet = (intFilterOn) => {
           },
           {
             "opinion": "Agree",
+            "NOT SPECIFIED": this.props.answerObject['NOT SPECIFIED'] && this.props.includedInts.includes("NOT SPECIFIED") ? Math.trunc(this.props.answerObject['NOT SPECIFIED']['Agree']) : 0,
+            "NOT SPECIFIEDColor": "hsl(313, 70%, 50%)",
             "HUMINT": this.props.answerObject['HUMINT'] && this.props.includedInts.includes("HUMINT") ? Math.trunc(this.props.answerObject['HUMINT']['Agree']) : 0,
             "HUMINTColor": "hsl(313, 70%, 50%)",
             "SIGINT": this.props.answerObject['SIGINT'] && this.props.includedInts.includes('SIGINT') ? Math.trunc(this.props.answerObject['SIGINT']['Agree']) : 0,
@@ -96,7 +104,9 @@ dataSet = (intFilterOn) => {
           },
           {
             "opinion": "Strongly Agree",
-            "HUMINT":  this.props.answerObject['HUMINT'] && this.props.includedInts.includes("HUMINT") ? Math.trunc(this.props.answerObject['HUMINT']['Strongly Agree']) : 0,
+            "NOT SPECIFIED": this.props.answerObject['NOT SPECIFIED'] && this.props.includedInts.includes("NOT SPECIFIED") ? Math.trunc(this.props.answerObject['NOT SPECIFIED']['Strongly Agree']) : 0,
+            "NOT SPECIFIEDColor": "hsl(31, 70%, 50%)",
+            "HUMINT": this.props.answerObject['HUMINT'] && this.props.includedInts.includes("HUMINT") ? Math.trunc(this.props.answerObject['HUMINT']['Strongly Agree']) : 0,
             "HUMINTColor": "hsl(31, 70%, 50%)",
             "SIGINT":  this.props.answerObject['SIGINT'] && this.props.includedInts.includes('SIGINT') ? Math.trunc(this.props.answerObject['SIGINT']['Strongly Agree']) : 0,
             "SIGINTColor": "hsl(31, 70%, 50%)",

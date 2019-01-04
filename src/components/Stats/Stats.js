@@ -20,8 +20,8 @@ class Stats extends Component {
       selectedToolResults: "MEADE/SORT-OE", 
       allAnswers: this.props.allAnswers,
       intFilterOn: false,
-      intTypes: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"],
-      intTypesIncluded: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT"]
+      intTypes: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT", "NOT SPECIFIED"],
+      intTypesIncluded: ["SIGINT", "GEOINT", "HUMINT", "TECHINT", "CYBINT/DNINT", "MASINT", "FININT", "OSINT", "NOT SPECIFIED"]
     }
   }
 
@@ -88,14 +88,14 @@ class Stats extends Component {
               <Row className="fixed">
                 {
                   this.state.intTypes.map((intType, i) => (
-                    <Input
-                    onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
-                    key={i}
-                    name='Intelligence Discipline Filter'
-                    type='checkbox'
-                    value={intType}
-                    checked={this.state.intTypesIncluded.includes(intType)}
-                    label={intType} />
+                      <Input
+                      onChange={e => this.updateInputValue(e, 'intTypesIncluded', intType)} 
+                      key={i}
+                      name='Intelligence Discipline Filter'
+                      type='checkbox'
+                      value={intType}
+                      checked={this.state.intTypesIncluded.includes(intType)}
+                      label={intType} />
                   ))
                 }
               </Row>
