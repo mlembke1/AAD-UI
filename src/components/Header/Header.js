@@ -5,6 +5,7 @@ import { Navbar, Icon, SideNav, SideNavItem } from 'react-materialize'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../actions/logout'
+import { authenticate } from '../../actions/authenticate'
 
 class Header extends Component {
 
@@ -75,7 +76,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({logout}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({logout, authenticate}, dispatch)
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)
