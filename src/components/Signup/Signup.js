@@ -170,7 +170,7 @@ class Signup extends Component {
                       value={this.state.firstNameInputValue}
                       className="signup-input"
                       type="text"
-                      label="First Name"
+                      label={<span>First Name<span className="error-text">*</span></span>}
                       s={12} />
                   </Col>
                   <Col s={3}>
@@ -180,7 +180,7 @@ class Signup extends Component {
                       value={this.state.lastNameInputValue}
                       className="signup-input"
                       type="text"
-                      label="Last Name"
+                      label={<span>Last Name<span className="error-text">*</span></span>}
                       s={12} />
                   </Col>
                   <Col s={3}>
@@ -190,7 +190,7 @@ class Signup extends Component {
                       value={this.state.jobTitleInputValue}
                       className="signup-input"
                       type="text"
-                      label="Job Title"
+                      label={<span>Job Title<span className="error-text">*</span></span>}
                       s={12} /> 
                   </Col>
                   <Col s={3}>
@@ -200,7 +200,7 @@ class Signup extends Component {
                       value={this.state.companyInputValue}
                       className="signup-input"
                       type="text"
-                      label="Company"
+                      label={<span>Company<span className="error-text">*</span></span>}
                       s={12} /> 
                   </Col>
               </Row>
@@ -212,7 +212,7 @@ class Signup extends Component {
                   onChange={evt => this.updateInputValue(evt, 'usernameInputValue')}
                   className="signup-input" 
                   type="text" 
-                  label="Username"
+                  label={<span>Username<span className="error-text">*</span></span>}
                   s={12}
                   /> 
                   {this.props.usernameIsTaken ? <div className="error-text">Username already taken.</div> : null }
@@ -225,7 +225,7 @@ class Signup extends Component {
                   onChange={evt => this.updateInputValue(evt, 'emailInputValue')}
                   className="signup-input" 
                   type="email" 
-                  label="Email"
+                  label={<span>Email<span className="error-text">*</span></span>}
                   s={12}
                    /> 
                   {this.props.invalidEmail ? <div className="error-text">Invalid Email.</div> : null }
@@ -239,7 +239,7 @@ class Signup extends Component {
                   onChange={evt => this.updateInputValue(evt, 'passwordInputValue')}
                   className="signup-input"
                   type="password"
-                  label="Password"
+                  label={<span>Password<span className="error-text">*</span></span>}
                   s={12}
                   /> 
                   {!this.state.passwordLengthPasses ? <div className="error-text">Password must be between 8 and 30 characters.</div> : null }
@@ -250,7 +250,7 @@ class Signup extends Component {
                   onChange={evt => this.updateInputValue(evt, 'confirmPasswordInputValue')}
                   className="signup-input"
                   type="password" 
-                  label="Confirm Password"
+                  label={<span>Confirm Password<span className="error-text">*</span></span>}
                   s={12}
                    />
                   {!this.state.confirmPasswordLengthPasses ? <div className="error-text">Confirm password must be between 8 and 30 characters.</div> : null }
