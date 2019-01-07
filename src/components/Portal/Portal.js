@@ -69,7 +69,8 @@ class Portal extends Component {
                             bottomSheet
                             trigger={<Button disabled={tool.url[0] != 'h' ? true : false} className="portal-buttons" waves='light'>Data <Icon right tiny className="data">cloud</Icon> </Button>}>
                             <Collection>
-                            {this.props[`${tool.name == "MEADE/SORT-OE" ? "MEADE" : tool.name}DataSets`].map(dataSet => {
+                            {this.props[`${tool.name == "MEADE/SORT-OE" ? "MEADE" :
+                                          tool.name == "Argument Mapper" ? "AM" : tool.name}DataSets`].map(dataSet => {
                               return <CollectionItem>{dataSet}</CollectionItem>
                             })}
                               </Collection>
@@ -105,7 +106,8 @@ const mapStateToProps = state => {
       allTools: state.tools.allTools,
       role: state.auth.role,
       MEADEDataSets: state.tools.MEADEDataSets,
-      AtNDataSets: state.tools.AtNDataSets
+      AtNDataSets: state.tools.AtNDataSets,
+      AMDataSets: state.tools.AMDataSets
   }
 }
 
